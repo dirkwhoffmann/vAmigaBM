@@ -6,22 +6,43 @@
 //
 
 #include "Console.h"
+#include <unistd.h>
 
 Console console;
 
 int main(int argc, const char * argv[]) {
 
+    /*
+    char cwd[PATH_MAX];
+    if (getcwd(cwd, sizeof(cwd)) != NULL) {
+        printf("Current working dir: %s\n", cwd);
+    } else {
+        perror("getcwd() error");
+        return 1;
+    }
+    */
+    
+    unsigned desktopW = sf::VideoMode::getDesktopMode().width;
+    // unsigned desktopH = sf::VideoMode::getDesktopMode().height;
+    unsigned w = desktopW / 2;
+    unsigned h = w / 1.78;
+
     std::cout << "vAmigaSFML\n";
+    
+    sf::Texture texture;
+    if (!texture.loadFromFile("terminator.jpeg")) {
+        printf("Error loading font\n");
+        exit(1);
+    }
+    sf::RectangleShape background(sf::Vector2f(w, h));
+    background.setTexture(&texture);
     
     if (!console.init()) {
         printf("Can't initialize Console\n");
         exit(1);
     }
-    
-    unsigned w = sf::VideoMode::getDesktopMode().width;
-    // unsigned h = sf::VideoMode::getDesktopMode().height;
-    
-    sf::RenderWindow window(sf::VideoMode(w/2,(w/2) / 1.4), "My Window");
+        
+    sf::RenderWindow window(sf::VideoMode(w,h), "My Window");
     window.setFramerateLimit(60);
     // setVerticalSyncEnabled(true);
         
@@ -51,7 +72,9 @@ int main(int argc, const char * argv[]) {
         }
 
         window.clear(sf::Color::Blue);
-                
+        
+        window.draw(background);
+        
         console.render(window);
         
         window.display();

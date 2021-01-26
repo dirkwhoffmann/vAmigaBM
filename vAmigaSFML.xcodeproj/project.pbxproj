@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		50658EE025C03EF800F7128D /* Console.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50658EDE25C03EF800F7128D /* Console.cpp */; };
+		5070133A25C0745D003B3420 /* DroidSansMono.ttf in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5070133625C0719B003B3420 /* DroidSansMono.ttf */; };
+		5070133D25C07703003B3420 /* terminator.jpeg in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5070133B25C07640003B3420 /* terminator.jpeg */; };
 		5095D45925C021ED006AB819 /* FLAC.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5095D43F25C021E8006AB819 /* FLAC.framework */; };
 		5095D45A25C021ED006AB819 /* FLAC.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5095D43F25C021E8006AB819 /* FLAC.framework */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		5095D45B25C021EE006AB819 /* freetype.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5095D44225C021E8006AB819 /* freetype.framework */; };
@@ -63,18 +65,22 @@
 		};
 		50CF561425BFECA900B1AC0D /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = /usr/share/man/man1/;
-			dstSubfolderSpec = 0;
+			buildActionMask = 12;
+			dstPath = "";
+			dstSubfolderSpec = 7;
 			files = (
+				5070133A25C0745D003B3420 /* DroidSansMono.ttf in CopyFiles */,
+				5070133D25C07703003B3420 /* terminator.jpeg in CopyFiles */,
 			);
-			runOnlyForDeploymentPostprocessing = 1;
+			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		50658EDE25C03EF800F7128D /* Console.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Console.cpp; sourceTree = "<group>"; };
 		50658EDF25C03EF800F7128D /* Console.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Console.h; sourceTree = "<group>"; };
+		5070133625C0719B003B3420 /* DroidSansMono.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = DroidSansMono.ttf; sourceTree = "<group>"; };
+		5070133B25C07640003B3420 /* terminator.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = terminator.jpeg; sourceTree = "<group>"; };
 		5095D43F25C021E8006AB819 /* FLAC.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FLAC.framework; path = SFML/FLAC.framework; sourceTree = "<group>"; };
 		5095D44025C021E8006AB819 /* vorbis.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = vorbis.framework; path = SFML/vorbis.framework; sourceTree = "<group>"; };
 		5095D44125C021E8006AB819 /* ogg.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ogg.framework; path = SFML/ogg.framework; sourceTree = "<group>"; };
@@ -116,10 +122,20 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		5070133725C071A6003B3420 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				5070133625C0719B003B3420 /* DroidSansMono.ttf */,
+				5070133B25C07640003B3420 /* terminator.jpeg */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
 		50CF560D25BFECA900B1AC0D = {
 			isa = PBXGroup;
 			children = (
-				50CF561825BFECA900B1AC0D /* vAmigaSFML */,
+				50CF561825BFECA900B1AC0D /* GUI */,
+				5070133725C071A6003B3420 /* Resources */,
 				50CF561725BFECA900B1AC0D /* Products */,
 				50CF562125BFEFDD00B1AC0D /* Frameworks */,
 			);
@@ -133,14 +149,14 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		50CF561825BFECA900B1AC0D /* vAmigaSFML */ = {
+		50CF561825BFECA900B1AC0D /* GUI */ = {
 			isa = PBXGroup;
 			children = (
 				50CF561925BFECA900B1AC0D /* main.cpp */,
 				50658EDF25C03EF800F7128D /* Console.h */,
 				50658EDE25C03EF800F7128D /* Console.cpp */,
 			);
-			path = vAmigaSFML;
+			path = GUI;
 			sourceTree = "<group>";
 		};
 		50CF562125BFEFDD00B1AC0D /* Frameworks */ = {
@@ -174,6 +190,7 @@
 				50CF561325BFECA900B1AC0D /* Frameworks */,
 				50CF561425BFECA900B1AC0D /* CopyFiles */,
 				50CC6B8425C00D2A00189C23 /* Embed Frameworks */,
+				5070133825C0724A003B3420 /* Resources */,
 			);
 			buildRules = (
 			);
@@ -214,6 +231,16 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		5070133825C0724A003B3420 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		50CF561225BFECA900B1AC0D /* Sources */ = {

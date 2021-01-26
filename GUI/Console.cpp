@@ -17,11 +17,11 @@ Console::Console()
 bool
 Console::init()
 {
-//    if (!font.loadFromFile("/tmp/Inkspot.ttf")) {
-    if (!font.loadFromFile("/tmp/DroidSansMono.ttf")) {
+    if (!font.loadFromFile("DroidSansMono.ttf")) {
         printf("Error loading font\n");
         return false;
     }
+    
     
     for (int i = 0; i < numRows; i++) {
         
