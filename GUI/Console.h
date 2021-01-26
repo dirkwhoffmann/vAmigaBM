@@ -22,7 +22,7 @@ class Console {
     sf::Font font;
     
     // Text storage;
-    sf::Text text[numRows];
+    // sf::Text text[numRows];
     
     // Mapping from row indices to text objects
     sf::Text *row[numRows];
@@ -42,6 +42,7 @@ class Console {
 public:
     
     Console();
+    ~Console();
     
     bool init();
     

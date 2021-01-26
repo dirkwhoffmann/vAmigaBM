@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5000932225C0B88F00F01BEF /* logo.png in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5000932025C0B88300F01BEF /* logo.png */; };
 		50658EE025C03EF800F7128D /* Console.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50658EDE25C03EF800F7128D /* Console.cpp */; };
 		5070133A25C0745D003B3420 /* DroidSansMono.ttf in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5070133625C0719B003B3420 /* DroidSansMono.ttf */; };
 		5070133D25C07703003B3420 /* terminator.jpeg in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5070133B25C07640003B3420 /* terminator.jpeg */; };
@@ -71,12 +72,14 @@
 			files = (
 				5070133A25C0745D003B3420 /* DroidSansMono.ttf in CopyFiles */,
 				5070133D25C07703003B3420 /* terminator.jpeg in CopyFiles */,
+				5000932225C0B88F00F01BEF /* logo.png in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		5000932025C0B88300F01BEF /* logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo.png; sourceTree = "<group>"; };
 		50658EDE25C03EF800F7128D /* Console.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Console.cpp; sourceTree = "<group>"; };
 		50658EDF25C03EF800F7128D /* Console.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Console.h; sourceTree = "<group>"; };
 		5070133625C0719B003B3420 /* DroidSansMono.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = DroidSansMono.ttf; sourceTree = "<group>"; };
@@ -126,6 +129,7 @@
 			isa = PBXGroup;
 			children = (
 				5070133625C0719B003B3420 /* DroidSansMono.ttf */,
+				5000932025C0B88300F01BEF /* logo.png */,
 				5070133B25C07640003B3420 /* terminator.jpeg */,
 			);
 			path = Resources;

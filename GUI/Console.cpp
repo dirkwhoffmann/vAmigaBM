@@ -10,7 +10,14 @@
 Console::Console()
 {
     for (int i = 0; i < numRows; i++) {
-        row[i] = &text[i];
+        row[i] = new sf::Text();
+    }
+}
+
+Console::~Console()
+{
+    for (int i = 0; i < numRows; i++) {
+        delete row[i];
     }
 }
 
@@ -25,13 +32,13 @@ Console::init()
     
     for (int i = 0; i < numRows; i++) {
         
-        text[i].setFont(font);
-        text[i].setString("");
-        text[i].setCharacterSize(fontSize);
-        text[i].setFillColor(sf::Color::Yellow);
-        text[i].setPosition(hposForRow(i), vposForRow(i));
-        text[i].setOutlineColor(sf::Color::Red);
-        text[i].setOutlineThickness(4.0);
+        row[i]->setFont(font);
+        row[i]->setString("");
+        row[i]->setCharacterSize(fontSize);
+        row[i]->setFillColor(sf::Color::Yellow);
+        row[i]->setPosition(hposForRow(i), vposForRow(i));
+        row[i]->setOutlineColor(sf::Color::Red);
+        row[i]->setOutlineThickness(4.0);
     }
 
     return true;

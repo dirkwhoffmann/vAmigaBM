@@ -25,18 +25,25 @@ int main(int argc, const char * argv[]) {
     unsigned desktopW = sf::VideoMode::getDesktopMode().width;
     // unsigned desktopH = sf::VideoMode::getDesktopMode().height;
     unsigned w = desktopW / 2;
-    unsigned h = w / 1.78;
+    unsigned h = w * 0.7525;
 
     std::cout << "vAmigaSFML\n";
     
     sf::Texture texture;
-    if (!texture.loadFromFile("terminator.jpeg")) {
-        printf("Error loading font\n");
+    // if (!texture.loadFromFile("terminator.jpeg")) {
+    if (!texture.loadFromFile("logo.png")) {
+        printf("Error loading logo\n");
         exit(1);
     }
-    sf::RectangleShape background(sf::Vector2f(w, h));
-    background.setTexture(&texture);
+    sf::Vector2u size = texture.getSize();
     
+    unsigned logoWidth = w / 1.5;
+    unsigned logoHeight = logoWidth * ((float)size.y / (float)size.x);
+    
+    sf::RectangleShape background(sf::Vector2f(logoWidth, logoHeight));
+    background.setTexture(&texture);
+    background.setPosition((w - logoWidth) / 2, h/8);
+        
     if (!console.init()) {
         printf("Can't initialize Console\n");
         exit(1);
@@ -46,6 +53,14 @@ int main(int argc, const char * argv[]) {
     window.setFramerateLimit(60);
     // setVerticalSyncEnabled(true);
         
+    sf::Vertex rectangle[] =
+    {
+        sf::Vertex(sf::Vector2f(0,0), sf::Color(0x89,0x89,0x89)),
+        sf::Vertex(sf::Vector2f(w,0), sf::Color(0x89,0x89,0x89)),
+        sf::Vertex(sf::Vector2f(w,h), sf::Color(0xF0,0xF0,0xF0)),
+        sf::Vertex(sf::Vector2f(0,h), sf::Color(0xF0,0xF0,0xF0))
+    };
+    
     while (window.isOpen()) {
         
         sf::Event event;
@@ -73,8 +88,9 @@ int main(int argc, const char * argv[]) {
 
         window.clear(sf::Color::Blue);
         
+        window.draw(rectangle, 4, sf::Quads);
         window.draw(background);
-        
+
         console.render(window);
         
         window.display();
