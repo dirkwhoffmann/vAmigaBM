@@ -14,6 +14,8 @@
 
 Console console;
 
+// TextureManager textures;
+
 int main(int argc, const char * argv[]) {
 
     /*
@@ -26,14 +28,20 @@ int main(int argc, const char * argv[]) {
     }
     */
     
+    if (!sf::Shader::isAvailable()) {
+        throw std::runtime_error("Sorry. No shader support\n");
+    }
+    
+    // sf::Shader &shader = AssetManager::shader(ShaderID::blur);
+    
     unsigned desktopW = sf::VideoMode::getDesktopMode().width;
     // unsigned desktopH = sf::VideoMode::getDesktopMode().height;
     unsigned w = desktopW / 2;
     unsigned h = w * 0.7525;
-
+    
     std::cout << "vAmigaSFML\n";
-        
-    sf::Texture logoTex = AssetManager::texture(TextureID::logo);
+
+    sf::Texture logoTex = Assets::get(TextureID::logo);
     
     // if (!texture.loadFromFile("terminator.jpeg")) {
     /*

@@ -14,23 +14,60 @@
 
 enum class TextureID
 {
-    logo
+    logo,
+    concrete
 };
 
+enum class ShaderID
+{
+    blur
+};
+
+template <typename Asset, typename ID>
 class AssetManager
 {
-    // Singleton object
-    static AssetManager *manager;
+protected:
     
-    // Asset storages
-    std::map<TextureID, std::unique_ptr<sf::Texture>> textureCache;
+    // Asset storage
+    std::map<ID, std::unique_ptr<Asset>> cache;
+
+public:
+        
+    // Requests an asset
+    Asset& get(ID id)
+    {
+        // Lookup the requested element
+        auto it = cache.find(id);
+        
+        // Load the element if it is not cached
+        if (it == cache.end()) {
+            load(id);
+            it = cache.find(id);
+            assert(it != cache.end());
+        }
+        
+        return *it->second;
+    }
+    
+    // Caches an asset
+    virtual void load(ID id) = 0;
+};
+
+class TextureManager : public AssetManager<sf::Texture, TextureID> {
+    void load(TextureID id) override;
+};
+
+class ShaderManager : public AssetManager<sf::Shader, ShaderID> {
+    void load(ShaderID id) override;
+};
+
+class Assets {
+    
+    static TextureManager textures;
+    static ShaderManager shaders;
     
 public:
-    AssetManager();
     
-    // Returns an asset of a specific type
-    static sf::Texture& texture(TextureID id);
-
-    // Caches an asset of a specific type
-    static void loadTexture(TextureID id);
+    static sf::Texture& get(TextureID id) { return textures.get(id); }
+    static sf::Shader& get(ShaderID id) { return shaders.get(id); }
 };

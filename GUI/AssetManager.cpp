@@ -9,54 +9,35 @@
 
 #include "AssetManager.h"
 
-AssetManager *AssetManager::manager = nullptr;
-AssetManager assetManager;
-
-AssetManager::AssetManager()
-{
-    // This class is a singleton
-    assert(manager == nullptr);
-    manager = this;
-}
-
-sf::Texture&
-AssetManager::texture(TextureID id)
-{
-    auto& map = manager->textureCache;
-    
-    // Lookup the requested element
-    auto it = map.find(id);
-
-    // Load the element if it is not cached
-    if (it == map.end()) {
-        loadTexture(id);
-        it = map.find(id);
-        assert(it != map.end());
-    }
-        
-    return *it->second;
-}
+TextureManager Assets::textures;
+ShaderManager Assets::shaders;
 
 void
-AssetManager::loadTexture(TextureID id)
+TextureManager::load(TextureID id)
 {
-    auto& map = manager->textureCache;
-    
     std::string path = "";
     
     switch (id) {
             
-        case TextureID::logo: path = "logo.png"; break;
-
+        case TextureID::logo:     path = "logo.png"; break;
+        case TextureID::concrete: path = "concrete.png"; break;
+            
         default:
             assert(false);
     }
-        
+    
     std::unique_ptr<sf::Texture> asset(new sf::Texture());
-    if (!asset->loadFromFile(path)) {
+    
+    if (asset->loadFromFile(path)) {
+        cache.insert(std::make_pair(id, std::move(asset)));
+    } else {
         throw std::runtime_error("AssetManager::loadTexture: " + path);
     }
-    
-    auto inserted = map.insert(std::make_pair(id, std::move(asset)));
-    assert(inserted.second);
 }
+
+void
+ShaderManager::load(ShaderID id)
+{
+    assert(false);
+}
+

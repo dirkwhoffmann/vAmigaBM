@@ -14,17 +14,27 @@
 
 class Console {
     
+    static const int width = 1024;
+    static const int height = 768;
+    
     static const int numRows = 25;
     static const int numCols = 40;
     
-    static const int fontSize = 24;
+    static const int fontSize = 25;
     static const int lineSkip = 8;
     
-    // Font
+    // The render texture
+    sf::RenderTexture renderTexture;
+        
+    // A sprite holding the render texture
+    sf::Sprite sprite;
+
+    // Console font
     sf::Font font;
+    float advance;
     
-    // Text storage;
-    // sf::Text text[numRows];
+    // Cursor
+    sf::RectangleShape cursor; //  (sf::Vector2f(25,25));
     
     // Mapping from row indices to text objects
     sf::Text *row[numRows];
@@ -56,4 +66,9 @@ public:
     void add(char c);
     
     void render(sf::RenderWindow &window);
+    
+private:
+    
+    // Redraws the render texture
+    void draw();
 };

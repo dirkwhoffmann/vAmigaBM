@@ -13,7 +13,8 @@
 		505485E925C15C3B00892284 /* AssetManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 505485E725C15C3B00892284 /* AssetManager.cpp */; };
 		50658EE025C03EF800F7128D /* Console.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50658EDE25C03EF800F7128D /* Console.cpp */; };
 		5070133A25C0745D003B3420 /* DroidSansMono.ttf in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5070133625C0719B003B3420 /* DroidSansMono.ttf */; };
-		5070133D25C07703003B3420 /* terminator.jpeg in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5070133B25C07640003B3420 /* terminator.jpeg */; };
+		507F613025C1B3E0003D695F /* concrete.png in CopyFiles */ = {isa = PBXBuildFile; fileRef = 507F612F25C1B3A1003D695F /* concrete.png */; };
+		507F613525C1BE42003D695F /* blur.frag in CopyFiles */ = {isa = PBXBuildFile; fileRef = 507F613425C1BA52003D695F /* blur.frag */; };
 		5095D45925C021ED006AB819 /* FLAC.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5095D43F25C021E8006AB819 /* FLAC.framework */; };
 		5095D45A25C021ED006AB819 /* FLAC.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5095D43F25C021E8006AB819 /* FLAC.framework */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		5095D45B25C021EE006AB819 /* freetype.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5095D44225C021E8006AB819 /* freetype.framework */; };
@@ -75,9 +76,10 @@
 			files = (
 				5000932525C0C3CE00F01BEF /* SourceSansPro-Light.ttf in CopyFiles */,
 				5000932625C0C3D000F01BEF /* SourceSansPro-SemiBold.ttf in CopyFiles */,
+				507F613525C1BE42003D695F /* blur.frag in CopyFiles */,
 				5070133A25C0745D003B3420 /* DroidSansMono.ttf in CopyFiles */,
+				507F613025C1B3E0003D695F /* concrete.png in CopyFiles */,
 				5000933125C0CB4A00F01BEF /* logo.png in CopyFiles */,
-				5070133D25C07703003B3420 /* terminator.jpeg in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -92,7 +94,8 @@
 		50658EDE25C03EF800F7128D /* Console.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Console.cpp; sourceTree = "<group>"; };
 		50658EDF25C03EF800F7128D /* Console.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Console.h; sourceTree = "<group>"; };
 		5070133625C0719B003B3420 /* DroidSansMono.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = DroidSansMono.ttf; sourceTree = "<group>"; };
-		5070133B25C07640003B3420 /* terminator.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = terminator.jpeg; sourceTree = "<group>"; };
+		507F612F25C1B3A1003D695F /* concrete.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = concrete.png; sourceTree = "<group>"; };
+		507F613425C1BA52003D695F /* blur.frag */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = blur.frag; sourceTree = "<group>"; };
 		5095D43F25C021E8006AB819 /* FLAC.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FLAC.framework; path = SFML/FLAC.framework; sourceTree = "<group>"; };
 		5095D44025C021E8006AB819 /* vorbis.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = vorbis.framework; path = SFML/vorbis.framework; sourceTree = "<group>"; };
 		5095D44125C021E8006AB819 /* ogg.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ogg.framework; path = SFML/ogg.framework; sourceTree = "<group>"; };
@@ -137,13 +140,38 @@
 		5070133725C071A6003B3420 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				5000932325C0C3AD00F01BEF /* SourceSansPro-Light.ttf */,
-				5000932425C0C3C200F01BEF /* SourceSansPro-SemiBold.ttf */,
-				5000932F25C0CB4500F01BEF /* logo.png */,
-				5070133625C0719B003B3420 /* DroidSansMono.ttf */,
-				5070133B25C07640003B3420 /* terminator.jpeg */,
+				507F613325C1B9ED003D695F /* Shaders */,
+				507F613125C1B9CF003D695F /* Fonts */,
+				507F613225C1B9DF003D695F /* Textures */,
 			);
 			path = Resources;
+			sourceTree = "<group>";
+		};
+		507F613125C1B9CF003D695F /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				5000932325C0C3AD00F01BEF /* SourceSansPro-Light.ttf */,
+				5000932425C0C3C200F01BEF /* SourceSansPro-SemiBold.ttf */,
+				5070133625C0719B003B3420 /* DroidSansMono.ttf */,
+			);
+			path = Fonts;
+			sourceTree = "<group>";
+		};
+		507F613225C1B9DF003D695F /* Textures */ = {
+			isa = PBXGroup;
+			children = (
+				5000932F25C0CB4500F01BEF /* logo.png */,
+				507F612F25C1B3A1003D695F /* concrete.png */,
+			);
+			path = Textures;
+			sourceTree = "<group>";
+		};
+		507F613325C1B9ED003D695F /* Shaders */ = {
+			isa = PBXGroup;
+			children = (
+				507F613425C1BA52003D695F /* blur.frag */,
+			);
+			path = Shaders;
 			sourceTree = "<group>";
 		};
 		50CF560D25BFECA900B1AC0D = {
