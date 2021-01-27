@@ -42,6 +42,7 @@
 		5095D47125C02201006AB819 /* vorbisfile.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5095D44B25C021E8006AB819 /* vorbisfile.framework */; };
 		5095D47225C02201006AB819 /* vorbisfile.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5095D44B25C021E8006AB819 /* vorbisfile.framework */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		50CF561A25BFECA900B1AC0D /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50CF561925BFECA900B1AC0D /* main.cpp */; };
+		50FD19B825C20102004E7388 /* Application.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50FD19B625C20102004E7388 /* Application.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -111,6 +112,8 @@
 		5095D44B25C021E8006AB819 /* vorbisfile.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = vorbisfile.framework; path = SFML/vorbisfile.framework; sourceTree = "<group>"; };
 		50CF561625BFECA900B1AC0D /* vAmigaSFML */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = vAmigaSFML; sourceTree = BUILT_PRODUCTS_DIR; };
 		50CF561925BFECA900B1AC0D /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		50FD19B625C20102004E7388 /* Application.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Application.cpp; sourceTree = "<group>"; };
+		50FD19B725C20102004E7388 /* Application.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Application.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -196,6 +199,8 @@
 			isa = PBXGroup;
 			children = (
 				50CF561925BFECA900B1AC0D /* main.cpp */,
+				50FD19B725C20102004E7388 /* Application.h */,
+				50FD19B625C20102004E7388 /* Application.cpp */,
 				505485E825C15C3B00892284 /* AssetManager.h */,
 				505485E725C15C3B00892284 /* AssetManager.cpp */,
 				50658EDF25C03EF800F7128D /* Console.h */,
@@ -292,6 +297,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				50FD19B825C20102004E7388 /* Application.cpp in Sources */,
 				505485E925C15C3B00892284 /* AssetManager.cpp in Sources */,
 				50CF561A25BFECA900B1AC0D /* main.cpp in Sources */,
 				50658EE025C03EF800F7128D /* Console.cpp in Sources */,

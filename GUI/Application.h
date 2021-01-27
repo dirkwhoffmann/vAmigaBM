@@ -7,19 +7,29 @@
 // See https://www.gnu.org for license information
 // -----------------------------------------------------------------------------
 
-#include "Application.h"
+#pragma once
 
+#include "AssetManager.h"
+#include "Console.h"
 
-#include <unistd.h>
-
-
-
-// TextureManager textures;
-
-int main(int argc, const char * argv[]) {
-
-    Application app;
-    app.run();
-
-    return 0;
-}
+class Application
+{
+    // The debug console
+    Console console;
+ 
+    //
+    // Initializing
+    //
+    
+public:
+    
+    Application();
+    ~Application();
+    
+    //
+    // Running the app
+    //
+    
+    // Main entry point of the application
+    void run();
+};
