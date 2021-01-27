@@ -16,11 +16,11 @@ Console::Console()
         row[i] = new sf::Text();
     }
     
-    if (!renderTexture.create(width, height)) {
+    if (!texture.create(width, height)) {
         throw std::runtime_error("Console: Can't allocate render texture");
     }
-    sprite.setTextureRect(sf::IntRect(0, height, width, -height));
-    sprite.setTexture(renderTexture.getTexture());
+    drawable.setTextureRect(sf::IntRect(0, height, width, -height));
+    drawable.setTexture(texture.getTexture());
             
     draw();
 }
@@ -35,28 +35,24 @@ Console::~Console()
 bool
 Console::init()
 {
-    if (!font.loadFromFile("DroidSansMono.ttf")) {
-        printf("Error loading font\n");
-        return false;
-    }
-    advance = font.getGlyph(0, fontSize, false).advance;
-    auto bounds = font.getGlyph(0,fontSize,false).bounds;
-    printf("%f %f %f %f\n", bounds.left, bounds.top, bounds.width, bounds.height);
-    printf("advance = %f\n", advance);
+    sf::Font& font = Assets::get(FontID::console);
+
+    // Initialize cursor
+    glyphWidth = font.getGlyph(0, fontSize, false).advance;
+    // cursorHeight = fontSize + lineSkip;
     
+    cursor.setSize(sf::Vector2f(glyphWidth + 2, fontSize + 3));
+    cursor.setFillColor(sf::Color(0xFF,0xFF,0xFF,0x80));
+
+    // Initialize Text objects
     for (int i = 0; i < numRows; i++) {
         
         row[i]->setFont(font);
         row[i]->setString("");
         row[i]->setCharacterSize(fontSize);
         row[i]->setFillColor(sf::Color::White);
-        row[i]->setPosition(hposForRow(i), vposForRow(i));
-        // row[i]->setOutlineColor(sf::Color::Red);
-        // row[i]->setOutlineThickness(4.0);
+        row[i]->setPosition(hposForCol(0), vposForRow(i));
     }
-
-    cursor.setSize(sf::Vector2f(advance + 2, fontSize + 3));
-    cursor.setFillColor(sf::Color(0xFF,0xFF,0xFF,0x80));
 
     return true;
 }
@@ -84,7 +80,7 @@ Console::scroll()
     row[numRows - 1] = first;
 
     for (int i = 0; i < numRows; i++) {
-        row[i]->setPosition(hposForRow(i), vposForRow(i));
+        row[i]->setPosition(hposForCol(0), vposForRow(i));
     }
 
     row[numRows - 1]->setString("");
@@ -112,21 +108,21 @@ Console::add(char c)
 void
 Console::render(sf::RenderWindow &window)
 {
-    window.draw(sprite);
+    window.draw(drawable);
 }
 
 void
 Console::draw()
 {
-    renderTexture.clear(sf::Color(0x21,0x50,0x9F,0xA0));
+    texture.clear(sf::Color(0x21,0x50,0x9F,0xA0));
     
     for (int i = 0; i < numRows; i++) {
-        renderTexture.draw(*row[i]);
+        texture.draw(*row[i]);
     }
     
     // Draw cursor
-    int cursorX = hposForRow(vpos) + hpos * advance;
+    int cursorX = hposForCol(hpos);
     int cursorY = vposForRow(vpos) + 3;
     cursor.setPosition(cursorX, cursorY);
-    renderTexture.draw(cursor);
+    texture.draw(cursor);
 }

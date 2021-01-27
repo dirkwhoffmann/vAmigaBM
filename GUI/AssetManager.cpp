@@ -10,6 +10,7 @@
 #include "AssetManager.h"
 
 TextureManager Assets::textures;
+FontManager Assets::fonts;
 ShaderManager Assets::shaders;
 
 void
@@ -19,8 +20,7 @@ TextureManager::load(TextureID id)
     
     switch (id) {
             
-        case TextureID::logo:     path = "logo.png"; break;
-        case TextureID::concrete: path = "concrete.png"; break;
+        case TextureID::logo: path = "logo.png"; break;
             
         default:
             assert(false);
@@ -31,7 +31,29 @@ TextureManager::load(TextureID id)
     if (asset->loadFromFile(path)) {
         cache.insert(std::make_pair(id, std::move(asset)));
     } else {
-        throw std::runtime_error("AssetManager::loadTexture: " + path);
+        throw std::runtime_error("AssetManager::loadTexture: Can't load " + path);
+    }
+}
+
+void
+FontManager::load(FontID id)
+{
+    std::string path = "";
+    
+    switch (id) {
+            
+        case FontID::console: path = "DroidSansMono.ttf"; break;
+            
+        default:
+            assert(false);
+    }
+    
+    std::unique_ptr<sf::Font> asset(new sf::Font());
+    
+    if (asset->loadFromFile(path)) {
+        cache.insert(std::make_pair(id, std::move(asset)));
+    } else {
+        throw std::runtime_error("AssetManager::loadFont: Can't load " + path);
     }
 }
 

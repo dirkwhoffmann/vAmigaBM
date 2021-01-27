@@ -14,8 +14,12 @@
 
 enum class TextureID
 {
-    logo,
-    concrete
+    logo
+};
+
+enum class FontID
+{
+    console
 };
 
 enum class ShaderID
@@ -57,6 +61,10 @@ class TextureManager : public AssetManager<sf::Texture, TextureID> {
     void load(TextureID id) override;
 };
 
+class FontManager : public AssetManager<sf::Font, FontID> {
+    void load(FontID id) override;
+};
+
 class ShaderManager : public AssetManager<sf::Shader, ShaderID> {
     void load(ShaderID id) override;
 };
@@ -64,10 +72,12 @@ class ShaderManager : public AssetManager<sf::Shader, ShaderID> {
 class Assets {
     
     static TextureManager textures;
+    static FontManager fonts;
     static ShaderManager shaders;
     
 public:
     
     static sf::Texture& get(TextureID id) { return textures.get(id); }
+    static sf::Font& get(FontID id) { return fonts.get(id); }
     static sf::Shader& get(ShaderID id) { return shaders.get(id); }
 };

@@ -14,51 +14,67 @@
 
 class Console {
     
+    //
+    // Constants
+    //
+    
+    // Texture dimensions
     static const int width = 1024;
     static const int height = 768;
     
+    // Text window size
     static const int numRows = 25;
     static const int numCols = 40;
     
+    // Caligrahpic properties
     static const int fontSize = 25;
     static const int lineSkip = 8;
     
-    // The render texture
-    sf::RenderTexture renderTexture;
-        
-    // A sprite holding the render texture
-    sf::Sprite sprite;
-
-    // Console font
-    sf::Font font;
-    float advance;
     
-    // Cursor
-    sf::RectangleShape cursor; //  (sf::Vector2f(25,25));
+    //
+    // Variables
+    //
     
-    // Mapping from row indices to text objects
+    // The final render texture
+    sf::RenderTexture texture;
+    
+    // Rendered text, one object for each row
     sf::Text *row[numRows];
+
+    // Font properties
+    int glyphWidth;
     
-    // Cursor position
+    // A sprite holding the render texture
+    sf::Sprite drawable;
+    
+    // The current cursor position
     int hpos = 0;
     int vpos = 0;
-    
+
+    // The cursor's visual shape
+    sf::RectangleShape cursor;
+        
     // The currenr input string
     std::string input = "";
-    
+        
     
     //
+    // Initializing
     //
-    //
-    
+
 public:
-    
+
     Console();
     ~Console();
     
     bool init();
     
-    int hposForRow(int i) { return 10; }
+    
+    //
+    //
+    //
+    
+    int hposForCol(int i) { return 10 + i * glyphWidth; }
     int vposForRow(int i) { return (fontSize + lineSkip) * i; }
         
     void newline(); 
