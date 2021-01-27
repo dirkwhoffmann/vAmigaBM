@@ -7,10 +7,9 @@
 // See https://www.gnu.org for license information
 // -----------------------------------------------------------------------------
 
-#include "Console.h"
-#include "AssetManager.h"
+#include "Application.h"
 
-Console::Console()
+Console::Console(Application &ref) : application(ref)
 {
     for (int i = 0; i < numRows; i++) {
         row[i] = new sf::Text();
@@ -60,6 +59,8 @@ Console::init()
 void
 Console::newline()
 {
+    application.interpreter.execute(input);
+
     input = "";
     hpos = 0;
     if (vpos < numRows - 1) {

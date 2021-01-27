@@ -9,11 +9,15 @@
 
 #pragma once
 
+#include "Console.h"
 #include <SFML/Graphics.hpp>
-#include <iostream>
 
 class Console {
     
+    // Reference to the associated application
+    class Application &application;
+
+
     //
     // Constants
     //
@@ -64,7 +68,7 @@ class Console {
 
 public:
 
-    Console();
+    Console(class Application &ref);
     ~Console();
     
     bool init();

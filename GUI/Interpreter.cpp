@@ -8,14 +8,10 @@
 // -----------------------------------------------------------------------------
 
 #include "Application.h"
-// #include <unistd.h>
 
-// TextureManager textures;
-
-int main(int argc, const char * argv[]) {
-
-    Application app;
-    app.run();
-
-    return 0;
+void
+Interpreter::execute(const string& command)
+{
+    printf("EXEC: %s\n", command.c_str());
 }
+

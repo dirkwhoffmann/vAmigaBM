@@ -9,7 +9,7 @@
 
 #include "Application.h"
 
-Application::Application()
+Application::Application() : console(*this), interpreter(*this)
 {
 }
 

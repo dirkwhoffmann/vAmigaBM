@@ -9,14 +9,28 @@
 
 #pragma once
 
-#include "AssetManager.h"
 #include "Console.h"
+#include "Interpreter.h"
+#include "AssetManager.h"
+
+#include <SFML/Graphics.hpp>
+#include <iostream>
+#include <string>
+
+using std::string;
 
 class Application
 {
+
+public:
+
     // The debug console
     Console console;
  
+    // Interpreter for commands typed into the debug console
+    Interpreter interpreter;
+    
+    
     //
     // Initializing
     //
