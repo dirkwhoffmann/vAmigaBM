@@ -80,10 +80,15 @@ Application::run()
                     window.close();
                     break;
                     
+                case sf::Event::KeyPressed:
+                    
+                    console.keyPressed(event.key.code);
+                    break; 
+                    
                 case sf::Event::TextEntered:
                     if (event.text.unicode < 128) {
                         std::cout << "Character: " << static_cast<char>(event.text.unicode) << std::endl;
-                        console.add(static_cast<char>(event.text.unicode));
+                        console.type(static_cast<char>(event.text.unicode));
                     }
                     break;
                     

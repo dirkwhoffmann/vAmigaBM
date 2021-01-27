@@ -71,20 +71,41 @@ public:
     
     
     //
-    //
+    // Computing properties
     //
     
     int hposForCol(int i) { return 10 + i * glyphWidth; }
     int vposForRow(int i) { return (fontSize + lineSkip) * i; }
         
+    
+    //
+    // Moving the cursor or the displayed contents
+    //
+    
     void newline(); 
     void scroll();
-    void add(char c);
+    
+    
+    //
+    // Processing input
+    //
+    
+    // Processes a user typed character
+    void type(char c);
+
+    // Processes special keys
+    void keyPressed(sf::Keyboard::Key& key);
+    
+    
+    //
+    // Rendering
+    //
     
     void render(sf::RenderWindow &window);
+    
     
 private:
     
     // Redraws the render texture
-    void draw();
+    void updateTexture();
 };

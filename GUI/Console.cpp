@@ -22,7 +22,7 @@ Console::Console()
     drawable.setTextureRect(sf::IntRect(0, height, width, -height));
     drawable.setTexture(texture.getTexture());
             
-    draw();
+    updateTexture();
 }
 
 Console::~Console()
@@ -87,22 +87,82 @@ Console::scroll()
 }
 
 void
-Console::add(char c)
+Console::type(char c)
 {
-    if (c == '\n') {
+    printf("char: %d\n", c);
+    
+    switch (c) {
+            
+        case '\n':
 
-        printf("RETURN\n");
-        newline();
-        
-    } else if (input.length() < numCols) {
-        
-        hpos++;
-        input += c;
-        printf("input: %s\n", input.c_str());
-        row[vpos]->setString(input);
+            printf("RETURN\n");
+            newline();
+            break;
+            
+        case '\b':
+            
+            printf("BACKSPACE\n");
+            if (hpos > 0) {
+                input.erase(input.begin() + --hpos);
+                printf("length = %lu str = %s\n", input.length(), input.c_str());
+                row[vpos]->setString(input);
+            }
+            break;
+            
+        default:
+            
+            if (input.length() < numCols) {
+                
+                input.insert(input.begin() + hpos, c);
+                hpos++;
+                printf("input: %s\n", input.c_str());
+                row[vpos]->setString(input);
+            }
+    }
+    
+    updateTexture();
+}
+
+void
+Console::keyPressed(sf::Keyboard::Key& key)
+{
+    switch (key) {
+            
+        case sf::Keyboard::Up:
+
+            // TODO: Iterate through history buffer
+            printf("Cursor up\n");
+            break;
+
+        case sf::Keyboard::Down:
+
+            // TODO: Iterate through history buffer
+            printf("Cursor down\n");
+            break;
+            
+        case sf::Keyboard::Left:
+
+            printf("Cursor left\n");
+            if (hpos > 0) {
+                hpos--;
+            }
+            printf("hpos = %d\n", hpos);
+            break;
+            
+        case sf::Keyboard::Right:
+            
+            printf("Cursor right\n");
+            if (hpos < input.length()) {
+                hpos++;
+            }
+            printf("hpos = %d\n", hpos);
+            break;
+            
+        default:
+            return;
     }
 
-    draw();
+    updateTexture();
 }
 
 void
@@ -112,8 +172,9 @@ Console::render(sf::RenderWindow &window)
 }
 
 void
-Console::draw()
+Console::updateTexture()
 {
+    printf("updateTexture\n");
     texture.clear(sf::Color(0x21,0x50,0x9F,0xA0));
     
     for (int i = 0; i < numRows; i++) {
