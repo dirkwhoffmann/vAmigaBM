@@ -1,9 +1,11 @@
+// -----------------------------------------------------------------------------
+// This file is part of vAmiga Bare Metal
 //
-//  Console.hpp
-//  vAmigaSFML
+// Copyright (C) Dirk W. Hoffmann. www.dirkwhoffmann.de
+// Licensed under the GNU General Public License v3
 //
-//  Created by Dirk Hoffmann on 26.01.21.
-//
+// See https://www.gnu.org for license information
+// -----------------------------------------------------------------------------
 
 #pragma once
 

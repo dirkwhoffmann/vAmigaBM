@@ -1,11 +1,15 @@
+// -----------------------------------------------------------------------------
+// This file is part of vAmiga Bare Metal
 //
-//  main.cpp
-//  vAmigaSFML
+// Copyright (C) Dirk W. Hoffmann. www.dirkwhoffmann.de
+// Licensed under the GNU General Public License v3
 //
-//  Created by Dirk Hoffmann on 26.01.21.
-//
+// See https://www.gnu.org for license information
+// -----------------------------------------------------------------------------
 
 #include "Console.h"
+#include "AssetManager.h"
+
 #include <unistd.h>
 
 Console console;
@@ -28,22 +32,25 @@ int main(int argc, const char * argv[]) {
     unsigned h = w * 0.7525;
 
     std::cout << "vAmigaSFML\n";
+        
+    sf::Texture logoTex = AssetManager::texture(TextureID::logo);
     
-    sf::Texture texture;
     // if (!texture.loadFromFile("terminator.jpeg")) {
-    if (!texture.loadFromFile("logo.png")) {
-        printf("Error loading logo\n");
+    /*
+    if (!logoTex.loadFromFile("logo.png")) {
+        printf("Error loading logo texture\n");
         exit(1);
     }
-    sf::Vector2u size = texture.getSize();
+    */
     
+    sf::Vector2u size = logoTex.getSize();
     unsigned logoWidth = w / 1.5;
     unsigned logoHeight = logoWidth * ((float)size.y / (float)size.x);
     
     sf::RectangleShape background(sf::Vector2f(logoWidth, logoHeight));
-    background.setTexture(&texture);
+    background.setTexture(&logoTex);
     background.setPosition((w - logoWidth) / 2, h/8);
-        
+    
     if (!console.init()) {
         printf("Can't initialize Console\n");
         exit(1);
