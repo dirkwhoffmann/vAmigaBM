@@ -9,8 +9,8 @@
 
 #pragma once
 
-#include "Console.h"
 #include <SFML/Graphics.hpp>
+#include <stack>
 
 class Console {
     
@@ -61,6 +61,10 @@ class Console {
     // The currenr input string
     std::string input = "";
         
+    // The command history buffer
+    std::vector<std::string> history;
+    int historyIndex = 0;
+    
     
     //
     // Initializing

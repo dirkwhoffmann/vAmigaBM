@@ -59,8 +59,6 @@ Console::init()
 void
 Console::newline()
 {
-    application.interpreter.execute(input);
-
     input = "";
     hpos = 0;
     if (vpos < numRows - 1) {
@@ -96,7 +94,11 @@ Console::type(char c)
             
         case '\n':
 
-            printf("RETURN\n");
+            printf("RETURN %s\n", input.c_str());
+            
+            application.interpreter.execute(input);
+            history.push_back(input);
+            historyIndex = (int)(history.size() - 1);
             newline();
             break;
             
@@ -106,7 +108,6 @@ Console::type(char c)
             if (hpos > 0) {
                 input.erase(input.begin() + --hpos);
                 printf("length = %lu str = %s\n", input.length(), input.c_str());
-                row[vpos]->setString(input);
             }
             break;
             
@@ -117,7 +118,6 @@ Console::type(char c)
                 input.insert(input.begin() + hpos, c);
                 hpos++;
                 printf("input: %s\n", input.c_str());
-                row[vpos]->setString(input);
             }
     }
     
@@ -131,14 +131,22 @@ Console::keyPressed(sf::Keyboard::Key& key)
             
         case sf::Keyboard::Up:
 
-            // TODO: Iterate through history buffer
-            printf("Cursor up\n");
+            printf("Cursor up %d\n", historyIndex);
+            if (historyIndex >= 0) {
+                input = history[historyIndex--];
+                hpos = (int)input.size();
+                printf("input = %s\n", input.c_str());
+            }
             break;
 
         case sf::Keyboard::Down:
 
-            // TODO: Iterate through history buffer
-            printf("Cursor down\n");
+            printf("Cursor down %d\n", historyIndex);
+            if (historyIndex < history.size() - 1) {
+                input = history[++historyIndex];
+                hpos = (int)input.size();
+                printf("input = %s\n", input.c_str());
+            }
             break;
             
         case sf::Keyboard::Left:
@@ -176,8 +184,10 @@ void
 Console::updateTexture()
 {
     printf("updateTexture\n");
-    texture.clear(sf::Color(0x21,0x50,0x9F,0xA0));
     
+    texture.clear(sf::Color(0x21,0x50,0x9F,0xD0));
+    
+    row[vpos]->setString(input);
     for (int i = 0; i < numRows; i++) {
         texture.draw(*row[i]);
     }

@@ -14,4 +14,3 @@ Interpreter::execute(const string& command)
 {
     printf("EXEC: %s\n", command.c_str());
 }
-
