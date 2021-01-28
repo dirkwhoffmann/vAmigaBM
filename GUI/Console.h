@@ -155,8 +155,8 @@ public:
     void type(char c);
 
     // Processes special keys
-    void keyPressed(sf::Keyboard::Key& key);
-    void keyReleased(sf::Keyboard::Key& key);
+    void keyPressed(const sf::Keyboard::Key& key);
+    void keyReleased(const sf::Keyboard::Key& key);
 
     
     //

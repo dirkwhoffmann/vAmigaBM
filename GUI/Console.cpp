@@ -171,7 +171,7 @@ Console::type(char c)
 }
 
 void
-Console::keyPressed(sf::Keyboard::Key& key)
+Console::keyPressed(const sf::Keyboard::Key& key)
 {
     printf("keyPressed\n");
 
@@ -236,7 +236,7 @@ Console::keyPressed(sf::Keyboard::Key& key)
 }
 
 void
-Console::keyReleased(sf::Keyboard::Key& key)
+Console::keyReleased(const sf::Keyboard::Key& key)
 {
     /*
     printf("keyReleased\n");
