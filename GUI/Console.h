@@ -41,6 +41,9 @@ class Console {
     // Variables
     //
     
+    // The text storage
+    std::vector<std::string> storage;
+    
     // The final render texture
     sf::RenderTexture texture;
     
@@ -99,15 +102,32 @@ public:
 
     
     //
-    // Managing the console
+    // Managing the console window
     //
     
 public:
     
+    // Opens or closes the console
     void open() { printf("OPEN\n"); targetAlpha = 0xFF; }
     void close() { printf("CLOSE\n"); targetAlpha = 0x00; }
     void toggle() { isVisible() ? close() : open(); }
     
+    
+    //
+    // Working with the text storage
+    //
+    
+public:
+    
+    // Prints a message
+    void print(const std::string& text);
+    
+    // Replaces the last line
+    void replace(const std::string& text, const std::string& prefix = "Amiga\% ");
+
+    // Prints the text storage (for debugging)
+    void list();
+
 private:
     
     void newline(); 

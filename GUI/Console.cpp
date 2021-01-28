@@ -28,8 +28,12 @@ Console::init()
 {
     sf::Font& font = Assets::get(FontID::console);
 
+    // Initialize the text storage
+    print("rsh 0.1 (Retro Shell). Dirk W. Hoffmann, 2021.");
+    print("");
+    
     // Initialize the input buffer
-    input.push_back("Retro Shell v0.1: ");
+    input.push_back("");
     
     // Initialize the cursor
     glyphWidth = font.getGlyph(0, fontSize, false).advance;
@@ -55,6 +59,45 @@ Console::init()
     
     updateTexture();
     return true;
+}
+
+void
+Console::print(const string& text)
+{
+    // Split the string if it is too large
+    if (text.length() > numCols) {
+        printf("split: '%s' '%s'\n",
+               text.substr(0, numCols).c_str(),text.substr(numCols).c_str());
+        print(text.substr(0, numCols));
+        print(text.substr(numCols));
+        return;
+    }
+
+    // Add the string
+    printf("Adding string %s\n", text.c_str());
+    storage.push_back(text);
+
+    // Remove lines if the list grows too large
+    if (storage.size() > 100) {
+        storage.erase(storage.begin());
+    }
+}
+
+void
+Console::replace(const string& text, const std::string& prefix)
+{
+    
+    storage.back() = prefix + text.substr(0, numCols - prefix.length());
+}
+
+void
+Console::list()
+{
+    printf("<------\n");
+    for (auto &it : storage) {
+        printf("%s\n", it.c_str());
+    }
+    printf("------>\n");
 }
 
 void
@@ -106,15 +149,21 @@ Console::type(char c)
             // Add a new entry to the input buffer
             input.push_back("");
             index = (int)input.size() - 1;
+            
+            
+            // Print a new prompt
+            print("");
+            replace("");
+            list();
             break;
             
         case '\b':
             
             if (hpos > 0) {
                 input[index].erase(input[index].begin() + --hpos);
-                printf("length = %lu str = %s\n",
-                       input[index].length(), input[index].c_str());
             }
+            replace(input[index]);
+            list();
             break;
             
         default:
@@ -122,8 +171,9 @@ Console::type(char c)
             if (input[index].length() < numCols - promptWidth - 1) {
                 
                 input[index].insert(input[index].begin() + hpos++, c);
-                printf("input: %s\n", input[index].c_str());
             }
+            replace(input[index]);
+            list();
     }
     
     updateTexture();
@@ -142,6 +192,9 @@ Console::keyPressed(sf::Keyboard::Key& key)
             if (index > 0) {
                 index--;
                 hpos = (int)input[index].size();
+
+                replace(input[index]);
+                list();
             }
             break;
 
@@ -151,6 +204,9 @@ Console::keyPressed(sf::Keyboard::Key& key)
             if (index < input.size() - 1) {
                 index++;
                 hpos = (int)input[index].size();
+                
+                replace(input[index]);
+                list();
             }
             break;
             
