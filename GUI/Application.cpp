@@ -84,7 +84,20 @@ Application::run()
                     
                 case sf::Event::KeyPressed:
                     
-                    console.keyPressed(event.key.code);
+                    switch (event.key.code) {
+                            
+                        case sf::Keyboard::F12:
+                            
+                            printf("F12\n");
+                            console.toggle();
+                            break;
+                            
+                        default:
+                            
+                            if (console.isVisible()) {
+                                console.keyPressed(event.key.code);
+                            }
+                    }
                     break; 
 
                 case sf::Event::KeyReleased:

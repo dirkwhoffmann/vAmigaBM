@@ -31,7 +31,7 @@ class Console {
     static const int numCols = 40;
     
     // Caligrahpic properties
-    static const int fontSize = 25;
+    static const int fontSize = 24;
     static const int lineSkip = 8;
     
     // Input prompt
@@ -51,7 +51,7 @@ class Console {
     int glyphWidth;
     
     // A sprite holding the render texture
-    sf::Sprite drawable;
+    sf::RectangleShape drawable;
     
     // The current cursor position
     int hpos = 0;
@@ -66,9 +66,10 @@ class Console {
     // The currently active input string
     int index = 0;
     
-    // Remembers the state of some special keys
-    // bool ctrlPressed = false;
-    
+    // Alpha channel parameters
+    int alpha = 0;
+    int targetAlpha = 0;
+        
     
     //
     // Initializing
@@ -83,16 +84,31 @@ public:
     
     
     //
-    // Computing properties
+    // Properties
     //
     
     int hposForCol(int i) { return 10 + i * glyphWidth; }
     int vposForRow(int i) { return (fontSize + lineSkip) * i; }
         
+    // bool isOpen() { return targetAlpha == 0xFF; }
+    // bool isClosed() { return targetAlpha == 0x00; }
+    bool isVisible() { return alpha > 0; }
+    bool isAnimating() { return alpha != targetAlpha; }
+    bool isOpening() { return targetAlpha > alpha; }
+    bool isClosing() { return targetAlpha < alpha; }
+
     
     //
-    // Moving the cursor or the displayed contents
+    // Managing the console
     //
+    
+public:
+    
+    void open() { printf("OPEN\n"); targetAlpha = 0xFF; }
+    void close() { printf("CLOSE\n"); targetAlpha = 0x00; }
+    void toggle() { isVisible() ? close() : open(); }
+    
+private:
     
     void newline(); 
     void scroll();
@@ -101,6 +117,8 @@ public:
     //
     // Processing input
     //
+    
+public:
     
     // Processes a user typed character
     void type(char c);

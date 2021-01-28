@@ -41,7 +41,7 @@ Console::init()
         throw std::runtime_error("Console: Can't allocate render texture");
     }
     drawable.setTextureRect(sf::IntRect(0, height, width, -height));
-    drawable.setTexture(texture.getTexture());
+    drawable.setTexture(&texture.getTexture());
             
     // Initialize render items
     for (int i = 0; i < numRows; i++) {
@@ -209,7 +209,19 @@ Console::keyReleased(sf::Keyboard::Key& key)
 void
 Console::render(sf::RenderWindow &window)
 {
-    window.draw(drawable);
+    if (isAnimating()) {
+        if (isOpening()) alpha = std::min(targetAlpha, alpha + 8);
+        if (isClosing()) alpha = std::max(targetAlpha, alpha - 8);
+        drawable.setFillColor(sf::Color(0x00,0xFF,0x00,alpha));
+    }
+    
+    auto winSize = window.getSize();
+    sf::Vector2f size = { (float)winSize.x, (float)winSize.y };
+    drawable.setSize(size);
+    
+    if (isVisible()) {
+        window.draw(drawable);
+    }
 }
 
 void
