@@ -33,6 +33,12 @@ Application::run()
     
     std::cout << "vAmigaSFML\n";
 
+    sf::RenderWindow window(sf::VideoMode(w,h), "My Window");
+    window.setFramerateLimit(60);
+    // setVerticalSyncEnabled(true);
+
+    
+    
     sf::Texture logoTex = Assets::get(TextureID::logo);
     
     // if (!texture.loadFromFile("terminator.jpeg")) {
@@ -50,15 +56,11 @@ Application::run()
     sf::RectangleShape background(sf::Vector2f(logoWidth, logoHeight));
     background.setTexture(&logoTex);
     background.setPosition((w - logoWidth) / 2, h/8);
-    
+
     if (!console.init()) {
         printf("Can't initialize Console\n");
         exit(1);
     }
-        
-    sf::RenderWindow window(sf::VideoMode(w,h), "My Window");
-    window.setFramerateLimit(60);
-    // setVerticalSyncEnabled(true);
         
     sf::Vertex rectangle[] =
     {
@@ -84,7 +86,12 @@ Application::run()
                     
                     console.keyPressed(event.key.code);
                     break; 
+
+                case sf::Event::KeyReleased:
                     
+                    console.keyReleased(event.key.code);
+                    break;
+
                 case sf::Event::TextEntered:
                     if (event.text.unicode < 128) {
                         std::cout << "Character: " << static_cast<char>(event.text.unicode) << std::endl;

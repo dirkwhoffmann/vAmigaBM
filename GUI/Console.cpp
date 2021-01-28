@@ -14,14 +14,6 @@ Console::Console(Application &ref) : application(ref)
     for (int i = 0; i < numRows; i++) {
         row[i] = new sf::Text();
     }
-    
-    if (!texture.create(width, height)) {
-        throw std::runtime_error("Console: Can't allocate render texture");
-    }
-    drawable.setTextureRect(sf::IntRect(0, height, width, -height));
-    drawable.setTexture(texture.getTexture());
-            
-    updateTexture();
 }
 
 Console::~Console()
@@ -36,14 +28,22 @@ Console::init()
 {
     sf::Font& font = Assets::get(FontID::console);
 
-    // Initialize cursor
-    glyphWidth = font.getGlyph(0, fontSize, false).advance;
-    // cursorHeight = fontSize + lineSkip;
+    // Initialize the input buffer
+    input.push_back("Retro Shell v0.1: ");
     
+    // Initialize the cursor
+    glyphWidth = font.getGlyph(0, fontSize, false).advance;
     cursor.setSize(sf::Vector2f(glyphWidth + 2, fontSize + 3));
     cursor.setFillColor(sf::Color(0xFF,0xFF,0xFF,0x80));
 
-    // Initialize Text objects
+    // Initialize the render target
+    if (!texture.create(width, height)) {
+        throw std::runtime_error("Console: Can't allocate render texture");
+    }
+    drawable.setTextureRect(sf::IntRect(0, height, width, -height));
+    drawable.setTexture(texture.getTexture());
+            
+    // Initialize render items
     for (int i = 0; i < numRows; i++) {
         
         row[i]->setFont(font);
@@ -52,14 +52,15 @@ Console::init()
         row[i]->setFillColor(sf::Color::White);
         row[i]->setPosition(hposForCol(0), vposForRow(i));
     }
-
+    
+    updateTexture();
     return true;
 }
 
 void
 Console::newline()
 {
-    input = "";
+    // Move the cursor
     hpos = 0;
     if (vpos < numRows - 1) {
         vpos++;
@@ -94,30 +95,34 @@ Console::type(char c)
             
         case '\n':
 
-            printf("RETURN %s\n", input.c_str());
+            printf("RETURN %s\n", input[index].c_str());
             
-            application.interpreter.execute(input);
-            history.push_back(input);
-            historyIndex = (int)(history.size() - 1);
+            // Execute the command
+            application.interpreter.execute(input[index]);
+
+            // Move cursor
             newline();
+            
+            // Add a new entry to the input buffer
+            input.push_back("");
+            index = (int)input.size() - 1;
             break;
             
         case '\b':
             
-            printf("BACKSPACE\n");
             if (hpos > 0) {
-                input.erase(input.begin() + --hpos);
-                printf("length = %lu str = %s\n", input.length(), input.c_str());
+                input[index].erase(input[index].begin() + --hpos);
+                printf("length = %lu str = %s\n",
+                       input[index].length(), input[index].c_str());
             }
             break;
             
         default:
             
-            if (input.length() < numCols) {
+            if (input[index].length() < numCols - promptWidth - 1) {
                 
-                input.insert(input.begin() + hpos, c);
-                hpos++;
-                printf("input: %s\n", input.c_str());
+                input[index].insert(input[index].begin() + hpos++, c);
+                printf("input: %s\n", input[index].c_str());
             }
     }
     
@@ -127,25 +132,25 @@ Console::type(char c)
 void
 Console::keyPressed(sf::Keyboard::Key& key)
 {
+    printf("keyPressed\n");
+
     switch (key) {
             
         case sf::Keyboard::Up:
 
-            printf("Cursor up %d\n", historyIndex);
-            if (historyIndex >= 0) {
-                input = history[historyIndex--];
-                hpos = (int)input.size();
-                printf("input = %s\n", input.c_str());
+            printf("Cursor up %d\n", index);
+            if (index > 0) {
+                index--;
+                hpos = (int)input[index].size();
             }
             break;
 
         case sf::Keyboard::Down:
 
-            printf("Cursor down %d\n", historyIndex);
-            if (historyIndex < history.size() - 1) {
-                input = history[++historyIndex];
-                hpos = (int)input.size();
-                printf("input = %s\n", input.c_str());
+            printf("Cursor down %d\n", index);
+            if (index < input.size() - 1) {
+                index++;
+                hpos = (int)input[index].size();
             }
             break;
             
@@ -161,12 +166,22 @@ Console::keyPressed(sf::Keyboard::Key& key)
         case sf::Keyboard::Right:
             
             printf("Cursor right\n");
-            if (hpos < input.length()) {
+            if (hpos < input[index].length()) {
                 hpos++;
             }
             printf("hpos = %d\n", hpos);
             break;
             
+        case sf::Keyboard::Home:
+            
+            hpos = 0;
+            break;
+
+        case sf::Keyboard::End:
+            
+            hpos = (int)input[index].length();
+            break;
+
         default:
             return;
     }
@@ -174,6 +189,23 @@ Console::keyPressed(sf::Keyboard::Key& key)
     updateTexture();
 }
 
+void
+Console::keyReleased(sf::Keyboard::Key& key)
+{
+    /*
+    printf("keyReleased\n");
+
+    switch (key) {
+            
+        case sf::Keyboard::LControl:
+            break;
+
+        default:
+            break;
+    }
+    */
+}
+            
 void
 Console::render(sf::RenderWindow &window)
 {
@@ -183,17 +215,17 @@ Console::render(sf::RenderWindow &window)
 void
 Console::updateTexture()
 {
-    printf("updateTexture\n");
+    printf("Update texture (%s)\n", input[index].c_str());
     
     texture.clear(sf::Color(0x21,0x50,0x9F,0xD0));
     
-    row[vpos]->setString(input);
+    row[vpos]->setString("vAmiga\% " + input[index]);
     for (int i = 0; i < numRows; i++) {
         texture.draw(*row[i]);
     }
     
     // Draw cursor
-    int cursorX = hposForCol(hpos);
+    int cursorX = hposForCol(hpos + promptWidth);
     int cursorY = vposForRow(vpos) + 3;
     cursor.setPosition(cursorX, cursorY);
     texture.draw(cursor);

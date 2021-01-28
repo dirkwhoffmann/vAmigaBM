@@ -34,6 +34,8 @@ class Console {
     static const int fontSize = 25;
     static const int lineSkip = 8;
     
+    // Input prompt
+    static const int promptWidth = 8;
     
     //
     // Variables
@@ -58,12 +60,14 @@ class Console {
     // The cursor's visual shape
     sf::RectangleShape cursor;
         
-    // The currenr input string
-    std::string input = "";
+    // The input history buffer
+    std::vector<std::string> input;
         
-    // The command history buffer
-    std::vector<std::string> history;
-    int historyIndex = 0;
+    // The currently active input string
+    int index = 0;
+    
+    // Remembers the state of some special keys
+    // bool ctrlPressed = false;
     
     
     //
@@ -103,7 +107,8 @@ public:
 
     // Processes special keys
     void keyPressed(sf::Keyboard::Key& key);
-    
+    void keyReleased(sf::Keyboard::Key& key);
+
     
     //
     // Rendering
