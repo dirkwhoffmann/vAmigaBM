@@ -210,9 +210,10 @@ void
 Console::render(sf::RenderWindow &window)
 {
     if (isAnimating()) {
-        if (isOpening()) alpha = std::min(targetAlpha, alpha + 8);
-        if (isClosing()) alpha = std::max(targetAlpha, alpha - 8);
-        drawable.setFillColor(sf::Color(0x00,0xFF,0x00,alpha));
+        if (isOpening()) alpha = std::min(targetAlpha, alpha + 24);
+        if (isClosing()) alpha = std::max(targetAlpha, alpha - 24);
+        // drawable.setFillColor(sf::Color(0xFF,0xFF,0xFF,alpha));
+        drawable.setFillColor(sf::Color(0xFF,0xFF,0xFF,alpha));
     }
     
     auto winSize = window.getSize();
@@ -229,7 +230,8 @@ Console::updateTexture()
 {
     printf("Update texture (%s)\n", input[index].c_str());
     
-    texture.clear(sf::Color(0x21,0x50,0x9F,0xD0));
+    // texture.clear(sf::Color(0x21,0x50,0x9F,0xD0));
+    texture.clear(sf::Color(0x21,0x21,0x21,0xD0));
     
     row[vpos]->setString("vAmiga\% " + input[index]);
     for (int i = 0; i < numRows; i++) {
