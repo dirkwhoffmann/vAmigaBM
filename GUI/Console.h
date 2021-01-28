@@ -27,15 +27,16 @@ class Console {
     static const int height = 768;
     
     // Text window size
-    static const int numRows = 25;
-    static const int numCols = 40;
+    static const int numRows = 23;
+    static const int numCols = 72;
     
     // Caligrahpic properties
     static const int fontSize = 24;
-    static const int lineSkip = 8;
+    static const int lineSkip = 9;
     
     // Input prompt
-    static const int promptWidth = 8;
+    static const std::string& prompt;
+
     
     //
     // Variables
@@ -44,17 +45,25 @@ class Console {
     // The text storage
     std::vector<std::string> storage;
     
-    // The final render texture
+    // The number of the first displayed line
+    int first = 0;
+    
+    // The render texture
     sf::RenderTexture texture;
     
-    // Rendered text, one object for each row
-    sf::Text *row[numRows];
+    // A drawable holding the render texture
+    sf::RectangleShape drawable;
+
+    // Indicates if the render texture needs to be redrawn
+    bool isDirty = true;
+    
+    // The rendered text rows
+    sf::Text row[numRows];
 
     // Font properties
     int glyphWidth;
     
-    // A sprite holding the render texture
-    sf::RectangleShape drawable;
+    // The render texture
     
     // The current cursor position
     int hpos = 0;
@@ -91,10 +100,8 @@ public:
     //
     
     int hposForCol(int i) { return 10 + i * glyphWidth; }
-    int vposForRow(int i) { return (fontSize + lineSkip) * i; }
+    int vposForRow(int i) { return 5 + (fontSize + lineSkip) * i; }
         
-    // bool isOpen() { return targetAlpha == 0xFF; }
-    // bool isClosed() { return targetAlpha == 0x00; }
     bool isVisible() { return alpha > 0; }
     bool isAnimating() { return alpha != targetAlpha; }
     bool isOpening() { return targetAlpha > alpha; }
@@ -108,8 +115,8 @@ public:
 public:
     
     // Opens or closes the console
-    void open() { printf("OPEN\n"); targetAlpha = 0xFF; }
-    void close() { printf("CLOSE\n"); targetAlpha = 0x00; }
+    void open() { targetAlpha = 0xFF; }
+    void close() { targetAlpha = 0x00; }
     void toggle() { isVisible() ? close() : open(); }
     
     
@@ -123,16 +130,20 @@ public:
     void print(const std::string& text);
     
     // Replaces the last line
-    void replace(const std::string& text, const std::string& prefix = "Amiga\% ");
+    void replace(const std::string& text,
+                 const std::string& prefix = std::string(prompt));
 
     // Prints the text storage (for debugging)
     void list();
+    
+    // Selects the displayed part of the text storage
+    void scrollToLine(int line);
+    void scrollToTop();
+    void scrollToBottom();
 
-private:
-    
-    void newline(); 
-    void scroll();
-    
+    // Returns the row number of the last displayed line
+    int rowOfLastLine();
+
     
     //
     // Processing input

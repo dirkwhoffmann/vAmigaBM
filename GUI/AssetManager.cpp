@@ -42,8 +42,10 @@ FontManager::load(FontID id)
     
     switch (id) {
             
-        case FontID::console: path = "DroidSansMono.ttf"; break;
-            
+        // case FontID::console: path = "DroidSansMono.ttf"; break;
+        case FontID::console: path = "IBMPlexMono-Medium.ttf"; break;
+        case FontID::logo:    path = "SourceSansPro-Light.ttf"; break;
+
         default:
             assert(false);
     }

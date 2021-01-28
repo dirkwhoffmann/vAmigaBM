@@ -41,6 +41,16 @@ Application::run()
     
     sf::Texture logoTex = Assets::get(TextureID::logo);
     
+    auto info1 = sf::Text("Press F12 to enter the debug console",
+                          Assets::get(FontID::logo));
+    info1.setCharacterSize(48);
+    info1.setFillColor(sf::Color(0x50,0x50,0x50,0xFF));
+    sf::FloatRect textRect = info1.getLocalBounds();
+    info1.setOrigin(textRect.left + textRect.width/2.0f,
+                   textRect.top  + textRect.height/2.0f);
+    info1.setPosition(sf::Vector2f(w * 0.5,h * 0.8));
+    
+    
     // if (!texture.loadFromFile("terminator.jpeg")) {
     /*
     if (!logoTex.loadFromFile("logo.png")) {
@@ -122,7 +132,8 @@ Application::run()
         
         window.draw(rectangle, 4, sf::Quads);
         window.draw(background);
-
+        window.draw(info1);
+        
         console.render(window);
         
         window.display();

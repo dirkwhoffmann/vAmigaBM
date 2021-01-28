@@ -9,18 +9,14 @@
 
 #include "Application.h"
 
+const std::string& Console::prompt = string("vAmiga\% ");
+
 Console::Console(Application &ref) : application(ref)
 {
-    for (int i = 0; i < numRows; i++) {
-        row[i] = new sf::Text();
-    }
 }
 
 Console::~Console()
 {
-    for (int i = 0; i < numRows; i++) {
-        delete row[i];
-    }
 }
 
 bool
@@ -29,14 +25,17 @@ Console::init()
     sf::Font& font = Assets::get(FontID::console);
 
     // Initialize the text storage
-    print("rsh 0.1 (Retro Shell). Dirk W. Hoffmann, 2021.");
+    print("Retro Shell v0.1, Dirk W. Hoffmann, 2021");
+    // print("");
+    print("Type 'help' for a list of available commands.");
     print("");
+    print(string(prompt));
     
     // Initialize the input buffer
     input.push_back("");
     
     // Initialize the cursor
-    glyphWidth = font.getGlyph(0, fontSize, false).advance;
+    glyphWidth = font.getGlyph(32, fontSize, false).advance;
     cursor.setSize(sf::Vector2f(glyphWidth + 2, fontSize + 3));
     cursor.setFillColor(sf::Color(0xFF,0xFF,0xFF,0x80));
 
@@ -50,14 +49,13 @@ Console::init()
     // Initialize render items
     for (int i = 0; i < numRows; i++) {
         
-        row[i]->setFont(font);
-        row[i]->setString("");
-        row[i]->setCharacterSize(fontSize);
-        row[i]->setFillColor(sf::Color::White);
-        row[i]->setPosition(hposForCol(0), vposForRow(i));
+        row[i].setFont(font);
+        row[i].setString("");
+        row[i].setCharacterSize(fontSize);
+        row[i].setFillColor(sf::Color::White);
+        row[i].setPosition(hposForCol(0), vposForRow(i));
     }
     
-    updateTexture();
     return true;
 }
 
@@ -84,10 +82,10 @@ Console::print(const string& text)
 }
 
 void
-Console::replace(const string& text, const std::string& prefix)
+Console::replace(const string& text, const string& prefix)
 {
     
-    storage.back() = prefix + text.substr(0, numCols - prefix.length());
+    storage.back() = prefix + text.substr(0, numCols);
 }
 
 void
@@ -101,32 +99,31 @@ Console::list()
 }
 
 void
-Console::newline()
+Console::scrollToLine(int line)
 {
-    // Move the cursor
-    hpos = 0;
-    if (vpos < numRows - 1) {
-        vpos++;
-    } else {
-        scroll();
-    }
+    line = std::max(line, 0);
+    line = std::min(line, (int)storage.size() - 1);
+        
+    isDirty = line != first;
+    first = line;
 }
 
 void
-Console::scroll()
+Console::scrollToTop()
 {
-    // Scroll one line up (rotate the pointer array)
-    sf::Text *first = row[0];
-    for (int i = 0; i < numRows - 1; i++) {
-        row[i] = row[i + 1];
-    }
-    row[numRows - 1] = first;
+    scrollToLine(0);
+}
 
-    for (int i = 0; i < numRows; i++) {
-        row[i]->setPosition(hposForCol(0), vposForRow(i));
-    }
+void
+Console::scrollToBottom()
+{
+    scrollToLine((int)storage.size() - numRows);
+}
 
-    row[numRows - 1]->setString("");
+int
+Console::rowOfLastLine()
+{
+    return (int)storage.size() - first - 1;
 }
 
 void
@@ -142,19 +139,14 @@ Console::type(char c)
             
             // Execute the command
             application.interpreter.execute(input[index]);
-
-            // Move cursor
-            newline();
             
             // Add a new entry to the input buffer
             input.push_back("");
             index = (int)input.size() - 1;
-            
+            hpos = 0;
             
             // Print a new prompt
-            print("");
-            replace("");
-            list();
+            print(string(prompt));
             break;
             
         case '\b':
@@ -163,20 +155,19 @@ Console::type(char c)
                 input[index].erase(input[index].begin() + --hpos);
             }
             replace(input[index]);
-            list();
             break;
             
         default:
             
-            if (input[index].length() < numCols - promptWidth - 1) {
+            if (input[index].length() < numCols - (int)prompt.length() - 1) {
                 
                 input[index].insert(input[index].begin() + hpos++, c);
             }
             replace(input[index]);
-            list();
     }
-    
-    updateTexture();
+
+    scrollToBottom();
+    isDirty = true;
 }
 
 void
@@ -194,7 +185,6 @@ Console::keyPressed(sf::Keyboard::Key& key)
                 hpos = (int)input[index].size();
 
                 replace(input[index]);
-                list();
             }
             break;
 
@@ -206,7 +196,6 @@ Console::keyPressed(sf::Keyboard::Key& key)
                 hpos = (int)input[index].size();
                 
                 replace(input[index]);
-                list();
             }
             break;
             
@@ -241,8 +230,9 @@ Console::keyPressed(sf::Keyboard::Key& key)
         default:
             return;
     }
-
-    updateTexture();
+    
+    scrollToBottom();
+    isDirty = true;
 }
 
 void
@@ -272,11 +262,17 @@ Console::render(sf::RenderWindow &window)
         drawable.setFillColor(sf::Color(0xFF,0xFF,0xFF,alpha));
     }
     
+    // TODO: MOVE TO A resize() function
     auto winSize = window.getSize();
     sf::Vector2f size = { (float)winSize.x, (float)winSize.y };
     drawable.setSize(size);
     
     if (isVisible()) {
+        
+        if (isDirty) {
+            updateTexture();
+            isDirty = false;
+        }
         window.draw(drawable);
     }
 }
@@ -289,14 +285,19 @@ Console::updateTexture()
     // texture.clear(sf::Color(0x21,0x50,0x9F,0xD0));
     texture.clear(sf::Color(0x21,0x21,0x21,0xD0));
     
-    row[vpos]->setString("vAmiga\% " + input[index]);
     for (int i = 0; i < numRows; i++) {
-        texture.draw(*row[i]);
+        
+        if (first + i < storage.size()) {
+            row[i].setString(storage[first + i]);
+        } else {
+            row[i].setString(""); // std::to_string(first + i));
+        }
+        texture.draw(row[i]);
     }
     
     // Draw cursor
-    int cursorX = hposForCol(hpos + promptWidth);
-    int cursorY = vposForRow(vpos) + 3;
+    int cursorX = hposForCol(hpos + (int)prompt.length());
+    int cursorY = vposForRow(rowOfLastLine()) + 3;
     cursor.setPosition(cursorX, cursorY);
     texture.draw(cursor);
 }

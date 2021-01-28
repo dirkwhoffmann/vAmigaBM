@@ -19,7 +19,8 @@ enum class TextureID
 
 enum class FontID
 {
-    console
+    console,
+    logo
 };
 
 enum class ShaderID
