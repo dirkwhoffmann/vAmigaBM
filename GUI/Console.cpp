@@ -25,15 +25,15 @@ Console::init()
     sf::Font& font = Assets::get(FontID::console);
 
     // Initialize the text storage
-    print("Retro Shell v0.1, Dirk W. Hoffmann, 2021");
-    // print("");
-    print("Type 'help' for a list of available commands.");
-    print("");
-    print(string(prompt));
-    
+    storage.push_back("");
+
     // Initialize the input buffer
     input.push_back("");
-    
+
+    println("Retro Shell v0.1, Dirk W. Hoffmann, 2021");
+    println("Type 'help' for a list of available commands.");
+    print(string(prompt));
+        
     // Initialize the cursor
     glyphWidth = font.getGlyph(32, fontSize, false).advance;
     cursor.setSize(sf::Vector2f(glyphWidth + 2, fontSize + 3));
@@ -59,26 +59,48 @@ Console::init()
     return true;
 }
 
-void
-Console::print(const string& text)
+Console&
+Console::operator<<(char value)
 {
+    if (value == '\n') {
+
+        // Newline (appends an empty line)
+        storage.push_back("");
+
+    } else if (value == '\r') {
+
+        // Carriage return (clears the current line)
+        storage.back() = "";
+        
+    } else {
+        
+        // Add a single character
+        if (storage.back().length() >= numCols) storage.push_back("");
+        storage.back() += value;
+    }
+    
+    // Shorten the text storage if it has grown too large
+    if (storage.size() > 100) storage.erase(storage.begin());
+        
+    return *this;
+}
+
+Console&
+Console::operator<<(const std::string& text)
+{
+    size_t remaining = numCols - storage.back().length();
+    
     // Split the string if it is too large
-    if (text.length() > numCols) {
-        printf("split: '%s' '%s'\n",
-               text.substr(0, numCols).c_str(),text.substr(numCols).c_str());
-        print(text.substr(0, numCols));
-        print(text.substr(numCols));
-        return;
+    if (text.length() > remaining) {
+        *this << text.substr(0, remaining) << '\n' << text.substr(remaining);
+    } else {
+        storage.back() += text;
     }
+    
+    // Shorten the text storage if it has grown too large
+    if (storage.size() > 100) storage.erase(storage.begin());
 
-    // Add the string
-    printf("Adding string %s\n", text.c_str());
-    storage.push_back(text);
-
-    // Remove lines if the list grows too large
-    if (storage.size() > 100) {
-        storage.erase(storage.begin());
-    }
+    return *this;
 }
 
 void
@@ -135,7 +157,7 @@ Console::type(char c)
             
         case '\n':
 
-            printf("RETURN %s\n", input[index].c_str());
+            *this << '\n';
             
             // Execute the command
             application.interpreter.execute(input[index]);
@@ -146,7 +168,7 @@ Console::type(char c)
             hpos = 0;
             
             // Print a new prompt
-            print(string(prompt));
+            *this << string(prompt);
             break;
             
         case '\b':
@@ -154,7 +176,7 @@ Console::type(char c)
             if (hpos > 0) {
                 input[index].erase(input[index].begin() + --hpos);
             }
-            replace(input[index]);
+            *this << '\r' << string(prompt) << input[index];
             break;
             
         default:
@@ -163,7 +185,8 @@ Console::type(char c)
                 
                 input[index].insert(input[index].begin() + hpos++, c);
             }
-            replace(input[index]);
+
+            *this << '\r' << string(prompt) << input[index];
     }
 
     scrollToBottom();

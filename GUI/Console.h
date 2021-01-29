@@ -11,6 +11,7 @@
 
 #include <SFML/Graphics.hpp>
 #include <stack>
+#include <sstream>
 
 class Console {
     
@@ -125,10 +126,14 @@ public:
     //
     
 public:
-    
+        
     // Prints a message
-    void print(const std::string& text);
-    
+    Console& operator<<(char value);
+    Console& operator<<(const std::string& value);
+    void clear() { *this << '\r'; }
+    void print(const std::string& text) { *this << text; }
+    void println(const std::string& text) { *this << text << '\n'; }
+
     // Replaces the last line
     void replace(const std::string& text,
                  const std::string& prefix = std::string(prompt));

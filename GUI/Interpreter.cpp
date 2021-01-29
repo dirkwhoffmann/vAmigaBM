@@ -36,9 +36,9 @@ Interpreter::execute(const string& command)
         } else if (cmd == "help") {
            executeHelp(tokens);
         } else if (cmd == "joshua") {
-            app.console.print("GREETINGS PROFESSOR FALKEN");
+            app.console << "GREETINGS PROFESSOR FALKEN" << '\n';
         } else {
-            app.console.print("Unknown command");
+            app.console << "Unknown command" << '\n';
         }
     }
 }
@@ -46,17 +46,17 @@ Interpreter::execute(const string& command)
 void
 Interpreter::executeAgnus(const std::list<std::string> &argv)
 {
-    app.console.print("Agnus");
+    app.console << "Agnus" << '\n';
 }
 
 void
 Interpreter::executeAmiga(const std::list<std::string> &argv)
 {
-    app.console.print("Amiga");
+    app.console << "Amiga" << '\n';
 }
 
 void
 Interpreter::executeHelp(const std::list<std::string> &argv)
 {
-    app.console.print("Help me");
+    app.console << "Help" << '\n';
 }
