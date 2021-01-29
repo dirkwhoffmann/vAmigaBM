@@ -9,13 +9,15 @@
 
 #pragma once
 
+// #include <iostream>
+
+#include"Amiga.h"
+
 #include "Console.h"
 #include "Interpreter.h"
 #include "AssetManager.h"
 
 #include <SFML/Graphics.hpp>
-#include <iostream>
-#include <string>
 
 using std::string;
 
@@ -36,6 +38,15 @@ class Application
     
 public:
     
+    // The emulator instance
+    class Amiga amiga;
+    
+    // The current screen buffer
+    ScreenBuffer screenBuffer = { nullptr, false };
+    
+    // The emulator texture
+    sf::Texture emuTex;
+    
     // The debug console
     Console console;
  
@@ -47,6 +58,7 @@ public:
 
     // Render objects
     sf::RectangleShape background;
+    sf::RectangleShape foreground;
     sf::Texture logoTex;
     sf::Text info1;
     sf::Vertex rectangle[4] =

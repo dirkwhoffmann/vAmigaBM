@@ -8,6 +8,7 @@
 // -----------------------------------------------------------------------------
 
 #include "Application.h"
+#include "Amiga.h"
 
 Application::Application() : console(*this), interpreter(*this)
 {
@@ -20,16 +21,16 @@ Application::~Application()
 void
 Application::run()
 {
-    std::cout << "vAmigaSFML\n";
+    printf("vAmigaSFML\n");
 
     if (!sf::Shader::isAvailable()) {
         throw std::runtime_error("Sorry. No shader support\n");
     }
      
     window.create(sf::VideoMode(W,H), "My Window");
-    
-    // sf::RenderWindow window(sf::VideoMode(W,H), "My Window");
     window.setFramerateLimit(60);
+    
+    emuTex.create(HPIXELS, VPIXELS);
     
     logoTex = Assets::get(TextureID::logo);
     
@@ -50,18 +51,46 @@ Application::run()
     background.setSize(sf::Vector2f(logoWidth, logoHeight));
     background.setTexture(&logoTex);
     background.setPosition(0.17 * W, 0.125 * H);
+    
+    int x1 = HBLANK_CNT * 4 + 37; // Remove 100, add to texture update func
+    int x2 = HPOS_CNT * 4 + 37;
+    int y1 = VBLANK_CNT;
+    int y2 = VPOS_CNT;
+    foreground.setSize(sf::Vector2f(W,H));
+    foreground.setTexture(&emuTex);
+    foreground.setTextureRect(sf::IntRect(x1, y1, x2 - x1, y2 - y1));
 
     if (!console.init()) {
         printf("Can't initialize Console\n");
         exit(1);
     }
+    
+    ErrorCode ec;
+    try {
+
+        RomFile *rom = AmigaFile::make <RomFile> ("/tmp/kick13.rom");
+        amiga.mem.loadRom(rom);
+        amiga.configure(OPT_CHIP_RAM, 512);
+        amiga.denise.pixelEngine.setPalette(PALETTE_COLOR);
         
+    } catch (VAError &exception) {
+        printf("Can't find kickstart rom\n");
+    }
+
+    if (amiga.isReady(&ec)) {
+        amiga.run();
+    } else {
+        printf("Amiga can't run: %s\n", ErrorCodeEnum::key(ec));
+    }
+    
     while (window.isOpen()) {
         
         processEvents();
         update();
         render();
     }
+    
+    amiga.powerOff();
 }
 
 void
@@ -119,7 +148,13 @@ Application::processKeyEvents(const sf::Event& event)
 void
 Application::update()
 {
-    
+    ScreenBuffer current = amiga.denise.pixelEngine.getStableBuffer();
+    if (screenBuffer.data != current.data) {
+
+        screenBuffer = current;
+        
+        emuTex.update((u8 *)screenBuffer.data);
+    }
 }
 
 void
@@ -130,6 +165,8 @@ Application::render()
     window.draw(rectangle, 4, sf::Quads);
     window.draw(background);
     window.draw(info1);
+    
+    window.draw(foreground);
     
     console.render(window);
     
