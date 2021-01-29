@@ -11,6 +11,8 @@
 
 #include "Aliases.h"
 #include <stdio.h>
+#include <map>
+#include <string>
 
 #define assert_enum(e,v) assert(e##Enum::isValid(v))
 
@@ -18,7 +20,23 @@ template <class T, typename E> struct Reflection {
 
     // Returns the shortened key as a C string
     static const char *key(long nr) { return T::key((E)nr); }
-    
+
+    // Collects all key / value pairs
+    static std::map <std::string,long> pairs(long min = 1) {
+        
+        std::map <std::string,long> result;
+                
+        for (isize i = 0;; i++) {
+            if (T::isValid(i)) {
+                result.insert(std::make_pair(key(i), i));
+            } else {
+                if (i >= min) break;
+            }
+        }
+        
+        return result;
+    }
+
     // Verifies a key (used by the configuration methods)
     static bool verify(long nr, long min = 1) {
         
@@ -26,7 +44,14 @@ template <class T, typename E> struct Reflection {
         
         printf("ERROR: %ld doesn't specify a valid key.\nValid keys: ", nr);
         
-        for (long i = 0, j = 0 ;; i++) {
+        auto p = pairs(min);
+        for(auto it = std::begin(p); it != std::end(p); ++it) {
+            if (it != std::begin(p)) printf(", ");
+            if (T::prefix()) printf("%s_", T::prefix());
+            printf("%s", it->first.c_str());
+        }
+        /*
+        for (isize i = 0, j = 0 ;; i++) {
             
             if (T::isValid(i)) {
                 
@@ -36,7 +61,7 @@ template <class T, typename E> struct Reflection {
            
             } else if (i >= min) break;
         }
-        
+        */
         printf("\n");
         return false;
     }

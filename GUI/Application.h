@@ -9,10 +9,13 @@
 
 #pragma once
 
-// #include <iostream>
+#include <iostream>
+#include <string>
+#include <list>
 
 #include"Amiga.h"
 
+#include "Controller.h"
 #include "Console.h"
 #include "Interpreter.h"
 #include "AssetManager.h"
@@ -37,15 +40,15 @@ class Application
     //
     
 public:
-    
-    // The emulator instance
-    class Amiga amiga;
-    
+        
     // The current screen buffer
     ScreenBuffer screenBuffer = { nullptr, false };
     
     // The emulator texture
     sf::Texture emuTex;
+ 
+    // Gateway to the emulator
+    Controller controller;
     
     // The debug console
     Console console;

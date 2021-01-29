@@ -10,11 +10,12 @@
 #pragma once
 
 #include <string>
+#include <list>
 
 class Interpreter
 {
     // Reference to the associated application
-     class Application &application;
+     class Application &app;
     
     //
     // Initializing
@@ -22,7 +23,7 @@ class Interpreter
 
 public:
     
-    Interpreter(Application &ref) : application(ref) { };
+    Interpreter(Application &ref) : app(ref) { };
 
     
     //
@@ -30,4 +31,7 @@ public:
     //
     
     void execute(const std::string& command);    
+    void executeAgnus(const std::list<std::string> &argv);
+    void executeAmiga(const std::list<std::string> &argv);
+    void executeHelp(const std::list<std::string> &argv);
 };

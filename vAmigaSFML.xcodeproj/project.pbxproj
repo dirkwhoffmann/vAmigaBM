@@ -143,6 +143,7 @@
 		50AE11C025C42D6700AD13B7 /* FSRootBlock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50AE115825C42D6700AD13B7 /* FSRootBlock.cpp */; };
 		50AE11C125C42D6700AD13B7 /* FSDevice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50AE115A25C42D6700AD13B7 /* FSDevice.cpp */; };
 		50AE11C225C42D6700AD13B7 /* FSDataBlock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50AE115B25C42D6700AD13B7 /* FSDataBlock.cpp */; };
+		50AE11C525C44AAC00AD13B7 /* Controller.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50AE11C325C44AAC00AD13B7 /* Controller.cpp */; };
 		50CF561A25BFECA900B1AC0D /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50CF561925BFECA900B1AC0D /* main.cpp */; };
 		50E08E1D25C3102200B82E96 /* IBMPlexMono-Medium.ttf in CopyFiles */ = {isa = PBXBuildFile; fileRef = 50E08E1C25C3101C00B82E96 /* IBMPlexMono-Medium.ttf */; };
 		50E9337225C2188700F4958B /* Interpreter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50E9337025C2188700F4958B /* Interpreter.cpp */; };
@@ -467,6 +468,8 @@
 		50AE115A25C42D6700AD13B7 /* FSDevice.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FSDevice.cpp; sourceTree = "<group>"; };
 		50AE115B25C42D6700AD13B7 /* FSDataBlock.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FSDataBlock.cpp; sourceTree = "<group>"; };
 		50AE115C25C42D6700AD13B7 /* Amiga.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Amiga.h; sourceTree = "<group>"; };
+		50AE11C325C44AAC00AD13B7 /* Controller.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Controller.cpp; sourceTree = "<group>"; };
+		50AE11C425C44AAC00AD13B7 /* Controller.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Controller.h; sourceTree = "<group>"; };
 		50CF561625BFECA900B1AC0D /* vAmigaSFML */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = vAmigaSFML; sourceTree = BUILT_PRODUCTS_DIR; };
 		50CF561925BFECA900B1AC0D /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		50E08E1C25C3101C00B82E96 /* IBMPlexMono-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "IBMPlexMono-Medium.ttf"; sourceTree = "<group>"; };
@@ -1006,6 +1009,8 @@
 				50CF561925BFECA900B1AC0D /* main.cpp */,
 				50FD19B725C20102004E7388 /* Application.h */,
 				50FD19B625C20102004E7388 /* Application.cpp */,
+				50AE11C425C44AAC00AD13B7 /* Controller.h */,
+				50AE11C325C44AAC00AD13B7 /* Controller.cpp */,
 				50E9337125C2188700F4958B /* Interpreter.h */,
 				50E9337025C2188700F4958B /* Interpreter.cpp */,
 				505485E825C15C3B00892284 /* AssetManager.h */,
@@ -1195,6 +1200,7 @@
 				50AE11A025C42D6700AD13B7 /* DiskControllerRegisters.cpp in Sources */,
 				50AE117725C42D6700AD13B7 /* SlowBlitter.cpp in Sources */,
 				50AE117225C42D6700AD13B7 /* CopperEvents.cpp in Sources */,
+				50AE11C525C44AAC00AD13B7 /* Controller.cpp in Sources */,
 				50AE116D25C42D6700AD13B7 /* Concurrency.cpp in Sources */,
 				50AE11A925C42D6700AD13B7 /* StateMachineRegisters.cpp in Sources */,
 				50AE11BA25C42D6700AD13B7 /* FSUserDirBlock.cpp in Sources */,
