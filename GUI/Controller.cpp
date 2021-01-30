@@ -7,7 +7,7 @@
 // See https://www.gnu.org for license information
 // -----------------------------------------------------------------------------
 
-#include "Controller.h"
+#include "Application.h"
 
 extern "C" {
 void process(const void *ref, long id, long data)
@@ -16,9 +16,9 @@ void process(const void *ref, long id, long data)
 }
 }
 
-Controller::Controller()
+Controller::Controller(Application &ref) : app(ref), console(ref.console)
 {
-    
+    printf("Creating controller\n");
 }
 
 Controller::~Controller()
@@ -65,9 +65,17 @@ Controller::processMessage(long id, long data)
     switch (msg) {
             
         case MSG_POWER_ON:
+            break;
+            
         case MSG_POWER_OFF:
+            break;
+
         case MSG_RUN:
+            break;
+
         case MSG_PAUSE:
+            break;
+
         case MSG_RESET:
             break;
             

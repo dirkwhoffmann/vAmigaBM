@@ -12,6 +12,7 @@
 		5000933125C0CB4A00F01BEF /* logo.png in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5000932F25C0CB4500F01BEF /* logo.png */; };
 		505485E925C15C3B00892284 /* AssetManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 505485E725C15C3B00892284 /* AssetManager.cpp */; };
 		50658EE025C03EF800F7128D /* Console.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50658EDE25C03EF800F7128D /* Console.cpp */; };
+		5066F75425C55F75009199B6 /* ControllerExec.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5066F75325C55F75009199B6 /* ControllerExec.cpp */; };
 		5070133A25C0745D003B3420 /* DroidSansMono.ttf in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5070133625C0719B003B3420 /* DroidSansMono.ttf */; };
 		507F613025C1B3E0003D695F /* concrete.png in CopyFiles */ = {isa = PBXBuildFile; fileRef = 507F612F25C1B3A1003D695F /* concrete.png */; };
 		507F613525C1BE42003D695F /* blur.frag in CopyFiles */ = {isa = PBXBuildFile; fileRef = 507F613425C1BA52003D695F /* blur.frag */; };
@@ -200,6 +201,7 @@
 		505485E825C15C3B00892284 /* AssetManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AssetManager.h; sourceTree = "<group>"; };
 		50658EDE25C03EF800F7128D /* Console.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Console.cpp; sourceTree = "<group>"; };
 		50658EDF25C03EF800F7128D /* Console.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Console.h; sourceTree = "<group>"; };
+		5066F75325C55F75009199B6 /* ControllerExec.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ControllerExec.cpp; sourceTree = "<group>"; };
 		5070133625C0719B003B3420 /* DroidSansMono.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = DroidSansMono.ttf; sourceTree = "<group>"; };
 		507F612F25C1B3A1003D695F /* concrete.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = concrete.png; sourceTree = "<group>"; };
 		507F613425C1BA52003D695F /* blur.frag */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = blur.frag; sourceTree = "<group>"; };
@@ -1011,6 +1013,7 @@
 				50FD19B625C20102004E7388 /* Application.cpp */,
 				50AE11C425C44AAC00AD13B7 /* Controller.h */,
 				50AE11C325C44AAC00AD13B7 /* Controller.cpp */,
+				5066F75325C55F75009199B6 /* ControllerExec.cpp */,
 				50E9337125C2188700F4958B /* Interpreter.h */,
 				50E9337025C2188700F4958B /* Interpreter.cpp */,
 				50658EDF25C03EF800F7128D /* Console.h */,
@@ -1155,6 +1158,7 @@
 				50AE11A625C42D6700AD13B7 /* AudioStream.cpp in Sources */,
 				50AE116B25C42D6700AD13B7 /* AmigaConstants.cpp in Sources */,
 				50AE119125C42D6700AD13B7 /* Keyboard.cpp in Sources */,
+				5066F75425C55F75009199B6 /* ControllerExec.cpp in Sources */,
 				50AE117B25C42D6700AD13B7 /* AgnusDma.cpp in Sources */,
 				50AE117A25C42D6700AD13B7 /* Agnus.cpp in Sources */,
 				50AE119025C42D6700AD13B7 /* Mouse.cpp in Sources */,

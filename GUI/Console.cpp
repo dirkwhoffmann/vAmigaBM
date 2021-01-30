@@ -160,7 +160,7 @@ Console::type(char c)
             *this << '\n';
             
             // Execute the command
-            application.interpreter.execute(input[index]);
+            application.interpreter.exec(input[index]);
             
             // Add a new entry to the input buffer
             input.push_back("");

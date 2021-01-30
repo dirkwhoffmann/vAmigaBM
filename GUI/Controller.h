@@ -10,10 +10,14 @@
 #pragma once
 
 #include "Amiga.h"
+#include "Interpreter.h"
 
 class Controller
 {
-    
+    // Reference to other components
+    class Application &app;
+    class Console &console;
+
 public:
     
     // The emulator instance
@@ -26,7 +30,7 @@ public:
     
 public:
     
-    Controller();
+    Controller(Application &ref);
     ~Controller();
     
     // Creates the emulator instance
@@ -41,4 +45,15 @@ public:
     //
     
     void processMessage(long id, long data);
+    
+    
+    //
+    // Executing commands
+    //
+    
+    void exec(const std::string& command);
+    
+    template <Command cmd> void exec(Arguments& argv);
+    template <Component cmp, Command cmd> void exec(Arguments& argv);
+    template <Component cmp, Command cmd> void exec(Arguments& argv, int n);
 };

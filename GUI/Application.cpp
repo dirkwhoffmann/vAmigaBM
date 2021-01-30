@@ -10,7 +10,7 @@
 #include "Application.h"
 #include "Amiga.h"
 
-Application::Application() : console(*this), interpreter(*this)
+Application::Application() : console(*this), controller(*this), interpreter(*this)
 {
 }
 
