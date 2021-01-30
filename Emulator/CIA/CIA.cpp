@@ -70,8 +70,9 @@ CIA::setConfigItem(Option option, long value)
             
         case OPT_CIA_REVISION:
             
-            if (!CIARevisionEnum::verify(value)) return false;
-            
+            if (!CIARevisionEnum::isValid(value)) {
+                throw ConfigArgError(CIARevisionEnum::keyList());
+            }
             if (config.revision == value) {
                 return false;
             }

@@ -67,7 +67,9 @@ Denise::setConfigItem(Option option, long value)
             
         case OPT_DENISE_REVISION:
             
-            if (!DeniseRevisionEnum::verify(value)) return false;
+            if (!DeniseRevisionEnum::isValid(value)) {
+                throw ConfigArgError(DeniseRevisionEnum::keyList());
+            }
             if (config.revision == value) {
                 return false;
             }

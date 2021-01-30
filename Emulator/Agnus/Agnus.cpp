@@ -95,8 +95,9 @@ Agnus::setConfigItem(Option option, long value)
             warn("Overriding Agnus revision: %ld\n", value);
             #endif
             
-            if (!AgnusRevisionEnum::verify(value)) return false; 
-            
+            if (!AgnusRevisionEnum::isValid(value)) {
+                throw ConfigArgError(AgnusRevisionEnum::keyList());
+            }            
             if (config.revision == value) {
                 return false;
             }

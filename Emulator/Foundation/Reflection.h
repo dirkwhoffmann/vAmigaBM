@@ -37,8 +37,22 @@ template <class T, typename E> struct Reflection {
         return result;
     }
 
+    static std::string keyList(bool prefix = false) {
+        
+        std::string result;
+        
+        auto p = pairs();
+        for(auto it = std::begin(p); it != std::end(p); ++it) {
+            if (it != std::begin(p)) result += ", ";
+            if (prefix && T::prefix()) result += T::prefix();
+            result += it->first;
+        }
+        
+        return result;
+    }
+    
     // Verifies a key (used by the configuration methods)
-    static bool verify(long nr, long min = 1) {
+    [[deprecated]] static bool verify(long nr, long min = 1) {
         
         if (T::isValid(nr)) return true;
         
@@ -50,18 +64,7 @@ template <class T, typename E> struct Reflection {
             if (T::prefix()) printf("%s_", T::prefix());
             printf("%s", it->first.c_str());
         }
-        /*
-        for (isize i = 0, j = 0 ;; i++) {
-            
-            if (T::isValid(i)) {
-                
-                if (j++) printf(", ");
-                if (T::prefix()) printf("%s_", T::prefix());
-                printf("%s", key(i));
-           
-            } else if (i >= min) break;
-        }
-        */
+ 
         printf("\n");
         return false;
     }

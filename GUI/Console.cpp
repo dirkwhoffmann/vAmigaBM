@@ -303,9 +303,6 @@ Console::render(sf::RenderWindow &window)
 void
 Console::updateTexture()
 {
-    printf("Update texture (%s)\n", input[index].c_str());
-    
-    // texture.clear(sf::Color(0x21,0x50,0x9F,0xD0));
     texture.clear(sf::Color(0x21,0x21,0x21,0xD0));
     
     for (int i = 0; i < numRows; i++) {

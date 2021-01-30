@@ -133,6 +133,7 @@ public:
     void clear() { *this << '\r'; }
     void print(const std::string& text) { *this << text; }
     void println(const std::string& text) { *this << text << '\n'; }
+    void println() { *this << '\n'; }
 
     // Replaces the last line
     void replace(const std::string& text,

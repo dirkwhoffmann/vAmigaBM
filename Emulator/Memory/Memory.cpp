@@ -147,8 +147,12 @@ Memory::setConfigItem(Option option, long value)
             
         case OPT_BANKMAP:
             
-            if (!BankMapEnum::verify(value)) return false;
-            if (config.bankMap == value) return false;
+            if (!BankMapEnum::isValid(value)) {
+                throw ConfigArgError(BankMapEnum::keyList());
+            }
+            if (config.bankMap == value) {
+                return false;
+            }
             
             amiga.suspend();
             config.bankMap = (BankMap)value;
@@ -158,8 +162,12 @@ Memory::setConfigItem(Option option, long value)
 
         case OPT_UNMAPPING_TYPE:
             
-            if (!UnmappedMemoryEnum::verify(value)) return false;
-            if (config.unmappingType == value) return false;
+            if (!UnmappedMemoryEnum::isValid(value)) {
+                throw ConfigArgError(UnmappedMemoryEnum::keyList());
+            }
+            if (config.unmappingType == value) {
+                return false;
+            }
             
             amiga.suspend();
             config.unmappingType = (UnmappedMemory)value;
@@ -168,8 +176,12 @@ Memory::setConfigItem(Option option, long value)
             
         case OPT_RAM_INIT_PATTERN:
             
-            if (!RamInitPatternEnum::verify(value)) return false;
-            if (config.ramInitPattern == value) return false;
+            if (!RamInitPatternEnum::isValid(value)) {
+                throw ConfigArgError(RamInitPatternEnum::keyList());
+            }
+            if (config.ramInitPattern == value) {
+                return false;
+            }
 
             amiga.suspend();
             config.ramInitPattern = (RamInitPattern)value;

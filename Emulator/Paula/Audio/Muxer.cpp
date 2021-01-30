@@ -113,8 +113,9 @@ Muxer::setConfigItem(Option option, long value)
             
         case OPT_SAMPLING_METHOD:
             
-            if (!SamplingMethodEnum::verify(value)) return false;
-
+            if (!SamplingMethodEnum::isValid(value)) {
+                throw ConfigArgError(SamplingMethodEnum::keyList());
+            }
             if (config.samplingMethod == value) {
                 return false;
             }
@@ -124,8 +125,9 @@ Muxer::setConfigItem(Option option, long value)
             
         case OPT_FILTER_TYPE:
             
-            if (!FilterTypeEnum::verify(value)) return false;
-
+            if (!FilterTypeEnum::isValid(value)) {
+                throw ConfigArgError(FilterTypeEnum::keyList());
+            }
             if (config.filterType == value) {
                 return false;
             }

@@ -38,8 +38,12 @@ RTC::setConfigItem(Option option, long value)
             warn("Overriding RTC revision: %ld KB\n", value);
             #endif
             
-            if (!RTCRevisionEnum::verify(value)) return false;
-            if (config.model == value) return false;
+            if (!RTCRevisionEnum::isValid(value)) {
+                throw ConfigArgError(RTCRevisionEnum::keyList());
+            }
+            if (config.model == value) {
+                return false;
+            }
             
             config.model = (RTCRevision)value;
             mem.updateMemSrcTables();

@@ -21,3 +21,20 @@ struct VAError : public std::exception
         return  ErrorCodeEnum::key(errorCode);
     }
 };
+
+struct ConfigError : public std::exception
+{
+    std::string description;
+    
+    ConfigError(const std::string &s) : description(s) { }
+    
+    const char *what() const throw() override {
+
+        return  description.c_str();
+    }
+};
+
+struct ConfigArgError : ConfigError {
+    
+    ConfigArgError(const std::string &s) : ConfigError(s) { }; 
+};
