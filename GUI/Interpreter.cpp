@@ -12,8 +12,45 @@
 
 Interpreter::Interpreter(Application &ref) : app(ref), controller(ref.controller)
 {
+    registerInstr("amiga", "help", "",
+                  "Print command instructions",
+                  &Controller::exec <Component::amiga, Command::help>);
+    
+    registerInstr("amiga", "inspect", "",
+                  "Display the internal state",
+                  &Controller::exec <Component::amiga, Command::inspect>);
+
+    registerInstr("amiga", "on", "",
+                  "Turn the Amiga on",
+                  &Controller::exec <Component::amiga, Command::on>);
+
+    registerInstr("amiga", "off", "",
+                  "Turn the Amiga off",
+                  &Controller::exec <Component::amiga, Command::off>);
+
+    registerInstr("amiga", "reset", "",
+                  "Reset the emulator thread",
+                  &Controller::exec <Component::amiga, Command::reset>);
+
+    registerInstr("amiga", "run", "",
+                  "Start the emulator thread",
+                  &Controller::exec <Component::amiga, Command::run>);
+
+    registerInstr("amiga", "pause", "",
+                  "Halt the emulator thread",
+                  &Controller::exec <Component::amiga, Command::pause>);
 };
 
+void
+Interpreter::registerInstr(const std::string &token1, const std::string &token2,
+                           const std::string &args, const std::string &help,
+                           void (Controller::*func)(Arguments&))
+{
+    descriptors.push_back(CommandDescriptor { token1, token2, args, help, func });
+}
+
+
+/*
 bool
 Interpreter::matches(const std::string& s1, const std::string& s2)
 {
@@ -31,6 +68,8 @@ Interpreter::matches(const std::list<string>& argv, const std::string& s)
 {
     return argv.empty() ? false : matches(argv.front(), s);
 }
+*/
+
 
 string
 Interpreter::lowercased(const std::string& s)
@@ -40,6 +79,7 @@ Interpreter::lowercased(const std::string& s)
     return result;
 }
 
+/*
 string
 Interpreter::pop(Arguments& argv)
 {
@@ -49,6 +89,7 @@ Interpreter::pop(Arguments& argv)
     argv.pop_front();
     return result;
 }
+*/
 
 void
 Interpreter::print(const string& s)
@@ -78,8 +119,8 @@ Interpreter::exec <Component::amiga> (Arguments& argv)
         controller.exec <Component::amiga, Command::pause> (argv);
         return;
     }
-    if (cmd == "power") {
-        controller.exec <Component::amiga, Command::power> (argv);
+    if (cmd == "on") {
+        controller.exec <Component::amiga, Command::on> (argv);
         return;
     }
     if (cmd == "reset") {
@@ -132,20 +173,44 @@ Interpreter::exec <Component::rtc> (Arguments& argv)
     if (argv.empty()) throw TooFewArgumentsError();
 }
 
+void
+Interpreter::exec(const string& userInput)
+{
+    std::list<string> tokens;
+    string token1, token2;
+
+    // Split the command string
+    std::stringstream ss(userInput);
+    std::string token;
+    while (std::getline(ss, token, ' ')) tokens.push_back(lowercased(token));
+ 
+    // Pop the first two tokens
+    if (!tokens.empty()) { token1 = tokens.front(); tokens.pop_front(); }
+    if (!tokens.empty()) { token2 = tokens.front(); tokens.pop_front(); }
+    
+    // Try to find a match in the instruction descriptor list
+    bool token1Found = false;
+    for (auto& it: descriptors) {
+        
+        if (it.token1 == token1) {
+            
+            token1Found = true;
+            if (it.token2 == token2) {
+                
+                // Execute the instruction handler
+                (controller.*(it.func))(tokens);
+                return;
+            }
+        }
+    }
+                
+    // Sytax error. Print an appropriate help message
+    token1Found ? help(token1) : help();
+}
 
 /*
-template <> void
-Interpreter::exec <Command::help> (Arguments& argv)
-{
-    if (argv.empty()) {
-        controller.exec <Command::help> (argv);
-        return;
-    }
-}
-*/
-
 void
-Interpreter::exec(const string& command)
+Interpreter::exec(const string& userInput)
 {
     std::list<string> tokens;
     
@@ -195,4 +260,78 @@ Interpreter::exec(const string& command)
     } catch (ConfigError &err) {
         app.console << "Invalid argument. Expected: " << err.what() << '\n';
     }
+}
+*/
+
+void
+Interpreter::help()
+{
+    std::vector <const std::string> items;
+    
+    // Extract all available components
+    for (auto& it: descriptors) {
+        if(std::find(items.begin(), items.end(), it.token1) == items.end()) {
+            items.push_back(it.token1);
+        }
+    }
+    
+    app.console << "Syntax: <component> <command> [ <arguments> ]" << '\n';
+    app.console << "        <component> ::= ";
+
+    int size = (int)items.size();
+    for (int i = 0; i < size; i++) {
+        app.console.tab(24);
+        app.console << items[i].c_str();
+        if (i < size - 1) app.console << " |";
+        app.console << '\n';
+    }
+
+    app.console << '\n';
+    app.console << "Type '<component> help' for more details." << '\n';
+}
+
+void
+Interpreter::help(const string& component)
+{
+    std::vector <string> items;
+    std::vector <string> args;
+    std::vector <string> help;
+
+    // Extract all available commands for this component
+    for (auto& it: descriptors) {
+        if(std::find(items.begin(), items.end(), it.token2) == items.end()) {
+            items.push_back(it.token2);
+            args.push_back(it.args);
+            help.push_back(it.help);
+        }
+    }
+    int size = (int)items.size();
+    
+    // Determine horizontal tabular positions to align the output
+    int tab1 = 12;
+    int tab2 = 0;
+    for (int i = 0; i < items.size(); i++) {
+        tab2 = std::max(tab2, (int)(items[i].length() + args[i].length()));
+    }
+    tab2 += tab1;
+    
+    app.console << "Syntax: " << component << " <command> [ <arguments> ]" << '\n';
+    app.console << '\n';
+    app.console.tab(tab2 - 9);
+    // app.console << "<command> : One out of the following " << size << " commands" << '\n' << '\n';
+    app.console << "<command> :" << " Description" << '\n' << '\n';
+
+    for (int i = 0; i < size; i++) {
+        // app.console.tab(tab1);
+        app.console.tab(tab2 - (int)(items[i].length() + args[i].length()));
+        app.console << items[i].c_str();
+        app.console << " " << args[i].c_str();
+        app.console.tab(tab2);
+        app.console << ": ";
+        app.console << help[i].c_str();
+        app.console << '\n';
+    }
+
+    app.console << '\n';
+    app.console << "Type '<component> help' for more details." << '\n';
 }

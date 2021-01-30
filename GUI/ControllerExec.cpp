@@ -45,25 +45,21 @@ Controller::exec <Component::agnus, Command::help> (Arguments& argv)
 }
 
 template <> void
-Controller::exec <Component::amiga, Command::power> (Arguments &argv)
+Controller::exec <Component::amiga, Command::on> (Arguments &argv)
 {
-    if (argv.empty()) throw TooFewArgumentsError();
+    if (!argv.empty()) throw TooManyArgumentsError();
 
-    string &cmd = argv.front();
-    argv.pop_front();
-    
-    if (cmd == "on") {
-        console.println("PowerOn");
-        app.controller.amiga.powerOn();
-        return;
-    }
-    if (cmd == "off") {
-        console.println("PowerOff");
-        app.controller.amiga.powerOn();
-        return;
-    }
-    
-    throw UnknownCommandError(cmd);
+    printf("Turn on\n");
+    app.controller.amiga.powerOn();
+}
+
+template <> void
+Controller::exec <Component::amiga, Command::off> (Arguments &argv)
+{
+    if (!argv.empty()) throw TooManyArgumentsError();
+
+    printf("Turn off\n");
+    app.controller.amiga.powerOff();
 }
 
 template <> void
@@ -71,6 +67,7 @@ Controller::exec <Component::amiga, Command::run> (Arguments &argv)
 {
     if (!argv.empty()) throw TooManyArgumentsError();
     
+    printf("Run\n");
     app.controller.amiga.run();
 }
 
@@ -79,6 +76,7 @@ Controller::exec <Component::amiga, Command::pause> (Arguments &argv)
 {
     if (!argv.empty()) throw TooManyArgumentsError();
     
+    printf("Pause\n");
     app.controller.amiga.pause();
 }
 
@@ -87,8 +85,16 @@ Controller::exec <Component::amiga, Command::reset> (Arguments &argv)
 {
     if (!argv.empty()) throw TooManyArgumentsError();
     
+    printf("Reset\n");
     app.controller.amiga.reset(true);
 }
+
+template <> void
+Controller::exec <Component::amiga, Command::inspect> (Arguments &argv)
+{
+    if (!argv.empty()) throw TooManyArgumentsError();
+}
+
 
     
 /*

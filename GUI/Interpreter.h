@@ -12,6 +12,8 @@
 #include <string>
 #include <list>
 
+class Controller;
+
 typedef std::list<std::string> Arguments;
 
 struct ParseError : public std::exception
@@ -38,6 +40,12 @@ struct TooManyArgumentsError : public ParseError {
     TooManyArgumentsError() : ParseError() { }
 };
 
+struct CommandDescriptor {
+
+    string token1, token2, args, help;
+    void (Controller::*func)(Arguments&);
+};
+
 enum class Component
 {
     agnus,
@@ -58,7 +66,6 @@ enum class Command
     on,
     off,
     pause,
-    power,
     reset,
     run,
     set
@@ -69,6 +76,9 @@ class Interpreter
     // Reference to other components
     class Application &app;
     class Controller &controller;
+    
+    // Descriptor lookup table for all supported instructions
+    std::vector<CommandDescriptor> descriptors;
     
     
     //
@@ -81,13 +91,22 @@ public:
 
     
     //
+    // Managing the instruction descriptor list
+    //
+    
+    void registerInstr(const std::string &token1, const std::string &token2,
+                       const std::string &args, const std::string &help,
+                       void (Controller::*func)(Arguments&));
+    
+    
+    //
     // Parsing input
     //
     
-    [[deprecated]] bool matches(const std::string& s1, std::string const& s2);
-    [[deprecated]] bool matches(const std::list<string>& argv, const std::string& s);
+    // [[deprecated]] bool matches(const std::string& s1, std::string const& s2);
+    // [[deprecated]] bool matches(const std::list<string>& argv, const std::string& s);
     string lowercased(const std::string& s);
-    [[deprecated]] string pop(Arguments& argv);
+    // [[deprecated]] string pop(Arguments& argv);
     
     
     //
@@ -102,7 +121,11 @@ public:
     // Executing commands
     //
     
-    void exec(const std::string& command);
+    void exec(const std::string& userInput);
+    
+    void help();
+    void help(const string& component);
+    
     
     template <Component cmp> void exec(Arguments& argv);
     template <Component cmp> void exec(Arguments& argv, int n);

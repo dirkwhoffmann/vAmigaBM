@@ -130,6 +130,8 @@ public:
     // Prints a message
     Console& operator<<(char value);
     Console& operator<<(const std::string& value);
+    Console& operator<<(int value);
+    void tab(int hpos);
     void clear() { *this << '\r'; }
     void print(const std::string& text) { *this << text; }
     void println(const std::string& text) { *this << text << '\n'; }

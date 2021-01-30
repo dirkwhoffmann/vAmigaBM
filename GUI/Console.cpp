@@ -103,6 +103,23 @@ Console::operator<<(const std::string& text)
     return *this;
 }
 
+Console&
+Console::operator<<(int value)
+{
+    *this << std::to_string(value);
+    return *this;
+}
+
+void
+Console::tab(int hpos)
+{
+    int delta = hpos - (int)storage.back().length();
+    for (int i = 0; i < delta; i++) {
+        *this << ' ';
+    }
+}
+
+
 void
 Console::replace(const string& text, const string& prefix)
 {
