@@ -12,6 +12,31 @@
 
 Interpreter::Interpreter(Application &ref) : app(ref), controller(ref.controller)
 {
+    CmdDescriptor agnusSet =
+    CmdDescriptor("set", "<key>", "<value>",
+                  "Configure the component",
+                  nullptr);
+    agnusSet.args.push_back(CmdDescriptor("model", "<model>", "",
+                                          "Set the chip revision",
+                                          &Controller::exec <Component::amiga, Command::help>));
+    agnusSet.args.push_back(CmdDescriptor("test", "<foo>", "",
+                                          "Set something",
+                                          &Controller::exec <Component::amiga, Command::help>));
+    agnusSet.args.push_back(CmdDescriptor("other", "<foo>", "",
+                                          "Set another thing",
+                                          &Controller::exec <Component::amiga, Command::help>));
+    
+    CmdDescriptor agnus = CmdDescriptor("agnus", "<command>", "[<arguments>]",
+                                        "Bus scheduling, Frame control",
+                                        nullptr);
+    agnus.args.push_back(agnusSet);
+    
+    root = CmdDescriptor("", "<component>", "<command> [<arguments>]",
+                         "",
+                         nullptr);
+    root.args.push_back(agnus);
+    
+    
     registerInstr("amiga", "help", "",
                   "Print command instructions",
                   &Controller::exec <Component::amiga, Command::help>);
@@ -49,7 +74,6 @@ Interpreter::registerInstr(const std::string &token1, const std::string &token2,
     descriptors.push_back(CommandDescriptor { token1, token2, args, help, func });
 }
 
-
 /*
 bool
 Interpreter::matches(const std::string& s1, const std::string& s2)
@@ -78,18 +102,6 @@ Interpreter::lowercased(const std::string& s)
     for (auto c : s) { result += tolower(c); } // .push_back(c); }
     return result;
 }
-
-/*
-string
-Interpreter::pop(Arguments& argv)
-{
-    if (argv.empty()) return "";
-    
-    string result = argv.front();
-    argv.pop_front();
-    return result;
-}
-*/
 
 void
 Interpreter::print(const string& s)
@@ -173,95 +185,79 @@ Interpreter::exec <Component::rtc> (Arguments& argv)
     if (argv.empty()) throw TooFewArgumentsError();
 }
 
+CmdDescriptor *
+CmdDescriptor::searchToken(const string& token)
+{
+    for (auto& it : args) {
+        if (it.name == token) return &it;
+    }
+    return nullptr;
+}
+
 void
 Interpreter::exec(const string& userInput)
 {
     std::list<string> tokens;
-    string token1, token2;
-
+    
     // Split the command string
     std::stringstream ss(userInput);
+    std::string prefix;
     std::string token;
     while (std::getline(ss, token, ' ')) tokens.push_back(lowercased(token));
- 
-    // Pop the first two tokens
-    if (!tokens.empty()) { token1 = tokens.front(); tokens.pop_front(); }
-    if (!tokens.empty()) { token2 = tokens.front(); tokens.pop_front(); }
-    
-    // Try to find a match in the instruction descriptor list
-    bool token1Found = false;
-    for (auto& it: descriptors) {
-        
-        if (it.token1 == token1) {
-            
-            token1Found = true;
-            if (it.token2 == token2) {
-                
-                // Execute the instruction handler
-                (controller.*(it.func))(tokens);
-                return;
-            }
-        }
-    }
-                
-    // Sytax error. Print an appropriate help message
-    token1Found ? help(token1) : help();
-}
-
-/*
-void
-Interpreter::exec(const string& userInput)
-{
-    std::list<string> tokens;
-    
-    // Split the command string
-    std::stringstream ss(command);
-    std::string token;
-    while (std::getline(ss, token, ' ')) tokens.push_back(lowercased(token));
- 
-    // Only proceed if there is somethig to evaluate
     if (tokens.empty()) return;
+    
+    CmdDescriptor *current = &root;
+    
+    while (!tokens.empty() && current) {
+        
+        printf("current->name = %s\n", current->name.c_str());
+        
+        // Extract token
+        token = tokens.front();
 
-    // Call the appropriate command handler
-    try {
+        // Search token
+        CmdDescriptor *next = current->searchToken(token);
+        if (next == nullptr) break;
         
-        string &cmd = tokens.front();
+        prefix += token + " ";
+        current = next;
         tokens.pop_front();
-        
-        if (cmd == "amiga") {
-            exec <Component::amiga> (tokens);
-        } else if (cmd == "agnus") {
-            exec <Component::agnus> (tokens);
-        } else if (cmd == "df0") {
-            exec <Component::dfn> (tokens, 0);
-        } else if (cmd == "df1") {
-            exec <Component::dfn> (tokens, 1);
-        } else if (cmd == "df2") {
-            exec <Component::dfn> (tokens, 2);
-        } else if (cmd == "df3") {
-            exec <Component::dfn> (tokens, 3);
-        } else if (cmd == "help") {
-           controller.exec <Command::help> (tokens);
-        } else if (cmd == "rtc") {
-            exec <Component::rtc> (tokens);
-        } else if (cmd == "joshua") {
-            exec <Component::easterEgg> (tokens);
-        } else {
-            // app.console << "Syntax error: " << cmd << '\n';
-            exec("help");
-        }
-        
-    } catch (UnknownCommandError &err) {
-        app.console << "Unknown command: " << err.what() << '\n';
-        exec(tokens.front() + " help");
-    } catch (TooFewArgumentsError &err) {
-        app.console << "Too few arguments" << '\n';
-        exec(tokens.front() + " help");
-    } catch (ConfigError &err) {
-        app.console << "Invalid argument. Expected: " << err.what() << '\n';
     }
+
+    // Check if a command handler is present
+    if (current->func) {
+        printf("Command handler found. Call it...\n");
+        (controller.*(current->func))(tokens);
+        return;
+    }
+    
+    //
+    // Syntax error
+    //
+    
+    // Determine horizontal tabular positions to align the output
+    int tab = (int)current->arg1.length();
+    for (auto &it : current->args) {
+        tab = std::max(tab, (int)it.name.length());
+    }
+    tab += 8;
+    
+    app.console << "Syntax: ";
+    app.console << prefix << current->arg1 << ' ' << current->arg2 << '\n' << '\n';
+    
+    app.console.tab(tab - (int)current->arg1.length());
+    app.console << current->arg1 << " : ";
+    app.console << (int)current->args.size() << " options" << '\n' << '\n';
+    
+    for (auto &it : current->args) {
+        app.console.tab(tab - (int)it.name.length());
+        app.console << it.name;
+        app.console << " : ";
+        app.console << it.info;
+        app.console << '\n';
+    }
+    app.console << '\n';
 }
-*/
 
 void
 Interpreter::help()

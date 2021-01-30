@@ -40,6 +40,25 @@ struct TooManyArgumentsError : public ParseError {
     TooManyArgumentsError() : ParseError() { }
 };
 
+struct CmdDescriptor {
+    
+    string name;
+    string arg1;
+    string arg2;
+    string info; 
+    std::vector<CmdDescriptor> args;
+    void (Controller::*func)(Arguments&);
+    
+    CmdDescriptor(const string &_name,
+                  const string &_arg1,
+                  const string &_arg2,
+                  const string &_info,
+                  void (Controller::*_func)(Arguments&)) :
+    name(_name), arg1(_arg1), arg2(_arg2), info(_info), func(_func) { };
+    
+    CmdDescriptor *searchToken(const string& token);
+};
+
 struct CommandDescriptor {
 
     string token1, token2, args, help;
@@ -79,7 +98,10 @@ class Interpreter
     
     // Descriptor lookup table for all supported instructions
     std::vector<CommandDescriptor> descriptors;
-    
+
+    // std::vector<CmdDescriptor> cmdDescriptors;
+    CmdDescriptor root = CmdDescriptor("", "<component>", "<command> [<arguments>]",
+                                       "", nullptr);
     
     //
     // Initializing
