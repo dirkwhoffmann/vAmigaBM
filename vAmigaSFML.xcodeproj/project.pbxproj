@@ -12,7 +12,7 @@
 		5000933125C0CB4A00F01BEF /* logo.png in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5000932F25C0CB4500F01BEF /* logo.png */; };
 		505485E925C15C3B00892284 /* AssetManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 505485E725C15C3B00892284 /* AssetManager.cpp */; };
 		50658EE025C03EF800F7128D /* Console.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50658EDE25C03EF800F7128D /* Console.cpp */; };
-		5066F75425C55F75009199B6 /* ControllerExec.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5066F75325C55F75009199B6 /* ControllerExec.cpp */; };
+		5066F75425C55F75009199B6 /* ControllerCmds.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5066F75325C55F75009199B6 /* ControllerCmds.cpp */; };
 		5070133A25C0745D003B3420 /* DroidSansMono.ttf in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5070133625C0719B003B3420 /* DroidSansMono.ttf */; };
 		507F613025C1B3E0003D695F /* concrete.png in CopyFiles */ = {isa = PBXBuildFile; fileRef = 507F612F25C1B3A1003D695F /* concrete.png */; };
 		507F613525C1BE42003D695F /* blur.frag in CopyFiles */ = {isa = PBXBuildFile; fileRef = 507F613425C1BA52003D695F /* blur.frag */; };
@@ -147,6 +147,7 @@
 		50AE11C525C44AAC00AD13B7 /* Controller.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50AE11C325C44AAC00AD13B7 /* Controller.cpp */; };
 		50CF561A25BFECA900B1AC0D /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50CF561925BFECA900B1AC0D /* main.cpp */; };
 		50E08E1D25C3102200B82E96 /* IBMPlexMono-Medium.ttf in CopyFiles */ = {isa = PBXBuildFile; fileRef = 50E08E1C25C3101C00B82E96 /* IBMPlexMono-Medium.ttf */; };
+		50E4DD5525C6B180001F6432 /* InterpreterCmds.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50E4DD5425C6B180001F6432 /* InterpreterCmds.cpp */; };
 		50E9337225C2188700F4958B /* Interpreter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50E9337025C2188700F4958B /* Interpreter.cpp */; };
 		50FD19B825C20102004E7388 /* Application.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50FD19B625C20102004E7388 /* Application.cpp */; };
 /* End PBXBuildFile section */
@@ -201,7 +202,7 @@
 		505485E825C15C3B00892284 /* AssetManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AssetManager.h; sourceTree = "<group>"; };
 		50658EDE25C03EF800F7128D /* Console.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Console.cpp; sourceTree = "<group>"; };
 		50658EDF25C03EF800F7128D /* Console.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Console.h; sourceTree = "<group>"; };
-		5066F75325C55F75009199B6 /* ControllerExec.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ControllerExec.cpp; sourceTree = "<group>"; };
+		5066F75325C55F75009199B6 /* ControllerCmds.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ControllerCmds.cpp; sourceTree = "<group>"; };
 		5070133625C0719B003B3420 /* DroidSansMono.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = DroidSansMono.ttf; sourceTree = "<group>"; };
 		507F612F25C1B3A1003D695F /* concrete.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = concrete.png; sourceTree = "<group>"; };
 		507F613425C1BA52003D695F /* blur.frag */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = blur.frag; sourceTree = "<group>"; };
@@ -475,6 +476,7 @@
 		50CF561625BFECA900B1AC0D /* vAmigaSFML */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = vAmigaSFML; sourceTree = BUILT_PRODUCTS_DIR; };
 		50CF561925BFECA900B1AC0D /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		50E08E1C25C3101C00B82E96 /* IBMPlexMono-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "IBMPlexMono-Medium.ttf"; sourceTree = "<group>"; };
+		50E4DD5425C6B180001F6432 /* InterpreterCmds.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = InterpreterCmds.cpp; sourceTree = "<group>"; };
 		50E9337025C2188700F4958B /* Interpreter.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Interpreter.cpp; sourceTree = "<group>"; };
 		50E9337125C2188700F4958B /* Interpreter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Interpreter.h; sourceTree = "<group>"; };
 		50FD19B625C20102004E7388 /* Application.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Application.cpp; sourceTree = "<group>"; };
@@ -601,11 +603,11 @@
 		50AE105B25C42D6500AD13B7 /* CPU */ = {
 			isa = PBXGroup;
 			children = (
-				50AE105C25C42D6500AD13B7 /* CPU.h */,
 				50AE105D25C42D6500AD13B7 /* CPUPublicTypes.h */,
-				50AE105E25C42D6500AD13B7 /* Moira */,
-				50AE107225C42D6500AD13B7 /* CPU.cpp */,
 				50AE107325C42D6500AD13B7 /* CPUTypes.h */,
+				50AE105C25C42D6500AD13B7 /* CPU.h */,
+				50AE107225C42D6500AD13B7 /* CPU.cpp */,
+				50AE105E25C42D6500AD13B7 /* Moira */,
 			);
 			path = CPU;
 			sourceTree = "<group>";
@@ -1013,9 +1015,10 @@
 				50FD19B625C20102004E7388 /* Application.cpp */,
 				50AE11C425C44AAC00AD13B7 /* Controller.h */,
 				50AE11C325C44AAC00AD13B7 /* Controller.cpp */,
-				5066F75325C55F75009199B6 /* ControllerExec.cpp */,
+				5066F75325C55F75009199B6 /* ControllerCmds.cpp */,
 				50E9337125C2188700F4958B /* Interpreter.h */,
 				50E9337025C2188700F4958B /* Interpreter.cpp */,
+				50E4DD5425C6B180001F6432 /* InterpreterCmds.cpp */,
 				50658EDF25C03EF800F7128D /* Console.h */,
 				50658EDE25C03EF800F7128D /* Console.cpp */,
 				505485E825C15C3B00892284 /* AssetManager.h */,
@@ -1149,6 +1152,7 @@
 				50AE119925C42D6700AD13B7 /* maketbl.c in Sources */,
 				50AE11AD25C42D6700AD13B7 /* UART.cpp in Sources */,
 				50AE119425C42D6700AD13B7 /* tables.c in Sources */,
+				50E4DD5525C6B180001F6432 /* InterpreterCmds.cpp in Sources */,
 				50AE118E25C42D6700AD13B7 /* ControlPort.cpp in Sources */,
 				50AE117C25C42D6700AD13B7 /* DDF.cpp in Sources */,
 				50AE117925C42D6700AD13B7 /* AgnusEvents.cpp in Sources */,
@@ -1158,7 +1162,7 @@
 				50AE11A625C42D6700AD13B7 /* AudioStream.cpp in Sources */,
 				50AE116B25C42D6700AD13B7 /* AmigaConstants.cpp in Sources */,
 				50AE119125C42D6700AD13B7 /* Keyboard.cpp in Sources */,
-				5066F75425C55F75009199B6 /* ControllerExec.cpp in Sources */,
+				5066F75425C55F75009199B6 /* ControllerCmds.cpp in Sources */,
 				50AE117B25C42D6700AD13B7 /* AgnusDma.cpp in Sources */,
 				50AE117A25C42D6700AD13B7 /* Agnus.cpp in Sources */,
 				50AE119025C42D6700AD13B7 /* Mouse.cpp in Sources */,

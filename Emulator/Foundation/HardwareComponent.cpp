@@ -98,10 +98,20 @@ HardwareComponent::inspect()
 }
 
 void
-HardwareComponent::dump()
+HardwareComponent::dump() const
 {
     msg("%s (memory location: %p)\n\n", getDescription(), this);
     _dump();
+}
+
+void
+HardwareComponent::_dump() const
+{
+    std::stringstream ss;
+    string line;
+
+    _dump(ss);
+    while(std::getline(ss, line)) std::cout << line << '\n';
 }
 
 isize

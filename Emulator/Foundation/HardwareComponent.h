@@ -149,9 +149,10 @@ public:
     }
     
     // Dumps debug information about the internal state to the console
-    void dump();
-    virtual void _dump() const { }
-    
+    void dump() const;
+    virtual void _dump() const;
+    virtual void _dump(std::stringstream& ss) const { }
+
     
     //
     // Serializing

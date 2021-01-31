@@ -12,28 +12,8 @@
 
 Interpreter::Interpreter(Application &ref) : app(ref), controller(ref.controller)
 {
-    init("agnus", "<command>", "[<arguments>]",
-         "Amiga custom chip");
-
-    init("agnus", "set", "<key>", "<value>",
-         "Configure the component");
-
-    init("agnus", "set", "revision" ,"<revision>",
-         "Select the emulated chip model",
-         &Controller::exec <Component::amiga, Command::help>);
-
-    init("agnus", "set", "foo" ,"",
-         "Select something",
-         &Controller::exec <Component::amiga, Command::help>);
+    registerInstructions();
 };
-
-void
-Interpreter::registerInstr(const std::string &token1, const std::string &token2,
-                           const std::string &args, const std::string &help,
-                           void (Controller::*func)(Arguments&))
-{
-    descriptors.push_back(CommandDescriptor { token1, token2, args, help, func });
-}
 
 void
 Interpreter::init(const std::string &t1,
@@ -42,10 +22,10 @@ Interpreter::init(const std::string &t1,
                   void (Controller::*func)(Arguments&))
 {
     // Make sure the key does not yet exist
-    assert(root.searchToken(t1) == nullptr);
+    assert(root.seek(t1) == nullptr);
     
     // Register instruction
-    CmdDescriptor d { t1, a1, a2, help, func };
+    CmdDescriptor d { t1, a1, a2, help, std::vector<CmdDescriptor>(), func };
     root.args.push_back(d);
 }
 
@@ -56,11 +36,11 @@ Interpreter::init(const std::string &t1, const std::string &t2,
                   void (Controller::*func)(Arguments&))
 {
     // Traverse to the proper node in the instruction tree
-    CmdDescriptor *node = root.searchToken(t1);
+    CmdDescriptor *node = root.seek(t1);
     assert(node);
     
     // Register instruction
-    CmdDescriptor d { t2, a1, a2, help, func };
+    CmdDescriptor d { t2, a1, a2, help, std::vector<CmdDescriptor>(), func };
     node->args.push_back(d);
 }
 
@@ -71,11 +51,11 @@ Interpreter::init(const std::string &t1, const std::string &t2, const std::strin
                   void (Controller::*func)(Arguments&))
 {
     // Traverse to the proper node in the instruction tree
-    CmdDescriptor *node = root.searchToken(t1)->searchToken(t2);
+    CmdDescriptor *node = root.seek(t1)->seek(t2);
     assert(node);
     
     // Register instruction
-    CmdDescriptor d { t3, a1, a2, help, func };
+    CmdDescriptor d { t3, a1, a2, help, std::vector<CmdDescriptor>(), func };
     node->args.push_back(d);
 }
 
@@ -83,7 +63,7 @@ string
 Interpreter::lowercased(const std::string& s)
 {
     string result;
-    for (auto c : s) { result += tolower(c); } // .push_back(c); }
+    for (auto c : s) { result += tolower(c); }
     return result;
 }
 
@@ -99,78 +79,8 @@ Interpreter::println(const string& s)
     app.console.println(s);
 }
 
-template <> void
-Interpreter::exec <Component::amiga> (Arguments& argv)
-{
-    if (argv.empty()) throw TooFewArgumentsError();
-    
-    string &cmd = argv.front();
-    argv.pop_front();
-
-    if (cmd == "help") {
-        controller.exec <Component::amiga, Command::help> (argv);
-        return;
-    }
-    if (cmd == "pause") {
-        controller.exec <Component::amiga, Command::pause> (argv);
-        return;
-    }
-    if (cmd == "on") {
-        controller.exec <Component::amiga, Command::on> (argv);
-        return;
-    }
-    if (cmd == "reset") {
-        controller.exec <Component::amiga, Command::reset> (argv);
-        return;
-    }
-    if (cmd == "run") {
-        controller.exec <Component::amiga, Command::run> (argv);
-        return;
-    }
-
-    throw UnknownCommandError(cmd);
-}
-
-template <> void
-Interpreter::exec <Component::agnus> (Arguments& argv)
-{
-    if (argv.empty()) throw TooFewArgumentsError();
-    
-    string &cmd = argv.front();
-    argv.pop_front();
-    
-    if (cmd == "help") {
-        controller.exec <Component::amiga, Command::help> (argv);
-        return;
-    }
-
-    throw UnknownCommandError(cmd);
-}
-
-template <> void
-Interpreter::exec <Component::dfn> (Arguments& argv, int n)
-{
-    if (argv.empty()) throw TooFewArgumentsError();
-}
-
-template <> void
-Interpreter::exec <Component::easterEgg> (Arguments& argv)
-{
-    app.console.println("GREETINGS PROFESSOR HOFFMANN");
-    app.console.println();
-    app.console.println("THE ONLY WINNING MOVE IS NOT TO PLAY.");
-    app.console.println();
-    app.console.println("HOW ABOUT A NICE GAME OF CHESS?");
-}
-
-template <> void
-Interpreter::exec <Component::rtc> (Arguments& argv)
-{
-    if (argv.empty()) throw TooFewArgumentsError();
-}
-
 CmdDescriptor *
-CmdDescriptor::searchToken(const string& token)
+CmdDescriptor::seek(const string& token)
 {
     for (auto& it : args) {
         if (it.name == token) return &it;
@@ -182,37 +92,74 @@ void
 Interpreter::exec(const string& userInput)
 {
     std::list<string> tokens;
-    
+    std::string token;
+
     // Split the command string
     std::stringstream ss(userInput);
-    std::string prefix;
-    std::string token;
     while (std::getline(ss, token, ' ')) tokens.push_back(lowercased(token));
+
+    // Only proceed if some input is given
     if (tokens.empty()) return;
+
+    // If a single word is typed in, check the list of single-word commands
+    if (execSingle(tokens)) return;
     
+    // Call the standard execution handler
+    execMultiple(tokens);
+}
+
+bool
+Interpreter::execSingle(Arguments &argv)
+{
+    if (argv.front() == "clear") {
+        app.console.clear();
+        return true;
+    }
+    
+    return false;
+}
+
+bool
+Interpreter::execMultiple(Arguments &argv)
+{
     CmdDescriptor *current = &root;
+    std::string prefix;
     
-    while (!tokens.empty() && current) {
-        
-        printf("current->name = %s\n", current->name.c_str());
-        
+    while (current) {
+                
         // Extract token
-        token = tokens.front();
+        std::string token = argv.empty() ? "" : argv.front();
 
         // Search token
-        CmdDescriptor *next = current->searchToken(token);
+        CmdDescriptor *next = current->seek(token);
         if (next == nullptr) break;
         
         prefix += token + " ";
         current = next;
-        tokens.pop_front();
+        if (!argv.empty()) argv.pop_front();
     }
 
     // Check if a command handler is present
     if (current->func) {
-        printf("Command handler found. Call it...\n");
-        (controller.*(current->func))(tokens);
-        return;
+        
+        try {
+            // Check the remaining arguments
+            if (current->arg1 != "" && argv.empty()) {
+                throw TooFewArgumentsError();
+            }
+            if (current->arg1 == "" && !argv.empty()) {
+                throw TooFewArgumentsError();
+            }
+            
+            // Call the command handler
+            (controller.*(current->func))(argv);
+            return true;
+            
+        } catch (TooFewArgumentsError &err) {
+            // app.console << "Too few arguments" << '\n';
+        } catch (TooManyArgumentsError &err) {
+            // app.console << "Too many arguments" << '\n';
+        }
     }
     
     //
@@ -226,92 +173,26 @@ Interpreter::exec(const string& userInput)
     }
     tab += 8;
     
-    app.console << "Syntax: ";
-    app.console << prefix << current->arg1 << ' ' << current->arg2 << '\n' << '\n';
+    app.console << "usage: ";
+    app.console << prefix << current->arg1 << ' ' << current->arg2 << '\n';
     
-    app.console.tab(tab - (int)current->arg1.length());
-    app.console << current->arg1 << " : ";
-    app.console << (int)current->args.size() << " options" << '\n' << '\n';
-    
-    for (auto &it : current->args) {
-        app.console.tab(tab - (int)it.name.length());
-        app.console << it.name;
-        app.console << " : ";
-        app.console << it.info;
+    if (int size = (int)current->args.size()) {
+        
         app.console << '\n';
-    }
-    app.console << '\n';
-}
-
-void
-Interpreter::help()
-{
-    std::vector <const std::string> items;
-    
-    // Extract all available components
-    for (auto& it: descriptors) {
-        if(std::find(items.begin(), items.end(), it.token1) == items.end()) {
-            items.push_back(it.token1);
+        app.console.tab(tab - (int)current->arg1.length());
+        app.console << current->arg1 << " : ";
+        app.console << size << (size == 1 ? " option" : " options") << '\n' << '\n';
+        
+        for (auto &it : current->args) {
+            string name = it.name == "" ? "''" : it.name;
+            app.console.tab(tab - (int)name.length());
+            app.console << name;
+            app.console << " : ";
+            app.console << it.info;
+            app.console << '\n';
         }
-    }
-    
-    app.console << "Syntax: <component> <command> [ <arguments> ]" << '\n';
-    app.console << "        <component> ::= ";
-
-    int size = (int)items.size();
-    for (int i = 0; i < size; i++) {
-        app.console.tab(24);
-        app.console << items[i].c_str();
-        if (i < size - 1) app.console << " |";
         app.console << '\n';
     }
-
-    app.console << '\n';
-    app.console << "Type '<component> help' for more details." << '\n';
-}
-
-void
-Interpreter::help(const string& component)
-{
-    std::vector <string> items;
-    std::vector <string> args;
-    std::vector <string> help;
-
-    // Extract all available commands for this component
-    for (auto& it: descriptors) {
-        if(std::find(items.begin(), items.end(), it.token2) == items.end()) {
-            items.push_back(it.token2);
-            args.push_back(it.args);
-            help.push_back(it.help);
-        }
-    }
-    int size = (int)items.size();
     
-    // Determine horizontal tabular positions to align the output
-    int tab1 = 12;
-    int tab2 = 0;
-    for (int i = 0; i < items.size(); i++) {
-        tab2 = std::max(tab2, (int)(items[i].length() + args[i].length()));
-    }
-    tab2 += tab1;
-    
-    app.console << "Syntax: " << component << " <command> [ <arguments> ]" << '\n';
-    app.console << '\n';
-    app.console.tab(tab2 - 9);
-    // app.console << "<command> : One out of the following " << size << " commands" << '\n' << '\n';
-    app.console << "<command> :" << " Description" << '\n' << '\n';
-
-    for (int i = 0; i < size; i++) {
-        // app.console.tab(tab1);
-        app.console.tab(tab2 - (int)(items[i].length() + args[i].length()));
-        app.console << items[i].c_str();
-        app.console << " " << args[i].c_str();
-        app.console.tab(tab2);
-        app.console << ": ";
-        app.console << help[i].c_str();
-        app.console << '\n';
-    }
-
-    app.console << '\n';
-    app.console << "Type '<component> help' for more details." << '\n';
+    return false;
 }

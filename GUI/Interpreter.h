@@ -49,34 +49,30 @@ struct CmdDescriptor {
     std::vector<CmdDescriptor> args;
     void (Controller::*func)(Arguments&) = nullptr;
     
-    CmdDescriptor(const string &_name,
-                  const string &_arg1,
-                  const string &_arg2,
-                  const string &_info,
-                  void (Controller::*_func)(Arguments&)) :
-    name(_name), arg1(_arg1), arg2(_arg2), info(_info), func(_func) { };
-    
-    CmdDescriptor *searchToken(const string& token);
+    CmdDescriptor *seek(const string& token);
 };
 
-struct CommandDescriptor {
-
-    string token1, token2, args, help;
-    void (Controller::*func)(Arguments&);
-};
-
-enum class Component
+enum class Token
 {
+    none,
+    
+    // Components
     agnus,
     amiga,
-    dfn,
+    cia,
+    cpu,
+    denise,
+    df0,
+    df1,
+    df2,
+    df3,
+    diskcontroller,
+    paula,
     rtc,
-    easterEgg
-};
 
-enum class Command
-{
+    // Commands
     about,
+    easteregg,
     eject,
     help,
     insert,
@@ -87,7 +83,10 @@ enum class Command
     pause,
     reset,
     run,
-    set
+    set,
+    
+    // Keys
+    revision
 };
 
 class Interpreter
@@ -96,12 +95,9 @@ class Interpreter
     class Application &app;
     class Controller &controller;
     
-    // Descriptor lookup table for all supported instructions
-    std::vector<CommandDescriptor> descriptors;
-
-    // std::vector<CmdDescriptor> cmdDescriptors;
-    CmdDescriptor root = CmdDescriptor("", "<component>", "<command> [<arguments>]",
-                                       "", nullptr);
+    // The registered instruction set
+    CmdDescriptor root;
+    
     
     //
     // Initializing
@@ -111,10 +107,17 @@ public:
     
     Interpreter(Application &ref);
 
+private:
+    
+    // Registers the instruction set
+    void registerInstructions();
+    
     
     //
     // Managing the instruction descriptor list
     //
+
+public:
     
     void registerInstr(const std::string &token1, const std::string &token2,
                        const std::string &args, const std::string &help,
@@ -139,30 +142,32 @@ public:
     // Parsing input
     //
     
-    // [[deprecated]] bool matches(const std::string& s1, std::string const& s2);
-    // [[deprecated]] bool matches(const std::list<string>& argv, const std::string& s);
+private:
+    
     string lowercased(const std::string& s);
-    // [[deprecated]] string pop(Arguments& argv);
     
     
     //
     // Printing output
     //
     
-    void print(const string& s);
-    void println(const string& s);
+    [[deprecated]] void print(const string& s);
+    [[deprecated]] void println(const string& s);
 
     
     //
     // Executing commands
     //
     
+public:
+    
     void exec(const std::string& userInput);
-    
-    void help();
-    void help(const string& component);
-    
-    
-    template <Component cmp> void exec(Arguments& argv);
-    template <Component cmp> void exec(Arguments& argv, int n);
+
+private:
+
+    // Executes a command that consists of a single word
+    bool execSingle(Arguments &argv);
+
+    // Executes a command that is composed out of multiple words
+    bool execMultiple(Arguments &argv);
 };

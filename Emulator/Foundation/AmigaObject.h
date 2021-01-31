@@ -12,6 +12,7 @@
 #include "AmigaPublicTypes.h"
 #include "Utils.h"
 
+#include <iostream>
 #include <vector>
 #include <map>
 #include <set>

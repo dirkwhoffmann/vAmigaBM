@@ -164,6 +164,11 @@ bool releaseBuild();
 // Pretty printing
 //
 
+// Shortcuts for being used in combination with the '<<' stream operator
+#define HEX8 std::hex << std::setw(2) << std::setfill('0')
+#define HEX16 std::hex << std::setw(4) << std::setfill('0')
+#define HEX32 std::hex << std::setw(8) << std::setfill('0')
+
 // Prints a hex dump of a buffer to the console (for debugging)
 void hexdump(u8 *p, isize size, isize cols, isize pad);
 void hexdump(u8 *p, isize size, isize cols = 32);

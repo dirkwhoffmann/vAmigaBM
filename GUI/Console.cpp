@@ -167,9 +167,7 @@ Console::rowOfLastLine()
 
 void
 Console::type(char c)
-{
-    printf("char: %d\n", c);
-    
+{    
     switch (c) {
             
         case '\n':
@@ -213,8 +211,6 @@ Console::type(char c)
 void
 Console::keyPressed(const sf::Keyboard::Key& key)
 {
-    printf("keyPressed\n");
-
     switch (key) {
             
         case sf::Keyboard::Up:

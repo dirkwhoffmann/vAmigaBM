@@ -261,6 +261,24 @@ CPU::_dump() const
 }
 
 void
+CPU::_dump(std::stringstream& ss) const
+{
+    for (int i = 0; i < 4; i++) ss << "D" << i << ": " << HEX32 << reg.d[i] << " ";
+    ss << std::endl;
+    for (int i = 4; i < 8; i++) ss << "D" << i << ": " << HEX32 << reg.d[i] << " ";
+    ss << std::endl;
+    for (int i = 0; i < 4; i++) ss << "A" << i << ": " << HEX32 << reg.a[i] << " ";
+    ss << std::endl;
+    for (int i = 4; i < 8; i++) ss << "A" << i << ": " << HEX32 << reg.a[i] << " ";
+    ss << std::endl;
+
+    ss << "PC: " << HEX32 << reg.pc0;
+    ss << " SP: " << HEX32 << reg.ssp;
+    ss << " UP: " << HEX32 << reg.usp << std::endl;
+    ss << "Flags: " << HEX16 << getSR() << std::endl;
+}
+
+void
 CPU::_setDebug(bool enable)
 {
     if (enable) {
