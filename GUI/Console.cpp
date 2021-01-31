@@ -49,6 +49,10 @@ Console::init()
     drawable.setTextureRect(sf::IntRect(0, height, width, -height));
     drawable.setTexture(&texture.getTexture());
             
+    auto winSize = application.window.getSize();
+    sf::Vector2f size = { (float)winSize.x, (float)winSize.y };
+    drawable.setSize(size);
+ 
     // Initialize render items
     for (int i = 0; i < numRows; i++) {
         
@@ -297,15 +301,9 @@ Console::render(sf::RenderWindow &window)
     if (isAnimating()) {
         if (isOpening()) alpha = std::min(targetAlpha, alpha + 24);
         if (isClosing()) alpha = std::max(targetAlpha, alpha - 24);
-        // drawable.setFillColor(sf::Color(0xFF,0xFF,0xFF,alpha));
         drawable.setFillColor(sf::Color(0xFF,0xFF,0xFF,alpha));
     }
-    
-    // TODO: MOVE TO A resize() function
-    auto winSize = window.getSize();
-    sf::Vector2f size = { (float)winSize.x, (float)winSize.y };
-    drawable.setSize(size);
-    
+        
     if (isVisible()) {
         
         if (isDirty) {
