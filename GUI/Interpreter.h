@@ -57,20 +57,20 @@ struct CmdDescriptor {
     CmdDescriptor *add(const std::string &token,
                        const std::string &a1, const std::string &a2,
                        const std::string &help,
-                       long param = 0,
-                       void (Controller::*func)(Arguments&, long) = nullptr);
+                       void (Controller::*func)(Arguments&, long) = nullptr,
+                       long param = 0);
     
     CmdDescriptor *add(const std::string &t1, const std::string &t2,
                        const std::string &a1, const std::string &a2,
                        const std::string &help,
-                       long param = 0,
-                       void (Controller::*func)(Arguments&, long) = nullptr);
+                       void (Controller::*func)(Arguments&, long) = nullptr,
+                       long param = 0);
     
     CmdDescriptor *add(const std::string &t1, const std::string &t2, const std::string &t3,
                        const std::string &a1, const std::string &a2,
                        const std::string &help,
-                       long param = 0,
-                       void (Controller::*func)(Arguments&, long) = nullptr);
+                       void (Controller::*func)(Arguments&, long) = nullptr,
+                       long param = 0);
 };
 
 enum class Token

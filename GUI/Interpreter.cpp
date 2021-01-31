@@ -14,18 +14,18 @@ CmdDescriptor *
 CmdDescriptor::add(const std::string &token,
                    const std::string &a1, const std::string &a2,
                    const std::string &help,
-                   long param,
-                   void (Controller::*func)(Arguments&, long))
+                   void (Controller::*func)(Arguments&, long),
+                   long param)
 {
     // Make sure the key does not yet exist
     assert(seek(token) == nullptr);
 
     // Expand template tokens
     if (token == "dfn") {
-        add("df0", a1, a2, help, 0, func);
-        add("df1", a1, a2, help, 1, func);
-        add("df2", a1, a2, help, 2, func);
-        add("df3", a1, a2, help, 3, func);
+        add("df0", a1, a2, help, func, 0);
+        add("df1", a1, a2, help, func, 1);
+        add("df2", a1, a2, help, func, 2);
+        add("df3", a1, a2, help, func, 3);
         return nullptr;
     }
     
@@ -40,29 +40,29 @@ CmdDescriptor *
 CmdDescriptor::add(const std::string &t1, const std::string &t2,
                    const std::string &a1, const std::string &a2,
                    const std::string &help,
-                   long param,
-                   void (Controller::*func)(Arguments&, long))
+                   void (Controller::*func)(Arguments&, long),
+                   long param)
 {
     // Expand template tokens
     if (t1 == "dfn") {
-        add("df0", t2, a1, a2, help, 0, func);
-        add("df1", t2, a1, a2, help, 1, func);
-        add("df2", t2, a1, a2, help, 2, func);
-        add("df3", t2, a1, a2, help, 3, func);
+        add("df0", t2, a1, a2, help, func, 0);
+        add("df1", t2, a1, a2, help, func, 1);
+        add("df2", t2, a1, a2, help, func, 2);
+        add("df3", t2, a1, a2, help, func, 3);
         return nullptr;
     }
     
-    return seek(t1)->add(t2, a1, a2, help, param, func);
+    return seek(t1)->add(t2, a1, a2, help, func, param);
 }
 
 CmdDescriptor *
 CmdDescriptor::add(const std::string &t1, const std::string &t2, const std::string &t3,
                    const std::string &a1, const std::string &a2,
                    const std::string &help,
-                   long param,
-                   void (Controller::*func)(Arguments&, long))
+                   void (Controller::*func)(Arguments&, long),
+                   long param)
 {
-    return seek(t1)->add(t2, t3, a1, a2, help, param, func);
+    return seek(t1)->add(t2, t3, a1, a2, help, func, param);
 }
 
 Interpreter::Interpreter(Application &ref) : app(ref), controller(ref.controller)
