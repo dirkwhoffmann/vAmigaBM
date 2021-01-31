@@ -47,7 +47,7 @@ struct CmdDescriptor {
     string arg2;
     string info; 
     std::vector<CmdDescriptor> args;
-    void (Controller::*func)(Arguments&);
+    void (Controller::*func)(Arguments&) = nullptr;
     
     CmdDescriptor(const string &_name,
                   const string &_arg1,
@@ -119,7 +119,21 @@ public:
     void registerInstr(const std::string &token1, const std::string &token2,
                        const std::string &args, const std::string &help,
                        void (Controller::*func)(Arguments&));
-    
+
+    void init(const std::string &t1,
+              const std::string &a1, const std::string &a2,
+              const std::string &help,
+              void (Controller::*func)(Arguments&) = nullptr);
+
+    void init(const std::string &t1, const std::string &t2,
+              const std::string &a1, const std::string &a2,
+              const std::string &help,
+              void (Controller::*func)(Arguments&) = nullptr);
+
+    void init(const std::string &t1, const std::string &t2, const std::string &t3,
+              const std::string &a1, const std::string &a2,
+              const std::string &help,
+              void (Controller::*func)(Arguments&) = nullptr);
     
     //
     // Parsing input

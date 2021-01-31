@@ -12,58 +12,19 @@
 
 Interpreter::Interpreter(Application &ref) : app(ref), controller(ref.controller)
 {
-    CmdDescriptor agnusSet =
-    CmdDescriptor("set", "<key>", "<value>",
-                  "Configure the component",
-                  nullptr);
-    agnusSet.args.push_back(CmdDescriptor("model", "<model>", "",
-                                          "Set the chip revision",
-                                          &Controller::exec <Component::amiga, Command::help>));
-    agnusSet.args.push_back(CmdDescriptor("test", "<foo>", "",
-                                          "Set something",
-                                          &Controller::exec <Component::amiga, Command::help>));
-    agnusSet.args.push_back(CmdDescriptor("other", "<foo>", "",
-                                          "Set another thing",
-                                          &Controller::exec <Component::amiga, Command::help>));
-    
-    CmdDescriptor agnus = CmdDescriptor("agnus", "<command>", "[<arguments>]",
-                                        "Bus scheduling, Frame control",
-                                        nullptr);
-    agnus.args.push_back(agnusSet);
-    
-    root = CmdDescriptor("", "<component>", "<command> [<arguments>]",
-                         "",
-                         nullptr);
-    root.args.push_back(agnus);
-    
-    
-    registerInstr("amiga", "help", "",
-                  "Print command instructions",
-                  &Controller::exec <Component::amiga, Command::help>);
-    
-    registerInstr("amiga", "inspect", "",
-                  "Display the internal state",
-                  &Controller::exec <Component::amiga, Command::inspect>);
+    init("agnus", "<command>", "[<arguments>]",
+         "Amiga custom chip");
 
-    registerInstr("amiga", "on", "",
-                  "Turn the Amiga on",
-                  &Controller::exec <Component::amiga, Command::on>);
+    init("agnus", "set", "<key>", "<value>",
+         "Configure the component");
 
-    registerInstr("amiga", "off", "",
-                  "Turn the Amiga off",
-                  &Controller::exec <Component::amiga, Command::off>);
+    init("agnus", "set", "revision" ,"<revision>",
+         "Select the emulated chip model",
+         &Controller::exec <Component::amiga, Command::help>);
 
-    registerInstr("amiga", "reset", "",
-                  "Reset the emulator thread",
-                  &Controller::exec <Component::amiga, Command::reset>);
-
-    registerInstr("amiga", "run", "",
-                  "Start the emulator thread",
-                  &Controller::exec <Component::amiga, Command::run>);
-
-    registerInstr("amiga", "pause", "",
-                  "Halt the emulator thread",
-                  &Controller::exec <Component::amiga, Command::pause>);
+    init("agnus", "set", "foo" ,"",
+         "Select something",
+         &Controller::exec <Component::amiga, Command::help>);
 };
 
 void
@@ -74,26 +35,49 @@ Interpreter::registerInstr(const std::string &token1, const std::string &token2,
     descriptors.push_back(CommandDescriptor { token1, token2, args, help, func });
 }
 
-/*
-bool
-Interpreter::matches(const std::string& s1, const std::string& s2)
+void
+Interpreter::init(const std::string &t1,
+                  const std::string &a1, const std::string &a2,
+                  const std::string &help,
+                  void (Controller::*func)(Arguments&))
 {
-    if (s1.length() != s2.length()) return false;
+    // Make sure the key does not yet exist
+    assert(root.searchToken(t1) == nullptr);
     
-    for(size_t i = 0; i < s1.length(); i++) {
-        if (tolower(s1[i]) != tolower(s2[i])) return false;
-    }
-    
-    return true;
+    // Register instruction
+    CmdDescriptor d { t1, a1, a2, help, func };
+    root.args.push_back(d);
 }
 
-bool
-Interpreter::matches(const std::list<string>& argv, const std::string& s)
+void
+Interpreter::init(const std::string &t1, const std::string &t2,
+                  const std::string &a1, const std::string &a2,
+                  const std::string &help,
+                  void (Controller::*func)(Arguments&))
 {
-    return argv.empty() ? false : matches(argv.front(), s);
+    // Traverse to the proper node in the instruction tree
+    CmdDescriptor *node = root.searchToken(t1);
+    assert(node);
+    
+    // Register instruction
+    CmdDescriptor d { t2, a1, a2, help, func };
+    node->args.push_back(d);
 }
-*/
 
+void
+Interpreter::init(const std::string &t1, const std::string &t2, const std::string &t3,
+                  const std::string &a1, const std::string &a2,
+                  const std::string &help,
+                  void (Controller::*func)(Arguments&))
+{
+    // Traverse to the proper node in the instruction tree
+    CmdDescriptor *node = root.searchToken(t1)->searchToken(t2);
+    assert(node);
+    
+    // Register instruction
+    CmdDescriptor d { t3, a1, a2, help, func };
+    node->args.push_back(d);
+}
 
 string
 Interpreter::lowercased(const std::string& s)
