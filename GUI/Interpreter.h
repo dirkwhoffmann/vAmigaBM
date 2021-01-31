@@ -34,11 +34,11 @@ typedef std::list<std::string> Arguments;
 struct CmdDescriptor {
     
     string name;
-    string arg1;
-    string arg2;
-    string info; 
+    string arg1, arg2;
+    string info;
     std::vector<CmdDescriptor> args;
     void (Controller::*func)(Arguments&, long) = nullptr;
+    isize numArgs = 0;
     long param = 0;
     
     // Returns a matching descriptor from the args vector
@@ -49,19 +49,19 @@ struct CmdDescriptor {
                        const std::string &a1, const std::string &a2,
                        const std::string &help,
                        void (Controller::*func)(Arguments&, long) = nullptr,
-                       long param = 0);
+                       isize numArgs = 0, long param = 0);
     
     CmdDescriptor *add(const std::string &t1, const std::string &t2,
                        const std::string &a1, const std::string &a2,
                        const std::string &help,
                        void (Controller::*func)(Arguments&, long) = nullptr,
-                       long param = 0);
+                       isize numArgs = 0, long param = 0);
     
     CmdDescriptor *add(const std::string &t1, const std::string &t2, const std::string &t3,
                        const std::string &a1, const std::string &a2,
                        const std::string &help,
                        void (Controller::*func)(Arguments&, long) = nullptr,
-                       long param = 0);
+                       isize numArgs = 0, long param = 0);
 };
 
 struct ParseError : public std::exception

@@ -22,27 +22,26 @@ Interpreter::registerInstructions()
              "Amiga custom chip");
 
     root.add("agnus", "dump", "[<category>]", "",
-             "Display the internal state",
-             &Controller::exec <Token::agnus, Token::dump>, 0);
+             "Display the internal state");
 
     root.add("agnus", "dump", "", "", "",
              "Display registers",
-             &Controller::exec <Token::agnus, Token::dump>, 0);
+             &Controller::exec <Token::agnus, Token::dump>, 0, 0);
 
     root.add("agnus", "dump", "events", "", "",
              "Display scheduled events",
-             &Controller::exec <Token::agnus, Token::dump, Token::events>, 0);
+             &Controller::exec <Token::agnus, Token::dump, Token::events>, 0, 0);
 
     root.add("agnus", "set", "<key>", "<value>",
              "Configure the component");
     
     root.add("agnus", "set", "" ,"", "",
              "Display the current configuration",
-             &Controller::exec <Token::agnus, Token::set>, 0);
+             &Controller::exec <Token::agnus, Token::set>, 0, 0);
     
     root.add("agnus", "set", "revision" ,"<revision>", "",
              "Select the emulated chip model",
-             &Controller::exec <Token::agnus, Token::set, Token::revision>, 0);
+             &Controller::exec <Token::agnus, Token::set, Token::revision>, 1, 0);
     
     //
     // Amiga
@@ -53,27 +52,30 @@ Interpreter::registerInstructions()
     
     root.add("amiga", "dump", "", "",
              "Display the internal state",
-             &Controller::exec <Token::amiga, Token::dump>, 0);
+             &Controller::exec <Token::amiga, Token::dump>, 0, 0);
     
-    root.add("amiga", "off", "", "",
-             "Switch the Amiga off",
-             &Controller::exec <Token::amiga, Token::off>, 0);
+    root.add("amiga", "power", "[ on | off ]", "",
+             "Switch the Amiga on or off");
     
-    root.add("amiga", "on", "", "",
+    root.add("amiga", "power", "on", "", "",
              "Switch the Amiga on",
-             &Controller::exec <Token::amiga, Token::on>, 0);
-    
+             &Controller::exec <Token::amiga, Token::on>, 0, 0);
+
+    root.add("amiga", "power", "off", "", "",
+             "Switch the Amiga off",
+             &Controller::exec <Token::amiga, Token::off>, 0, 0);
+
     root.add("amiga", "pause", "", "",
              "Halt the emulator thread",
-             &Controller::exec <Token::amiga, Token::pause>, 0);
+             &Controller::exec <Token::amiga, Token::pause>, 0, 0);
     
     root.add("amiga", "reset", "", "",
              "Perform a hard reset",
-             &Controller::exec <Token::amiga, Token::reset>, 0);
+             &Controller::exec <Token::amiga, Token::reset>, 0, 0);
     
     root.add("amiga", "run", "", "",
              "Start the emulator thread",
-             &Controller::exec <Token::amiga, Token::run>, 0);
+             &Controller::exec <Token::amiga, Token::run>, 0, 0);
     
     //
     // CPU
@@ -84,7 +86,7 @@ Interpreter::registerInstructions()
     
     root.add("cpu", "dump", "", "",
              "Display the internal state",
-             &Controller::exec <Token::cpu, Token::dump>, 0);
+             &Controller::exec <Token::cpu, Token::dump>, 0, 0);
     
     //
     // Df0, Df1, Df2, Df3
@@ -95,13 +97,13 @@ Interpreter::registerInstructions()
     
     root.add("dfn", "dump", "", "",
              "Display the internal state",
-             &Controller::exec <Token::dfn, Token::dump>, 0);
+             &Controller::exec <Token::dfn, Token::dump>, 0, 0);
 
     root.add("dfn", "eject", "", "",
              "Eject floppy disk",
-             &Controller::exec <Token::dfn, Token::eject>, 0);
+             &Controller::exec <Token::dfn, Token::eject>, 0, 0);
 
     root.add("dfn", "insert", "<path>", "",
              "Insert floppy disk",
-             &Controller::exec <Token::dfn, Token::insert>, 0);
+             &Controller::exec <Token::dfn, Token::insert>, 1, 0);
 }
