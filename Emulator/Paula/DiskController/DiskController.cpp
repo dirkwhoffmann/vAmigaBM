@@ -167,19 +167,19 @@ DiskController::_inspect()
 }
 
 void
-DiskController::_dump() const
+DiskController::_dump(std::stringstream& ss) const
 {
-    msg("     selected : %d\n", selected);
-    msg("        state : %s\n", DriveDmaStateName(state));
-    msg("    syncCycle : %lld\n", syncCycle);
-    msg("     incoming : %02X\n", incoming);
-    msg("         fifo : %llX (count = %d)\n", fifo, fifoCount);
-    msg("\n");
-    msg("       dsklen : %X\n", dsklen);
-    msg("      dsksync : %X\n", dsksync);
-    msg("          prb : %X\n", prb);
-    msg("\n");
-    msg("   spinning() : %d\n", spinning());
+    ss << "     selected : " << (int)selected << std::endl;
+    ss << "        state : " << DriveDmaStateName(state) << std::endl;
+    ss << "    syncCycle : " << syncCycle << std::endl;
+    ss << "     incoming : " << incoming << std::endl;
+    ss << "         fifo : " << std::hex << fifo << " (" << fifoCount << ")" << std::endl;
+    ss << std::endl;
+    ss << "       dsklen : " << dsklen << std::endl;
+    ss << "      dsksync : " << dsksync << std::endl;
+    ss << "          prb : " << prb << std::endl;
+    ss << std::endl;
+    ss << "   spinning() : " << (spinning() ? "yes" : "no");
 }
 
 Drive *

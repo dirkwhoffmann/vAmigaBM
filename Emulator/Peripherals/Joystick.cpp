@@ -26,9 +26,11 @@ Joystick::_reset(bool hard)
 }
 
 void
-Joystick::_dump() const
+Joystick::_dump(std::stringstream& ss) const
 {
-    msg("Button:  %s AxisX: %d AxisY: %d\n", button ? "YES" : "NO", axisX, axisY);
+    ss << "button : " << button;
+    ss << " axisX : " << axisX;
+    ss << " axisY : " << axisY;
 }
 
 isize

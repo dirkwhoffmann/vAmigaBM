@@ -156,37 +156,38 @@ CIA::_inspect()
 }
 
 void
-CIA::_dump() const
+CIA::_dump(std::stringstream& ss) const
 {    
-    msg("                   Clock : %lld\n", clock);
-    msg("                Sleeping : %s\n", sleeping ? "yes" : "no");
-    msg("               Tiredness : %d\n", tiredness);
-    msg(" Most recent sleep cycle : %lld\n", sleepCycle);
-    msg("Most recent wakeup cycle : %lld\n", wakeUpCycle);
-    msg("\n");
-    msg("               Counter A : %04X\n", counterA);
-    msg("                 Latch A : %04X\n", latchA);
-    msg("         Data register A : %02X\n", PRA);
-    msg("   Data port direction A : %02X\n", DDRA);
-    msg("             Data port A : %02X\n", PA);
-    msg("      Control register A : %02X\n", CRA);
-    msg("\n");
-    msg("               Counter B : %04X\n", counterB);
-    msg("                 Latch B : %04X\n", latchB);
-    msg("         Data register B : %02X\n", PRB);
-    msg("   Data port direction B : %02X\n", DDRB);
-    msg("             Data port B : %02X\n", PB);
-    msg("      Control register B : %02X\n", CRB);
-    msg("\n");
-    msg("   Interrupt control reg : %02X\n", icr);
-    msg("      Interrupt mask reg : %02X\n", imr);
-    msg("\n");
-    msg("                 SDR/SSR : %02X/%02X\n", sdr, ssr);
-    msg("              serCounter : %02X\n", serCounter);
-    msg("\n");
-    msg("                     CNT : %d\n", CNT);
-    msg("                     INT : %d\n", INT);
-    msg("\n");
+    ss << "                   Clock : " << clock;
+    ss << "                Sleeping : " << (sleeping ? "yes" : "no");
+    ss << "               Tiredness : " << (int)tiredness;
+    ss << " Most recent sleep cycle : " << sleepCycle;
+    ss << "Most recent wakeup cycle : " << wakeUpCycle;
+    ss << std::endl;
+    ss << "               Counter A : " << HEX16 << (int)counterA;
+    ss << "                 Latch A : " << HEX16 << (int)latchA;
+    ss << "         Data register A : " << HEX8 << (int)PRA;
+    ss << "   Data port direction A : " << HEX8 << (int)DDRA;
+    ss << "             Data port A : " << HEX8 << (int)PA;
+    ss << "      Control register A : " << HEX8 << (int)CRA;
+    ss << std::endl;
+    ss << "               Counter B : " << HEX16 << (int)counterB;
+    ss << "                 Latch B : " << HEX16 << (int)latchB;
+    ss << "         Data register B : " << HEX8 << (int)PRB;
+    ss << "   Data port direction B : " << HEX8 << (int)DDRB;
+    ss << "             Data port B : " << HEX8 << (int)PB;
+    ss << "      Control register B : " << HEX8 << (int)CRB;
+    ss << std::endl;
+    ss << "   Interrupt control reg : " << HEX8 << (int)icr;
+    ss << "      Interrupt mask reg : " << HEX8 << (int)imr;
+    ss << std::endl;
+    ss << "                     SDR : " << HEX8 << (int)sdr;
+    ss << "                     SSR : " << HEX8 << (int)ssr;
+    ss << "              serCounter : " << HEX8 << (int)serCounter;
+    ss << std::endl;
+    ss << "                     CNT : " << CNT;
+    ss << "                     INT : " << INT;
+    ss << std::endl;
 }
 
 void

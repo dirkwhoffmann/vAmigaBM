@@ -298,7 +298,7 @@ Memory::didSaveToBuffer(u8 *buffer) const
 }
 
 void
-Memory::_dump() const
+Memory::_dump(std::stringstream& ss) const
 {
     struct { u8 *addr; u32 size; const char *desc; } mem[7] = {
         { rom, config.romSize, "Rom" },
@@ -315,15 +315,16 @@ Memory::_dump() const
         u32 size = mem[i].size;
         u8 *addr = mem[i].addr;
 
-        msg("     %s: ", mem[i].desc);
+        ss << mem[i].desc;
         if (size == 0) {
             assert(addr == 0);
-            msg("not present\n");
+            ss << "not present" << std::endl;
         } else {
             assert(addr != 0);
             assert(size % KB(1) == 0);
             u32 check = fnv_1a_32(addr, size);
-            msg("%u KB at: %p Checksum: %x\n", size >> 10, addr, check);
+            ss << (size >> 10) << " KB at: " << std::hex << addr;
+            ss << " Checksum: " << std::hex << check << std::endl;
         }
     }
 }

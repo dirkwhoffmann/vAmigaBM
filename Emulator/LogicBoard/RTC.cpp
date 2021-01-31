@@ -84,13 +84,13 @@ RTC::_reset(bool hard)
 }
 
 void
-RTC::_dump() const
+RTC::_dump(std::stringstream& ss) const
 {
     for (isize i = 0; i < 4; i++) {
-        for (isize j = 0; j < 16; j++) msg("i: %X ", reg[i][j]);
-        msg("\n");
+        for (isize j = 0; j < 16; j++) ss << std::dec << i << ": " << HEX8 << (int)reg[i][j];
+        ss << std::endl;
     }
-    msg("\n");
+    ss << std::endl;
 }
 
 time_t

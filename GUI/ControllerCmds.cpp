@@ -16,7 +16,10 @@
 template <> void
 Controller::exec <Token::agnus, Token::inspect> (Arguments &argv, long param)
 {
-    printf("agnus inspect\n");
+    std::stringstream ss; string line;
+
+    amiga.agnus.dump(ss);
+    while(std::getline(ss, line)) console << line << '\n';
 }
 
 template <> void
@@ -79,7 +82,10 @@ Controller::exec <Token::amiga, Token::reset> (Arguments &argv, long param)
 template <> void
 Controller::exec <Token::amiga, Token::inspect> (Arguments &argv, long param)
 {
-    printf("amiga inspect\n");
+    std::stringstream ss; string line;
+
+    amiga.dump(ss);
+    while(std::getline(ss, line)) console << line << '\n';
 }
 
 //
@@ -89,8 +95,7 @@ Controller::exec <Token::amiga, Token::inspect> (Arguments &argv, long param)
 template <> void
 Controller::exec <Token::cpu, Token::inspect> (Arguments& argv, long param)
 {
-    std::stringstream ss;
-    string line;
+    std::stringstream ss; string line;
 
     amiga.cpu.dump(ss);
     while(std::getline(ss, line)) console << line << '\n';

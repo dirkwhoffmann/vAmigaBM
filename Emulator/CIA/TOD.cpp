@@ -42,14 +42,16 @@ TOD::_inspect()
 }
 
 void 
-TOD::_dump() const
+TOD::_dump(std::stringstream& ss) const
 {
-    msg("           Counter : %02X:%02X:%02X\n", tod.hi, tod.mid, tod.lo);
-    msg("             Alarm : %02X:%02X:%02X\n", alarm.hi, alarm.mid, alarm.lo);
-    msg("             Latch : %02X:%02X:%02X\n", latch.hi, latch.mid, latch.lo);
-    msg("            Frozen : %s\n", frozen ? "yes" : "no");
-    msg("           Stopped : %s\n", stopped ? "yes" : "no");
-    msg("\n");
+    ss << "Counter : ";
+    ss << HEX8 << tod.hi << ":" << HEX8 << tod.mid << ":" << HEX8 << tod.lo << std::endl;
+    ss << "  Alarm : ";
+    ss << HEX8 << alarm.hi << ":" << HEX8 << alarm.mid << ":" << HEX8 << alarm.lo << std::endl;
+    ss << "  Latch : ";
+    ss << HEX8 << latch.hi << ":" << HEX8 << latch.mid << ":" << HEX8 << latch.lo << std::endl;
+    ss << " Frozen : " << (frozen ? "yes" : "no") << std::endl;
+    ss << "Stopped : " << (stopped ? "yes" : "no") << std::endl;
 }
 
 u8

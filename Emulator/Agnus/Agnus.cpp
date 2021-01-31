@@ -208,25 +208,33 @@ Agnus::_inspect()
 }
 
 void
-Agnus::_dump() const
+Agnus::_dump(std::stringstream& ss) const
 {
-    msg(" actions : %llX\n", hsyncActions);
+    ss << " actions : " << std::hex << hsyncActions << std::endl;
 
-    msg("   dskpt : %X\n", dskpt);
-    for (isize i = 0; i < 4; i++) msg("audpt[%zd] : %X\n", i, audpt[i]);
-    for (isize i = 0; i < 6; i++) msg("bplpt[%zd] : %X\n", i, bplpt[i]);
-    for (isize i = 0; i < 8; i++) msg("bplpt[%zd] : %X\n", i, sprpt[i]);
+    ss << "   dskpt : " << HEX32 << dskpt;
+    for (isize i = 0; i < 4; i++) {
+        ss << "audpt[" << i << "] : " << HEX32 << audpt[i] << std::endl;
+    }
+    for (isize i = 0; i < 6; i++) {
+        ss << "bplpt[" << i << "] : " << HEX32 << bplpt[i] << std::endl;
+    }
+    for (isize i = 0; i < 8; i++) {
+        ss << "sprpt[" << i << "] : " << HEX32 << sprpt[i] << std::endl;
+    }
     
-    msg("   hstrt : %d\n", diwHstrt);
-    msg("   hstop : %d\n", diwHstop);
-    msg("   vstrt : %d\n", diwVstrt);
-    msg("   vstop : %d\n", diwVstop);
+    ss << "   hstrt : " << std::dec << diwHstrt;
+    ss << "   hstop : " << std::dec << diwHstop;
+    ss << "   vstrt : " << std::dec << diwVstrt;
+    ss << "   vstop : " << std::dec << diwVstop;
 
-    msg("\nBPL DMA table:\n\n");
+    /*
+    ss << "\nBPL DMA table:\n\n");
     dumpBplEventTable();
 
-    msg("\nDAS DMA table:\n\n");
+    ss << "\nDAS DMA table:\n\n");
     dumpDasEventTable();
+    */
 }
 
 void

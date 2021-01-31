@@ -337,14 +337,13 @@ Amiga::_inspect()
 }
 
 void
-Amiga::_dump() const
+Amiga::_dump(std::stringstream& ss) const
 {
-    msg("    poweredOn: %s\n", isPoweredOn() ? "yes" : "no");
-    msg("   poweredOff: %s\n", isPoweredOff() ? "yes" : "no");
-    msg("       paused: %s\n", isPaused() ? "yes" : "no");
-    msg("      running: %s\n", isRunning() ? "yes" : "no");
-    msg("         warp: %s\n", warpMode ? "on" : "off");
-    msg("\n");
+    ss << "    poweredOn : " << (isPoweredOn() ? "yes" : "no") << std::endl;
+    ss << "   poweredOff : " << (isPoweredOff() ? "yes" : "no") << std::endl;
+    ss << "       paused : " << (isPaused() ? "yes" : "no") << std::endl;
+    ss << "      running : " << (isRunning() ? "yes" : "no") << std::endl;
+    ss << "         warp : " << (warpMode ? "on" : "off") << std::endl;
 }
 
 void

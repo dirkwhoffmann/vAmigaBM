@@ -87,18 +87,6 @@ Interpreter::lowercased(const std::string& s)
     return result;
 }
 
-void
-Interpreter::print(const string& s)
-{
-    app.console.print(s);
-}
-
-void
-Interpreter::println(const string& s)
-{
-    app.console.println(s);
-}
-
 CmdDescriptor *
 CmdDescriptor::seek(const string& token)
 {

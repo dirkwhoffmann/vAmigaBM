@@ -151,7 +151,7 @@ public:
     // Dumps debug information about the internal state to the console
     void dump() const;
     void dump(std::stringstream& ss) const;
-    virtual void _dump() const;
+    // [[deprecated]] virtual void _dump() const;
     virtual void _dump(std::stringstream& ss) const { }
 
     

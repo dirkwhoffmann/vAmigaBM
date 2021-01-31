@@ -190,7 +190,7 @@ Denise::_inspect()
 }
 
 void
-Denise::_dump() const
+Denise::_dump(std::stringstream& ss) const
 {
 }
 

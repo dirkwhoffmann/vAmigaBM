@@ -72,7 +72,7 @@ public:
 private:
     
     void _inspect() override;
-    void _dump() const override;
+    void _dump(std::stringstream& ss) const override;
 
     
     //

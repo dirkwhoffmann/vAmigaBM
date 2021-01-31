@@ -33,9 +33,9 @@ UART::_inspect()
 }
 
 void
-UART::_dump() const
+UART::_dump(std::stringstream& ss) const
 {
-    msg("   serper: %X\n", serper);
+    ss << "serper: %X\n" << (int)serper;
 }
 
 u16

@@ -31,11 +31,11 @@ ScreenRecorder::_reset(bool hard)
 }
 
 void
-ScreenRecorder::_dump() const
+ScreenRecorder::_dump(std::stringstream& ss) const
 {
-    msg("%s:%s installed\n", ffmpegPath(), hasFFmpeg() ? "" : " not");
-    msg("Video pipe:%s created\n", videoPipe != -1 ? "" : " not");
-    msg("Audio pipe:%s created\n", audioPipe != -1 ? "" : " not");
+    ss << ffmpegPath() << ": " << (hasFFmpeg() ? "" : "not ") << "installed" << std::endl;
+    ss << "Video pipe: " << (videoPipe != -1 ? "" : "not ") << "created";
+    ss << "Audio pipe: " << (audioPipe != -1 ? "" : " not ") << "created";
 }
     
 bool

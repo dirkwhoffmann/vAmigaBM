@@ -50,22 +50,4 @@ template <class T, typename E> struct Reflection {
         
         return result;
     }
-    
-    // Verifies a key (used by the configuration methods)
-    [[deprecated]] static bool verify(long nr, long min = 1) {
-        
-        if (T::isValid(nr)) return true;
-        
-        printf("ERROR: %ld doesn't specify a valid key.\nValid keys: ", nr);
-        
-        auto p = pairs(min);
-        for(auto it = std::begin(p); it != std::end(p); ++it) {
-            if (it != std::begin(p)) printf(", ");
-            if (T::prefix()) printf("%s_", T::prefix());
-            printf("%s", it->first.c_str());
-        }
- 
-        printf("\n");
-        return false;
-    }
 };

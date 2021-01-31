@@ -241,26 +241,6 @@ CPU::_inspect(u32 dasmStart)
 }
 
 void
-CPU::_dump() const
-{
-    msg("     PC0: %8X\n", reg.pc0);
-    msg(" D0 - D3: ");
-    for (isize i = 0; i < 4; i++) msg("%8X ", reg.d[i]);
-    msg("\n");
-    msg(" D4 - D7: ");
-    for (isize i = 4; i < 8; i++) msg("%8X ", reg.d[i]);
-    msg("\n");
-    msg(" A0 - A3: ");
-    for (isize i = 0; i < 4; i++) msg("%8X ", reg.a[i]);
-    msg("\n");
-    msg(" A4 - A7: ");
-    for (isize i = 4; i < 8; i++) msg("%8X ", reg.a[i]);
-    msg("\n");
-    msg("     SSP: %X\n", reg.ssp);
-    msg("   Flags: %X\n", getSR());
-}
-
-void
 CPU::_dump(std::stringstream& ss) const
 {
     for (int i = 0; i < 4; i++) ss << "D" << i << ": " << HEX32 << reg.d[i] << " ";

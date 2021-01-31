@@ -63,13 +63,13 @@ Keyboard::_dumpConfig() const
 }
 
 void
-Keyboard::_dump() const
+Keyboard::_dump(std::stringstream& ss) const
 {
-    msg("Type ahead buffer: ");
+    ss << "Type ahead buffer: ";
     for (isize i = 0; i < bufferIndex; i++) {
-        msg("%02X ", typeAheadBuffer[i]);
+        ss << HEX8 << (int)typeAheadBuffer[i] << " ";
     }
-    msg("\n");
+    ss << std::endl;
 }
 
 bool

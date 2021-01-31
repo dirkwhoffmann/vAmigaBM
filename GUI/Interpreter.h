@@ -141,14 +141,6 @@ private:
     
     
     //
-    // Printing output
-    //
-    
-    [[deprecated]] void print(const string& s);
-    [[deprecated]] void println(const string& s);
-
-    
-    //
     // Executing commands
     //
     

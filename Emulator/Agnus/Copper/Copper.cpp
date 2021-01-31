@@ -38,19 +38,20 @@ Copper::_inspect()
 }
 
 void
-Copper::_dump() const
+Copper::_dump(std::stringstream& ss) const
 {
     bool active = agnus.isPending<SLOT_COP>();
-    msg("    cdang: %d\n", cdang);
-    msg("   active: %s\n", active ? "yes" : "no");
-    if (active) msg("    state: %ld\n", (long)agnus.slot[SLOT_COP].id);
-    msg("    coppc: %X\n", coppc);
-    msg("  copins1: %X\n", cop1ins);
-    msg("  copins2: %X\n", cop2ins);
-    msg("   cop1lc: %X\n", cop1lc);
-    msg("   cop2lc: %X\n", cop2lc);
-    msg("  cop1end: %X\n", cop1end);
-    msg("  cop2end: %X\n", cop2end);
+
+    ss << "    cdang : %d\n" << cdang;
+    ss << "   active : %s\n" << (active ? "yes" : "no");
+    if (active) ss << "    state : " << (long)agnus.slot[SLOT_COP].id;
+    ss << "    coppc : %X\n" << coppc;
+    ss << "  copins1 : %X\n" << cop1ins;
+    ss << "  copins2 : %X\n" << cop2ins;
+    ss << "   cop1lc : %X\n" << cop1lc;
+    ss << "   cop2lc : %X\n" << cop2lc;
+    ss << "  cop1end : %X\n" << cop1end;
+    ss << "  cop2end : %X\n" << cop2end;
 }
 
 void

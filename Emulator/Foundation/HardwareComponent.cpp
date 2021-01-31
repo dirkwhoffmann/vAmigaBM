@@ -100,7 +100,11 @@ HardwareComponent::inspect()
 void
 HardwareComponent::dump() const
 {
-    _dump();
+    std::stringstream ss;
+    string line;
+
+    _dump(ss);
+    while(std::getline(ss, line)) std::cout << line << '\n';
 }
 
 void HardwareComponent::dump(std::stringstream& ss) const
@@ -108,6 +112,7 @@ void HardwareComponent::dump(std::stringstream& ss) const
     _dump(ss);
 }
 
+/*
 void
 HardwareComponent::_dump() const
 {
@@ -117,6 +122,7 @@ HardwareComponent::_dump() const
     _dump(ss);
     while(std::getline(ss, line)) std::cout << line << '\n';
 }
+*/
 
 isize
 HardwareComponent::size()
