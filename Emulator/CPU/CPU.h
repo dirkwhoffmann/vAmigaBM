@@ -39,6 +39,8 @@ public:
     
     CPUInfo getInfo() { return HardwareComponent::getInfo(info); }
         
+private:
+    
     void _inspect() override;
     void _inspect(u32 dasmStart);
     void _dump() const override;

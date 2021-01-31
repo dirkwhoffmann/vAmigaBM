@@ -112,7 +112,7 @@ bool
 Interpreter::execSingle(Arguments &argv)
 {
     if (argv.front() == "clear") {
-        app.console.clear();
+        app.console.clearLine();
         return true;
     }
     
@@ -171,7 +171,7 @@ Interpreter::execMultiple(Arguments &argv)
     for (auto &it : current->args) {
         tab = std::max(tab, (int)it.name.length());
     }
-    tab += 8;
+    tab += 7;
     
     app.console << "usage: ";
     app.console << prefix << current->arg1 << ' ' << current->arg2 << '\n';

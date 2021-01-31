@@ -78,4 +78,39 @@ Interpreter::registerInstructions()
     init("cpu", "inspect", "", "",
          "Display the internal state",
          &Controller::exec <Token::cpu, Token::inspect>);
+    
+    //
+    // Dfn
+    //
+    
+    init("df0", "<command>", "[<arguments>]",
+         "Internal floppy drive");
+    
+    init("df0", "inspect", "", "",
+         "Display the internal state",
+         &Controller::exec <Token::df0, Token::inspect>);
+
+    init("df1", "<command>", "[<arguments>]",
+         "First external floppy drive");
+
+    init("df1", "inspect", "", "",
+         "Display the internal state",
+         &Controller::exec <Token::df1, Token::inspect>);
+
+    init("df2", "<command>", "[<arguments>]",
+         "Second external floppy drive");
+    
+    init("df2", "inspect", "", "",
+         "Display the internal state",
+         &Controller::exec <Token::df2, Token::inspect>);
+
+    init("df3", "<command>", "[<arguments>]",
+         "Third external floppy drive");
+
+    init("df3", "inspect", "", "",
+         "Display the internal state",
+         &Controller::exec <Token::df3, Token::inspect>);
+
+ 
+    
 }

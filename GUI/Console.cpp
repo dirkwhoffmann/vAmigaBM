@@ -30,9 +30,12 @@ Console::init()
     // Initialize the input buffer
     input.push_back("");
 
-    println("Retro Shell v0.1, Dirk W. Hoffmann, 2021");
-    println("Type 'help' for a list of available commands.");
-    print(string(prompt));
+    *this << "vAmiga core " << V_MAJOR << '.' << V_MINOR << '.' << V_SUBMINOR;
+    *this << " (" __DATE__ << " " << __TIME__ << ')' << '\n';
+    *this << "(C)opyright Dirk W. Hoffmann" << '\n' << '\n';
+    *this << "Type 'help' for a list of available commands." << '\n' << '\n';
+    
+    *this << prompt;
         
     // Initialize the cursor
     glyphWidth = font.getGlyph(32, fontSize, false).advance;

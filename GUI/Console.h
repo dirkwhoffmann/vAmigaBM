@@ -131,11 +131,15 @@ public:
     Console& operator<<(char value);
     Console& operator<<(const std::string& value);
     Console& operator<<(int value);
+    [[deprecated]] void print(const std::string& text) { *this << text; }
+    [[deprecated]] void println(const std::string& text) { *this << text << '\n'; }
+    [[deprecated]] void println() { *this << '\n'; }
+
+    // Clears the current line
+    void clearLine() { *this << '\r'; }
+
+    // Moves to cursor forward to a certain column
     void tab(int hpos);
-    void clear() { *this << '\r'; }
-    void print(const std::string& text) { *this << text; }
-    void println(const std::string& text) { *this << text << '\n'; }
-    void println() { *this << '\n'; }
 
     // Replaces the last line
     void replace(const std::string& text,

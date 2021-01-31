@@ -92,16 +92,59 @@ Controller::exec <Token::cpu, Token::inspect> (Arguments& argv)
     std::stringstream ss;
     string line;
 
-    amiga.cpu._dump(ss);
+    amiga.cpu.dump(ss);
+    while(std::getline(ss, line)) console << line << '\n';
+}
+
+
+//
+// Dfn
+//
+
+template <> void
+Controller::exec <Token::dfn, Token::inspect> (Arguments& argv, int n)
+{
+    std::stringstream ss;
+    string line;
+
+    amiga.df[n]->dump(ss);
     while(std::getline(ss, line)) console << line << '\n';
 }
 
 template <> void
+Controller::exec <Token::df0, Token::inspect> (Arguments& argv)
+{
+    exec <Token::dfn, Token::inspect> (argv, 0);
+}
+
+template <> void
+Controller::exec <Token::df1, Token::inspect> (Arguments& argv)
+{
+    exec <Token::dfn, Token::inspect> (argv, 1);
+}
+
+template <> void
+Controller::exec <Token::df2, Token::inspect> (Arguments& argv)
+{
+    exec <Token::dfn, Token::inspect> (argv, 2);
+}
+
+template <> void
+Controller::exec <Token::df3, Token::inspect> (Arguments& argv)
+{
+    exec <Token::dfn, Token::inspect> (argv, 3);
+}
+
+
+
+//
+// Misc
+//
+
+template <> void
 Controller::exec <Token::easteregg> (Arguments& argv)
 {
-    console.println("GREETINGS PROFESSOR HOFFMANN");
-    console.println();
-    console.println("THE ONLY WINNING MOVE IS NOT TO PLAY.");
-    console.println();
-    console.println("HOW ABOUT A NICE GAME OF CHESS?");
+    console << "GREETINGS PROFESSOR HOFFMANN" << '\n' << '\n';
+    console << "THE ONLY WINNING MOVE IS NOT TO PLAY." << '\n' << '\n';
+    console << "HOW ABOUT A NICE GAME OF CHESS?";
 }

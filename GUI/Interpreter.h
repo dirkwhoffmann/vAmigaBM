@@ -62,6 +62,7 @@ enum class Token
     cia,
     cpu,
     denise,
+    dfn,
     df0,
     df1,
     df2,
