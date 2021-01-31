@@ -35,7 +35,7 @@ enum class Token
     eject,
     help,
     insert,
-    inspect,
+    dump,
     list,
     on,
     off,

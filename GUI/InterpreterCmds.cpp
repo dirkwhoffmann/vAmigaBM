@@ -21,9 +21,9 @@ Interpreter::registerInstructions()
     root.add("agnus", "<command>", "[<arguments>]",
              "Amiga custom chip");
     
-    root.add("agnus", "inspect", "", "",
+    root.add("agnus", "dump", "", "",
              "Display the internal state",
-             &Controller::exec <Token::agnus, Token::inspect>, 0);
+             &Controller::exec <Token::agnus, Token::dump>, 0);
     
     root.add("agnus", "set", "<key>", "<value>",
              "Configure the component");
@@ -43,9 +43,9 @@ Interpreter::registerInstructions()
     root.add("amiga", "<command>", "[<arguments>]",
              "The virtual Amiga");
     
-    root.add("amiga", "inspect", "", "",
+    root.add("amiga", "dump", "", "",
              "Display the internal state",
-             &Controller::exec <Token::amiga, Token::inspect>, 0);
+             &Controller::exec <Token::amiga, Token::dump>, 0);
     
     root.add("amiga", "off", "", "",
              "Switch the Amiga off",
@@ -74,9 +74,9 @@ Interpreter::registerInstructions()
     root.add("cpu", "<command>", "[<arguments>]",
              "Motorola 68k CPU");
     
-    root.add("cpu", "inspect", "", "",
+    root.add("cpu", "dump", "", "",
              "Display the internal state",
-             &Controller::exec <Token::cpu, Token::inspect>, 0);
+             &Controller::exec <Token::cpu, Token::dump>, 0);
     
     //
     // Df0, Df1, Df2, Df3
@@ -85,6 +85,10 @@ Interpreter::registerInstructions()
     root.add("dfn", "<command>", "[<arguments>]",
              "Floppy drive");
     
+    root.add("dfn", "dump", "", "",
+             "Display the internal state",
+             &Controller::exec <Token::dfn, Token::dump>, 0);
+
     root.add("dfn", "eject", "", "",
              "Eject floppy disk",
              &Controller::exec <Token::dfn, Token::eject>, 0);
@@ -92,8 +96,4 @@ Interpreter::registerInstructions()
     root.add("dfn", "insert", "<path>", "",
              "Insert floppy disk",
              &Controller::exec <Token::dfn, Token::insert>, 0);
-
-    root.add("dfn", "inspect", "", "",
-             "Display the internal state",
-             &Controller::exec <Token::dfn, Token::inspect>, 0);
 }

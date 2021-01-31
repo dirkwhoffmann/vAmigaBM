@@ -210,23 +210,37 @@ Agnus::_inspect()
 void
 Agnus::_dump(std::stringstream& ss) const
 {
-    ss << " actions : " << std::hex << hsyncActions << std::endl;
+    ss << "SPR0PT: " << HEX32 << sprpt[0] << "  ";
+    ss << "BPL0PT: " << HEX32 << bplpt[0] << "  ";
+    ss << "AUD0PT: " << HEX32 << audpt[0] << "  ";
+    ss << "DSKPT: " << HEX32 << dskpt << std::endl;
 
-    ss << "   dskpt : " << HEX32 << dskpt;
-    for (isize i = 0; i < 4; i++) {
-        ss << "audpt[" << i << "] : " << HEX32 << audpt[i] << std::endl;
-    }
-    for (isize i = 0; i < 6; i++) {
-        ss << "bplpt[" << i << "] : " << HEX32 << bplpt[i] << std::endl;
-    }
-    for (isize i = 0; i < 8; i++) {
-        ss << "sprpt[" << i << "] : " << HEX32 << sprpt[i] << std::endl;
-    }
+    ss << "SPR1PT: " << HEX32 << sprpt[1] << "  ";
+    ss << "BPL1PT: " << HEX32 << bplpt[1] << "  ";
+    ss << "AUD1PT: " << HEX32 << audpt[1] << std::endl;
+
+    ss << "SPR2PT: " << HEX32 << sprpt[2] << "  ";
+    ss << "BPL2PT: " << HEX32 << bplpt[2] << "  ";
+    ss << "AUD2PT: " << HEX32 << audpt[2] << std::endl;
+
+    ss << "SPR3PT: " << HEX32 << sprpt[3] << "  ";
+    ss << "BPL3PT: " << HEX32 << bplpt[3] << "  ";
+    ss << "AUD3PT: " << HEX32 << audpt[3] << std::endl;
+
+    ss << "SPR4PT: " << HEX32 << sprpt[4] << "  ";
+    ss << "BPL4PT: " << HEX32 << bplpt[4] << std::endl;
+
+    ss << "SPR5PT: " << HEX32 << sprpt[5] << "  ";
+    ss << "BPL5PT: " << HEX32 << bplpt[5] << std::endl;
+
+    ss << "SPR6PT: " << HEX32 << sprpt[6] << std::endl;
+    ss << "SPR7PT: " << HEX32 << sprpt[6] << std::endl;
     
-    ss << "   hstrt : " << std::dec << diwHstrt;
-    ss << "   hstop : " << std::dec << diwHstop;
-    ss << "   vstrt : " << std::dec << diwVstrt;
-    ss << "   vstop : " << std::dec << diwVstop;
+    ss << "DIW: hstrt: " << std::dec << diwHstrt;
+    ss << " hstop: " << std::dec << diwHstop;
+    ss << " vstrt: " << std::dec << diwVstrt;
+    ss << " vstop: " << std::dec << diwVstop;
+    ss << std::endl;
 
     /*
     ss << "\nBPL DMA table:\n\n");

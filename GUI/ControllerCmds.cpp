@@ -14,7 +14,7 @@
 //
 
 template <> void
-Controller::exec <Token::agnus, Token::inspect> (Arguments &argv, long param)
+Controller::exec <Token::agnus, Token::dump> (Arguments &argv, long param)
 {
     std::stringstream ss; string line;
 
@@ -80,7 +80,7 @@ Controller::exec <Token::amiga, Token::reset> (Arguments &argv, long param)
 }
 
 template <> void
-Controller::exec <Token::amiga, Token::inspect> (Arguments &argv, long param)
+Controller::exec <Token::amiga, Token::dump> (Arguments &argv, long param)
 {
     std::stringstream ss; string line;
 
@@ -93,7 +93,7 @@ Controller::exec <Token::amiga, Token::inspect> (Arguments &argv, long param)
 //
 
 template <> void
-Controller::exec <Token::cpu, Token::inspect> (Arguments& argv, long param)
+Controller::exec <Token::cpu, Token::dump> (Arguments& argv, long param)
 {
     std::stringstream ss; string line;
 
@@ -114,7 +114,7 @@ Controller::exec <Token::dfn, Token::eject> (Arguments& argv, long param)
 }
 
 template <> void
-Controller::exec <Token::dfn, Token::inspect> (Arguments& argv, long param)
+Controller::exec <Token::dfn, Token::dump> (Arguments& argv, long param)
 {
     std::stringstream ss;
     string line;
