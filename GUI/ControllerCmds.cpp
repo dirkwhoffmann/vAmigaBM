@@ -157,7 +157,7 @@ Controller::exec <Token::dfn, Token::insert> (Arguments& argv, long param)
 template <> void
 Controller::exec <Token::easteregg> (Arguments& argv, long param)
 {
-    console << "GREETINGS PROFESSOR HOFFMANN" << '\n' << '\n';
+    console << "GREETINGS PROFESSOR HOFFMANN." << '\n' << '\n';
     console << "THE ONLY WINNING MOVE IS NOT TO PLAY." << '\n' << '\n';
     console << "HOW ABOUT A NICE GAME OF CHESS?" << '\n';
 }

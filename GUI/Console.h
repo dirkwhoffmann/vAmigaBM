@@ -47,7 +47,7 @@ class Console {
     std::vector<std::string> storage;
     
     // The number of the first displayed line
-    int first = 0;
+    isize first = 0;
     
     // The render texture
     sf::RenderTexture texture;
@@ -100,8 +100,8 @@ public:
     // Properties
     //
     
-    int hposForCol(int i) { return 10 + i * glyphWidth; }
-    int vposForRow(int i) { return 5 + (fontSize + lineSkip) * i; }
+    isize hposForCol(isize i) { return 10 + i * glyphWidth; }
+    isize vposForRow(isize i) { return 5 + (fontSize + lineSkip) * i; }
         
     bool isVisible() { return alpha > 0; }
     bool isAnimating() { return alpha != targetAlpha; }
@@ -134,11 +134,6 @@ public:
     Console& operator<<(char value);
     Console& operator<<(const std::string& value);
     Console& operator<<(int value);
-    /*
-    [[deprecated]] void print(const std::string& text) { *this << text; }
-    [[deprecated]] void println(const std::string& text) { *this << text << '\n'; }
-    [[deprecated]] void println() { *this << '\n'; }
-    */
     
     // Clears the current line
     void clearLine() { *this << '\r'; }
@@ -154,15 +149,14 @@ public:
     void list();
 
     // Returns the row number of the last displayed line
-    int rowOfLastLine();
+    isize rowOfLastLine();
 
     // Checks if the last line is visible
     bool lastLineIsVisible() { return rowOfLastLine() < numRows; }
     
     // Selects the displayed part of the text storage
-    void scrollToLine(int line);
+    void scrollToLine(isize line);
     void scrollToTop();
-    void scrollToBottom();
     void makeLastLineVisible();
 
     

@@ -124,6 +124,11 @@ Interpreter::execSingle(Arguments &argv)
         return true;
     }
 
+    if (argv.front() == "exit" || argv.front() == "hide") {
+        app.console.close();
+        return true;
+    }
+
     if (argv.front() == "joshua") {
         controller.exec <Token::easteregg> (argv, 0);
         return true;

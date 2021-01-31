@@ -152,12 +152,10 @@ Console::list()
 }
 
 void
-Console::scrollToLine(int line)
+Console::scrollToLine(isize line)
 {
-    line = std::max(line, 0);
-    line = std::min(line, (int)storage.size() - 1);
+    line = std::clamp(line, (isize)0, (isize)storage.size() - 1);
         
-    printf("first = %d line = %d\n", first, line);
     isDirty = line != first;
     first = line;
 }
@@ -169,21 +167,17 @@ Console::scrollToTop()
 }
 
 void
-Console::scrollToBottom()
-{
-    scrollToLine((int)storage.size() - numRows);
-}
-
-void
 Console::makeLastLineVisible()
 {
-    if (!lastLineIsVisible()) scrollToBottom();
+    if (!lastLineIsVisible()) {
+        scrollToLine((int)storage.size() - numRows);
+    }
 }
 
-int
+isize
 Console::rowOfLastLine()
 {
-    return (int)storage.size() - first - 1;
+    return (isize)storage.size() - first - 1;
 }
 
 void
@@ -344,8 +338,8 @@ Console::updateTexture()
     }
     
     // Draw cursor
-    int cursorX = hposForCol(hpos + (int)prompt.length());
-    int cursorY = vposForRow(rowOfLastLine()) + 3;
+    isize cursorX = hposForCol(hpos + (int)prompt.length());
+    isize cursorY = vposForRow(rowOfLastLine()) + 3;
     cursor.setPosition(cursorX, cursorY);
     texture.draw(cursor);
 }
