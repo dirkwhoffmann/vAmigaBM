@@ -10,6 +10,61 @@
 #include "Application.h"
 #include "Interpreter.h"
 
+CmdDescriptor *
+CmdDescriptor::add(const std::string &token,
+                   const std::string &a1, const std::string &a2,
+                   const std::string &help,
+                   long param,
+                   void (Controller::*func)(Arguments&, long))
+{
+    // Make sure the key does not yet exist
+    assert(seek(token) == nullptr);
+
+    // Expand template tokens
+    if (token == "dfn") {
+        add("df0", a1, a2, help, 0, func);
+        add("df1", a1, a2, help, 1, func);
+        add("df2", a1, a2, help, 2, func);
+        add("df3", a1, a2, help, 3, func);
+        return nullptr;
+    }
+    
+    // Register instruction
+    CmdDescriptor d { token, a1, a2, help, std::vector<CmdDescriptor>(), func, param };
+    args.push_back(d);
+    
+    return seek(token);
+}
+
+CmdDescriptor *
+CmdDescriptor::add(const std::string &t1, const std::string &t2,
+                   const std::string &a1, const std::string &a2,
+                   const std::string &help,
+                   long param,
+                   void (Controller::*func)(Arguments&, long))
+{
+    // Expand template tokens
+    if (t1 == "dfn") {
+        add("df0", t2, a1, a2, help, 0, func);
+        add("df1", t2, a1, a2, help, 1, func);
+        add("df2", t2, a1, a2, help, 2, func);
+        add("df3", t2, a1, a2, help, 3, func);
+        return nullptr;
+    }
+    
+    return seek(t1)->add(t2, a1, a2, help, param, func);
+}
+
+CmdDescriptor *
+CmdDescriptor::add(const std::string &t1, const std::string &t2, const std::string &t3,
+                   const std::string &a1, const std::string &a2,
+                   const std::string &help,
+                   long param,
+                   void (Controller::*func)(Arguments&, long))
+{
+    return seek(t1)->add(t2, t3, a1, a2, help, param, func);
+}
+
 Interpreter::Interpreter(Application &ref) : app(ref), controller(ref.controller)
 {
     registerInstructions();

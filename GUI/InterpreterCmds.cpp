@@ -18,99 +18,74 @@ Interpreter::registerInstructions()
     //
     // Agnus
     //
+    root.add("agnus", "<command>", "[<arguments>]",
+             "Amiga custom chip");
     
-    init1("agnus", "<command>", "[<arguments>]",
-         "Amiga custom chip");
-    
-    init2("agnus", "inspect", "", "",
+    root.add("agnus", "inspect", "", "",
          "Display the internal state",
-         &Controller::exec <Token::agnus, Token::inspect>);
+         0, &Controller::exec <Token::agnus, Token::inspect>);
     
-    init2("agnus", "set", "<key>", "<value>",
+    root.add("agnus", "set", "<key>", "<value>",
          "Configure the component");
     
-    init3("agnus", "set", "" ,"", "",
+    root.add("agnus", "set", "" ,"", "",
          "Display the current configuration",
-         &Controller::exec <Token::agnus, Token::set>);
+         0, &Controller::exec <Token::agnus, Token::set>);
 
-    init3("agnus", "set", "revision" ,"<revision>", "",
+    root.add("agnus", "set", "revision" ,"<revision>", "",
          "Select the emulated chip model",
-         &Controller::exec <Token::agnus, Token::set, Token::revision>);
+         0, &Controller::exec <Token::agnus, Token::set, Token::revision>);
     
     //
     // Amiga
     //
     
-    init1("amiga", "<command>", "[<arguments>]",
+    root.add("amiga", "<command>", "[<arguments>]",
          "The virtual Amiga");
     
-    init2("amiga", "inspect", "", "",
+    root.add("amiga", "inspect", "", "",
          "Display the internal state",
-         &Controller::exec <Token::amiga, Token::inspect>);
+         0, &Controller::exec <Token::amiga, Token::inspect>);
     
-    init2("amiga", "off", "", "",
+    root.add("amiga", "off", "", "",
          "Switch the Amiga off",
-         &Controller::exec <Token::amiga, Token::off>);
+         0, &Controller::exec <Token::amiga, Token::off>);
     
-    init2("amiga", "on", "", "",
+    root.add("amiga", "on", "", "",
          "Switch the Amiga on",
-         &Controller::exec <Token::amiga, Token::on>);
+         0, &Controller::exec <Token::amiga, Token::on>);
     
-    init2("amiga", "pause", "", "",
+    root.add("amiga", "pause", "", "",
          "Halt the emulator thread",
-         &Controller::exec <Token::amiga, Token::pause>);
+         0, &Controller::exec <Token::amiga, Token::pause>);
 
-    init2("amiga", "reset", "", "",
+    root.add("amiga", "reset", "", "",
          "Perform a hard reset",
-         &Controller::exec <Token::amiga, Token::reset>);
+         0, &Controller::exec <Token::amiga, Token::reset>);
 
-    init2("amiga", "run", "", "",
+    root.add("amiga", "run", "", "",
          "Start the emulator thread",
-         &Controller::exec <Token::amiga, Token::run>);
+         0, &Controller::exec <Token::amiga, Token::run>);
     
     //
     // CPU
     //
 
-    init1("cpu", "<command>", "[<arguments>]",
+    root.add("cpu", "<command>", "[<arguments>]",
          "Motorola 68k CPU");
     
-    init2("cpu", "inspect", "", "",
+    root.add("cpu", "inspect", "", "",
          "Display the internal state",
-         &Controller::exec <Token::cpu, Token::inspect>);
+         0, &Controller::exec <Token::cpu, Token::inspect>);
     
     //
-    // Dfn
+    // Df0, Df1, Df2, Df3
     //
     
-    init1("df0", "<command>", "[<arguments>]",
-         "Internal floppy drive");
+    root.add("dfn", "<command>", "[<arguments>]",
+         "Floppy drive");
     
-    init2("df0", "inspect", "", "",
+    root.add("dfn", "inspect", "", "",
          "Display the internal state",
-         &Controller::exec <Token::dfn, Token::inspect>, 0);
-
-    init1("df1", "<command>", "[<arguments>]",
-         "First external floppy drive");
-
-    init2("df1", "inspect", "", "",
-         "Display the internal state",
-         &Controller::exec <Token::dfn, Token::inspect>, 1);
-
-    init1("df2", "<command>", "[<arguments>]",
-         "Second external floppy drive");
-    
-    init2("df2", "inspect", "", "",
-         "Display the internal state",
-         &Controller::exec <Token::dfn, Token::inspect>, 2);
-
-    init1("df3", "<command>", "[<arguments>]",
-         "Third external floppy drive");
-
-    init2("df3", "inspect", "", "",
-         "Display the internal state",
-         &Controller::exec <Token::dfn, Token::inspect>, 3);
-
- 
-    
+         0, &Controller::exec <Token::dfn, Token::inspect>);
 }

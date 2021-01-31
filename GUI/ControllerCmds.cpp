@@ -98,7 +98,7 @@ Controller::exec <Token::cpu, Token::inspect> (Arguments& argv, long param)
 
 
 //
-// Dfn
+// Df0, Df1, Df2, Df3
 //
 
 template <> void
@@ -107,6 +107,8 @@ Controller::exec <Token::dfn, Token::inspect> (Arguments& argv, long param)
     std::stringstream ss;
     string line;
 
+    printf("Df%ld::inspect\n", param);
+    
     amiga.df[param]->dump(ss);
     while(std::getline(ss, line)) console << line << '\n';
 }

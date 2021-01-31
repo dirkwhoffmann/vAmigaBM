@@ -48,9 +48,29 @@ struct CmdDescriptor {
     string info; 
     std::vector<CmdDescriptor> args;
     void (Controller::*func)(Arguments&, long) = nullptr;
-    long param;
+    long param = 0;
     
+    // Returns a matching descriptor from the args vector
     CmdDescriptor *seek(const string& token);
+    
+    // Appends a new descriptor to the args vector
+    CmdDescriptor *add(const std::string &token,
+                       const std::string &a1, const std::string &a2,
+                       const std::string &help,
+                       long param = 0,
+                       void (Controller::*func)(Arguments&, long) = nullptr);
+    
+    CmdDescriptor *add(const std::string &t1, const std::string &t2,
+                       const std::string &a1, const std::string &a2,
+                       const std::string &help,
+                       long param = 0,
+                       void (Controller::*func)(Arguments&, long) = nullptr);
+    
+    CmdDescriptor *add(const std::string &t1, const std::string &t2, const std::string &t3,
+                       const std::string &a1, const std::string &a2,
+                       const std::string &help,
+                       long param = 0,
+                       void (Controller::*func)(Arguments&, long) = nullptr);
 };
 
 enum class Token
