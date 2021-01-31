@@ -14,31 +14,41 @@
 
 class Controller;
 
-typedef std::list<std::string> Arguments;
-
-struct ParseError : public std::exception
+enum class Token
 {
-    std::string description;
-    ParseError() : description("") { }
-    ParseError(const std::string &s) : description(s) { }
-    const char *what() const throw() override { return description.c_str(); }
+    none,
+    
+    // Components
+    agnus,
+    amiga,
+    cia,
+    cpu,
+    denise,
+    dfn,
+    diskcontroller,
+    paula,
+    rtc,
+
+    // Commands
+    about,
+    easteregg,
+    eject,
+    help,
+    insert,
+    inspect,
+    list,
+    on,
+    off,
+    pause,
+    reset,
+    run,
+    set,
+    
+    // Keys
+    revision
 };
 
-struct UnknownComponentError : public ParseError {
-    UnknownComponentError(const std::string &s) : ParseError(s) { }
-};
-
-struct UnknownCommandError : public ParseError {
-    UnknownCommandError(const std::string &s) : ParseError(s) { }
-};
-
-struct TooFewArgumentsError : public ParseError {
-    TooFewArgumentsError() : ParseError() { }
-};
-
-struct TooManyArgumentsError : public ParseError {
-    TooManyArgumentsError() : ParseError() { }
-};
+typedef std::list<std::string> Arguments;
 
 struct CmdDescriptor {
     
@@ -73,42 +83,28 @@ struct CmdDescriptor {
                        long param = 0);
 };
 
-enum class Token
+struct ParseError : public std::exception
 {
-    none,
-    
-    // Components
-    agnus,
-    amiga,
-    cia,
-    cpu,
-    denise,
-    dfn,
-    //df0,
-    //df1,
-    //df2,
-    //df3,
-    diskcontroller,
-    paula,
-    rtc,
+    std::string description;
+    ParseError() : description("") { }
+    ParseError(const std::string &s) : description(s) { }
+    const char *what() const throw() override { return description.c_str(); }
+};
 
-    // Commands
-    about,
-    easteregg,
-    eject,
-    help,
-    insert,
-    inspect,
-    list,
-    on,
-    off,
-    pause,
-    reset,
-    run,
-    set,
-    
-    // Keys
-    revision
+struct UnknownComponentError : public ParseError {
+    UnknownComponentError(const std::string &s) : ParseError(s) { }
+};
+
+struct UnknownCommandError : public ParseError {
+    UnknownCommandError(const std::string &s) : ParseError(s) { }
+};
+
+struct TooFewArgumentsError : public ParseError {
+    TooFewArgumentsError() : ParseError() { }
+};
+
+struct TooManyArgumentsError : public ParseError {
+    TooManyArgumentsError() : ParseError() { }
 };
 
 class Interpreter
@@ -133,28 +129,6 @@ private:
     
     // Registers the instruction set
     void registerInstructions();
-    
-    
-    //
-    // Managing the instruction descriptor list
-    //
-
-public:
-    
-    void init1(const std::string &t1,
-               const std::string &a1, const std::string &a2,
-               const std::string &help,
-               void (Controller::*func)(Arguments&, long) = nullptr, long param = 0);
-    
-    void init2(const std::string &t1, const std::string &t2,
-               const std::string &a1, const std::string &a2,
-               const std::string &help,
-               void (Controller::*func)(Arguments&, long) = nullptr, long param = 0);
-    
-    void init3(const std::string &t1, const std::string &t2, const std::string &t3,
-               const std::string &a1, const std::string &a2,
-               const std::string &help,
-               void (Controller::*func)(Arguments&, long) = nullptr, long param = 0);
     
     
     //

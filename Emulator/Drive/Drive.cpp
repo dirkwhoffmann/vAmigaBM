@@ -109,27 +109,25 @@ Drive::_dumpConfig() const
 }
 
 void
-Drive::_dump() const
+Drive::_dump(std::stringstream& ss) const
 {
-    msg("                Nr: %zd\n", nr);
-    msg("          Id count: %d\n", idCount);
-    msg("            Id bit: %d\n", idBit);
-    msg("      motorSpeed(): %.2f\n", motorSpeed());
-    msg("        getMotor(): %s\n", getMotor() ? "on" : "off");
-    msg(" motorSpeedingUp(): %s\n", motorSpeedingUp() ? "yes" : "no");
-    msg("motorAtFullSpeed(): %s\n", motorAtFullSpeed() ? "yes" : "no");
-    msg("motorSlowingDown(): %s\n", motorSlowingDown() ? "yes" : "no");
-    msg("    motorStopped(): %s\n", motorStopped() ? "yes" : "no");
-    msg("         dskchange: %d\n", dskchange);
-    msg("            dsklen: %X\n", dsklen);
-    msg("               prb: %X\n", prb);
-    msg("              Side: %d\n", head.side);
-    msg("          Cylinder: %d\n", head.cylinder);
-    msg("            Offset: %d\n", head.offset);
-    msg("   cylinderHistory: %llX\n", cylinderHistory);
-    msg("              Disk: %s\n", disk ? "yes" : "no");
-    
-    if (disk) disk->dump();
+    ss << "                Nr: " << (int)nr << std::endl;
+    ss << "          Id count: " << (int)idCount << std::endl;
+    ss << "            Id bit: " << (int)idBit << std::endl;
+    ss << "      motorSpeed(): " << motorSpeed() << std::endl;
+    ss << "        getMotor(): " << (getMotor() ? "on" : "off") << std::endl;
+    ss << " motorSpeedingUp(): " << (motorSpeedingUp() ? "yes" : "no") << std::endl;
+    ss << "motorAtFullSpeed(): " << (motorAtFullSpeed() ? "yes" : "no") << std::endl;
+    ss << "motorSlowingDown(): " << (motorSlowingDown() ? "yes" : "no") << std::endl;
+    ss << "    motorStopped(): " << (motorStopped() ? "yes" : "no") << std::endl;
+    ss << "         dskchange: " << dskchange << std::endl;
+    ss << "            dsklen: " << (int)dsklen << std::endl;
+    ss << "               prb: " << (int)prb << std::endl;
+    ss << "              Side: " << (int)head.side << std::endl;
+    ss << "          Cylinder: " << (int)head.cylinder << std::endl;
+    ss << "            Offset: " << (int)head.offset << std::endl;
+    ss << "   cylinderHistory: " << cylinderHistory << std::endl;
+    ss << "              Disk: " << (disk ? "yes" : "no") << std::endl;
 }
 
 isize

@@ -85,6 +85,14 @@ Interpreter::registerInstructions()
     root.add("dfn", "<command>", "[<arguments>]",
              "Floppy drive");
     
+    root.add("dfn", "eject", "", "",
+             "Eject floppy disk",
+             &Controller::exec <Token::dfn, Token::eject>, 0);
+
+    root.add("dfn", "insert", "<path>", "",
+             "Insert floppy disk",
+             &Controller::exec <Token::dfn, Token::insert>, 0);
+
     root.add("dfn", "inspect", "", "",
              "Display the internal state",
              &Controller::exec <Token::dfn, Token::inspect>, 0);

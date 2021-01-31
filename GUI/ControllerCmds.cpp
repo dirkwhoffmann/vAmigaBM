@@ -102,15 +102,37 @@ Controller::exec <Token::cpu, Token::inspect> (Arguments& argv, long param)
 //
 
 template <> void
+Controller::exec <Token::dfn, Token::eject> (Arguments& argv, long param)
+{
+    printf("Df%ld::eject\n", param);
+    amiga.df[param]->ejectDisk();
+}
+
+template <> void
 Controller::exec <Token::dfn, Token::inspect> (Arguments& argv, long param)
 {
     std::stringstream ss;
     string line;
-
-    printf("Df%ld::inspect\n", param);
     
     amiga.df[param]->dump(ss);
     while(std::getline(ss, line)) console << line << '\n';
+}
+
+template <> void
+Controller::exec <Token::dfn, Token::insert> (Arguments& argv, long param)
+{
+    printf("Df%ld::insert\n", param);
+
+    string path = argv.front();
+    
+    try {
+        ADFFile *adf = AmigaFile::make <ADFFile> (path.c_str());
+        Disk *disk = Disk::makeWithFile(adf);
+        amiga.df[param]->insertDisk(disk);
+        
+    } catch (VAError &err) {
+        console << "Failed to insert disk: " << err.what() << '\n';
+    }
 }
 
 

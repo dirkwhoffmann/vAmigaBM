@@ -62,6 +62,15 @@ CmdDescriptor::add(const std::string &t1, const std::string &t2, const std::stri
                    void (Controller::*func)(Arguments&, long),
                    long param)
 {
+    // Expand template tokens
+    if (t1 == "dfn") {
+        add("df0", t2, t3, a1, a2, help, func, 0);
+        add("df1", t2, t3, a1, a2, help, func, 1);
+        add("df2", t2, t3, a1, a2, help, func, 2);
+        add("df3", t2, t3, a1, a2, help, func, 3);
+        return nullptr;
+    }
+    
     return seek(t1)->add(t2, t3, a1, a2, help, func, param);
 }
 
@@ -69,50 +78,6 @@ Interpreter::Interpreter(Application &ref) : app(ref), controller(ref.controller
 {
     registerInstructions();
 };
-
-void
-Interpreter::init1(const std::string &t1,
-                   const std::string &a1, const std::string &a2,
-                   const std::string &help,
-                   void (Controller::*func)(Arguments&, long), long param)
-{
-    // Make sure the key does not yet exist
-    assert(root.seek(t1) == nullptr);
-    
-    // Register instruction
-    CmdDescriptor d { t1, a1, a2, help, std::vector<CmdDescriptor>(), func, param };
-    root.args.push_back(d);
-}
-
-void
-Interpreter::init2(const std::string &t1, const std::string &t2,
-                   const std::string &a1, const std::string &a2,
-                   const std::string &help,
-                   void (Controller::*func)(Arguments&, long), long param)
-{
-    // Traverse to the proper node in the instruction tree
-    CmdDescriptor *node = root.seek(t1);
-    assert(node);
-    
-    // Register instruction
-    CmdDescriptor d { t2, a1, a2, help, std::vector<CmdDescriptor>(), func, param };
-    node->args.push_back(d);
-}
-
-void
-Interpreter::init3(const std::string &t1, const std::string &t2, const std::string &t3,
-                   const std::string &a1, const std::string &a2,
-                   const std::string &help,
-                   void (Controller::*func)(Arguments&, long), long param)
-{
-    // Traverse to the proper node in the instruction tree
-    CmdDescriptor *node = root.seek(t1)->seek(t2);
-    assert(node);
-    
-    // Register instruction
-    CmdDescriptor d { t3, a1, a2, help, std::vector<CmdDescriptor>(), func, param };
-    node->args.push_back(d);
-}
 
 string
 Interpreter::lowercased(const std::string& s)
