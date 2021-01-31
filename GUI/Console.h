@@ -127,14 +127,19 @@ public:
     
 public:
         
+    // Clears the console window
+    void clear();
+    
     // Prints a message
     Console& operator<<(char value);
     Console& operator<<(const std::string& value);
     Console& operator<<(int value);
+    /*
     [[deprecated]] void print(const std::string& text) { *this << text; }
     [[deprecated]] void println(const std::string& text) { *this << text << '\n'; }
     [[deprecated]] void println() { *this << '\n'; }
-
+    */
+    
     // Clears the current line
     void clearLine() { *this << '\r'; }
 
@@ -147,14 +152,18 @@ public:
 
     // Prints the text storage (for debugging)
     void list();
+
+    // Returns the row number of the last displayed line
+    int rowOfLastLine();
+
+    // Checks if the last line is visible
+    bool lastLineIsVisible() { return rowOfLastLine() < numRows; }
     
     // Selects the displayed part of the text storage
     void scrollToLine(int line);
     void scrollToTop();
     void scrollToBottom();
-
-    // Returns the row number of the last displayed line
-    int rowOfLastLine();
+    void makeLastLineVisible();
 
     
     //

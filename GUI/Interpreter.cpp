@@ -120,13 +120,7 @@ bool
 Interpreter::execSingle(Arguments &argv)
 {
     if (argv.front() == "clear") {
-        assert(false);
-        // app.console.clear(); // TODO
-        return true;
-    }
-
-    if (argv.front() == "clear") {
-        app.console.clearLine();
+        app.console.clear();
         return true;
     }
 

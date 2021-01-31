@@ -66,6 +66,13 @@ Console::init()
     return true;
 }
 
+void
+Console::clear()
+{
+    printf("::clear\n");
+    scrollToLine(65536);
+}
+
 Console&
 Console::operator<<(char value)
 {
@@ -150,6 +157,7 @@ Console::scrollToLine(int line)
     line = std::max(line, 0);
     line = std::min(line, (int)storage.size() - 1);
         
+    printf("first = %d line = %d\n", first, line);
     isDirty = line != first;
     first = line;
 }
@@ -164,6 +172,12 @@ void
 Console::scrollToBottom()
 {
     scrollToLine((int)storage.size() - numRows);
+}
+
+void
+Console::makeLastLineVisible()
+{
+    if (!lastLineIsVisible()) scrollToBottom();
 }
 
 int
@@ -211,7 +225,7 @@ Console::type(char c)
             *this << '\r' << string(prompt) << input[index];
     }
 
-    scrollToBottom();
+    makeLastLineVisible();
     isDirty = true;
 }
 
@@ -274,7 +288,7 @@ Console::keyPressed(const sf::Keyboard::Key& key)
             return;
     }
     
-    scrollToBottom();
+    makeLastLineVisible();
     isDirty = true;
 }
 
