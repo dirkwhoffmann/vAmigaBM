@@ -47,7 +47,8 @@ struct CmdDescriptor {
     string arg2;
     string info; 
     std::vector<CmdDescriptor> args;
-    void (Controller::*func)(Arguments&) = nullptr;
+    void (Controller::*func)(Arguments&, long) = nullptr;
+    long param;
     
     CmdDescriptor *seek(const string& token);
 };
@@ -63,10 +64,10 @@ enum class Token
     cpu,
     denise,
     dfn,
-    df0,
-    df1,
-    df2,
-    df3,
+    //df0,
+    //df1,
+    //df2,
+    //df3,
     diskcontroller,
     paula,
     rtc,
@@ -120,24 +121,21 @@ private:
 
 public:
     
-    void registerInstr(const std::string &token1, const std::string &token2,
-                       const std::string &args, const std::string &help,
-                       void (Controller::*func)(Arguments&));
-
-    void init(const std::string &t1,
-              const std::string &a1, const std::string &a2,
-              const std::string &help,
-              void (Controller::*func)(Arguments&) = nullptr);
-
-    void init(const std::string &t1, const std::string &t2,
-              const std::string &a1, const std::string &a2,
-              const std::string &help,
-              void (Controller::*func)(Arguments&) = nullptr);
-
-    void init(const std::string &t1, const std::string &t2, const std::string &t3,
-              const std::string &a1, const std::string &a2,
-              const std::string &help,
-              void (Controller::*func)(Arguments&) = nullptr);
+    void init1(const std::string &t1,
+               const std::string &a1, const std::string &a2,
+               const std::string &help,
+               void (Controller::*func)(Arguments&, long) = nullptr, long param = 0);
+    
+    void init2(const std::string &t1, const std::string &t2,
+               const std::string &a1, const std::string &a2,
+               const std::string &help,
+               void (Controller::*func)(Arguments&, long) = nullptr, long param = 0);
+    
+    void init3(const std::string &t1, const std::string &t2, const std::string &t3,
+               const std::string &a1, const std::string &a2,
+               const std::string &help,
+               void (Controller::*func)(Arguments&, long) = nullptr, long param = 0);
+    
     
     //
     // Parsing input
