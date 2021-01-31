@@ -441,30 +441,32 @@ private:
     //
     // Analyzing
     //
+    
+public:
+    
+    AgnusInfo getInfo() { return HardwareComponent::getInfo(info); }
+    EventInfo getEventInfo();
+    EventSlotInfo getEventSlotInfo(isize nr);
+    
+private:
+    
+    void _inspect() override;
+    void _dump(std::stringstream& ss) const override;
+    
+    void inspectEvents();
+    void inspectEventSlot(EventSlot nr);
 
-    public:
+public:
+    
+    void dumpEvents();
+    void dumpEvents(std::ostream &os);
         
-        AgnusInfo getInfo() { return HardwareComponent::getInfo(info); }
-        EventInfo getEventInfo();
-        EventSlotInfo getEventSlotInfo(isize nr);
-        
-    private:
-        
-        void _inspect() override;
-        void _dump(std::stringstream& ss) const override;
-
-        void inspectEvents();
-        void inspectEventSlot(EventSlot nr);
-        void dumpEvents();
-
-    public:
-        
-        AgnusStats getStats() { return stats; }
-        
-    private:
-        
-        void clearStats();
-        void updateStats();
+    AgnusStats getStats() { return stats; }
+    
+private:
+    
+    void clearStats();
+    void updateStats();
     
     
     //

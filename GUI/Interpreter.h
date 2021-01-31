@@ -19,33 +19,14 @@ enum class Token
     none,
     
     // Components
-    agnus,
-    amiga,
-    cia,
-    cpu,
-    denise,
-    dfn,
-    diskcontroller,
-    paula,
-    rtc,
+    agnus, amiga, cia, cpu, denise, dfn, diskcontroller, paula, rtc,
 
     // Commands
-    about,
-    easteregg,
-    eject,
-    help,
-    insert,
-    dump,
-    list,
-    on,
-    off,
-    pause,
-    reset,
-    run,
-    set,
+    about, easteregg, eject, help, insert, dump, list, on, off, pause, reset,
+    run, set,
     
     // Keys
-    revision
+    events, revision
 };
 
 typedef std::list<std::string> Arguments;

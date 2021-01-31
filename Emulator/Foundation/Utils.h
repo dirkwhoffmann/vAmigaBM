@@ -165,10 +165,17 @@ bool releaseBuild();
 //
 
 // Shortcuts for being used in combination with the '<<' stream operator
+#define DEC std::dec
 #define HEX8 std::hex << "0x" << std::setw(2) << std::setfill('0')
 #define HEX16 std::hex << "0x" << std::setw(4) << std::setfill('0')
 #define HEX32 std::hex << "0x" << std::setw(8) << std::setfill('0')
 #define HEX64 std::hex << "0x" << std::setw(16) << std::setfill('0')
+#define TAB10 std::left << std::setw(10)
+#define TAB12 std::left << std::setw(12)
+#define TAB14 std::left << std::setw(14)
+#define TAB16 std::left << std::setw(16)
+#define TAB18 std::left << std::setw(18)
+#define TAB20 std::left << std::setw(20)
 
 // Prints a hex dump of a buffer to the console (for debugging)
 void hexdump(u8 *p, isize size, isize cols, isize pad);

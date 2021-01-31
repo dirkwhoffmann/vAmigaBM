@@ -20,11 +20,19 @@ Interpreter::registerInstructions()
     //
     root.add("agnus", "<command>", "[<arguments>]",
              "Amiga custom chip");
-    
-    root.add("agnus", "dump", "", "",
+
+    root.add("agnus", "dump", "[<category>]", "",
              "Display the internal state",
              &Controller::exec <Token::agnus, Token::dump>, 0);
-    
+
+    root.add("agnus", "dump", "", "", "",
+             "Display registers",
+             &Controller::exec <Token::agnus, Token::dump>, 0);
+
+    root.add("agnus", "dump", "events", "", "",
+             "Display scheduled events",
+             &Controller::exec <Token::agnus, Token::dump, Token::events>, 0);
+
     root.add("agnus", "set", "<key>", "<value>",
              "Configure the component");
     

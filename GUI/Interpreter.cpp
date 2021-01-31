@@ -120,7 +120,18 @@ bool
 Interpreter::execSingle(Arguments &argv)
 {
     if (argv.front() == "clear") {
+        assert(false);
+        // app.console.clear(); // TODO
+        return true;
+    }
+
+    if (argv.front() == "clear") {
         app.console.clearLine();
+        return true;
+    }
+
+    if (argv.front() == "joshua") {
+        controller.exec <Token::easteregg> (argv, 0);
         return true;
     }
     

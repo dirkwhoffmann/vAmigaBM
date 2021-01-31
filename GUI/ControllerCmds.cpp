@@ -23,6 +23,15 @@ Controller::exec <Token::agnus, Token::dump> (Arguments &argv, long param)
 }
 
 template <> void
+Controller::exec <Token::agnus, Token::dump, Token::events> (Arguments &argv, long param)
+{
+    std::stringstream ss; string line;
+
+    amiga.agnus.dumpEvents(ss);
+    while(std::getline(ss, line)) console << line << '\n';
+}
+
+template <> void
 Controller::exec <Token::agnus, Token::set> (Arguments &argv, long param)
 {
     printf("agnus set\n");
@@ -150,5 +159,5 @@ Controller::exec <Token::easteregg> (Arguments& argv, long param)
 {
     console << "GREETINGS PROFESSOR HOFFMANN" << '\n' << '\n';
     console << "THE ONLY WINNING MOVE IS NOT TO PLAY." << '\n' << '\n';
-    console << "HOW ABOUT A NICE GAME OF CHESS?";
+    console << "HOW ABOUT A NICE GAME OF CHESS?" << '\n';
 }
