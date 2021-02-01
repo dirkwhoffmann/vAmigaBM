@@ -45,11 +45,11 @@ ControlPort::_inspect()
 }
 
 void
-ControlPort::_dump(std::stringstream& ss) const
+ControlPort::_dump(Dump::Category category, std::ostream& os) const
 {
-    ss << "       device : " << ControlPortDeviceEnum::key(device) << std::endl;
-    ss << "mouseCounterX : " << mouseCounterX << std::endl;
-    ss << "mouseCounterY : " << mouseCounterY << std::endl;
+    os << "       device : " << ControlPortDeviceEnum::key(device) << std::endl;
+    os << "mouseCounterX : " << mouseCounterX << std::endl;
+    os << "mouseCounterY : " << mouseCounterY << std::endl;
 }
 
 u16

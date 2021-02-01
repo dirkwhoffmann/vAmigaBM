@@ -30,9 +30,11 @@ Console::init()
     // Initialize the input buffer
     input.push_back("");
 
-    *this << "Retro shell 0.1, Dirk W. Hoffmann, 2021." << '\n';
+    *this << "Retro shell 0.1, ";
+    *this << "Dirk W. Hoffmann, ";
+    *this << __DATE__ << " " << __TIME__ << "." << '\n';
     *this << "Linked to vAmiga core " << V_MAJOR << '.' << V_MINOR << '.' << V_SUBMINOR;
-    *this << ", built on " __DATE__ << " " << __TIME__ << '.' << '\n' << '\n';
+    *this << '.' << '\n' << '\n';
     *this << "Type 'help' for a list of available commands." << '\n' << '\n';
     
     *this << prompt;

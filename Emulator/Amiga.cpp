@@ -285,7 +285,7 @@ Amiga::configure(Option option, long value)
     if (changed) queue.put(MSG_CONFIG);
     
     // Dump the current configuration in debugging mode
-    if (changed && CNF_DEBUG) dumpConfig();
+    if (changed && CNF_DEBUG) dump(Dump::Config);
 
     return changed;
 }
@@ -300,7 +300,7 @@ Amiga::configure(Option option, long id, long value)
     if (changed) queue.put(MSG_CONFIG);
     
     // Dump the current configuration in debugging mode
-    if (changed && CNF_DEBUG) dumpConfig();
+    if (changed && CNF_DEBUG) dump(Dump::Config);
         
     return changed;
 }
@@ -337,13 +337,18 @@ Amiga::_inspect()
 }
 
 void
-Amiga::_dump(std::stringstream& ss) const
+Amiga::_dump(Dump::Category category, std::ostream& os) const
 {
-    ss << "    poweredOn : " << (isPoweredOn() ? "yes" : "no") << std::endl;
-    ss << "   poweredOff : " << (isPoweredOff() ? "yes" : "no") << std::endl;
-    ss << "       paused : " << (isPaused() ? "yes" : "no") << std::endl;
-    ss << "      running : " << (isRunning() ? "yes" : "no") << std::endl;
-    ss << "         warp : " << (warpMode ? "on" : "off") << std::endl;
+    if (category & Dump::Config) {
+        
+    }
+    
+    if (category & Dump::State) {
+        
+        os << DUMP("Power") << ONOFF(isPoweredOn()) << endl;
+        os << DUMP("Running") << YESNO(isRunning()) << endl;
+        os << DUMP("Warp") << YESNO(warpMode) << endl;
+    }
 }
 
 void

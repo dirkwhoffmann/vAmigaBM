@@ -194,22 +194,6 @@ Memory::setConfigItem(Option option, long value)
     }
 }
 
-void
-Memory::_dumpConfig() const
-{
-    msg("       chipSize : %u\n", config.chipSize);
-    msg("       slowSize : %u\n", config.slowSize);
-    msg("       fastSize : %u\n", config.fastSize);
-    msg("        romSize : %u\n", config.romSize);
-    msg("        womSize : %u\n", config.womSize);
-    msg("        extSize : %u\n", config.extSize);
-    msg("   slowRamDelay : %s\n", config.slowRamDelay ? "yes" : "no");
-    msg("        bankMap : %s\n", BankMapEnum::key(config.bankMap));
-    msg(" ramInitPattern : %s\n", RamInitPatternEnum::key(config.ramInitPattern));
-    msg("  unmappingType : %s\n", UnmappedMemoryEnum::key(config.unmappingType));
-    msg("       extStart : %02x\n", config.extStart);
-}
-
 isize
 Memory::_size()
 {
@@ -285,7 +269,7 @@ Memory::didSaveToBuffer(u8 *buffer) const
     & config.chipSize
     & config.slowSize
     & config.fastSize;
-
+    
     // Save memory contents
     writer.copy(rom, config.romSize);
     writer.copy(wom, config.womSize);
@@ -293,39 +277,46 @@ Memory::didSaveToBuffer(u8 *buffer) const
     writer.copy(chip, config.chipSize);
     writer.copy(slow, config.slowSize);
     writer.copy(fast, config.fastSize);
-
+    
     return writer.ptr - buffer;
 }
 
 void
-Memory::_dump(std::stringstream& ss) const
+Memory::_dump(Dump::Category category, std::ostream& os) const
 {
-    struct { u8 *addr; u32 size; const char *desc; } mem[7] = {
-        { rom, config.romSize, "Rom" },
-        { wom, config.womSize, "Wom" },
-        { ext, config.extSize, "Ext" },
-        { chip, config.chipSize, "Chip Ram" },
-        { slow, config.slowSize, "Slow Ram" },
-        { fast, config.fastSize, "Fast Ram" }
-    };
-
-    // Print a summary of the installed memory
-    for (isize i = 0; i < 6; i++) {
-
-        u32 size = mem[i].size;
-        u8 *addr = mem[i].addr;
-
-        ss << mem[i].desc;
-        if (size == 0) {
-            assert(addr == 0);
-            ss << "not present" << std::endl;
-        } else {
-            assert(addr != 0);
-            assert(size % KB(1) == 0);
-            u32 check = fnv_1a_32(addr, size);
-            ss << (size >> 10) << " KB at: " << std::hex << addr;
-            ss << " Checksum: " << std::hex << check << std::endl;
-        }
+    if (category & Dump::Config) {
+        
+        os << DUMP("Chip Ram size") << config.chipSize << std::endl;
+        os << DUMP("Slow Ram size") << config.slowSize << std::endl;
+        os << DUMP("Fast Ram size") << config.fastSize << std::endl;
+        os << DUMP("Rom size") << config.romSize << std::endl;
+        os << DUMP("Wom size") << config.womSize << std::endl;
+        os << DUMP("Extended Rom size") << config.extSize << std::endl;
+        os << DUMP("Extended Rom address") << config.extStart << std::endl;
+        os << DUMP("Emulate Slow Ram delay");
+        os << YESNO(config.slowRamDelay) << std::endl;
+        os << DUMP("Bank mapping scheme");
+        os << BankMapEnum::key(config.bankMap) << std::endl;
+        os << DUMP("Ram init pattern");
+        os << RamInitPatternEnum::key(config.ramInitPattern) << std::endl;
+        os << DUMP("Unmapped memory");
+        os << UnmappedMemoryEnum::key(config.unmappingType) << std::endl;
+    }
+    
+    if (category & Dump::State) {
+        
+        os << DUMP("Rom checksum");
+        os << HEX32 << fnv_1a_32(rom, config.romSize) << std::endl;
+        os << DUMP("Wom checksum");
+        os << HEX32 << fnv_1a_32(wom, config.womSize) << std::endl;
+        os << DUMP("Extended Rom checksum");
+        os << HEX32 << fnv_1a_32(ext, config.extSize) << std::endl;
+        os << DUMP("Chip Ram checksum");
+        os << HEX32 << fnv_1a_32(chip, config.chipSize) << std::endl;
+        os << DUMP("Slow Ram checksum");
+        os << HEX32 << fnv_1a_32(slow, config.slowSize) << std::endl;
+        os << DUMP("Fast Ram checksum");
+        os << HEX32 << fnv_1a_32(fast, config.fastSize) << std::endl;
     }
 }
 

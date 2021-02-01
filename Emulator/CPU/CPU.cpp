@@ -241,21 +241,21 @@ CPU::_inspect(u32 dasmStart)
 }
 
 void
-CPU::_dump(std::stringstream& ss) const
+CPU::_dump(Dump::Category category, std::ostream& os) const
 {
-    for (int i = 0; i < 4; i++) ss << "D" << i << ": " << HEX32 << reg.d[i] << " ";
-    ss << std::endl;
-    for (int i = 4; i < 8; i++) ss << "D" << i << ": " << HEX32 << reg.d[i] << " ";
-    ss << std::endl;
-    for (int i = 0; i < 4; i++) ss << "A" << i << ": " << HEX32 << reg.a[i] << " ";
-    ss << std::endl;
-    for (int i = 4; i < 8; i++) ss << "A" << i << ": " << HEX32 << reg.a[i] << " ";
-    ss << std::endl;
+    for (int i = 0; i < 4; i++) os << "D" << i << ": " << HEX32 << reg.d[i] << " ";
+    os << std::endl;
+    for (int i = 4; i < 8; i++) os << "D" << i << ": " << HEX32 << reg.d[i] << " ";
+    os << std::endl;
+    for (int i = 0; i < 4; i++) os << "A" << i << ": " << HEX32 << reg.a[i] << " ";
+    os << std::endl;
+    for (int i = 4; i < 8; i++) os << "A" << i << ": " << HEX32 << reg.a[i] << " ";
+    os << std::endl;
 
-    ss << "PC: " << HEX32 << reg.pc0;
-    ss << " SP: " << HEX32 << reg.ssp;
-    ss << " UP: " << HEX32 << reg.usp << std::endl;
-    ss << "Flags: " << HEX16 << getSR() << std::endl;
+    os << "PC: " << HEX32 << reg.pc0;
+    os << " SP: " << HEX32 << reg.ssp;
+    os << " UP: " << HEX32 << reg.usp << std::endl;
+    os << "Flags: " << HEX16 << getSR() << std::endl;
 }
 
 void

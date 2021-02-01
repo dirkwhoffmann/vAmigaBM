@@ -432,11 +432,7 @@ public:
      * have this feature. It has access to Chip Ram, only.
      */
     bool slowRamIsMirroredIn();
-    
-private:
-    
-    void _dumpConfig() const override;
-
+        
     
     //
     // Analyzing
@@ -451,7 +447,7 @@ public:
 private:
     
     void _inspect() override;
-    void _dump(std::stringstream& ss) const override;
+    void _dump(Dump::Category category, std::ostream& os) const override;
     
     void inspectEvents();
     void inspectEventSlot(EventSlot nr);

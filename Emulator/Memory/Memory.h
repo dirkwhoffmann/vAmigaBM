@@ -208,10 +208,6 @@ public:
     long getConfigItem(Option option) const;
     bool setConfigItem(Option option, long value) override;
 
-private:
-    
-    void _dumpConfig() const override;
-
     
     //
     // Analyzing
@@ -226,7 +222,7 @@ public:
 
 private:
     
-    void _dump(std::stringstream& ss) const override;
+    void _dump(Dump::Category category, std::ostream& os) const override;
 
     
     //

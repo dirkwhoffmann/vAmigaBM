@@ -373,10 +373,10 @@ Agnus::dumpEvents(std::ostream &os)
 {
     inspectEvents();
         
-    os << TAB10 << "Slot";
-    os << TAB14 << "Event";
-    os << TAB18 << "Trigger position";
-    os << TAB16 << "Trigger cycle" << std::endl;
+    os << TAB(10) << "Slot";
+    os << TAB(14) << "Event";
+    os << TAB(18) << "Trigger position";
+    os << TAB(16) << "Trigger cycle" << std::endl;
     
 
     for (isize i = 0; i < 15; i++) {
@@ -385,27 +385,27 @@ Agnus::dumpEvents(std::ostream &os)
         EventSlotInfo &info = eventInfo.slotInfo[i];
         bool willTrigger = info.trigger != NEVER;
         
-        os << TAB10 << EventSlotEnum::key(info.slot);
-        os << TAB14 << info.eventName;
+        os << TAB(10) << EventSlotEnum::key(info.slot);
+        os << TAB(14) << info.eventName;
         
         if (willTrigger) {
             
             if (info.frameRel == -1) {
-                os << TAB18 << "previous frame";
+                os << TAB(18) << "previous frame";
             } else if (info.frameRel > 0) {
-                os << TAB18 << "next frame";
+                os << TAB(18) << "next frame";
             } else {
                 string vpos = std::to_string(info.vpos);
                 string hpos = std::to_string(info.hpos);
                 string pos = "(" + vpos + "," + hpos + ")";
-                os << TAB18 << pos;
+                os << TAB(18) << pos;
             }
 
             if (info.triggerRel == 0) {
-                os << TAB16 << "due immediately";
+                os << TAB(16) << "due immediately";
             } else {
                 string cycle = std::to_string(info.triggerRel / 8);
-                os << TAB16 << "due in " + cycle + " DMA cycles";
+                os << TAB(16) << "due in " + cycle + " DMA cycles";
             }
         }
         os << std::endl;

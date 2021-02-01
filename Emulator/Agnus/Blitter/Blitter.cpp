@@ -97,12 +97,6 @@ Blitter::setConfigItem(Option option, long value)
 }
 
 void
-Blitter::_dumpConfig() const
-{
-    msg("      accuracy : %d\n", config.accuracy);
-}
-
-void
 Blitter::_inspect()
 {
     synchronized {
@@ -142,49 +136,57 @@ Blitter::_inspect()
 }
 
 void
-Blitter::_dump(std::stringstream& ss) const
+Blitter::_dump(Dump::Category category, std::ostream& os) const
 {
-    ss << "  Accuracy: " << config.accuracy;
-    ss << std::endl;
-    ss << "   bltcon0: " << HEX16 << bltcon0;
-    ss << std::endl;
-    ss << "            Shift A: " << HEX16 << bltconASH() << std::endl;
-    ss << "              Use A: " << (bltconUSEA() ? "yes" : "no") << std::endl;
-    ss << "              Use B: " << (bltconUSEB() ? "yes" : "no") << std::endl;
-    ss << "              Use C: " << (bltconUSEC() ? "yes" : "no") << std::endl;
-    ss << "              Use D: " << (bltconUSED() ? "yes" : "no") << std::endl;
-    ss << std::endl;
-    ss << "   bltcon1: " << HEX16 << bltcon1;
-    ss << std::endl;
-    ss << "            Shift B: " << HEX16 << bltconBSH() << std::endl;
-    ss << "                EFE: " << (bltconEFE() ? "yes" : "no") << std::endl;
-    ss << "                IFE: " << (bltconIFE() ? "yes" : "no") << std::endl;
-    ss << "                FCI: " << (bltconFCI() ? "yes" : "no") << std::endl;
-    ss << "               DESC: " << (bltconDESC() ? "yes" : "no") << std::endl;
-    ss << "               LINE: " << (bltconLINE() ? "yes" : "no") << std::endl;
-    ss << std::endl;
-    ss << "  bltsizeH: " << HEX16 << bltsizeV;
-    ss << "  bltsizeW: " << HEX16 << bltsizeH;
-    ss << std::endl;
-    ss << "    bltapt: " << HEX32 << bltapt;
-    ss << "    bltbpt: " << HEX32 << bltbpt;
-    ss << "    bltcpt: " << HEX32 << bltcpt << std::endl;
-    ss << "    bltdpt: " << HEX32 << bltdpt << std::endl;
-    ss << "   bltafwm: " << HEX16 << bltafwm << std::endl;
-    ss << "   bltalwm: " << HEX16 << bltalwm << std::endl;
-    ss << "   bltamod: " << HEX16 << bltamod << std::endl;
-    ss << "   bltbmod: " << HEX16 << bltbmod << std::endl;
-    ss << "   bltcmod: " << HEX16 << bltcmod << std::endl;
-    ss << "   bltdmod: " << HEX16 << bltdmod << std::endl;
-    ss << "      anew: " << HEX16 << anew << std::endl;
-    ss << "      bnew: " << HEX16 << bnew << std::endl;
-    ss << "     ahold: " << HEX16 << ahold << std::endl;
-    ss << "     bhold: " << HEX16 << bhold << std::endl;
-    ss << "     chold: " << HEX16 << chold << std::endl;
-    ss << "     dhold: " << HEX16 << dhold << std::endl;
-    ss << "    ashift: " << HEX32 << ashift << " bshift: " << HEX32 << bshift << std::endl;
-    ss << "     bbusy: " << (bbusy ? "yes" : "no") << std::endl;
-    ss << "     bzero: " << (bzero ? "yes" : "no") << std::endl;
+    if (category & Dump::Config) {
+    
+        os << "Accuracy level: " << config.accuracy << endl;
+    }
+    
+    if (category & Dump::State) {
+        
+        os << "  Accuracy: " << DEC << config.accuracy;
+        os << endl;
+        os << "   bltcon0: " << HEX16 << bltcon0;
+        os << endl;
+        os << "            Shift A: " << HEX16 << bltconASH() << endl;
+        os << "              Use A: " << YESNO(bltconUSEA()) << endl;
+        os << "              Use B: " << YESNO(bltconUSEB()) << endl;
+        os << "              Use C: " << YESNO(bltconUSEC()) << endl;
+        os << "              Use D: " << YESNO(bltconUSED()) << endl;
+        os << endl;
+        os << "   bltcon1: " << HEX16 << bltcon1;
+        os << endl;
+        os << "            Shift B: " << HEX16 << bltconBSH() << endl;
+        os << "                EFE: " << YESNO(bltconEFE()) << endl;
+        os << "                IFE: " << YESNO(bltconIFE()) << endl;
+        os << "                FCI: " << YESNO(bltconFCI()) << endl;
+        os << "               DESC: " << YESNO(bltconDESC()) << endl;
+        os << "               LINE: " << YESNO(bltconLINE()) << endl;
+        os << endl;
+        os << "  bltsizeH: " << HEX16 << bltsizeV << endl;
+        os << "  bltsizeW: " << HEX16 << bltsizeH << endl;
+        os << endl;
+        os << "    bltapt: " << HEX32 << bltapt << endl;
+        os << "    bltbpt: " << HEX32 << bltbpt << endl;
+        os << "    bltcpt: " << HEX32 << bltcpt << endl;
+        os << "    bltdpt: " << HEX32 << bltdpt << endl;
+        os << "   bltafwm: " << HEX16 << bltafwm << endl;
+        os << "   bltalwm: " << HEX16 << bltalwm << endl;
+        os << "   bltamod: " << HEX16 << bltamod << endl;
+        os << "   bltbmod: " << HEX16 << bltbmod << endl;
+        os << "   bltcmod: " << HEX16 << bltcmod << endl;
+        os << "   bltdmod: " << HEX16 << bltdmod << endl;
+        os << "      anew: " << HEX16 << anew << endl;
+        os << "      bnew: " << HEX16 << bnew << endl;
+        os << "     ahold: " << HEX16 << ahold << endl;
+        os << "     bhold: " << HEX16 << bhold << endl;
+        os << "     chold: " << HEX16 << chold << endl;
+        os << "     dhold: " << HEX16 << dhold << endl;
+        os << "    ashift: " << HEX32 << ashift << " bshift: " << HEX32 << bshift << endl;
+        os << "     bbusy: " << YESNO(bbusy) << endl;
+        os << "     bzero: " << YESNO(bzero) << endl;
+    }
 }
 
 void

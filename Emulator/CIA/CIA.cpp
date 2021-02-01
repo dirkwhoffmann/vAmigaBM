@@ -104,14 +104,6 @@ CIA::setConfigItem(Option option, long value)
 }
 
 void
-CIA::_dumpConfig() const
-{
-    msg("      revision : %s\n", CIARevisionEnum::key(config.revision));
-    msg("        todBug : %s\n", config.todBug ? "yes" : "no");
-    msg(" eClockSyncing : %s\n", config.eClockSyncing ? "yes" : "no");
-}
-
-void
 CIA::_inspect()
 {
     synchronized {
@@ -156,38 +148,48 @@ CIA::_inspect()
 }
 
 void
-CIA::_dump(std::stringstream& ss) const
-{    
-    ss << "                   Clock : " << clock;
-    ss << "                Sleeping : " << (sleeping ? "yes" : "no");
-    ss << "               Tiredness : " << (int)tiredness;
-    ss << " Most recent sleep cycle : " << sleepCycle;
-    ss << "Most recent wakeup cycle : " << wakeUpCycle;
-    ss << std::endl;
-    ss << "               Counter A : " << HEX16 << (int)counterA;
-    ss << "                 Latch A : " << HEX16 << (int)latchA;
-    ss << "         Data register A : " << HEX8 << (int)PRA;
-    ss << "   Data port direction A : " << HEX8 << (int)DDRA;
-    ss << "             Data port A : " << HEX8 << (int)PA;
-    ss << "      Control register A : " << HEX8 << (int)CRA;
-    ss << std::endl;
-    ss << "               Counter B : " << HEX16 << (int)counterB;
-    ss << "                 Latch B : " << HEX16 << (int)latchB;
-    ss << "         Data register B : " << HEX8 << (int)PRB;
-    ss << "   Data port direction B : " << HEX8 << (int)DDRB;
-    ss << "             Data port B : " << HEX8 << (int)PB;
-    ss << "      Control register B : " << HEX8 << (int)CRB;
-    ss << std::endl;
-    ss << "   Interrupt control reg : " << HEX8 << (int)icr;
-    ss << "      Interrupt mask reg : " << HEX8 << (int)imr;
-    ss << std::endl;
-    ss << "                     SDR : " << HEX8 << (int)sdr;
-    ss << "                     SSR : " << HEX8 << (int)ssr;
-    ss << "              serCounter : " << HEX8 << (int)serCounter;
-    ss << std::endl;
-    ss << "                     CNT : " << CNT;
-    ss << "                     INT : " << INT;
-    ss << std::endl;
+CIA::_dump(Dump::Category category, std::ostream& os) const
+{
+    if (category & Dump::Config) {
+        
+        os << "         Revision: " << CIARevisionEnum::key(config.revision);
+        os << "  Emulate TOD bug: " << YESNO(config.todBug);
+        os << "Sync with E-clock: " << YESNO(config.eClockSyncing);
+    }
+    
+    if (category & Dump::State) {
+        
+        os << "                   Clock: " << clock;
+        os << "                Sleeping: " << YESNO(sleeping);
+        os << "               Tiredness: " << (int)tiredness;
+        os << " Most recent sleep cycle: " << sleepCycle;
+        os << "Most recent wakeup cycle: " << wakeUpCycle;
+        os << std::endl;
+        os << "               Counter A: " << HEX16 << (int)counterA;
+        os << "                 Latch A: " << HEX16 << (int)latchA;
+        os << "         Data register A: " << HEX8 << (int)PRA;
+        os << "   Data port direction A: " << HEX8 << (int)DDRA;
+        os << "             Data port A: " << HEX8 << (int)PA;
+        os << "      Control register A: " << HEX8 << (int)CRA;
+        os << std::endl;
+        os << "               Counter B: " << HEX16 << (int)counterB;
+        os << "                 Latch B: " << HEX16 << (int)latchB;
+        os << "         Data register B: " << HEX8 << (int)PRB;
+        os << "   Data port direction B: " << HEX8 << (int)DDRB;
+        os << "             Data port B: " << HEX8 << (int)PB;
+        os << "      Control register B: " << HEX8 << (int)CRB;
+        os << std::endl;
+        os << "   Interrupt control reg: " << HEX8 << (int)icr;
+        os << "      Interrupt mask reg: " << HEX8 << (int)imr;
+        os << std::endl;
+        os << "                     SDR: " << HEX8 << (int)sdr;
+        os << "                     SSR: " << HEX8 << (int)ssr;
+        os << "              serCounter: " << HEX8 << (int)serCounter;
+        os << std::endl;
+        os << "                     CNT: " << CNT;
+        os << "                     INT: " << INT;
+        os << std::endl;
+    }
 }
 
 void

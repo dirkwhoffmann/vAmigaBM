@@ -19,11 +19,12 @@ enum class Token
     none,
     
     // Components
-    agnus, amiga, cia, cpu, denise, dfn, diskcontroller, paula, rtc,
+    agnus, amiga, blitter, cia, copper, cpu, denise, dfn, diskcontroller,
+    memory, paula, rtc,
 
     // Commands
-    about, easteregg, eject, help, insert, dump, list, on, off, pause, reset,
-    run, set,
+    about, config, easteregg, eject, help, insert, dump, list, on, off, pause,
+    registers, reset, run, set,
     
     // Keys
     events, revision

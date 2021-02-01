@@ -129,13 +129,6 @@ Agnus::setConfigItem(Option option, long value)
     }
 }
 
-void
-Agnus::_dumpConfig() const
-{
-    msg("      revision : %s\n", AgnusRevisionEnum::key(config.revision));
-    msg(" slowRamMirror : %s\n", config.slowRamMirror ? "yes" : "no");
-}
-
 i16
 Agnus::idBits()
 {
@@ -208,40 +201,51 @@ Agnus::_inspect()
 }
 
 void
-Agnus::_dump(std::stringstream& ss) const
+Agnus::_dump(Dump::Category category, std::ostream& os) const
 {
-    ss << "SPR0PT: " << HEX32 << sprpt[0] << "  ";
-    ss << "BPL0PT: " << HEX32 << bplpt[0] << "  ";
-    ss << "AUD0PT: " << HEX32 << audpt[0] << "  ";
-    ss << "DSKPT: " << HEX32 << dskpt << std::endl;
-
-    ss << "SPR1PT: " << HEX32 << sprpt[1] << "  ";
-    ss << "BPL1PT: " << HEX32 << bplpt[1] << "  ";
-    ss << "AUD1PT: " << HEX32 << audpt[1] << std::endl;
-
-    ss << "SPR2PT: " << HEX32 << sprpt[2] << "  ";
-    ss << "BPL2PT: " << HEX32 << bplpt[2] << "  ";
-    ss << "AUD2PT: " << HEX32 << audpt[2] << std::endl;
-
-    ss << "SPR3PT: " << HEX32 << sprpt[3] << "  ";
-    ss << "BPL3PT: " << HEX32 << bplpt[3] << "  ";
-    ss << "AUD3PT: " << HEX32 << audpt[3] << std::endl;
-
-    ss << "SPR4PT: " << HEX32 << sprpt[4] << "  ";
-    ss << "BPL4PT: " << HEX32 << bplpt[4] << std::endl;
-
-    ss << "SPR5PT: " << HEX32 << sprpt[5] << "  ";
-    ss << "BPL5PT: " << HEX32 << bplpt[5] << std::endl;
-
-    ss << "SPR6PT: " << HEX32 << sprpt[6] << std::endl;
-    ss << "SPR7PT: " << HEX32 << sprpt[6] << std::endl;
+    if (category & Dump::Config) {
     
-    ss << "DIW: hstrt: " << std::dec << diwHstrt;
-    ss << " hstop: " << std::dec << diwHstop;
-    ss << " vstrt: " << std::dec << diwVstrt;
-    ss << " vstop: " << std::dec << diwVstop;
-    ss << std::endl;
-
+        os << "               Chip Revison: ";
+        os << AgnusRevisionEnum::key(config.revision) << endl;
+        os << "Emulate ECS Slow Ram mirror: ";
+        os << YESNO(config.slowRamMirror) << endl;
+    }
+    
+    if (category & Dump::Registers) {
+        
+        os << "SPR0PT: " << HEX32 << sprpt[0] << "  ";
+        os << "BPL0PT: " << HEX32 << bplpt[0] << "  ";
+        os << "AUD0PT: " << HEX32 << audpt[0] << "  ";
+        os << "DSKPT: "  << HEX32 << dskpt << std::endl;
+        
+        os << "SPR1PT: " << HEX32 << sprpt[1] << "  ";
+        os << "BPL1PT: " << HEX32 << bplpt[1] << "  ";
+        os << "AUD1PT: " << HEX32 << audpt[1] << std::endl;
+        
+        os << "SPR2PT: " << HEX32 << sprpt[2] << "  ";
+        os << "BPL2PT: " << HEX32 << bplpt[2] << "  ";
+        os << "AUD2PT: " << HEX32 << audpt[2] << std::endl;
+        
+        os << "SPR3PT: " << HEX32 << sprpt[3] << "  ";
+        os << "BPL3PT: " << HEX32 << bplpt[3] << "  ";
+        os << "AUD3PT: " << HEX32 << audpt[3] << std::endl;
+        
+        os << "SPR4PT: " << HEX32 << sprpt[4] << "  ";
+        os << "BPL4PT: " << HEX32 << bplpt[4] << std::endl;
+        
+        os << "SPR5PT: " << HEX32 << sprpt[5] << "  ";
+        os << "BPL5PT: " << HEX32 << bplpt[5] << std::endl;
+        
+        os << "SPR6PT: " << HEX32 << sprpt[6] << std::endl;
+        os << "SPR7PT: " << HEX32 << sprpt[6] << std::endl;
+        
+        os << "DIW: hstrt: " << std::dec << diwHstrt;
+        os << " hstop: " << std::dec << diwHstop;
+        os << " vstrt: " << std::dec << diwVstrt;
+        os << " vstop: " << std::dec << diwVstop;
+        os << std::endl;
+    }
+    
     /*
     ss << "\nBPL DMA table:\n\n");
     dumpBplEventTable();

@@ -25,7 +25,8 @@ using std::map;
 using std::queue;
 using std::pair;
 using std::swap;
-// using std::string;
+using std::string;
+using std::endl;
 
 /* Base class for all Amiga objects. This class adds a textual description
  * the object together with functions for printing debug messages and warnings.

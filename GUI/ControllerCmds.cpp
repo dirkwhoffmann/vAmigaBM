@@ -98,6 +98,20 @@ Controller::exec <Token::amiga, Token::dump> (Arguments &argv, long param)
 }
 
 //
+// Copper
+//
+
+template <> void
+Controller::exec <Token::copper, Token::dump> (Arguments& argv, long param)
+{
+    std::stringstream ss; string line;
+
+    amiga.agnus.copper.dump(ss);
+    while(std::getline(ss, line)) console << line << '\n';
+}
+
+
+//
 // CPU
 //
 
@@ -107,6 +121,31 @@ Controller::exec <Token::cpu, Token::dump> (Arguments& argv, long param)
     std::stringstream ss; string line;
 
     amiga.cpu.dump(ss);
+    while(std::getline(ss, line)) console << line << '\n';
+}
+
+
+//
+// Denise
+//
+
+template <> void
+Controller::exec <Token::denise, Token::dump, Token::config> (Arguments& argv, long param)
+{
+    std::stringstream ss; string line;
+    
+    printf("denise dump config\n");
+    
+    amiga.denise.dump(Dump::Config, ss);
+    while(std::getline(ss, line)) console << line << '\n';
+}
+
+template <> void
+Controller::exec <Token::denise, Token::dump, Token::registers> (Arguments& argv, long param)
+{
+    std::stringstream ss; string line;
+    
+    amiga.denise.dump(Dump::Registers, ss);
     while(std::getline(ss, line)) console << line << '\n';
 }
 
@@ -147,6 +186,20 @@ Controller::exec <Token::dfn, Token::insert> (Arguments& argv, long param)
     } catch (VAError &err) {
         console << "Failed to insert disk: " << err.what() << '\n';
     }
+}
+
+
+//
+// Memory
+//
+
+template <> void
+Controller::exec <Token::memory, Token::dump> (Arguments& argv, long param)
+{
+    std::stringstream ss; string line;
+    
+    amiga.mem.dump(ss);
+    while(std::getline(ss, line)) console << line << '\n';
 }
 
 

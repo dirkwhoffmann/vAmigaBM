@@ -67,10 +67,10 @@ SerialPort::_inspect()
 }
 
 void
-SerialPort::_dump(std::stringstream& ss) const
+SerialPort::_dump(Dump::Category category, std::ostream& os) const
 {
-    ss << "device: " << (i64)config.device;
-    ss << "  port: " << (i64)port;
+    os << "device: " << (i64)config.device;
+    os << "  port: " << (i64)port;
 }
 
 bool

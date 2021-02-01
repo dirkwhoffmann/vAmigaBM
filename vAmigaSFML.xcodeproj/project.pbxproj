@@ -1016,11 +1016,11 @@
 				50AE11C425C44AAC00AD13B7 /* Controller.h */,
 				50AE11C325C44AAC00AD13B7 /* Controller.cpp */,
 				5066F75325C55F75009199B6 /* ControllerCmds.cpp */,
+				50658EDF25C03EF800F7128D /* Console.h */,
+				50658EDE25C03EF800F7128D /* Console.cpp */,
 				50E9337125C2188700F4958B /* Interpreter.h */,
 				50E9337025C2188700F4958B /* Interpreter.cpp */,
 				50E4DD5425C6B180001F6432 /* InterpreterCmds.cpp */,
-				50658EDF25C03EF800F7128D /* Console.h */,
-				50658EDE25C03EF800F7128D /* Console.cpp */,
 				505485E825C15C3B00892284 /* AssetManager.h */,
 				505485E725C15C3B00892284 /* AssetManager.cpp */,
 			);

@@ -56,12 +56,6 @@ RTC::setConfigItem(Option option, long value)
 }
 
 void
-RTC::_dumpConfig() const
-{
-    msg("  Revision : %s\n", RTCRevisionEnum::key(config.model));
-}
-
-void
 RTC::_reset(bool hard)
 {
     RESET_SNAPSHOT_ITEMS(hard)
@@ -84,13 +78,23 @@ RTC::_reset(bool hard)
 }
 
 void
-RTC::_dump(std::stringstream& ss) const
+RTC::_dump(Dump::Category category, std::ostream& os) const
 {
-    for (isize i = 0; i < 4; i++) {
-        for (isize j = 0; j < 16; j++) ss << std::dec << i << ": " << HEX8 << (int)reg[i][j];
-        ss << std::endl;
+    if (category & Dump::Config) {
+        
+        os << "Chip Model: " << RTCRevisionEnum::key(config.model) << endl;
     }
-    ss << std::endl;
+    
+    if (category & Dump::State) {
+        
+        for (isize i = 0; i < 4; i++) {
+            for (isize j = 0; j < 16; j++) {
+                os << DEC << i << ": " << HEX8 << (int)reg[i][j];
+            }
+            os << std::endl;
+        }
+        os << std::endl;
+    }
 }
 
 time_t

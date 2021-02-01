@@ -35,20 +35,20 @@ void Mouse::_reset(bool hard)
 }
 
 void
-Mouse::_dump(std::stringstream& ss) const
+Mouse::_dump(Dump::Category category, std::ostream& os) const
 {
-    ss << " leftButton = " << leftButton;
-    ss << "rightButton = " << rightButton;
-    ss << "     mouseX = " << mouseX;
-    ss << "     mouseY = " << mouseY;
-    ss << "  oldMouseX = " << oldMouseX;
-    ss << "  oldMouseY = " << oldMouseY;
-    ss << "    targetX = " << targetX;
-    ss << "    targetY = " << targetY;
-    ss << "   dividerX = " << dividerX;
-    ss << "   dividerY = " << dividerY;
-    ss << "     shiftX = " << shiftX;
-    ss << "     shiftY = " << shiftY;
+    os << " leftButton = " << leftButton;
+    os << "rightButton = " << rightButton;
+    os << "     mouseX = " << mouseX;
+    os << "     mouseY = " << mouseY;
+    os << "  oldMouseX = " << oldMouseX;
+    os << "  oldMouseY = " << oldMouseY;
+    os << "    targetX = " << targetX;
+    os << "    targetY = " << targetY;
+    os << "   dividerX = " << dividerX;
+    os << "   dividerY = " << dividerY;
+    os << "     shiftX = " << shiftX;
+    os << "     shiftY = " << shiftY;
 }
 
 void

@@ -57,19 +57,21 @@ Keyboard::setConfigItem(Option option, long value)
 }
 
 void
-Keyboard::_dumpConfig() const
+Keyboard::_dump(Dump::Category category, std::ostream& os) const
 {
-    msg("      accurate : %d\n", config.accurate);
-}
-
-void
-Keyboard::_dump(std::stringstream& ss) const
-{
-    ss << "Type ahead buffer: ";
-    for (isize i = 0; i < bufferIndex; i++) {
-        ss << HEX8 << (int)typeAheadBuffer[i] << " ";
+    if (category & Dump::Config) {
+        
+        os << "Accurate emulation: " << YESNO(config.accurate) << endl;
     }
-    ss << std::endl;
+    
+    if (category & Dump::State) {
+        
+        os << "Type ahead buffer: ";
+        for (isize i = 0; i < bufferIndex; i++) {
+            os << HEX8 << (int)typeAheadBuffer[i] << " ";
+        }
+        os << endl;
+    }
 }
 
 bool

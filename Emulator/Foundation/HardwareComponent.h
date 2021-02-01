@@ -23,6 +23,17 @@
 #define synchronized \
 for (AutoMutex _am(mutex); _am.active; _am.active = false)
 
+namespace Dump {
+enum Category : usize {
+    
+    Config    = 0b0000001,
+    State     = 0b0000010,
+    Registers = 0b0000100,
+    Events    = 0b0001000,
+    Dma       = 0b0010000
+};
+}
+
 class HardwareComponent : public AmigaObject {
     
 public:
@@ -62,7 +73,7 @@ protected:
      */
     Mutex mutex;
 
-    
+        
     //
     // Initializing
     //
@@ -113,11 +124,7 @@ public:
     virtual bool setConfigItem(Option option, long value) throws { return false; }
     virtual bool setConfigItem(Option option, long id, long value) throws { return false; }
     
-    // Dumps debug information about the current configuration to the console
-    void dumpConfig() const;
-    virtual void _dumpConfig() const { }
-    
-    
+        
     //
     // Analyzing
     //
@@ -148,11 +155,16 @@ public:
         return result;
     }
     
-    // Dumps debug information about the internal state to the console
-    void dump() const;
-    void dump(std::stringstream& ss) const;
-    // [[deprecated]] virtual void _dump() const;
-    virtual void _dump(std::stringstream& ss) const { }
+    /* Prints debug information about the current configuration. The additional
+     * 'flags' parameter is a bit field which can be used to limit the displayed
+     * information to certain categories.
+     */
+    void dump(Dump::Category category, std::ostream& ss) const;
+    virtual void _dump(Dump::Category category, std::ostream& ss) const { };
+
+    void dump(Dump::Category category) const { dump(category, std::cout); }
+    void dump(std::ostream& ss) const { dump((Dump::Category)(-1), ss); }
+    void dump() const { dump((Dump::Category)(-1)); }
 
     
     //

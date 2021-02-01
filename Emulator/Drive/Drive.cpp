@@ -99,35 +99,37 @@ Drive::_inspect()
 }
 
 void
-Drive::_dumpConfig() const
+Drive::_dump(Dump::Category category, std::ostream& os) const
 {
-    msg("              Type : %s\n", DriveTypeEnum::key(config.type));
-    msg(" Emulate mechanics : %s\n", config.mechanicalDelays ? "yes" : "no");
-    msg("       Start delay : %lld\n", config.startDelay);
-    msg("        Stop delay : %lld\n", config.stopDelay);
-    msg("        Step delay : %lld\n", config.stepDelay);
-}
-
-void
-Drive::_dump(std::stringstream& ss) const
-{
-    ss << "                Nr: " << (int)nr << std::endl;
-    ss << "          Id count: " << (int)idCount << std::endl;
-    ss << "            Id bit: " << (int)idBit << std::endl;
-    ss << "      motorSpeed(): " << motorSpeed() << std::endl;
-    ss << "        getMotor(): " << (getMotor() ? "on" : "off") << std::endl;
-    ss << " motorSpeedingUp(): " << (motorSpeedingUp() ? "yes" : "no") << std::endl;
-    ss << "motorAtFullSpeed(): " << (motorAtFullSpeed() ? "yes" : "no") << std::endl;
-    ss << "motorSlowingDown(): " << (motorSlowingDown() ? "yes" : "no") << std::endl;
-    ss << "    motorStopped(): " << (motorStopped() ? "yes" : "no") << std::endl;
-    ss << "         dskchange: " << dskchange << std::endl;
-    ss << "            dsklen: " << (int)dsklen << std::endl;
-    ss << "               prb: " << (int)prb << std::endl;
-    ss << "              Side: " << (int)head.side << std::endl;
-    ss << "          Cylinder: " << (int)head.cylinder << std::endl;
-    ss << "            Offset: " << (int)head.offset << std::endl;
-    ss << "   cylinderHistory: " << cylinderHistory << std::endl;
-    ss << "              Disk: " << (disk ? "yes" : "no") << std::endl;
+    if (category & Dump::Config) {
+        
+        os << "              Type: " << DriveTypeEnum::key(config.type) << std::endl;
+        os << " Emulate mechanics: " << YESNO(config.mechanicalDelays) << std::endl;
+        os << "       Start delay: " << DEC << config.startDelay << std::endl;
+        os << "        Stop delay: " << DEC << config.stopDelay << std::endl;
+        os << "        Step delay: " << DEC << config.stepDelay << std::endl;
+    }
+    
+    if (category & Dump::State) {
+        
+        os << "                Nr: " << (int)nr << std::endl;
+        os << "          Id count: " << (int)idCount << std::endl;
+        os << "            Id bit: " << (int)idBit << std::endl;
+        os << "      motorSpeed(): " << motorSpeed() << std::endl;
+        os << "        getMotor(): " << (getMotor() ? "on" : "off") << std::endl;
+        os << " motorSpeedingUp(): " << (motorSpeedingUp() ? "yes" : "no") << std::endl;
+        os << "motorAtFullSpeed(): " << (motorAtFullSpeed() ? "yes" : "no") << std::endl;
+        os << "motorSlowingDown(): " << (motorSlowingDown() ? "yes" : "no") << std::endl;
+        os << "    motorStopped(): " << (motorStopped() ? "yes" : "no") << std::endl;
+        os << "         dskchange: " << dskchange << std::endl;
+        os << "            dsklen: " << (int)dsklen << std::endl;
+        os << "               prb: " << (int)prb << std::endl;
+        os << "              Side: " << (int)head.side << std::endl;
+        os << "          Cylinder: " << (int)head.cylinder << std::endl;
+        os << "            Offset: " << (int)head.offset << std::endl;
+        os << "   cylinderHistory: " << cylinderHistory << std::endl;
+        os << "              Disk: " << (disk ? "yes" : "no") << std::endl;
+    }
 }
 
 isize
