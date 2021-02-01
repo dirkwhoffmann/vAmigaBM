@@ -10,69 +10,6 @@
 #include "Application.h"
 #include "Interpreter.h"
 
-CmdDescriptor *
-CmdDescriptor::add(const std::string &token,
-                   const std::string &a1, const std::string &a2,
-                   const std::string &help,
-                   void (Controller::*func)(Arguments&, long),
-                   isize num, long param)
-{
-    // Make sure the key does not yet exist
-    assert(seek(token) == nullptr);
-
-    // Expand template tokens
-    if (token == "dfn") {
-        add("df0", a1, a2, help, func, num, 0);
-        add("df1", a1, a2, help, func, num, 1);
-        add("df2", a1, a2, help, func, num, 2);
-        add("df3", a1, a2, help, func, num, 3);
-        return nullptr;
-    }
-    
-    // Register instruction
-    CmdDescriptor d { token, a1, a2, help, std::vector<CmdDescriptor>(), func, num, param };
-    args.push_back(d);
-    
-    return seek(token);
-}
-
-CmdDescriptor *
-CmdDescriptor::add(const std::string &t1, const std::string &t2,
-                   const std::string &a1, const std::string &a2,
-                   const std::string &help,
-                   void (Controller::*func)(Arguments&, long),
-                   isize num, long param)
-{
-    // Expand template tokens
-    if (t1 == "dfn") {
-        add("df0", t2, a1, a2, help, func, num, 0);
-        add("df1", t2, a1, a2, help, func, num, 1);
-        add("df2", t2, a1, a2, help, func, num, 2);
-        add("df3", t2, a1, a2, help, func, num, 3);
-        return nullptr;
-    }
-    
-    return seek(t1)->add(t2, a1, a2, help, func, num, param);
-}
-
-CmdDescriptor *
-CmdDescriptor::add(const std::string &t1, const std::string &t2, const std::string &t3,
-                   const std::string &a1, const std::string &a2,
-                   const std::string &help,
-                   void (Controller::*func)(Arguments&, long),
-                   isize num, long param)
-{
-    // Expand template tokens
-    if (t1 == "dfn") {
-        add("df0", t2, t3, a1, a2, help, func, num, 0);
-        add("df1", t2, t3, a1, a2, help, func, num, 1);
-        add("df2", t2, t3, a1, a2, help, func, num, 2);
-        add("df3", t2, t3, a1, a2, help, func, num, 3);
-        return nullptr;
-    }
-    
-    return seek(t1)->add(t2, t3, a1, a2, help, func, num, param);
-}
 
 Interpreter::Interpreter(Application &ref) : app(ref), controller(ref.controller)
 {
@@ -85,15 +22,6 @@ Interpreter::lowercased(const std::string& s)
     string result;
     for (auto c : s) { result += tolower(c); }
     return result;
-}
-
-CmdDescriptor *
-CmdDescriptor::seek(const string& token)
-{
-    for (auto& it : args) {
-        if (it.name == token) return &it;
-    }
-    return nullptr;
 }
 
 void
@@ -110,7 +38,7 @@ Interpreter::exec(const string& userInput)
     if (tokens.empty()) return;
 
     // If a single word is typed in, check the list of single-word commands
-    if (execSingle(tokens)) return;
+    // if (execSingle(tokens)) return;
     
     // Call the standard execution handler
     execMultiple(tokens);
@@ -141,18 +69,18 @@ bool
 Interpreter::execMultiple(Arguments &argv)
 {
     CmdDescriptor *current = &root;
-    std::string prefix;
+    std::string prefix, token;
     
     while (current) {
                 
         // Extract token
-        std::string token = argv.empty() ? "" : argv.front();
+        token = argv.empty() ? "" : argv.front();
 
         // Search token
         CmdDescriptor *next = current->seek(token);
         if (next == nullptr) break;
         
-        prefix += token + " ";
+        prefix += (prefix.empty() ? "" : " ") + token;
         current = next;
         if (!argv.empty()) argv.pop_front();
     }
@@ -183,34 +111,45 @@ Interpreter::execMultiple(Arguments &argv)
     //
     // Syntax error
     //
+        
+    // Print the usage string
+    app.console << "usage: " << prefix << current->syntax() << '\n' << '\n';
     
+    // Collect all argument types
+    auto types = current->types();
+
     // Determine horizontal tabular positions to align the output
-    int tab = (int)current->arg1.length();
+    int tab = 0, tab2 = 0;
+    for (auto &it : types) {
+        tab = std::max(tab, (int)it.length());
+    }
     for (auto &it : current->args) {
-        tab = std::max(tab, (int)it.name.length());
+        tab2 = std::max(tab2, (int)it.name.length());
     }
     tab += 7;
     
-    app.console << "usage: ";
-    app.console << prefix << current->arg1 << ' ' << current->arg2 << '\n';
-    
-    if (int size = (int)current->args.size()) {
+    for (auto &it : types) {
         
-        app.console << '\n';
-        app.console.tab(tab - (int)current->arg1.length());
-        app.console << current->arg1 << " : ";
-        app.console << size << (size == 1 ? " option" : " options") << '\n' << '\n';
+        auto opts = current->filter(it);
+        int size = (int)it.length();
+
+        // app.console << '\n';
+        app.console.tab(tab - size);
+        app.console << "<" << it << "> : ";
+        app.console << (int)opts.size() << (opts.size() == 1 ? " choice" : " choices");
+        app.console << '\n' << '\n';
         
-        for (auto &it : current->args) {
-            string name = it.name == "" ? "''" : it.name;
-            app.console.tab(tab - (int)name.length());
+        for (auto &opt : opts) {
+
+            string name = opt->name == "" ? "<>" : opt->name;
+            app.console.tab(tab + 2 - (int)name.length());
             app.console << name;
             app.console << " : ";
-            app.console << it.info;
+            app.console << opt->info;
             app.console << '\n';
         }
         app.console << '\n';
     }
-    
+            
     return false;
 }

@@ -12,80 +12,95 @@
 void
 Interpreter::registerInstructions()
 {
-    root.arg1 = "<component>";
-    root.arg2 = "<command> [<arguments>]";
+    //
+    // Commands
+    //
+    
+    root.add("clear",
+             "command", "Clears the console window",
+             &Controller::exec <Token::clear>, 0, 0);
+
+    root.add("exit",
+             "command", "Closes the debug console",
+             &Controller::exec <Token::exit>, 0, 0);
+
+    root.add("joshua",
+             "command", "",
+             &Controller::exec <Token::easteregg>, 0, 0);
+    root.seek("joshua")->hidden = true;
     
     //
     // Agnus
     //
-    root.add("agnus", "<command>", "[<arguments>]",
-             "Amiga custom chip");
 
-    root.add("agnus", "dump", "[<category>]", "",
-             "Display the internal state");
+    root.add("agnus",
+             "component", "Custom chip");
 
-    root.add("agnus", "dump", "", "", "",
-             "Display registers",
+    root.add("agnus", "dump",
+             "command", "Displays the internal state");
+
+    root.add("agnus", "dump", "",
+             "category", "Displays registers",
              &Controller::exec <Token::agnus, Token::dump>, 0, 0);
 
-    root.add("agnus", "dump", "events", "", "",
-             "Display scheduled events",
+    root.add("agnus", "dump", "events",
+             "category", "Displays scheduled events",
              &Controller::exec <Token::agnus, Token::dump, Token::events>, 0, 0);
 
-    root.add("agnus", "set", "<key>", "<value>",
-             "Configure the component");
+    root.add("agnus", "set",
+             "command", "Configures the component");
     
-    root.add("agnus", "set", "" ,"", "",
-             "Display the current configuration",
+    root.add("agnus", "set", "",
+             "key", "Displays the current configuration",
              &Controller::exec <Token::agnus, Token::set>, 0, 0);
     
-    root.add("agnus", "set", "revision" ,"<revision>", "",
-             "Select the emulated chip model",
+    root.add("agnus", "set", "revision" ,
+             "key", "Selects the emulated chip model",
              &Controller::exec <Token::agnus, Token::set, Token::revision>, 1, 0);
     
     //
     // Amiga
     //
     
-    root.add("amiga", "<command>", "[<arguments>]",
-             "The virtual Amiga");
+    root.add("amiga",
+             "component", "The virtual Amiga");
     
-    root.add("amiga", "dump", "", "",
-             "Display the internal state",
+    root.add("amiga", "dump",
+             "command", "Displays the internal state",
              &Controller::exec <Token::amiga, Token::dump>, 0, 0);
     
-    root.add("amiga", "power", "[ on | off ]", "",
-             "Switch the Amiga on or off");
+    root.add("amiga", "power",
+             "command", "Switches the Amiga on or off");
     
-    root.add("amiga", "power", "on", "", "",
-             "Switch the Amiga on",
+    root.add("amiga", "power", "on",
+             "state", "Switches the Amiga on",
              &Controller::exec <Token::amiga, Token::on>, 0, 0);
 
-    root.add("amiga", "power", "off", "", "",
-             "Switch the Amiga off",
+    root.add("amiga", "power", "off",
+             "state", "Switches the Amiga off",
              &Controller::exec <Token::amiga, Token::off>, 0, 0);
 
-    root.add("amiga", "pause", "", "",
-             "Halt the emulator thread",
+    root.add("amiga", "pause",
+             "command", "Halts the emulator thread",
              &Controller::exec <Token::amiga, Token::pause>, 0, 0);
     
-    root.add("amiga", "reset", "", "",
-             "Perform a hard reset",
+    root.add("amiga", "reset",
+             "command", "Performs a hard reset",
              &Controller::exec <Token::amiga, Token::reset>, 0, 0);
     
-    root.add("amiga", "run", "", "",
-             "Start the emulator thread",
+    root.add("amiga", "run",
+             "command", "Starts the emulator thread",
              &Controller::exec <Token::amiga, Token::run>, 0, 0);
 
     //
     // Copper
     //
     
-    root.add("copper", "<command>", "[<arguments>]",
-             "Access the Copper");
+    root.add("copper",
+             "component", "Custom Chip (Agnus)");
     
-    root.add("copper", "dump", "", "",
-             "Display the internal state",
+    root.add("copper", "dump",
+             "command", "Displays the internal state",
              &Controller::exec <Token::copper, Token::dump>, 0, 0);
 
     
@@ -93,11 +108,11 @@ Interpreter::registerInstructions()
     // CPU
     //
     
-    root.add("cpu", "<command>", "[<arguments>]",
-             "Motorola 68k CPU");
+    root.add("cpu",
+             "component", "Motorola 68k CPU");
     
-    root.add("cpu", "dump", "", "",
-             "Display the internal state",
+    root.add("cpu", "dump",
+             "command", "Displays the internal state",
              &Controller::exec <Token::cpu, Token::dump>, 0, 0);
 
     
@@ -105,48 +120,51 @@ Interpreter::registerInstructions()
     // Denise
     //
     
-    root.add("denise", "<command>", "[<arguments>]",
-             "Graphics");
+    root.add("denise",
+             "component", "Custom chip");
     
-    root.add("denise", "dump", "", "",
-             "Displays the internal state");
+    root.add("denise", "dump",
+             "command", "Displays the internal state");
 
-    root.add("denise", "dump", "config", "", "",
-             "Displays the current configuration",
-             &Controller::exec <Token::denise, Token::dump, Token::config>, 0, 0);
-
-    root.add("denise", "dump", "registers", "", "",
-             "Displays the register contents",
+    root.add("denise", "dump", "registers",
+             "category", "Displays the register contents",
              &Controller::exec <Token::denise, Token::dump, Token::registers>, 0, 0);
+
+    root.add("denise", "set",
+             "command", "Configures the component");
+
+    root.add("denise", "set", "",
+             "key", "Displays the current configuration",
+             &Controller::exec <Token::denise, Token::set>, 0, 0);
 
     
     //
     // Df0, Df1, Df2, Df3
     //
     
-    root.add("dfn", "<command>", "[<arguments>]",
-             "Floppy drive");
+    root.add("dfn",
+             "component", "Floppy drive");
     
-    root.add("dfn", "dump", "", "",
-             "Display the internal state",
+    root.add("dfn", "dump",
+             "command", "Displays the internal state",
              &Controller::exec <Token::dfn, Token::dump>, 0, 0);
 
-    root.add("dfn", "eject", "", "",
-             "Eject floppy disk",
+    root.add("dfn", "eject",
+             "command", "Ejects a floppy disk",
              &Controller::exec <Token::dfn, Token::eject>, 0, 0);
 
-    root.add("dfn", "insert", "<path>", "",
-             "Insert floppy disk",
+    root.add("dfn", "insert",
+             "command", "Inserts a floppy disk",
              &Controller::exec <Token::dfn, Token::insert>, 1, 0);
 
     //
     // Memory
     //
     
-    root.add("memory", "<command>", "[<arguments>]",
-             "Ram and Rom");
+    root.add("memory",
+             "component", "Ram and Rom");
     
-    root.add("memory", "dump", "", "",
-             "Display the internal state",
+    root.add("memory", "dump",
+             "command", "Displays the internal state",
              &Controller::exec <Token::memory, Token::dump>, 0, 0);
 }

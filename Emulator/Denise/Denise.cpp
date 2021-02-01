@@ -182,11 +182,16 @@ Denise::_dump(Dump::Category category, std::ostream& os) const
     if (category & Dump::Config) {
         
         printf("_dump(Config)\n");
-        os << DUMP("Chip revision") << DeniseRevisionEnum::key(config.revision) << std::endl;
-        os << DUMP("Borderblank") << YESNO(config.borderblank) << std::endl;
-        os << DUMP("Hidden sprites") << HEX8 << (int)config.hiddenSprites << std::endl;
-        os << DUMP("Hidden layers") << HEX16 << (int)config.hiddenLayers << std::endl;
-        os << DUMP("Hidden layer alpha") << DEC << (int)config.hiddenLayerAlpha << std::endl;
+        os << DUMP("Chip revision");
+        os << DeniseRevisionEnum::key(config.revision) << std::endl;
+        os << DUMP("Borderblank");
+        os << YESNO(config.borderblank) << std::endl;
+        os << DUMP("Hidden sprites");
+        os << HEX8 << (int)config.hiddenSprites << std::endl;
+        os << DUMP("Hidden layers");
+        os << HEX16 << (int)config.hiddenLayers << std::endl;
+        os << DUMP("Hidden layer alpha");
+        os << DEC << (int)config.hiddenLayerAlpha << std::endl;
         os << DUMP("clxSprSpr") << YESNO(config.clxSprSpr) << std::endl;
         os << DUMP("clxSprSpr") << YESNO(config.clxSprSpr) << std::endl;
         os << DUMP("clxSprSpr") << YESNO(config.clxSprSpr) << std::endl;
@@ -202,8 +207,8 @@ Denise::_dump(Dump::Category category, std::ostream& os) const
         for (isize i = 0; i < 8; i++) {
             os << " SPR"+std::to_string(i)+"DATA: " << HEX16 << sprdata[i];
             os << " SPR"+std::to_string(i)+"DATB: " << HEX16 << sprdatb[i];
-            os << " SPR"+std::to_string(i)+"POS: " << HEX16 << sprpos[i];
-            os << " SPR"+std::to_string(i)+"CTL: " << HEX16 << sprctl[i];
+            os << " SPR"+std::to_string(i)+"POS: "  << HEX16 << sprpos[i];
+            os << " SPR"+std::to_string(i)+"CTL: "  << HEX16 << sprctl[i];
             os << std::endl;
         }
     }

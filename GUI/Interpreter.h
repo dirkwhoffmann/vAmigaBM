@@ -9,10 +9,7 @@
 
 #pragma once
 
-#include <string>
-#include <list>
-
-class Controller;
+#include "Command.h"
 
 enum class Token
 {
@@ -23,46 +20,11 @@ enum class Token
     memory, paula, rtc,
 
     // Commands
-    about, config, easteregg, eject, help, insert, dump, list, on, off, pause,
-    registers, reset, run, set,
+    about, clear, config, easteregg, eject, exit, help, insert, dump, list,
+    on, off, pause, registers, reset, run, set,
     
     // Keys
     events, revision
-};
-
-typedef std::list<std::string> Arguments;
-
-struct CmdDescriptor {
-    
-    string name;
-    string arg1, arg2;
-    string info;
-    std::vector<CmdDescriptor> args;
-    void (Controller::*func)(Arguments&, long) = nullptr;
-    isize numArgs = 0;
-    long param = 0;
-    
-    // Returns a matching descriptor from the args vector
-    CmdDescriptor *seek(const string& token);
-    
-    // Appends a new descriptor to the args vector
-    CmdDescriptor *add(const std::string &token,
-                       const std::string &a1, const std::string &a2,
-                       const std::string &help,
-                       void (Controller::*func)(Arguments&, long) = nullptr,
-                       isize numArgs = 0, long param = 0);
-    
-    CmdDescriptor *add(const std::string &t1, const std::string &t2,
-                       const std::string &a1, const std::string &a2,
-                       const std::string &help,
-                       void (Controller::*func)(Arguments&, long) = nullptr,
-                       isize numArgs = 0, long param = 0);
-    
-    CmdDescriptor *add(const std::string &t1, const std::string &t2, const std::string &t3,
-                       const std::string &a1, const std::string &a2,
-                       const std::string &help,
-                       void (Controller::*func)(Arguments&, long) = nullptr,
-                       isize numArgs = 0, long param = 0);
 };
 
 struct ParseError : public std::exception

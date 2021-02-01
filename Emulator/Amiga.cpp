@@ -347,7 +347,7 @@ Amiga::_dump(Dump::Category category, std::ostream& os) const
         
         os << DUMP("Power") << ONOFF(isPoweredOn()) << endl;
         os << DUMP("Running") << YESNO(isRunning()) << endl;
-        os << DUMP("Warp") << YESNO(warpMode) << endl;
+        os << DUMP("Warp") << ONOFF(warpMode) << endl;
     }
 }
 

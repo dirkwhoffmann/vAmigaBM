@@ -10,6 +10,31 @@
 #include "Application.h"
 
 //
+// Top-level commands
+//
+
+template <> void
+Controller::exec <Token::clear> (Arguments &argv, long param)
+{
+    app.console.clear();
+}
+
+template <> void
+Controller::exec <Token::exit> (Arguments &argv, long param)
+{
+    app.console.close();
+}
+
+template <> void
+Controller::exec <Token::easteregg> (Arguments& argv, long param)
+{
+    console << "GREETINGS PROFESSOR HOFFMANN." << '\n' << '\n';
+    console << "THE ONLY WINNING MOVE IS NOT TO PLAY." << '\n' << '\n';
+    console << "HOW ABOUT A NICE GAME OF CHESS?" << '\n';
+}
+
+
+//
 // Agnus
 //
 
@@ -130,22 +155,20 @@ Controller::exec <Token::cpu, Token::dump> (Arguments& argv, long param)
 //
 
 template <> void
-Controller::exec <Token::denise, Token::dump, Token::config> (Arguments& argv, long param)
-{
-    std::stringstream ss; string line;
-    
-    printf("denise dump config\n");
-    
-    amiga.denise.dump(Dump::Config, ss);
-    while(std::getline(ss, line)) console << line << '\n';
-}
-
-template <> void
 Controller::exec <Token::denise, Token::dump, Token::registers> (Arguments& argv, long param)
 {
     std::stringstream ss; string line;
     
     amiga.denise.dump(Dump::Registers, ss);
+    while(std::getline(ss, line)) console << line << '\n';
+}
+
+template <> void
+Controller::exec <Token::denise, Token::set> (Arguments& argv, long param)
+{
+    std::stringstream ss; string line;
+        
+    amiga.denise.dump(Dump::Config, ss);
     while(std::getline(ss, line)) console << line << '\n';
 }
 
@@ -200,17 +223,4 @@ Controller::exec <Token::memory, Token::dump> (Arguments& argv, long param)
     
     amiga.mem.dump(ss);
     while(std::getline(ss, line)) console << line << '\n';
-}
-
-
-//
-// Misc
-//
-
-template <> void
-Controller::exec <Token::easteregg> (Arguments& argv, long param)
-{
-    console << "GREETINGS PROFESSOR HOFFMANN." << '\n' << '\n';
-    console << "THE ONLY WINNING MOVE IS NOT TO PLAY." << '\n' << '\n';
-    console << "HOW ABOUT A NICE GAME OF CHESS?" << '\n';
 }

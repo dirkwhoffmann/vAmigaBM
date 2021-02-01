@@ -149,6 +149,7 @@
 		50E08E1D25C3102200B82E96 /* IBMPlexMono-Medium.ttf in CopyFiles */ = {isa = PBXBuildFile; fileRef = 50E08E1C25C3101C00B82E96 /* IBMPlexMono-Medium.ttf */; };
 		50E4DD5525C6B180001F6432 /* InterpreterCmds.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50E4DD5425C6B180001F6432 /* InterpreterCmds.cpp */; };
 		50E9337225C2188700F4958B /* Interpreter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50E9337025C2188700F4958B /* Interpreter.cpp */; };
+		50F712CD25C8838D00EC288B /* Command.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50F712CB25C8838D00EC288B /* Command.cpp */; };
 		50FD19B825C20102004E7388 /* Application.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50FD19B625C20102004E7388 /* Application.cpp */; };
 /* End PBXBuildFile section */
 
@@ -479,6 +480,8 @@
 		50E4DD5425C6B180001F6432 /* InterpreterCmds.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = InterpreterCmds.cpp; sourceTree = "<group>"; };
 		50E9337025C2188700F4958B /* Interpreter.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Interpreter.cpp; sourceTree = "<group>"; };
 		50E9337125C2188700F4958B /* Interpreter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Interpreter.h; sourceTree = "<group>"; };
+		50F712CB25C8838D00EC288B /* Command.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Command.cpp; sourceTree = "<group>"; };
+		50F712CC25C8838D00EC288B /* Command.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Command.h; sourceTree = "<group>"; };
 		50FD19B625C20102004E7388 /* Application.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Application.cpp; sourceTree = "<group>"; };
 		50FD19B725C20102004E7388 /* Application.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Application.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -1021,6 +1024,8 @@
 				50E9337125C2188700F4958B /* Interpreter.h */,
 				50E9337025C2188700F4958B /* Interpreter.cpp */,
 				50E4DD5425C6B180001F6432 /* InterpreterCmds.cpp */,
+				50F712CC25C8838D00EC288B /* Command.h */,
+				50F712CB25C8838D00EC288B /* Command.cpp */,
 				505485E825C15C3B00892284 /* AssetManager.h */,
 				505485E725C15C3B00892284 /* AssetManager.cpp */,
 			);
@@ -1137,6 +1142,7 @@
 				50AE116325C42D6700AD13B7 /* Moira.cpp in Sources */,
 				50AE11B725C42D6700AD13B7 /* FSFileHeaderBlock.cpp in Sources */,
 				50AE118125C42D6700AD13B7 /* RomFile.cpp in Sources */,
+				50F712CD25C8838D00EC288B /* Command.cpp in Sources */,
 				50AE119825C42D6700AD13B7 /* u_init.c in Sources */,
 				50AE117625C42D6700AD13B7 /* Blitter.cpp in Sources */,
 				50AE11A325C42D6700AD13B7 /* Paula.cpp in Sources */,
