@@ -90,13 +90,10 @@ private:
     
 public:
     
+    // Executes a command
     void exec(const std::string& userInput);
-
-private:
-
-    // Executes a command that consists of a single word
-    bool execSingle(Arguments &argv);
-
-    // Executes a command that is composed out of multiple words
-    bool execMultiple(Arguments &argv);
+    bool exec(Arguments &argv);
+        
+    // Prints a syntax summary
+    void syntax(CmdDescriptor& command, const string& prefix);
 };

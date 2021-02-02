@@ -52,10 +52,10 @@ Application::run()
     background.setTexture(&logoTex);
     background.setPosition(0.17 * W, 0.125 * H);
     
-    int x1 = HBLANK_CNT * 4 + 37; // Remove 100, add to texture update func
-    int x2 = HPOS_CNT * 4 + 37;
+    int x1 = HBLANK_CNT * 4;
+    int x2 = HPOS_CNT * 4;
     int y1 = VBLANK_CNT;
-    int y2 = VPOS_CNT;
+    int y2 = VPOS_CNT - 1;
     foreground.setSize(sf::Vector2f(W,H));
     foreground.setTexture(&emuTex);
     foreground.setTextureRect(sf::IntRect(x1, y1, x2 - x1, y2 - y1));
@@ -139,12 +139,15 @@ Application::processKeyEvents(const sf::Event& event)
 void
 Application::update()
 {
+    if (!controller.amiga.isRunning()) {
+        emuTex.update((u8 *)controller.amiga.denise.pixelEngine.getNoise());
+        return;
+    }
+    
     ScreenBuffer current = controller.amiga.denise.pixelEngine.getStableBuffer();
     if (screenBuffer.data != current.data) {
-
         screenBuffer = current;
-        
-        emuTex.update((u8 *)screenBuffer.data);
+        emuTex.update((u8 *)(screenBuffer.data + 4 * HBLANK_MIN));
     }
 }
 

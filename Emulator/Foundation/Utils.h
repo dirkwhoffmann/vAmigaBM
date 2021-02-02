@@ -173,7 +173,7 @@ bool releaseBuild();
 #define TAB(x) std::left << std::setw(x)
 #define YESNO(x) ((x) ? "yes" : "no")
 #define ONOFF(x) ((x) ? "on" : "off")
-#define DUMP(x) std::setw(24) << std::right << std::setfill(' ') << (x) << ": "
+#define DUMP(x) std::setw(24) << std::right << std::setfill(' ') << (x) << " : "
 
 // Prints a hex dump of a buffer to the console (for debugging)
 void hexdump(u8 *p, isize size, isize cols, isize pad);

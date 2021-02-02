@@ -27,7 +27,7 @@ Interpreter::lowercased(const std::string& s)
 void
 Interpreter::exec(const string& userInput)
 {
-    std::list<string> tokens;
+    Arguments tokens;
     std::string token;
 
     // Split the command string
@@ -37,36 +37,12 @@ Interpreter::exec(const string& userInput)
     // Only proceed if some input is given
     if (tokens.empty()) return;
 
-    // If a single word is typed in, check the list of single-word commands
-    // if (execSingle(tokens)) return;
-    
-    // Call the standard execution handler
-    execMultiple(tokens);
+    // Hand over the token vector
+    exec(tokens);
 }
 
 bool
-Interpreter::execSingle(Arguments &argv)
-{
-    if (argv.front() == "clear") {
-        app.console.clear();
-        return true;
-    }
-
-    if (argv.front() == "exit" || argv.front() == "hide") {
-        app.console.close();
-        return true;
-    }
-
-    if (argv.front() == "joshua") {
-        controller.exec <Token::easteregg> (argv, 0);
-        return true;
-    }
-    
-    return false;
-}
-
-bool
-Interpreter::execMultiple(Arguments &argv)
+Interpreter::exec(Arguments &argv)
 {
     CmdDescriptor *current = &root;
     std::string prefix, token;
@@ -80,7 +56,7 @@ Interpreter::execMultiple(Arguments &argv)
         CmdDescriptor *next = current->seek(token);
         if (next == nullptr) break;
         
-        prefix += (prefix.empty() ? "" : " ") + token;
+        prefix += token + " ";
         current = next;
         if (!argv.empty()) argv.pop_front();
     }
@@ -108,6 +84,10 @@ Interpreter::execMultiple(Arguments &argv)
         }
     }
     
+    // Syntax error
+    syntax(*current, prefix);
+
+    /*
     //
     // Syntax error
     //
@@ -150,6 +130,50 @@ Interpreter::execMultiple(Arguments &argv)
         }
         app.console << '\n';
     }
-            
+    */
+    
     return false;
+}
+
+void
+Interpreter::syntax(CmdDescriptor& current, const string& prefix)
+{
+    // Print the usage string
+    app.console << "usage: " << prefix << current.syntax() << '\n' << '\n';
+    
+    // Collect all argument types
+    auto types = current.types();
+
+    // Determine horizontal tabular positions to align the output
+    int tab = 0, tab2 = 0;
+    for (auto &it : types) {
+        tab = std::max(tab, (int)it.length());
+    }
+    for (auto &it : current.args) {
+        tab2 = std::max(tab2, (int)it.name.length());
+    }
+    tab += 7;
+    
+    for (auto &it : types) {
+        
+        auto opts = current.filter(it);
+        int size = (int)it.length();
+
+        // app.console << '\n';
+        app.console.tab(tab - size);
+        app.console << "<" << it << "> : ";
+        app.console << (int)opts.size() << (opts.size() == 1 ? " choice" : " choices");
+        app.console << '\n' << '\n';
+        
+        for (auto &opt : opts) {
+
+            string name = opt->name == "" ? "<>" : opt->name;
+            app.console.tab(tab + 2 - (int)name.length());
+            app.console << name;
+            app.console << " : ";
+            app.console << opt->info;
+            app.console << '\n';
+        }
+        app.console << '\n';
+    }
 }
