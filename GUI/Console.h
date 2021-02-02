@@ -175,6 +175,9 @@ public:
     void keyPressed(const sf::Keyboard::Key& key);
     void keyReleased(const sf::Keyboard::Key& key);
 
+    // Processes a mouse scrolling event
+    void scroll(float delta);
+    
     
     //
     // Rendering

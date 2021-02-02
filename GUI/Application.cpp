@@ -104,6 +104,13 @@ Application::processEvents()
                 }
                 break;
                 
+            case sf::Event::MouseWheelScrolled:
+            {
+                if(event.mouseWheelScroll.wheel == sf::Mouse::VerticalWheel) {
+                    console.scroll(event.mouseWheelScroll.delta);
+                }
+            }
+                
             default:
                 break;
         }

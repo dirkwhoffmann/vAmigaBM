@@ -313,7 +313,21 @@ Console::keyReleased(const sf::Keyboard::Key& key)
     }
     */
 }
-            
+      
+void
+Console::scroll(float delta)
+{    
+    static float vpos = 0.0;
+    
+    float newpos = vpos + delta;
+    isize dy = (isize)abs(newpos);
+    
+    if (dy >= 1) {
+        if (newpos > 0) { scrollUp(dy); newpos -= dy; }
+        if (newpos < 0) { scrollDown(dy); newpos += dy; }
+    }
+}
+
 void
 Console::render(sf::RenderWindow &window)
 {
