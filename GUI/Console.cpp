@@ -146,11 +146,9 @@ Console::replace(const string& text, const string& prefix)
 void
 Console::list()
 {
-    printf("<------\n");
-    for (auto &it : storage) {
-        printf("%s\n", it.c_str());
+    for (isize i = 0; i < input.size(); i++) {
+        printf("%ld: %s\n", i, input[i].c_str());
     }
-    printf("------>\n");
 }
 
 void
@@ -188,7 +186,10 @@ Console::type(char c)
             // Execute the command
             application.interpreter.exec(input[index]);
             
-            // Add a new entry to the input buffer
+            // Add the command to the user input history
+            input[input.size() - 1] = input[index];
+
+            // Print a new prompt
             input.push_back("");
             index = (int)input.size() - 1;
             hpos = 0;
@@ -211,7 +212,6 @@ Console::type(char c)
                 
                 input[index].insert(input[index].begin() + hpos++, c);
             }
-
             *this << '\r' << string(prompt) << input[index];
     }
 

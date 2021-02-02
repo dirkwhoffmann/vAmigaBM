@@ -145,7 +145,7 @@ public:
     void replace(const std::string& text,
                  const std::string& prefix = std::string(prompt));
 
-    // Prints the text storage (for debugging)
+    // Prints some debug output
     void list();
 
     // Returns the row number of the last displayed line
