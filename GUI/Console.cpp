@@ -58,11 +58,11 @@ Console::init()
     // Initialize render items
     for (int i = 0; i < numRows; i++) {
         
-        row[i].setFont(font);
-        row[i].setString("");
-        row[i].setCharacterSize(fontSize);
-        row[i].setFillColor(sf::Color::White);
-        row[i].setPosition(hposForCol(0), vposForRow(i));
+        text[i].setFont(font);
+        text[i].setString("");
+        text[i].setCharacterSize(fontSize);
+        text[i].setFillColor(sf::Color::White);
+        text[i].setPosition(hposForCol(0), vposForRow(i));
     }
     
     return true;
@@ -156,8 +156,8 @@ Console::scrollTo(isize line)
 {
     line = std::clamp(line, (isize)0, (isize)storage.size() - 1);
         
-    isDirty = line != first;
-    first = line;
+    isDirty = line != row;
+    row = line;
 }
 
 void
@@ -171,7 +171,7 @@ Console::makeLastLineVisible()
 isize
 Console::rowOfLastLine()
 {
-    return (isize)storage.size() - first - 1;
+    return (isize)storage.size() - row - 1;
 }
 
 void
@@ -354,12 +354,12 @@ Console::updateTexture()
     
     for (int i = 0; i < numRows; i++) {
         
-        if (first + i < storage.size()) {
-            row[i].setString(storage[first + i]);
+        if (row + i < storage.size()) {
+            text[i].setString(storage[row + i]);
         } else {
-            row[i].setString(""); // std::to_string(first + i));
+            text[i].setString("");
         }
-        texture.draw(row[i]);
+        texture.draw(text[i]);
     }
     
     // Draw cursor

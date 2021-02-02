@@ -47,8 +47,12 @@ class Console {
     std::vector<std::string> storage;
     
     // The number of the first displayed line
-    isize first = 0;
+    isize row = 0;
     
+    // The current cursor position
+    int hpos = 0;
+    [[deprecated]] int vpos = 0;
+
     // The render texture
     sf::RenderTexture texture;
     
@@ -59,17 +63,11 @@ class Console {
     bool isDirty = true;
     
     // The rendered text rows
-    sf::Text row[numRows];
+    sf::Text text[numRows];
 
     // Font properties
     int glyphWidth;
-    
-    // The render texture
-    
-    // The current cursor position
-    int hpos = 0;
-    int vpos = 0;
-
+        
     // The cursor's visual shape
     sf::RectangleShape cursor;
         
@@ -157,8 +155,8 @@ public:
     // Selects the displayed part of the text storage
     void scrollTo(isize line);
     void scrollToTop() { scrollTo(0); }
-    void scrollUp(isize delta) { scrollTo(first - delta); }
-    void scrollDown(isize delta) { scrollTo(first + delta); }
+    void scrollUp(isize delta) { scrollTo(row - delta); }
+    void scrollDown(isize delta) { scrollTo(row + delta); }
     void makeLastLineVisible();
 
     
