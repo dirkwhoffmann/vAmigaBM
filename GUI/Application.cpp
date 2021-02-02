@@ -139,12 +139,12 @@ Application::processKeyEvents(const sf::Event& event)
 void
 Application::update()
 {
-    if (!controller.amiga.isRunning()) {
-        emuTex.update((u8 *)controller.amiga.denise.pixelEngine.getNoise());
+    if (!amiga.isRunning()) {
+        emuTex.update((u8 *)amiga.denise.pixelEngine.getNoise());
         return;
     }
     
-    ScreenBuffer current = controller.amiga.denise.pixelEngine.getStableBuffer();
+    ScreenBuffer current = amiga.denise.pixelEngine.getStableBuffer();
     if (screenBuffer.data != current.data) {
         screenBuffer = current;
         emuTex.update((u8 *)(screenBuffer.data + 4 * HBLANK_MIN));

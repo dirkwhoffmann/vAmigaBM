@@ -40,7 +40,10 @@ class Application
     //
     
 public:
-        
+       
+    // The emulator instance
+    Amiga amiga;
+
     // The current screen buffer
     ScreenBuffer screenBuffer = { nullptr, false };
     

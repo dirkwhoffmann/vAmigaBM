@@ -16,12 +16,11 @@ class Controller
 {
     // Reference to other components
     class Application &app;
+    class Amiga &amiga;
     class Console &console;
 
 public:
     
-    // The emulator instance
-    Amiga amiga;
         
     
     //
