@@ -156,8 +156,8 @@ Console::scrollTo(isize line)
 {
     line = std::clamp(line, (isize)0, (isize)storage.size() - 1);
         
-    isDirty = line != row;
-    row = line;
+    isDirty = line != vpos;
+    vpos = line;
 }
 
 void
@@ -171,7 +171,7 @@ Console::makeLastLineVisible()
 isize
 Console::rowOfLastLine()
 {
-    return (isize)storage.size() - row - 1;
+    return (isize)storage.size() - vpos - 1;
 }
 
 void
@@ -184,15 +184,15 @@ Console::type(char c)
             *this << '\n';
             
             // Execute the command
-            application.interpreter.exec(input[index]);
+            application.interpreter.exec(input[ipos]);
             
             // Add the command to the user input history
-            input[input.size() - 1] = input[index];
+            input[input.size() - 1] = input[ipos];
 
             // Print a new prompt
             input.push_back("");
-            index = (int)input.size() - 1;
-            hpos = 0;
+            ipos = (int)input.size() - 1;
+            cpos = 0;
             
             // Print a new prompt
             *this << string(prompt);
@@ -200,19 +200,19 @@ Console::type(char c)
             
         case '\b':
             
-            if (hpos > 0) {
-                input[index].erase(input[index].begin() + --hpos);
+            if (cpos > 0) {
+                input[ipos].erase(input[ipos].begin() + --cpos);
             }
-            *this << '\r' << string(prompt) << input[index];
+            *this << '\r' << string(prompt) << input[ipos];
             break;
             
         default:
             
-            if (input[index].length() < numCols - (int)prompt.length() - 1) {
+            if (input[ipos].length() < numCols - (int)prompt.length() - 1) {
                 
-                input[index].insert(input[index].begin() + hpos++, c);
+                input[ipos].insert(input[ipos].begin() + cpos++, c);
             }
-            *this << '\r' << string(prompt) << input[index];
+            *this << '\r' << string(prompt) << input[ipos];
     }
 
     makeLastLineVisible();
@@ -226,24 +226,24 @@ Console::keyPressed(const sf::Keyboard::Key& key)
             
         case sf::Keyboard::Up:
 
-            printf("Cursor up %d\n", index);
-            if (index > 0) {
-                index--;
-                hpos = (int)input[index].size();
+            printf("Cursor up %zd\n", ipos);
+            if (ipos > 0) {
+                ipos--;
+                cpos = (int)input[ipos].size();
 
-                replace(input[index]);
+                replace(input[ipos]);
             }
             makeLastLineVisible();
             break;
 
         case sf::Keyboard::Down:
 
-            printf("Cursor down %d\n", index);
-            if (index < input.size() - 1) {
-                index++;
-                hpos = (int)input[index].size();
+            printf("Cursor down %zd\n", ipos);
+            if (ipos < input.size() - 1) {
+                ipos++;
+                cpos = (int)input[ipos].size();
                 
-                replace(input[index]);
+                replace(input[ipos]);
             }
             makeLastLineVisible();
             break;
@@ -251,32 +251,32 @@ Console::keyPressed(const sf::Keyboard::Key& key)
         case sf::Keyboard::Left:
 
             printf("Cursor left\n");
-            if (hpos > 0) {
-                hpos--;
+            if (cpos > 0) {
+                cpos--;
             }
-            printf("hpos = %d\n", hpos);
+            printf("hpos = %zd\n", cpos);
             makeLastLineVisible();
             break;
             
         case sf::Keyboard::Right:
             
             printf("Cursor right\n");
-            if (hpos < input[index].length()) {
-                hpos++;
+            if (cpos < input[ipos].length()) {
+                cpos++;
             }
-            printf("hpos = %d\n", hpos);
+            printf("hpos = %zd\n", cpos);
             makeLastLineVisible();
             break;
             
         case sf::Keyboard::Home:
             
-            hpos = 0;
+            cpos = 0;
             makeLastLineVisible();
             break;
 
         case sf::Keyboard::End:
             
-            hpos = (int)input[index].length();
+            cpos = (int)input[ipos].length();
             makeLastLineVisible();
             break;
 
@@ -354,8 +354,8 @@ Console::updateTexture()
     
     for (int i = 0; i < numRows; i++) {
         
-        if (row + i < storage.size()) {
-            text[i].setString(storage[row + i]);
+        if (vpos + i < storage.size()) {
+            text[i].setString(storage[vpos + i]);
         } else {
             text[i].setString("");
         }
@@ -363,7 +363,7 @@ Console::updateTexture()
     }
     
     // Draw cursor
-    isize cursorX = hposForCol(hpos + (int)prompt.length());
+    isize cursorX = hposForCol(cpos + (int)prompt.length());
     isize cursorY = vposForRow(rowOfLastLine()) + 3;
     cursor.setPosition(cursorX, cursorY);
     texture.draw(cursor);

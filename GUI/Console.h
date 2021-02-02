@@ -46,12 +46,17 @@ class Console {
     // The text storage
     std::vector<std::string> storage;
     
+    // The input history buffer
+    std::vector<std::string> input;
+
     // The number of the first displayed line
-    isize row = 0;
+    isize vpos = 0;
     
     // The current cursor position
-    int hpos = 0;
-    [[deprecated]] int vpos = 0;
+    isize cpos = 0;
+        
+    // The currently active input string
+    isize ipos = 0;
 
     // The render texture
     sf::RenderTexture texture;
@@ -59,27 +64,20 @@ class Console {
     // A drawable holding the render texture
     sf::RectangleShape drawable;
 
-    // Indicates if the render texture needs to be redrawn
-    bool isDirty = true;
-    
     // The rendered text rows
     sf::Text text[numRows];
 
+    // Indicates if the render texture needs to be redrawn
+    bool isDirty = true;
+    
     // Font properties
     int glyphWidth;
         
     // The cursor's visual shape
     sf::RectangleShape cursor;
-        
-    // The input history buffer
-    std::vector<std::string> input;
-        
-    // The currently active input string
-    int index = 0;
-    
+            
     // Alpha channel parameters
-    int alpha = 0;
-    int targetAlpha = 0;
+    int alpha = 0, targetAlpha = 0;
         
     
     //
@@ -92,21 +90,8 @@ public:
     ~Console();
     
     bool init();
-    
-    
-    //
-    // Properties
-    //
-    
-    isize hposForCol(isize i) { return 10 + i * glyphWidth; }
-    isize vposForRow(isize i) { return 5 + (fontSize + lineSkip) * i; }
-        
-    bool isVisible() { return alpha > 0; }
-    bool isAnimating() { return alpha != targetAlpha; }
-    bool isOpening() { return targetAlpha > alpha; }
-    bool isClosing() { return targetAlpha < alpha; }
 
-    
+
     //
     // Managing the console window
     //
@@ -118,6 +103,12 @@ public:
     void close() { targetAlpha = 0x00; }
     void toggle() { isVisible() ? close() : open(); }
     
+    // Analyzing the window state
+    bool isVisible() { return alpha > 0; }
+    bool isAnimating() { return alpha != targetAlpha; }
+    bool isOpening() { return targetAlpha > alpha; }
+    bool isClosing() { return targetAlpha < alpha; }
+
     
     //
     // Working with the text storage
@@ -128,6 +119,13 @@ public:
     // Clears the console window
     void clear();
     
+    // Moves to a certain line in the console window
+    void scrollTo(isize line);
+    void scrollToTop() { scrollTo(0); }
+    void scrollUp(isize delta) { scrollTo(vpos - delta); }
+    void scrollDown(isize delta) { scrollTo(vpos + delta); }
+    void makeLastLineVisible();
+    
     // Prints a message
     Console& operator<<(char value);
     Console& operator<<(const std::string& value);
@@ -136,7 +134,7 @@ public:
     // Clears the current line
     void clearLine() { *this << '\r'; }
 
-    // Moves to cursor forward to a certain column
+    // Moves the cursor forward to a certain column
     void tab(int hpos);
 
     // Replaces the last line
@@ -152,13 +150,6 @@ public:
     // Checks if the last line is visible
     bool lastLineIsVisible() { return rowOfLastLine() < numRows; }
     
-    // Selects the displayed part of the text storage
-    void scrollTo(isize line);
-    void scrollToTop() { scrollTo(0); }
-    void scrollUp(isize delta) { scrollTo(row - delta); }
-    void scrollDown(isize delta) { scrollTo(row + delta); }
-    void makeLastLineVisible();
-
     
     //
     // Processing input
@@ -183,9 +174,12 @@ public:
     
     void render(sf::RenderWindow &window);
     
-    
 private:
-    
+
+    // Translates rows and columns to drawing coordinates
+    isize hposForCol(isize i) { return 10 + i * glyphWidth; }
+    isize vposForRow(isize i) { return 5 + (fontSize + lineSkip) * i; }
+
     // Redraws the render texture
     void updateTexture();
 };
