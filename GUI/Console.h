@@ -24,15 +24,15 @@ class Console {
     //
     
     // Texture dimensions
-    static const int width = 1024;
-    static const int height = 768;
+    static const int width = 1060;
+    static const int height = 785;
     
     // Text window size
-    static const int numRows = 23;
-    static const int numCols = 72;
+    static const int numRows = 25;
+    static const int numCols = 80;
     
     // Caligrahpic properties
-    static const int fontSize = 24;
+    static const int fontSize = 22;
     static const int lineSkip = 9;
     
     // Input prompt
@@ -71,7 +71,7 @@ class Console {
     bool isDirty = true;
     
     // Font properties
-    int glyphWidth;
+    int glyphWidth = 0;
         
     // The cursor's visual shape
     sf::RectangleShape cursor;

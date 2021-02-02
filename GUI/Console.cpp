@@ -43,7 +43,7 @@ Console::init()
     glyphWidth = font.getGlyph(32, fontSize, false).advance;
     cursor.setSize(sf::Vector2f(glyphWidth + 2, fontSize + 3));
     cursor.setFillColor(sf::Color(0xFF,0xFF,0xFF,0x80));
-
+    
     // Initialize the render target
     if (!texture.create(width, height)) {
         throw std::runtime_error("Console: Can't allocate render texture");

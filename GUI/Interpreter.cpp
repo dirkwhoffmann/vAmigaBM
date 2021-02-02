@@ -99,14 +99,9 @@ Interpreter::syntax(Command& current, const string& prefix)
     // Collect all argument types
     auto types = current.types();
 
-    // Determine horizontal tabular positions to align the output
-    int tab = 0, tab2 = 0;
-    for (auto &it : types) {
-        tab = std::max(tab, (int)it.length());
-    }
-    for (auto &it : current.args) {
-        tab2 = std::max(tab2, (int)it.token.length());
-    }
+    // Determine tabular positions to align the output
+    int tab = 0;
+    for (auto &it : types) tab = std::max(tab, (int)it.length());
     tab += 7;
     
     for (auto &it : types) {
@@ -114,7 +109,6 @@ Interpreter::syntax(Command& current, const string& prefix)
         auto opts = current.filter(it);
         int size = (int)it.length();
 
-        // app.console << '\n';
         app.console.tab(tab - size);
         app.console << "<" << it << "> : ";
         app.console << (int)opts.size() << (opts.size() == 1 ? " choice" : " choices");

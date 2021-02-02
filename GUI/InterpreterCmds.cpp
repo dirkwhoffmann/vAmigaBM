@@ -20,9 +20,9 @@ Interpreter::registerInstructions()
              "command", "Clears the console window",
              &Controller::exec <Token::clear>, 0, 0);
 
-    root.add("exit",
-             "command", "Closes the debug console",
-             &Controller::exec <Token::exit>, 0, 0);
+    root.add("hide",
+             "command", "Hides the debug console",
+             &Controller::exec <Token::hide>, 0, 0);
 
     root.add("joshua",
              "command", "",
@@ -39,9 +39,9 @@ Interpreter::registerInstructions()
     root.add("agnus", "dump",
              "command", "Displays the internal state");
 
-    root.add("agnus", "dump", "",
-             "category", "Displays registers",
-             &Controller::exec <Token::agnus, Token::dump>, 0, 0);
+    root.add("agnus", "dump", "registers",
+             "category", "Displays register values",
+             &Controller::exec <Token::agnus, Token::dump, Token::registers>, 0, 0);
 
     root.add("agnus", "dump", "events",
              "category", "Displays scheduled events",

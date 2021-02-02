@@ -20,7 +20,7 @@ Controller::exec <Token::clear> (Arguments &argv, long param)
 }
 
 template <> void
-Controller::exec <Token::exit> (Arguments &argv, long param)
+Controller::exec <Token::hide> (Arguments &argv, long param)
 {
     app.console.close();
 }
@@ -39,11 +39,11 @@ Controller::exec <Token::easteregg> (Arguments& argv, long param)
 //
 
 template <> void
-Controller::exec <Token::agnus, Token::dump> (Arguments &argv, long param)
+Controller::exec <Token::agnus, Token::dump, Token::registers> (Arguments &argv, long param)
 {
     std::stringstream ss; string line;
 
-    amiga.agnus.dump(ss);
+    amiga.agnus.dump(Dump::Registers, ss);
     while(std::getline(ss, line)) console << line << '\n';
 }
 

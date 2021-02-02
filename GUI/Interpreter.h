@@ -20,7 +20,7 @@ enum class Token
     memory, paula, rtc,
 
     // Commands
-    about, clear, config, easteregg, eject, exit, help, insert, dump, list,
+    about, clear, config, easteregg, eject, help, hide, insert, dump, list,
     on, off, pause, registers, reset, run, set,
     
     // Keys
