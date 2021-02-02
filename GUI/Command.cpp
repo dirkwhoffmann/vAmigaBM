@@ -9,8 +9,8 @@
 
 #include "Application.h"
 
-CmdDescriptor *
-CmdDescriptor::add(const std::string &token,
+Command *
+Command::add(const std::string &token,
                    const std::string &a1,
                    const std::string &help,
                    void (Controller::*func)(Arguments&, long),
@@ -29,14 +29,14 @@ CmdDescriptor::add(const std::string &token,
     }
     
     // Register instruction
-    CmdDescriptor d { token, a1, help, std::vector<CmdDescriptor>(), func, num, param };
+    Command d { token, a1, help, std::vector<Command>(), func, num, param };
     args.push_back(d);
     
     return seek(token);
 }
 
-CmdDescriptor *
-CmdDescriptor::add(const std::string &t1, const std::string &t2,
+Command *
+Command::add(const std::string &t1, const std::string &t2,
                    const std::string &a1,
                    const std::string &help,
                    void (Controller::*func)(Arguments&, long),
@@ -54,8 +54,8 @@ CmdDescriptor::add(const std::string &t1, const std::string &t2,
     return seek(t1)->add(t2, a1, help, func, num, param);
 }
 
-CmdDescriptor *
-CmdDescriptor::add(const std::string &t1, const std::string &t2, const std::string &t3,
+Command *
+Command::add(const std::string &t1, const std::string &t2, const std::string &t3,
                    const std::string &a1,
                    const std::string &help,
                    void (Controller::*func)(Arguments&, long),
@@ -73,17 +73,17 @@ CmdDescriptor::add(const std::string &t1, const std::string &t2, const std::stri
     return seek(t1)->add(t2, t3, a1, help, func, num, param);
 }
 
-CmdDescriptor *
-CmdDescriptor::seek(const string& token)
+Command *
+Command::seek(const string& token)
 {
     for (auto& it : args) {
-        if (it.name == token) return &it;
+        if (it.token == token) return &it;
     }
     return nullptr;
 }
 
 std::vector<std::string>
-CmdDescriptor::types()
+Command::types()
 {
     std::vector<std::string> result;
     
@@ -91,8 +91,8 @@ CmdDescriptor::types()
         
         if (it.hidden) continue;
         
-        if (std::find(result.begin(), result.end(), it.arg1) == result.end()) {
-            result.push_back(it.arg1);
+        if (std::find(result.begin(), result.end(), it.type) == result.end()) {
+            result.push_back(it.type);
         }
     }
     
@@ -103,22 +103,22 @@ CmdDescriptor::types()
     return result;
 }
 
-std::vector<CmdDescriptor *>
-CmdDescriptor::filter(std::string& type)
+std::vector<Command *>
+Command::filter(std::string& type)
 {
-    std::vector<CmdDescriptor *> result;
+    std::vector<Command *> result;
     
     for (auto &it : args) {
         
         if (it.hidden) continue;
-        if (it.arg1 == type) result.push_back(&it);
+        if (it.type == type) result.push_back(&it);
     }
     
     return result;
 }
 
 string
-CmdDescriptor::syntax()
+Command::syntax()
 {
     string firstArg, otherArgs;
     

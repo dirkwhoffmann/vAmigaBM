@@ -44,7 +44,7 @@ Interpreter::exec(const string& userInput)
 bool
 Interpreter::exec(Arguments &argv)
 {
-    CmdDescriptor *current = &root;
+    Command *current = &root;
     std::string prefix, token;
     
     while (current) {
@@ -53,7 +53,7 @@ Interpreter::exec(Arguments &argv)
         token = argv.empty() ? "" : argv.front();
 
         // Search token
-        CmdDescriptor *next = current->seek(token);
+        Command *next = current->seek(token);
         if (next == nullptr) break;
         
         prefix += token + " ";
@@ -86,60 +86,15 @@ Interpreter::exec(Arguments &argv)
     
     // Syntax error
     syntax(*current, prefix);
-
-    /*
-    //
-    // Syntax error
-    //
-        
-    // Print the usage string
-    app.console << "usage: " << prefix << current->syntax() << '\n' << '\n';
-    
-    // Collect all argument types
-    auto types = current->types();
-
-    // Determine horizontal tabular positions to align the output
-    int tab = 0, tab2 = 0;
-    for (auto &it : types) {
-        tab = std::max(tab, (int)it.length());
-    }
-    for (auto &it : current->args) {
-        tab2 = std::max(tab2, (int)it.name.length());
-    }
-    tab += 7;
-    
-    for (auto &it : types) {
-        
-        auto opts = current->filter(it);
-        int size = (int)it.length();
-
-        // app.console << '\n';
-        app.console.tab(tab - size);
-        app.console << "<" << it << "> : ";
-        app.console << (int)opts.size() << (opts.size() == 1 ? " choice" : " choices");
-        app.console << '\n' << '\n';
-        
-        for (auto &opt : opts) {
-
-            string name = opt->name == "" ? "<>" : opt->name;
-            app.console.tab(tab + 2 - (int)name.length());
-            app.console << name;
-            app.console << " : ";
-            app.console << opt->info;
-            app.console << '\n';
-        }
-        app.console << '\n';
-    }
-    */
     
     return false;
 }
 
 void
-Interpreter::syntax(CmdDescriptor& current, const string& prefix)
+Interpreter::syntax(Command& current, const string& prefix)
 {
     // Print the usage string
-    app.console << "usage: " << prefix << current.syntax() << '\n' << '\n';
+    app.console << "Usage: " << prefix << current.syntax() << '\n' << '\n';
     
     // Collect all argument types
     auto types = current.types();
@@ -150,7 +105,7 @@ Interpreter::syntax(CmdDescriptor& current, const string& prefix)
         tab = std::max(tab, (int)it.length());
     }
     for (auto &it : current.args) {
-        tab2 = std::max(tab2, (int)it.name.length());
+        tab2 = std::max(tab2, (int)it.token.length());
     }
     tab += 7;
     
@@ -167,7 +122,7 @@ Interpreter::syntax(CmdDescriptor& current, const string& prefix)
         
         for (auto &opt : opts) {
 
-            string name = opt->name == "" ? "<>" : opt->name;
+            string name = opt->token == "" ? "<>" : opt->token;
             app.console.tab(tab + 2 - (int)name.length());
             app.console << name;
             app.console << " : ";

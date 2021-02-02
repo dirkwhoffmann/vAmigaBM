@@ -58,7 +58,7 @@ class Interpreter
     class Controller &controller;
     
     // The registered instruction set
-    CmdDescriptor root;
+    Command root;
     
     
     //
@@ -95,5 +95,5 @@ public:
     bool exec(Arguments &argv);
         
     // Prints a syntax summary
-    void syntax(CmdDescriptor& command, const string& prefix);
+    void syntax(Command& command, const string& prefix);
 };

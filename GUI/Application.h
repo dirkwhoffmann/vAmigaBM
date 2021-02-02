@@ -9,11 +9,7 @@
 
 #pragma once
 
-#include <iostream>
-#include <string>
-#include <list>
-
-#include"Amiga.h"
+#include "Utils.h"
 
 #include "Controller.h"
 #include "Console.h"
@@ -22,8 +18,6 @@
 
 #include <SFML/Graphics.hpp>
 
-using std::string;
-
 class Application
 {
 
@@ -31,6 +25,7 @@ class Application
     // Constants
     //
     
+    // Window dimensions
     static const int W = 1536;
     static const int H = W * 0.7525;
     
