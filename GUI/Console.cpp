@@ -72,7 +72,7 @@ void
 Console::clear()
 {
     printf("::clear\n");
-    scrollToLine(65536);
+    scrollTo(65536);
 }
 
 Console&
@@ -154,7 +154,7 @@ Console::list()
 }
 
 void
-Console::scrollToLine(isize line)
+Console::scrollTo(isize line)
 {
     line = std::clamp(line, (isize)0, (isize)storage.size() - 1);
         
@@ -163,16 +163,10 @@ Console::scrollToLine(isize line)
 }
 
 void
-Console::scrollToTop()
-{
-    scrollToLine(0);
-}
-
-void
 Console::makeLastLineVisible()
 {
     if (!lastLineIsVisible()) {
-        scrollToLine((int)storage.size() - numRows);
+        scrollTo((int)storage.size() - numRows);
     }
 }
 
@@ -239,6 +233,7 @@ Console::keyPressed(const sf::Keyboard::Key& key)
 
                 replace(input[index]);
             }
+            makeLastLineVisible();
             break;
 
         case sf::Keyboard::Down:
@@ -250,6 +245,7 @@ Console::keyPressed(const sf::Keyboard::Key& key)
                 
                 replace(input[index]);
             }
+            makeLastLineVisible();
             break;
             
         case sf::Keyboard::Left:
@@ -259,6 +255,7 @@ Console::keyPressed(const sf::Keyboard::Key& key)
                 hpos--;
             }
             printf("hpos = %d\n", hpos);
+            makeLastLineVisible();
             break;
             
         case sf::Keyboard::Right:
@@ -268,23 +265,35 @@ Console::keyPressed(const sf::Keyboard::Key& key)
                 hpos++;
             }
             printf("hpos = %d\n", hpos);
+            makeLastLineVisible();
             break;
             
         case sf::Keyboard::Home:
             
             hpos = 0;
+            makeLastLineVisible();
             break;
 
         case sf::Keyboard::End:
             
             hpos = (int)input[index].length();
+            makeLastLineVisible();
             break;
 
+        case sf::Keyboard::PageUp:
+            
+            scrollUp(numRows);
+            break;
+            
+        case sf::Keyboard::PageDown:
+            
+            scrollDown(numRows);
+            break;
+                     
         default:
             return;
     }
     
-    makeLastLineVisible();
     isDirty = true;
 }
 

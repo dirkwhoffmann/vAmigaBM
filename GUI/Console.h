@@ -155,8 +155,10 @@ public:
     bool lastLineIsVisible() { return rowOfLastLine() < numRows; }
     
     // Selects the displayed part of the text storage
-    void scrollToLine(isize line);
-    void scrollToTop();
+    void scrollTo(isize line);
+    void scrollToTop() { scrollTo(0); }
+    void scrollUp(isize delta) { scrollTo(first - delta); }
+    void scrollDown(isize delta) { scrollTo(first + delta); }
     void makeLastLineVisible();
 
     
