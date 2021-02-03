@@ -35,6 +35,152 @@ Controller::exec <Token::easteregg> (Arguments& argv, long param)
 
 
 //
+// Amiga
+//
+
+template <> void
+Controller::exec <Token::amiga, Token::help> (Arguments &argv, long param)
+{
+    printf("amiga help\n");
+}
+
+template <> void
+Controller::exec <Token::amiga, Token::on> (Arguments &argv, long param)
+{
+    amiga.powerOn();
+}
+
+template <> void
+Controller::exec <Token::amiga, Token::off> (Arguments &argv, long param)
+{
+    amiga.powerOff();
+}
+
+template <> void
+Controller::exec <Token::amiga, Token::run> (Arguments &argv, long param)
+{
+    amiga.run();
+}
+
+template <> void
+Controller::exec <Token::amiga, Token::pause> (Arguments &argv, long param)
+{
+    amiga.pause();
+}
+
+template <> void
+Controller::exec <Token::amiga, Token::reset> (Arguments &argv, long param)
+{
+    amiga.reset(true);
+}
+
+template <> void
+Controller::exec <Token::amiga, Token::dump> (Arguments &argv, long param)
+{
+    dump(amiga, Dump::State);
+}
+
+
+//
+// Memory
+//
+
+template <> void
+Controller::exec <Token::memory, Token::config> (Arguments& argv, long param)
+{
+    dump(amiga.mem, Dump::Config);
+}
+
+template <> void
+Controller::exec <Token::memory, Token::dump> (Arguments& argv, long param)
+{
+    dump(amiga.mem, Dump::State);
+}
+
+template <> void
+Controller::exec <Token::memory, Token::set, Token::chip> (Arguments& argv, long param)
+{
+    amiga.configure(OPT_CHIP_RAM, parseNumeric(argv.front()));
+}
+
+template <> void
+Controller::exec <Token::memory, Token::set, Token::slow> (Arguments& argv, long param)
+{
+    amiga.configure(OPT_SLOW_RAM, parseNumeric(argv.front()));
+}
+
+template <> void
+Controller::exec <Token::memory, Token::set, Token::fast> (Arguments& argv, long param)
+{
+    amiga.configure(OPT_FAST_RAM, parseNumeric(argv.front()));
+}
+
+template <> void
+Controller::exec <Token::memory, Token::set, Token::ext> (Arguments& argv, long param)
+{
+    amiga.configure(OPT_EXT_START, parseNumeric(argv.front()));
+}
+
+template <> void
+Controller::exec <Token::memory, Token::set, Token::slowramdelay> (Arguments& argv, long param)
+{
+    amiga.configure(OPT_SLOW_RAM_DELAY, parseBool(argv.front()));
+}
+
+template <> void
+Controller::exec <Token::memory, Token::set, Token::bankmap> (Arguments& argv, long param)
+{
+    amiga.configure(OPT_BANKMAP, parseBool(argv.front()));
+}
+
+template <> void
+Controller::exec <Token::memory, Token::set, Token::unmappingtype> (Arguments& argv, long param)
+{
+    amiga.configure(OPT_UNMAPPING_TYPE, BankMapEnum::parse(argv.front()));
+}
+
+template <> void
+Controller::exec <Token::memory, Token::set, Token::raminitpattern> (Arguments& argv, long param)
+{
+    amiga.configure(OPT_RAM_INIT_PATTERN, BankMapEnum::parse(argv.front()));
+}
+
+
+//
+// CPU
+//
+
+template <> void
+Controller::exec <Token::cpu, Token::dump> (Arguments& argv, long param)
+{
+    dump(amiga.cpu, Dump::State);
+}
+
+
+//
+// CIA
+//
+
+template <> void
+Controller::exec <Token::cia, Token::config> (Arguments &argv, long param)
+{
+    dump(amiga.ciaA, Dump::Config);
+}
+
+template <> void
+Controller::exec <Token::cia, Token::dump> (Arguments& argv, long param)
+{
+    dump(amiga.ciaA, Dump::State);
+}
+
+template <> void
+Controller::exec <Token::cia, Token::set, Token::revision> (Arguments &argv, long param)
+{
+    amiga.configure(OPT_CIA_REVISION, CIARevisionEnum::parse(argv.front()));
+}
+
+
+//
 // Agnus
 //
 
@@ -63,64 +209,20 @@ Controller::exec <Token::agnus, Token::set, Token::revision> (Arguments &argv, l
 }
 
 template <> void
-Controller::exec <Token::agnus, Token::set, Token::slowRamMirror> (Arguments &argv, long param)
+Controller::exec <Token::agnus, Token::set, Token::slowrammirror> (Arguments &argv, long param)
 {
     amiga.configure(OPT_SLOW_RAM_MIRROR, parseBool(argv.front()));
 }
 
 
 //
-// Amiga
+// Blitter
 //
 
 template <> void
-Controller::exec <Token::amiga, Token::help> (Arguments &argv, long param)
+Controller::exec <Token::blitter, Token::dump> (Arguments& argv, long param)
 {
-    printf("amiga help\n");
-}
-
-template <> void
-Controller::exec <Token::amiga, Token::on> (Arguments &argv, long param)
-{
-    printf("amiga on\n");
-    amiga.powerOn();
-}
-
-template <> void
-Controller::exec <Token::amiga, Token::off> (Arguments &argv, long param)
-{
-    printf("amiga off\n");
-    amiga.powerOff();
-}
-
-template <> void
-Controller::exec <Token::amiga, Token::run> (Arguments &argv, long param)
-{
-    printf("amiga run\n");
-    amiga.run();
-}
-
-template <> void
-Controller::exec <Token::amiga, Token::pause> (Arguments &argv, long param)
-{
-    printf("amiga pause\n");
-    amiga.pause();
-}
-
-template <> void
-Controller::exec <Token::amiga, Token::reset> (Arguments &argv, long param)
-{
-    printf("amiga reset\n");
-    amiga.reset(true);
-}
-
-template <> void
-Controller::exec <Token::amiga, Token::dump> (Arguments &argv, long param)
-{
-    std::stringstream ss; string line;
-
-    amiga.dump(ss);
-    while(std::getline(ss, line)) console << line << '\n';
+    dump(amiga.agnus.blitter, Dump::State);
 }
 
 
@@ -132,17 +234,6 @@ template <> void
 Controller::exec <Token::copper, Token::dump> (Arguments& argv, long param)
 {
     dump(amiga.agnus.copper, Dump::State);
-}
-
-
-//
-// CPU
-//
-
-template <> void
-Controller::exec <Token::cpu, Token::dump> (Arguments& argv, long param)
-{
-    dump(amiga.cpu, Dump::State);
 }
 
 
@@ -160,6 +251,116 @@ template <> void
 Controller::exec <Token::denise, Token::dump, Token::registers> (Arguments& argv, long param)
 {
     dump(amiga.denise, Dump::Registers);
+}
+
+template <> void
+Controller::exec <Token::denise, Token::set, Token::revision> (Arguments &argv, long param)
+{
+    amiga.configure(OPT_DENISE_REVISION, DeniseRevisionEnum::parse(argv.front()));
+}
+
+template <> void
+Controller::exec <Token::denise, Token::set, Token::borderblank> (Arguments &argv, long param)
+{
+    amiga.configure(OPT_BRDRBLNK, parseBool(argv.front()));
+}
+
+
+//
+// Paula
+//
+
+template <> void
+Controller::exec <Token::paula, Token::config> (Arguments& argv, long param)
+{
+    dump(amiga.paula.muxer, Dump::Config);
+}
+
+template <> void
+Controller::exec <Token::paula, Token::dump, Token::registers> (Arguments& argv, long param)
+{
+    dump(amiga.paula.muxer, Dump::Registers);
+}
+
+
+//
+// RTC
+//
+
+template <> void
+Controller::exec <Token::rtc, Token::config> (Arguments& argv, long param)
+{
+    dump(amiga.rtc, Dump::Config);
+}
+
+template <> void
+Controller::exec <Token::rtc, Token::dump, Token::registers> (Arguments& argv, long param)
+{
+    dump(amiga.rtc, Dump::Registers);
+}
+
+template <> void
+Controller::exec <Token::rtc, Token::set, Token::revision> (Arguments &argv, long param)
+{
+    amiga.configure(OPT_RTC_MODEL, RTCRevisionEnum::parse(argv.front()));
+}
+
+
+//
+// Serial port
+//
+
+template <> void
+Controller::exec <Token::serial, Token::config> (Arguments& argv, long param)
+{
+    dump(amiga.serialPort, Dump::Config);
+}
+
+template <> void
+Controller::exec <Token::serial, Token::dump> (Arguments& argv, long param)
+{
+    dump(amiga.serialPort, Dump::State);
+}
+
+template <> void
+Controller::exec <Token::serial, Token::set, Token::device> (Arguments &argv, long param)
+{
+    amiga.configure(OPT_SERIAL_DEVICE, SerialPortDeviceEnum::parse(argv.front()));
+}
+
+
+//
+// Disk controller
+//
+
+template <> void
+Controller::exec <Token::diskcontroller, Token::config> (Arguments& argv, long param)
+{
+    dump(amiga.paula.diskController, Dump::Config);
+}
+
+template <> void
+Controller::exec <Token::diskcontroller, Token::dump> (Arguments& argv, long param)
+{
+    dump(amiga.paula.diskController, Dump::Registers);
+}
+
+template <> void
+Controller::exec <Token::diskcontroller, Token::speed> (Arguments& argv, long param)
+{
+    amiga.configure(OPT_DRIVE_SPEED, parseNumeric(argv.front()));
+}
+
+template <> void
+Controller::exec <Token::diskcontroller, Token::dsksync, Token::autosync> (Arguments& argv, long param)
+{
+    amiga.configure(OPT_AUTO_DSKSYNC, parseBool(argv.front()));
+}
+
+template <> void
+Controller::exec <Token::diskcontroller, Token::dsksync, Token::lock> (Arguments& argv, long param)
+{
+    amiga.configure(OPT_LOCK_DSKSYNC, parseBool(argv.front()));
 }
 
 
@@ -181,6 +382,20 @@ Controller::exec <Token::dfn, Token::dump> (Arguments& argv, long param)
 }
 
 template <> void
+Controller::exec <Token::dfn, Token::connect> (Arguments& argv, long param)
+{
+    printf("Df%ld::connect\n", param);
+    amiga.configure(OPT_DRIVE_CONNECT, param, true);
+}
+
+template <> void
+Controller::exec <Token::dfn, Token::disconnect> (Arguments& argv, long param)
+{
+    printf("Df%ld::disconnect\n", param);
+    amiga.configure(OPT_DRIVE_CONNECT, param, false);
+}
+
+template <> void
 Controller::exec <Token::dfn, Token::insert> (Arguments& argv, long param)
 {
     string path = argv.front();
@@ -193,15 +408,4 @@ Controller::exec <Token::dfn, Token::insert> (Arguments& argv, long param)
     } catch (VAError &err) {
         console << "Failed to insert disk: " << err.what() << '\n';
     }
-}
-
-
-//
-// Memory
-//
-
-template <> void
-Controller::exec <Token::memory, Token::dump> (Arguments& argv, long param)
-{
-    dump(amiga.mem, Dump::State);
 }

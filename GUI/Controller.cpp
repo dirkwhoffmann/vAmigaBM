@@ -96,6 +96,13 @@ Controller::parseBool(string& token)
     throw ParseBoolError();
 }
 
+long
+Controller::parseNumeric(string& token)
+{
+    try { return std::stoi(token); }
+    catch (std::exception& err) { return -1; }
+}
+
 void
 Controller::dump(HardwareComponent &component, Dump::Category category)
 {

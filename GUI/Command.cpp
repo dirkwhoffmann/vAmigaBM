@@ -73,6 +73,14 @@ Command::add(const std::string &t1, const std::string &t2, const std::string &t3
     return seek(t1)->add(t2, t3, a1, help, func, num, param);
 }
 
+void
+Command::remove(const string& token)
+{
+    for(auto it = std::begin(args); it != std::end(args); ++it) {
+        if (it->token == token) { args.erase(it); return; }
+    }
+}
+
 Command *
 Command::seek(const string& token)
 {

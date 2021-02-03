@@ -15,16 +15,6 @@ Interpreter::Interpreter(Application &ref) : app(ref), controller(ref.controller
 {
     registerInstructions();
 };
-
-/*
-string
-Interpreter::lowercased(const std::string& s)
-{
-    string result;
-    for (auto c : s) { result += tolower(c); }
-    return result;
-}
-*/
  
 void
 Interpreter::exec(const string& userInput)

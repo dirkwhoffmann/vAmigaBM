@@ -17,14 +17,17 @@ enum class Token
     
     // Components
     agnus, amiga, blitter, cia, copper, cpu, denise, dfn, diskcontroller,
-    memory, paula, rtc,
+    memory, paula, serial, rtc,
 
     // Commands
-    about, clear, config, easteregg, eject, help, hide, insert, dump, list,
-    on, off, pause, registers, reset, run, set,
+    about, autosync, clear, config, connect, disconnect, dsksync, easteregg,
+    eject, help, hide, insert, dump, list, lock, on, off, pause, registers,
+    reset, run, set,
     
     // Keys
-    events, revision, slowRamMirror
+    bankmap, borderblank, chip, device, events, ext, extstart, fast,
+    raminitpattern, revision, slow, slowramdelay, slowrammirror, speed,
+    unmappingtype
 };
 
 struct ParseError : public std::exception {
@@ -83,9 +86,7 @@ private:
     //
     
 private:
-    
-    // string lowercased(const std::string& s);
-    
+        
     
     //
     // Executing commands

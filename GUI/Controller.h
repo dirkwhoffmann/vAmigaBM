@@ -59,5 +59,6 @@ public:
 private:
     
     bool parseBool(string& token); 
+    long parseNumeric(string& token);
     void dump(HardwareComponent &component, Dump::Category category);
 };

@@ -60,6 +60,9 @@ struct Command {
                        void (Controller::*func)(Arguments&, long) = nullptr,
                        isize numArgs = 0, long param = 0);
     
+    // Removes an already register command
+    void remove(const string& token);
+    
     // Returns a matching descriptor from the args vector
     Command *seek(const string& token);
 
