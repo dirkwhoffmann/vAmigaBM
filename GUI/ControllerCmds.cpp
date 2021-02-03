@@ -158,9 +158,21 @@ Controller::exec <Token::memory, Token::set, Token::raminitpattern> (Arguments& 
 }
 
 template <> void
-Controller::exec <Token::memory, Token::dump> (Arguments& argv, long param)
+Controller::exec <Token::memory, Token::dump, Token::state> (Arguments& argv, long param)
 {
     dump(amiga.mem, Dump::State);
+}
+
+template <> void
+Controller::exec <Token::memory, Token::dump, Token::bankmap> (Arguments& argv, long param)
+{
+    dump(amiga.mem, Dump::BankMap);
+}
+
+template <> void
+Controller::exec <Token::memory, Token::dump, Token::checksum> (Arguments& argv, long param)
+{
+    dump(amiga.mem, Dump::Checksums);
 }
 
 

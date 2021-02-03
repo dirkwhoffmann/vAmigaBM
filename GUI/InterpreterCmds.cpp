@@ -123,9 +123,20 @@ Interpreter::registerInstructions()
              &Controller::exec <Token::memory, Token::set, Token::raminitpattern>, 1, 0);
     
     root.add("memory", "dump",
+             "command", "Displays the internal state");
+
+    root.add("memory", "dump", "state",
              "command", "Displays the internal state",
-             &Controller::exec <Token::memory, Token::dump>, 0, 0);
-    
+             &Controller::exec <Token::memory, Token::dump, Token::state>, 0, 0);
+
+    root.add("memory", "dump", "bankmap",
+             "command", "Displays the bank map",
+             &Controller::exec <Token::memory, Token::dump, Token::bankmap>, 0, 0);
+
+    root.add("memory", "dump", "checksum",
+             "command", "Computes memory checksums",
+             &Controller::exec <Token::memory, Token::dump, Token::checksum>, 0, 0);
+
     
     //
     // CPU

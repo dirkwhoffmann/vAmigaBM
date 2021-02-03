@@ -25,9 +25,9 @@ enum class Token
     registers, reset, run, set,
     
     // Keys
-    bankmap, borderblank, chip, device, events, extrom, extstart, fast,
-    raminitpattern, revision, rom, slow, slowramdelay, slowrammirror, speed,
-    unmappingtype, wom
+    bankmap, borderblank, checksum, chip, device, events, extrom, extstart,
+    fast, raminitpattern, revision, rom, slow, slowramdelay, slowrammirror,
+    speed, state, unmappingtype, wom
 };
 
 struct ParseError : public std::exception {

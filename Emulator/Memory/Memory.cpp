@@ -305,7 +305,13 @@ Memory::_dump(Dump::Category category, std::ostream& os) const
     }
     
     if (category & Dump::State) {
-        
+
+        os << DUMP("Data bus") << HEX16 << dataBus << std::endl;
+        os << DUMP("Wom is locked") << YESNO(womIsLocked) << std::endl;
+    }
+    
+    if (category & Dump::Checksums) {
+
         os << DUMP("Rom checksum");
         os << HEX32 << fnv_1a_32(rom, config.romSize) << std::endl;
         os << DUMP("Wom checksum");
@@ -318,6 +324,19 @@ Memory::_dump(Dump::Category category, std::ostream& os) const
         os << HEX32 << fnv_1a_32(slow, config.slowSize) << std::endl;
         os << DUMP("Fast Ram checksum");
         os << HEX32 << fnv_1a_32(fast, config.fastSize) << std::endl;
+    }
+    
+    if (category & Dump::BankMap) {
+
+        MemorySource oldsrc = cpuMemSrc[0]; isize oldi = 0;
+        for (isize i = 0; i <= 0x100; i++) {
+            MemorySource newsrc = i < 0x100 ? cpuMemSrc[i] : (MemorySource)-1;
+            if (oldsrc != newsrc) {
+                os << HEX8 << oldi << " - " << HEX8 << i - 1 << " : ";
+                os << MemorySourceEnum::key(oldsrc) << std::endl;
+                oldsrc = newsrc; oldi = i;
+            }
+        }
     }
 }
 
