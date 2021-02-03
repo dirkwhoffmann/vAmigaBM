@@ -55,4 +55,9 @@ public:
     template <Token t1> void exec(Arguments& argv, long param);
     template <Token t1, Token t2> void exec(Arguments& argv, long param);
     template <Token t1, Token t2, Token t3> void exec(Arguments& argv, long param);
+
+private:
+    
+    bool parseBool(string& token); 
+    void dump(HardwareComponent &component, Dump::Category category);
 };

@@ -16,6 +16,7 @@ Interpreter::Interpreter(Application &ref) : app(ref), controller(ref.controller
     registerInstructions();
 };
 
+/*
 string
 Interpreter::lowercased(const std::string& s)
 {
@@ -23,7 +24,8 @@ Interpreter::lowercased(const std::string& s)
     for (auto c : s) { result += tolower(c); }
     return result;
 }
-
+*/
+ 
 void
 Interpreter::exec(const string& userInput)
 {
@@ -61,31 +63,35 @@ Interpreter::exec(Arguments &argv)
         if (!argv.empty()) argv.pop_front();
     }
 
-    // Check if a command handler is present
-    if (current->func) {
-        
-        try {
-            // Check the remaining arguments
-            if (argv.size() < current->numArgs) {
-                throw TooFewArgumentsError();
-            }
-            if (argv.size() > current->numArgs) {
-                throw TooFewArgumentsError();
-            }
-            
-            // Call the command handler
-            (controller.*(current->func))(argv, current->param);
-            return true;
-            
-        } catch (TooFewArgumentsError &err) {
-            // app.console << "Too few arguments" << '\n';
-        } catch (TooManyArgumentsError &err) {
-            // app.console << "Too many arguments" << '\n';
-        }
+    // Error out if no ommand handler is present
+    if (current->func == nullptr) {
+        syntax(*current, prefix);
+        return false;
     }
     
-    // Syntax error
-    syntax(*current, prefix);
+    try {
+        // Check the remaining arguments
+        if (argv.size() < current->numArgs) throw TooFewArgumentsError();
+        if (argv.size() > current->numArgs) throw TooFewArgumentsError();
+        
+        // Call the command handler
+        (controller.*(current->func))(argv, current->param);
+        
+    } catch (TooFewArgumentsError &err) {
+        syntax(*current, prefix);
+        
+    } catch (TooManyArgumentsError &err) {
+        syntax(*current, prefix);
+        
+    } catch (EnumParseError &err) {
+        app.console << "Invalid key. Expected: " << err.what() << '\n';
+
+    } catch (ParseError &err) {
+        app.console << "Invalid argument. Expected: " << err.what() << '\n';
+
+    } catch (ConfigError &err) {
+        app.console << "Invalid argument. Expected: " << err.what() << '\n';
+    }
     
     return false;
 }
@@ -101,7 +107,11 @@ Interpreter::syntax(Command& current, const string& prefix)
 
     // Determine tabular positions to align the output
     int tab = 0;
-    for (auto &it : types) tab = std::max(tab, (int)it.length());
+    // for (auto &it : types) tab = std::max(tab, (int)it.length());
+    for (auto &it : current.args) {
+        tab = std::max(tab, (int)it.token.length());
+        tab = std::max(tab, (int)it.type.length());
+    }
     tab += 7;
     
     for (auto &it : types) {

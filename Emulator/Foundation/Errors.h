@@ -7,8 +7,11 @@
 // See https://www.gnu.org for license information
 // -----------------------------------------------------------------------------
 
+#pragma once
+
 #include "AmigaTypes.h"
 #include <exception>
+#include <string>
 
 struct VAError : public std::exception
 {

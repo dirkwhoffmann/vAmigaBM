@@ -29,6 +29,7 @@ Interpreter::registerInstructions()
              &Controller::exec <Token::easteregg>, 0, 0);
     root.seek("joshua")->hidden = true;
     
+    
     //
     // Agnus
     //
@@ -36,6 +37,12 @@ Interpreter::registerInstructions()
     root.add("agnus",
              "component", "Custom chip");
 
+    // agnus config
+    root.add("agnus", "config",
+             "command", "Displays the current configuration",
+             &Controller::exec <Token::agnus, Token::config>, 0, 0);
+    
+    // agnus dump
     root.add("agnus", "dump",
              "command", "Displays the internal state");
 
@@ -47,16 +54,18 @@ Interpreter::registerInstructions()
              "category", "Displays scheduled events",
              &Controller::exec <Token::agnus, Token::dump, Token::events>, 0, 0);
 
+    // agnus set
     root.add("agnus", "set",
              "command", "Configures the component");
-    
-    root.add("agnus", "set", "",
-             "key", "Displays the current configuration",
-             &Controller::exec <Token::agnus, Token::set>, 0, 0);
-    
+        
     root.add("agnus", "set", "revision" ,
              "key", "Selects the emulated chip model",
              &Controller::exec <Token::agnus, Token::set, Token::revision>, 1, 0);
+
+    root.add("agnus", "set", "slowrammirror",
+             "key", "Enables or disables ECS Slow Ram mirroring",
+             &Controller::exec <Token::agnus, Token::set, Token::slowRamMirror>, 1, 0);
+
     
     //
     // Amiga
@@ -92,6 +101,7 @@ Interpreter::registerInstructions()
              "command", "Starts the emulator thread",
              &Controller::exec <Token::amiga, Token::run>, 0, 0);
 
+    
     //
     // Copper
     //
@@ -123,6 +133,10 @@ Interpreter::registerInstructions()
     root.add("denise",
              "component", "Custom chip");
     
+    root.add("denise", "config",
+             "command", "Displays the current configuration",
+             &Controller::exec <Token::denise, Token::config>, 0, 0);
+
     root.add("denise", "dump",
              "command", "Displays the internal state");
 
@@ -132,10 +146,6 @@ Interpreter::registerInstructions()
 
     root.add("denise", "set",
              "command", "Configures the component");
-
-    root.add("denise", "set", "",
-             "key", "Displays the current configuration",
-             &Controller::exec <Token::denise, Token::set>, 0, 0);
 
     
     //

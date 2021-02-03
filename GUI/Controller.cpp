@@ -86,3 +86,21 @@ Controller::processMessage(long id, long data)
     }
     printf("%s\n", MsgTypeEnum::key(msg));
 }
+
+bool
+Controller::parseBool(string& token)
+{
+    if (token == "1" || token == "true" || token == "yes") return true;
+    if (token == "0" || token == "false" || token == "no") return false;
+
+    throw ParseBoolError();
+}
+
+void
+Controller::dump(HardwareComponent &component, Dump::Category category)
+{
+    std::stringstream ss; string line;
+    
+    component.dump(category, ss);
+    while(std::getline(ss, line)) console << line << '\n';
+}

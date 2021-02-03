@@ -205,10 +205,10 @@ Agnus::_dump(Dump::Category category, std::ostream& os) const
 {
     if (category & Dump::Config) {
     
-        os << "               Chip Revison: ";
+        os << DUMP("Chip Revison");
         os << AgnusRevisionEnum::key(config.revision) << endl;
-        os << "Emulate ECS Slow Ram mirror: ";
-        os << YESNO(config.slowRamMirror) << endl;
+        os << DUMP("Slow Ram mirror");
+        os << EMULATED(config.slowRamMirror) << endl;
     }
     
     if (category & Dump::Registers) {
@@ -238,12 +238,19 @@ Agnus::_dump(Dump::Category category, std::ostream& os) const
         
         os << "SPR6PT: " << HEX32 << sprpt[6] << std::endl;
         os << "SPR7PT: " << HEX32 << sprpt[6] << std::endl;
-        
-        os << "DIW: hstrt: " << std::dec << diwHstrt;
-        os << " hstop: " << std::dec << diwHstop;
-        os << " vstrt: " << std::dec << diwVstrt;
-        os << " vstop: " << std::dec << diwVstop;
-        os << std::endl;
+
+        os << "BPL1MOD: " << HEX16 << bpl1mod;
+        os << "BPL2MOD: " << HEX16 << bpl2mod;
+
+        os << "DDFSTRT: " << HEX16 << ddfstrt;
+        os << "DDFSTOP: " << HEX16 << ddfstop;
+
+        os << "DIWSTRT: " << HEX16 << diwstrt;
+        os << "DIWSTOP: " << HEX16 << diwstop << std::endl;
+
+        os << "DMACON: " << HEX16 << dmacon;
+        os << "BPLCON0:" << HEX16 << bplcon0;
+        os << "BPLCON1:" << HEX16 << bplcon1 << std::endl;
     }
     
     /*

@@ -39,34 +39,35 @@ Controller::exec <Token::easteregg> (Arguments& argv, long param)
 //
 
 template <> void
+Controller::exec <Token::agnus, Token::config> (Arguments &argv, long param)
+{
+    dump(amiga.agnus, Dump::Config);
+}
+
+template <> void
 Controller::exec <Token::agnus, Token::dump, Token::registers> (Arguments &argv, long param)
 {
-    std::stringstream ss; string line;
-
-    amiga.agnus.dump(Dump::Registers, ss);
-    while(std::getline(ss, line)) console << line << '\n';
+    dump(amiga.agnus, Dump::Registers);
 }
 
 template <> void
 Controller::exec <Token::agnus, Token::dump, Token::events> (Arguments &argv, long param)
 {
-    std::stringstream ss; string line;
-
-    amiga.agnus.dumpEvents(ss);
-    while(std::getline(ss, line)) console << line << '\n';
-}
-
-template <> void
-Controller::exec <Token::agnus, Token::set> (Arguments &argv, long param)
-{
-    printf("agnus set\n");
+    dump(amiga.agnus, Dump::Events);
 }
 
 template <> void
 Controller::exec <Token::agnus, Token::set, Token::revision> (Arguments &argv, long param)
 {
-    printf("agnus set revision\n");
+    amiga.configure(OPT_AGNUS_REVISION, AgnusRevisionEnum::parse(argv.front()));
 }
+
+template <> void
+Controller::exec <Token::agnus, Token::set, Token::slowRamMirror> (Arguments &argv, long param)
+{
+    amiga.configure(OPT_SLOW_RAM_MIRROR, parseBool(argv.front()));
+}
+
 
 //
 // Amiga
@@ -122,6 +123,7 @@ Controller::exec <Token::amiga, Token::dump> (Arguments &argv, long param)
     while(std::getline(ss, line)) console << line << '\n';
 }
 
+
 //
 // Copper
 //
@@ -129,10 +131,7 @@ Controller::exec <Token::amiga, Token::dump> (Arguments &argv, long param)
 template <> void
 Controller::exec <Token::copper, Token::dump> (Arguments& argv, long param)
 {
-    std::stringstream ss; string line;
-
-    amiga.agnus.copper.dump(ss);
-    while(std::getline(ss, line)) console << line << '\n';
+    dump(amiga.agnus.copper, Dump::State);
 }
 
 
@@ -143,10 +142,7 @@ Controller::exec <Token::copper, Token::dump> (Arguments& argv, long param)
 template <> void
 Controller::exec <Token::cpu, Token::dump> (Arguments& argv, long param)
 {
-    std::stringstream ss; string line;
-
-    amiga.cpu.dump(ss);
-    while(std::getline(ss, line)) console << line << '\n';
+    dump(amiga.cpu, Dump::State);
 }
 
 
@@ -155,21 +151,15 @@ Controller::exec <Token::cpu, Token::dump> (Arguments& argv, long param)
 //
 
 template <> void
-Controller::exec <Token::denise, Token::dump, Token::registers> (Arguments& argv, long param)
+Controller::exec <Token::denise, Token::config> (Arguments& argv, long param)
 {
-    std::stringstream ss; string line;
-    
-    amiga.denise.dump(Dump::Registers, ss);
-    while(std::getline(ss, line)) console << line << '\n';
+    dump(amiga.denise, Dump::Config);
 }
 
 template <> void
-Controller::exec <Token::denise, Token::set> (Arguments& argv, long param)
+Controller::exec <Token::denise, Token::dump, Token::registers> (Arguments& argv, long param)
 {
-    std::stringstream ss; string line;
-        
-    amiga.denise.dump(Dump::Config, ss);
-    while(std::getline(ss, line)) console << line << '\n';
+    dump(amiga.denise, Dump::Registers);
 }
 
 
@@ -187,18 +177,12 @@ Controller::exec <Token::dfn, Token::eject> (Arguments& argv, long param)
 template <> void
 Controller::exec <Token::dfn, Token::dump> (Arguments& argv, long param)
 {
-    std::stringstream ss;
-    string line;
-    
-    amiga.df[param]->dump(ss);
-    while(std::getline(ss, line)) console << line << '\n';
+    dump(*amiga.df[param], Dump::State);
 }
 
 template <> void
 Controller::exec <Token::dfn, Token::insert> (Arguments& argv, long param)
 {
-    printf("Df%ld::insert\n", param);
-
     string path = argv.front();
     
     try {
@@ -219,8 +203,5 @@ Controller::exec <Token::dfn, Token::insert> (Arguments& argv, long param)
 template <> void
 Controller::exec <Token::memory, Token::dump> (Arguments& argv, long param)
 {
-    std::stringstream ss; string line;
-    
-    amiga.mem.dump(ss);
-    while(std::getline(ss, line)) console << line << '\n';
+    dump(amiga.mem, Dump::State);
 }

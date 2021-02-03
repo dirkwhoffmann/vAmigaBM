@@ -10,11 +10,19 @@
 #pragma once
 
 #include "Aliases.h"
+
 #include <stdio.h>
 #include <map>
 #include <string>
 
 #define assert_enum(e,v) assert(e##Enum::isValid(v))
+
+struct EnumParseError : public std::exception
+{
+    std::string description;
+    EnumParseError(const std::string &s) : description(s) { }
+    const char *what() const throw() override { return  description.c_str(); }
+};
 
 template <class T, typename E> struct Reflection {
 
@@ -37,6 +45,7 @@ template <class T, typename E> struct Reflection {
         return result;
     }
 
+    // Returns a list in form of a colon seperated string
     static std::string keyList(bool prefix = false) {
         
         std::string result;
@@ -49,5 +58,19 @@ template <class T, typename E> struct Reflection {
         }
         
         return result;
+    }
+    
+    // Parses a string
+    static E parse(const std::string& key) {
+          
+        std::string upperKey;
+        for (auto c : key) { upperKey += toupper(c); }
+        
+        auto p = pairs();
+        
+        auto it = p.find(upperKey);
+        if (it == p.end()) throw EnumParseError(keyList());
+        
+        return (E)it->second;
     }
 };

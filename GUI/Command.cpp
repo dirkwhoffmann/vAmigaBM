@@ -122,12 +122,17 @@ Command::syntax()
 {
     string firstArg, otherArgs;
     
+    // The simple case: All command tokens have been parsed successfully
+    if (args.empty()) {
+        return numArgs == 0 ? "" : numArgs == 1 ? "<argument>" : "<arguments>";
+    }
+    
     // Collect all argument types
     auto t = types();
     
     // Describe the first argument
     for (usize i = 0; i < t.size(); i++) {
-        firstArg += (i ? "|" : "") + t[i];
+        firstArg += (i == 0 ? "" : "|") + t[i];
     }
     firstArg = "<" + firstArg + ">";
     

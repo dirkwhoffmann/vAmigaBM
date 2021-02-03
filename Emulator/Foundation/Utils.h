@@ -174,6 +174,7 @@ bool releaseBuild();
 #define TAB(x) std::left << std::setw(x)
 #define YESNO(x) ((x) ? "yes" : "no")
 #define ONOFF(x) ((x) ? "on" : "off")
+#define EMULATED(x) ((x) ? "emulated" : "not emulated")
 #define DUMP(x) std::setw(24) << std::right << std::setfill(' ') << (x) << " : "
 
 // Prints a hex dump of a buffer to the console (for debugging)
@@ -181,6 +182,14 @@ void hexdump(u8 *p, isize size, isize cols, isize pad);
 void hexdump(u8 *p, isize size, isize cols = 32);
 void hexdumpWords(u8 *p, isize size, isize cols = 32);
 void hexdumpLongwords(u8 *p, isize size, isize cols = 32);
+
+
+//
+// Handling strings
+//
+
+string lowercased(const string& s);
+string uppercased(const string& s);
 
 
 //

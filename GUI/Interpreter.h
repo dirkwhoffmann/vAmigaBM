@@ -24,15 +24,18 @@ enum class Token
     on, off, pause, registers, reset, run, set,
     
     // Keys
-    events, revision
+    events, revision, slowRamMirror
 };
 
-struct ParseError : public std::exception
-{
+struct ParseError : public std::exception {
     std::string description;
     ParseError() : description("") { }
     ParseError(const std::string &s) : description(s) { }
     const char *what() const throw() override { return description.c_str(); }
+};
+
+struct ParseBoolError : ParseError {
+    const char *what() const throw() override { return "true, false"; }
 };
 
 struct UnknownComponentError : public ParseError {
@@ -81,7 +84,7 @@ private:
     
 private:
     
-    string lowercased(const std::string& s);
+    // string lowercased(const std::string& s);
     
     
     //
