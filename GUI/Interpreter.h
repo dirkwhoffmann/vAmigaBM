@@ -21,13 +21,13 @@ enum class Token
 
     // Commands
     about, autosync, clear, config, connect, disconnect, dsksync, easteregg,
-    eject, help, hide, insert, dump, list, lock, on, off, pause, registers,
-    reset, run, set,
+    eject, help, hide, insert, dump, list, load, lock, on, off, pause,
+    registers, reset, run, set,
     
     // Keys
-    bankmap, borderblank, chip, device, events, ext, extstart, fast,
-    raminitpattern, revision, slow, slowramdelay, slowrammirror, speed,
-    unmappingtype
+    bankmap, borderblank, chip, device, events, extrom, extstart, fast,
+    raminitpattern, revision, rom, slow, slowramdelay, slowrammirror, speed,
+    unmappingtype, wom
 };
 
 struct ParseError : public std::exception {

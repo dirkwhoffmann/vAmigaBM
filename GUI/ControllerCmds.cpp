@@ -92,9 +92,15 @@ Controller::exec <Token::memory, Token::config> (Arguments& argv, long param)
 }
 
 template <> void
-Controller::exec <Token::memory, Token::dump> (Arguments& argv, long param)
+Controller::exec <Token::memory, Token::load, Token::rom> (Arguments& argv, long param)
 {
-    dump(amiga.mem, Dump::State);
+    amiga.mem.loadRomFromFile(argv.front().c_str());
+}
+
+template <> void
+Controller::exec <Token::memory, Token::load, Token::extrom> (Arguments& argv, long param)
+{
+    amiga.mem.loadExtFromFile(argv.front().c_str());
 }
 
 template <> void
@@ -116,7 +122,13 @@ Controller::exec <Token::memory, Token::set, Token::fast> (Arguments& argv, long
 }
 
 template <> void
-Controller::exec <Token::memory, Token::set, Token::ext> (Arguments& argv, long param)
+Controller::exec <Token::memory, Token::set, Token::extrom> (Arguments& argv, long param)
+{
+    amiga.configure(OPT_EXT_START, parseNumeric(argv.front()));
+}
+
+template <> void
+Controller::exec <Token::memory, Token::set, Token::extstart> (Arguments& argv, long param)
 {
     amiga.configure(OPT_EXT_START, parseNumeric(argv.front()));
 }
@@ -143,6 +155,12 @@ template <> void
 Controller::exec <Token::memory, Token::set, Token::raminitpattern> (Arguments& argv, long param)
 {
     amiga.configure(OPT_RAM_INIT_PATTERN, BankMapEnum::parse(argv.front()));
+}
+
+template <> void
+Controller::exec <Token::memory, Token::dump> (Arguments& argv, long param)
+{
+    dump(amiga.mem, Dump::State);
 }
 
 

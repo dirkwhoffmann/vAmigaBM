@@ -76,6 +76,52 @@ Interpreter::registerInstructions()
              "command", "Displays the current configuration",
              &Controller::exec <Token::memory, Token::config>, 0, 0);
 
+    root.add("memory", "load",
+             "command", "Installs a Rom image");
+            
+    root.add("memory", "load", "rom",
+             "command", "Installs a Kickstart Rom",
+             &Controller::exec <Token::memory, Token::load, Token::rom>, 1, 0);
+
+    root.add("memory", "load", "extrom",
+             "command", "Installs a Rom extension",
+             &Controller::exec <Token::memory, Token::load, Token::extrom>, 1, 0);
+
+    root.add("memory", "set",
+             "command", "Configures the component");
+        
+    root.add("memory", "set", "chip" ,
+             "key", "Configures the amouts of chip memory",
+             &Controller::exec <Token::memory, Token::set, Token::chip>, 1, 0);
+
+    root.add("memory", "set", "slow" ,
+             "key", "Configures the amouts of slow memory",
+             &Controller::exec <Token::memory, Token::set, Token::slow>, 1, 0);
+
+    root.add("memory", "set", "fast" ,
+             "key", "Configures the amouts of flow memory",
+             &Controller::exec <Token::memory, Token::set, Token::fast>, 1, 0);
+
+    root.add("memory", "set", "extstart" ,
+             "key", "Sets the start address for Rom extensions",
+             &Controller::exec <Token::memory, Token::set, Token::extstart>, 1, 0);
+
+    root.add("memory", "set", "slowramdelay" ,
+             "key", "Enables or disables slow Ram bus delays",
+             &Controller::exec <Token::memory, Token::set, Token::slowramdelay>, 1, 0);
+
+    root.add("memory", "set", "bankmap" ,
+             "key", "Selects the bank mapping scheme",
+             &Controller::exec <Token::memory, Token::set, Token::bankmap>, 1, 0);
+
+    root.add("memory", "set", "unmapped" ,
+             "key", "Determines the behaviour of unmapped memory",
+             &Controller::exec <Token::memory, Token::set, Token::unmappingtype>, 1, 0);
+
+    root.add("memory", "set", "raminit" ,
+             "key", "Determines how Ram is initialized on startup",
+             &Controller::exec <Token::memory, Token::set, Token::raminitpattern>, 1, 0);
+    
     root.add("memory", "dump",
              "command", "Displays the internal state",
              &Controller::exec <Token::memory, Token::dump>, 0, 0);

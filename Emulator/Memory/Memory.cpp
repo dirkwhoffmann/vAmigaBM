@@ -286,13 +286,14 @@ Memory::_dump(Dump::Category category, std::ostream& os) const
 {
     if (category & Dump::Config) {
         
-        os << DUMP("Chip Ram size") << config.chipSize << std::endl;
-        os << DUMP("Slow Ram size") << config.slowSize << std::endl;
-        os << DUMP("Fast Ram size") << config.fastSize << std::endl;
-        os << DUMP("Rom size") << config.romSize << std::endl;
-        os << DUMP("Wom size") << config.womSize << std::endl;
-        os << DUMP("Extended Rom size") << config.extSize << std::endl;
-        os << DUMP("Extended Rom address") << config.extStart << std::endl;
+        os << DUMP("Chip Ram") << std::dec << config.chipSize / 1024 << " KB" << std::endl;
+        os << DUMP("Slow Ram") << std::dec << config.slowSize / 1024 << " KB" << std::endl;
+        os << DUMP("Fast Ram") << std::dec << config.fastSize / 1024 << " KB" << std::endl;
+        os << DUMP("Rom") << std::dec << config.romSize / 1024 << " KB" << std::endl;
+        os << DUMP("Wom") << std::dec << config.womSize / 1024 << " KB" << std::endl;
+        os << DUMP("Rom extension") << std::dec << config.extSize / 1024 << " KB";
+        os << " at " << std::hex << config.extStart << "0000" << std::endl;
+        os << std::endl;
         os << DUMP("Emulate Slow Ram delay");
         os << YESNO(config.slowRamDelay) << std::endl;
         os << DUMP("Bank mapping scheme");

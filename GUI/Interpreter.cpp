@@ -81,6 +81,9 @@ Interpreter::exec(Arguments &argv)
 
     } catch (ConfigError &err) {
         app.console << "Invalid argument. Expected: " << err.what() << '\n';
+    
+    } catch (VAError &err) {
+        app.console << err.what() << '\n';
     }
     
     return false;
@@ -100,9 +103,9 @@ Interpreter::syntax(Command& current, const string& prefix)
     // for (auto &it : types) tab = std::max(tab, (int)it.length());
     for (auto &it : current.args) {
         tab = std::max(tab, (int)it.token.length());
-        tab = std::max(tab, (int)it.type.length());
+        tab = std::max(tab, 2 + (int)it.type.length());
     }
-    tab += 7;
+    tab += 5;
     
     for (auto &it : types) {
         
