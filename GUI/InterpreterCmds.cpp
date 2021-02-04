@@ -48,6 +48,10 @@ Interpreter::registerInstructions()
              "state", "Switches the Amiga off",
              &Controller::exec <Token::amiga, Token::off>, 0, 0);
 
+    root.add("amiga", "run",
+             "command", "Starts the emulator thread",
+             &Controller::exec <Token::amiga, Token::run>, 0, 0);
+
     root.add("amiga", "pause",
              "command", "Halts the emulator thread",
              &Controller::exec <Token::amiga, Token::pause>, 0, 0);
@@ -56,10 +60,6 @@ Interpreter::registerInstructions()
              "command", "Performs a hard reset",
              &Controller::exec <Token::amiga, Token::reset>, 0, 0);
     
-    root.add("amiga", "run",
-             "command", "Starts the emulator thread",
-             &Controller::exec <Token::amiga, Token::run>, 0, 0);
-
     root.add("amiga", "dump",
              "command", "Displays the internal state",
              &Controller::exec <Token::amiga, Token::dump>, 0, 0);
@@ -75,17 +75,6 @@ Interpreter::registerInstructions()
     root.add("memory", "config",
              "command", "Displays the current configuration",
              &Controller::exec <Token::memory, Token::config>, 0, 0);
-
-    root.add("memory", "load",
-             "command", "Installs a Rom image");
-            
-    root.add("memory", "load", "rom",
-             "command", "Installs a Kickstart Rom",
-             &Controller::exec <Token::memory, Token::load, Token::rom>, 1, 0);
-
-    root.add("memory", "load", "extrom",
-             "command", "Installs a Rom extension",
-             &Controller::exec <Token::memory, Token::load, Token::extrom>, 1, 0);
 
     root.add("memory", "set",
              "command", "Configures the component");
@@ -122,6 +111,17 @@ Interpreter::registerInstructions()
              "key", "Determines how Ram is initialized on startup",
              &Controller::exec <Token::memory, Token::set, Token::raminitpattern>, 1, 0);
     
+    root.add("memory", "load",
+             "command", "Installs a Rom image");
+            
+    root.add("memory", "load", "rom",
+             "command", "Installs a Kickstart Rom",
+             &Controller::exec <Token::memory, Token::load, Token::rom>, 1, 0);
+
+    root.add("memory", "load", "extrom",
+             "command", "Installs a Rom extension",
+             &Controller::exec <Token::memory, Token::load, Token::extrom>, 1, 0);
+
     root.add("memory", "dump",
              "command", "Displays the internal state");
 

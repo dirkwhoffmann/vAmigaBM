@@ -79,7 +79,10 @@ Interpreter::exec(Arguments &argv)
     } catch (ParseError &err) {
         app.console << "Invalid argument. Expected: " << err.what() << '\n';
 
-    } catch (ConfigError &err) {
+    } catch (ConfigLockedError &err) {
+        app.console << "This option cannot be changed while the Amiga is powered on." << '\n';
+        
+    } catch (ConfigArgError &err) {
         app.console << "Invalid argument. Expected: " << err.what() << '\n';
     
     } catch (VAError &err) {

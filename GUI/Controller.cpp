@@ -97,10 +97,17 @@ Controller::parseBool(string& token)
 }
 
 long
-Controller::parseNumeric(string& token)
+Controller::parseNum(isize base, string& token)
 {
-    try { return std::stoi(token); }
-    catch (std::exception& err) { return -1; }
+    assert(base == 10 || base == 16);
+    
+    long result;
+    
+    std::stringstream ss;
+    try { ss << (base == 10 ? std::dec : std::hex) << token; ss >> result; }
+    catch (std::exception& err) { result = 1; }
+
+    return result;
 }
 
 void

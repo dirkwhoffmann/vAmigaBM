@@ -106,31 +106,33 @@ Controller::exec <Token::memory, Token::load, Token::extrom> (Arguments& argv, l
 template <> void
 Controller::exec <Token::memory, Token::set, Token::chip> (Arguments& argv, long param)
 {
-    amiga.configure(OPT_CHIP_RAM, parseNumeric(argv.front()));
+    amiga.configure(OPT_CHIP_RAM, parseDec(argv.front()));
 }
 
 template <> void
 Controller::exec <Token::memory, Token::set, Token::slow> (Arguments& argv, long param)
 {
-    amiga.configure(OPT_SLOW_RAM, parseNumeric(argv.front()));
+    amiga.configure(OPT_SLOW_RAM, parseDec(argv.front()));
 }
 
 template <> void
 Controller::exec <Token::memory, Token::set, Token::fast> (Arguments& argv, long param)
 {
-    amiga.configure(OPT_FAST_RAM, parseNumeric(argv.front()));
+    amiga.configure(OPT_FAST_RAM, parseDec(argv.front()));
 }
 
+/*
 template <> void
 Controller::exec <Token::memory, Token::set, Token::extrom> (Arguments& argv, long param)
 {
-    amiga.configure(OPT_EXT_START, parseNumeric(argv.front()));
+    amiga.configure(OPT_EXT_START, parseHex(argv.front()));
 }
+*/
 
 template <> void
 Controller::exec <Token::memory, Token::set, Token::extstart> (Arguments& argv, long param)
 {
-    amiga.configure(OPT_EXT_START, parseNumeric(argv.front()));
+    amiga.configure(OPT_EXT_START, parseHex(argv.front()));
 }
 
 template <> void
@@ -378,7 +380,7 @@ Controller::exec <Token::diskcontroller, Token::dump> (Arguments& argv, long par
 template <> void
 Controller::exec <Token::diskcontroller, Token::speed> (Arguments& argv, long param)
 {
-    amiga.configure(OPT_DRIVE_SPEED, parseNumeric(argv.front()));
+    amiga.configure(OPT_DRIVE_SPEED, parseDec(argv.front()));
 }
 
 template <> void

@@ -76,15 +76,15 @@ Memory::setConfigItem(Option option, long value)
             
         case OPT_CHIP_RAM:
             
+            if (isPoweredOn()) throw ConfigLockedError();
+
             #ifdef FORCE_CHIP_RAM
             value = FORCE_CHIP_RAM;
             warn("Overriding Chip Ram size: %ld KB\n", value);
             #endif
             
             if (value != 256 && value != 512 && value != 1024 && value != 2048) {
-                warn("Invalid Chip Ram size: %ld\n", value);
-                warn("         Valid values: 256KB, 512KB, 1024KB, 2048KB\n");
-                return false;
+                throw ConfigArgError("256, 512, 1024, 2048");
             }
             
             mem.allocChip(KB(value));
@@ -92,15 +92,15 @@ Memory::setConfigItem(Option option, long value)
             
         case OPT_SLOW_RAM:
             
+            if (isPoweredOn()) throw ConfigLockedError();
+            
             #ifdef FORCE_SLOW_RAM
             value = FORCE_SLOW_RAM;
             warn("Overriding Slow Ram size: %ld KB\n", value);
             #endif
             
             if ((value % 256) != 0 || value > 512) {
-                warn("Invalid Slow Ram size: %ld\n", value);
-                warn("         Valid values: 0KB, 256KB, 512KB\n");
-                return false;
+                throw ConfigArgError("0, 256, 512");
             }
                         
             mem.allocSlow(KB(value));
@@ -108,15 +108,15 @@ Memory::setConfigItem(Option option, long value)
             
         case OPT_FAST_RAM:
             
+            if (isPoweredOn()) throw ConfigLockedError();
+            
             #ifdef FORCE_FAST_RAM
             value = FORCE_FAST_RAM;
             warn("Overriding Fast Ram size: %ld KB\n", value);
             #endif
             
             if ((value % 64) != 0 || value > 8192) {
-                warn("Invalid Fast Ram size: %ld\n", value);
-                warn("Valid values: 0KB, 64KB, 128KB, ..., 8192KB (8MB)\n");
-                return false;
+                throw ConfigArgError("0, 64, 128, ..., 8192");
             }
                         
             mem.allocFast(KB(value));
@@ -124,10 +124,10 @@ Memory::setConfigItem(Option option, long value)
             
         case OPT_EXT_START:
             
+            if (isPoweredOn()) throw ConfigLockedError();
+            
             if (value != 0xE0 && value != 0xF0) {
-                warn("Invalid Extended ROM start page: %lx\n", value);
-                warn("Valid values: 0xE0, 0xF0\n");
-                return false;
+                throw ConfigArgError("E0, F0");
             }
             
             config.extStart = (u32)value;

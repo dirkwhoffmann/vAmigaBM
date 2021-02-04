@@ -58,7 +58,10 @@ public:
 
 private:
     
-    bool parseBool(string& token); 
-    long parseNumeric(string& token);
+    bool parseBool(string& token);
+    long parseNum(isize base, string& token);
+    long parseDec(string& token) { return parseNum(10, token); }
+    long parseHex(string& token) { return parseNum(16, token); }
+
     void dump(HardwareComponent &component, Dump::Category category);
 };

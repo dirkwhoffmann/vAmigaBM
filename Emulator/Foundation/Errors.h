@@ -20,7 +20,6 @@ struct VAError : public std::exception
     VAError(ErrorCode code) : errorCode(code) { }
     
     const char *what() const throw() override {
-
         return  ErrorCodeEnum::key(errorCode);
     }
 };
@@ -32,12 +31,14 @@ struct ConfigError : public std::exception
     ConfigError(const std::string &s) : description(s) { }
     
     const char *what() const throw() override {
-
         return  description.c_str();
     }
 };
 
 struct ConfigArgError : ConfigError {
-    
     ConfigArgError(const std::string &s) : ConfigError(s) { }; 
+};
+
+struct ConfigLockedError : ConfigError {
+    ConfigLockedError() : ConfigError("") { };
 };
