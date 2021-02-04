@@ -48,7 +48,7 @@ Interpreter::exec(Arguments &argv)
         Command *next = current->seek(token);
         if (next == nullptr) break;
         
-        prefix += token + " ";
+        prefix += next->token + " ";
         current = next;
         if (!argv.empty()) argv.pop_front();
     }

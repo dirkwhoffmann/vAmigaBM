@@ -84,10 +84,17 @@ Command::remove(const string& token)
 Command *
 Command::seek(const string& token)
 {
+    Command *result = nullptr;
+    isize hits = 0;
+    
     for (auto& it : args) {
-        if (it.token == token) return &it;
+        if (it.token.substr(0, token.size()) == token) {
+            result = &it;
+            hits++;
+        }
     }
-    return nullptr;
+    
+    return hits == 1 ? result : nullptr;
 }
 
 std::vector<std::string>
