@@ -53,8 +53,9 @@ Interpreter::exec(Arguments &argv)
         if (!argv.empty()) argv.pop_front();
     }
 
-    // Error out if no ommand handler is present
+    // Error out if no command handler is present
     if (current->func == nullptr) {
+        if (token != "") app.console << "Parse error: " << token << '\n' << '\n';
         syntax(*current, prefix);
         return false;
     }
@@ -68,9 +69,11 @@ Interpreter::exec(Arguments &argv)
         (controller.*(current->func))(argv, current->param);
         
     } catch (TooFewArgumentsError &err) {
+        app.console << "Error. Too few arguments." << '\n';
         syntax(*current, prefix);
         
     } catch (TooManyArgumentsError &err) {
+        app.console << "Error. Too many arguments." << '\n';
         syntax(*current, prefix);
         
     } catch (EnumParseError &err) {
@@ -93,10 +96,16 @@ Interpreter::exec(Arguments &argv)
 }
 
 void
+Interpreter::usage(Command& current, const string& prefix)
+{
+    app.console << "Usage: " << prefix << current.syntax() << '\n' << '\n';
+}
+
+void
 Interpreter::syntax(Command& current, const string& prefix)
 {
     // Print the usage string
-    app.console << "Usage: " << prefix << current.syntax() << '\n' << '\n';
+    usage(current, prefix);
     
     // Collect all argument types
     auto types = current.types();

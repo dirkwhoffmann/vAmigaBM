@@ -25,9 +25,9 @@ enum class Token
     registers, reset, run, set,
     
     // Keys
-    bankmap, borderblank, checksum, chip, device, events, extrom, extstart,
-    fast, raminitpattern, revision, rom, slow, slowramdelay, slowrammirror,
-    speed, state, unmappingtype, wom
+    bankmap, borderblank, checksum, chip, device, esync, events, extrom,
+    extstart, fast, raminitpattern, revision, rom, slow, slowramdelay,
+    slowrammirror, speed, state, tod, todbug, unmappingtype, wom
 };
 
 struct ParseError : public std::exception {
@@ -99,6 +99,7 @@ public:
     bool exec(Arguments &argv);
         
     // Prints a syntax summary
+    void usage(Command& command, const string& prefix);
     void syntax(Command& command, const string& prefix);
     void syntax() { syntax(root, ""); }
 };

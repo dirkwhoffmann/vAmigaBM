@@ -182,9 +182,28 @@ Interpreter::registerInstructions()
              "key", "Selects the emulated chip model",
              &Controller::exec <Token::cia, Token::set, Token::revision>, 1, 0);
 
+    root.add("cia", "set", "todbug" ,
+             "key", "Enables or disables the TOD hardware bug",
+             &Controller::exec <Token::cia, Token::set, Token::todbug>, 1, 0);
+
+    root.add("cia", "set", "esync" ,
+             "key", "Turns E-clock syncing on or off",
+             &Controller::exec <Token::cia, Token::set, Token::esync>, 1, 0);
+
     root.add("cia", "dump",
-             "command", "Displays the component state",
-             &Controller::exec <Token::cia, Token::dump>, 0, 0);
+             "command", "Displays the component state");
+
+    root.add("cia", "dump", "state",
+             "category", "Displays the current state",
+             &Controller::exec <Token::cia, Token::dump, Token::state>, 0, 0);
+
+    root.add("cia", "dump", "registers",
+             "category", "Displays the current register values",
+             &Controller::exec <Token::cia, Token::dump, Token::registers>, 0, 0);
+
+    root.add("cia", "dump", "tod",
+             "category", "Displays the state of the 24-bit counter",
+             &Controller::exec <Token::cia, Token::dump, Token::tod>, 0, 0);
 
     
     //

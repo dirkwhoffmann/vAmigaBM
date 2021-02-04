@@ -208,7 +208,37 @@ Controller::exec <Token::cia, Token::config> (Arguments &argv, long param)
 }
 
 template <> void
-Controller::exec <Token::cia, Token::dump> (Arguments& argv, long param)
+Controller::exec <Token::cia, Token::set, Token::revision> (Arguments &argv, long param)
+{
+    if (param == 0) {
+        amiga.ciaA.configure(OPT_CIA_REVISION, CIARevisionEnum::parse(argv.front()));
+    } else {
+        amiga.ciaB.configure(OPT_CIA_REVISION, CIARevisionEnum::parse(argv.front()));
+    }
+}
+
+template <> void
+Controller::exec <Token::cia, Token::set, Token::todbug> (Arguments &argv, long param)
+{
+    if (param == 0) {
+        amiga.ciaA.configure(OPT_TODBUG, CIARevisionEnum::parse(argv.front()));
+    } else {
+        amiga.ciaB.configure(OPT_TODBUG, CIARevisionEnum::parse(argv.front()));
+    }
+}
+
+template <> void
+Controller::exec <Token::cia, Token::set, Token::esync> (Arguments &argv, long param)
+{
+    if (param == 0) {
+        amiga.ciaA.configure(OPT_ECLOCK_SYNCING, CIARevisionEnum::parse(argv.front()));
+    } else {
+        amiga.ciaB.configure(OPT_ECLOCK_SYNCING, CIARevisionEnum::parse(argv.front()));
+    }
+}
+
+template <> void
+Controller::exec <Token::cia, Token::dump, Token::state> (Arguments& argv, long param)
 {
     if (param == 0) {
         dump(amiga.ciaA, Dump::State);
@@ -218,12 +248,22 @@ Controller::exec <Token::cia, Token::dump> (Arguments& argv, long param)
 }
 
 template <> void
-Controller::exec <Token::cia, Token::set, Token::revision> (Arguments &argv, long param)
+Controller::exec <Token::cia, Token::dump, Token::registers> (Arguments& argv, long param)
 {
     if (param == 0) {
-        amiga.ciaA.configure(OPT_CIA_REVISION, CIARevisionEnum::parse(argv.front()));
+        dump(amiga.ciaA, Dump::Registers);
     } else {
-        amiga.ciaB.configure(OPT_CIA_REVISION, CIARevisionEnum::parse(argv.front()));
+        dump(amiga.ciaB, Dump::Registers);
+    }
+}
+
+template <> void
+Controller::exec <Token::cia, Token::dump, Token::tod> (Arguments& argv, long param)
+{
+    if (param == 0) {
+        dump(amiga.ciaA.tod, Dump::State);
+    } else {
+        dump(amiga.ciaB.tod, Dump::State);
     }
 }
 

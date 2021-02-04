@@ -44,14 +44,17 @@ TOD::_inspect()
 void 
 TOD::_dump(Dump::Category category, std::ostream& os) const
 {
-    os << "Counter : ";
-    os << HEX8 << tod.hi << ":" << HEX8 << tod.mid << ":" << HEX8 << tod.lo << std::endl;
-    os << "  Alarm : ";
-    os << HEX8 << alarm.hi << ":" << HEX8 << alarm.mid << ":" << HEX8 << alarm.lo << std::endl;
-    os << "  Latch : ";
-    os << HEX8 << latch.hi << ":" << HEX8 << latch.mid << ":" << HEX8 << latch.lo << std::endl;
-    os << " Frozen : " << (frozen ? "yes" : "no") << std::endl;
-    os << "Stopped : " << (stopped ? "yes" : "no") << std::endl;
+    os << DUMP("Counter");
+    os << HEX8 << tod.hi << ":" << HEX8 << tod.mid << ":" << HEX8 << tod.lo;
+    os << std::endl;
+    os << DUMP ("Alarm");
+    os << HEX8 << alarm.hi << ":" << HEX8 << alarm.mid << ":" << HEX8 << alarm.lo;
+    os << std::endl;
+    os << DUMP("Latch");
+    os << HEX8 << latch.hi << ":" << HEX8 << latch.mid << ":" << HEX8 << latch.lo;
+    os << std::endl;
+    os << DUMP("Frozen") << YESNO(frozen) << std::endl;
+    os << DUMP("Stopped") << YESNO(stopped) << std::endl;
 }
 
 u8
