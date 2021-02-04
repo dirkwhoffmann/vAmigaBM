@@ -100,4 +100,5 @@ public:
         
     // Prints a syntax summary
     void syntax(Command& command, const string& prefix);
+    void syntax() { syntax(root, ""); }
 };

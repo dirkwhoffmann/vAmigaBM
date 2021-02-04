@@ -152,42 +152,47 @@ CIA::_dump(Dump::Category category, std::ostream& os) const
 {
     if (category & Dump::Config) {
         
-        os << "         Revision: " << CIARevisionEnum::key(config.revision);
-        os << "  Emulate TOD bug: " << YESNO(config.todBug);
-        os << "Sync with E-clock: " << YESNO(config.eClockSyncing);
+        os << DUMP("Revision") << CIARevisionEnum::key(config.revision) << std::endl;
+        os << DUMP("Emulate TOD bug") << YESNO(config.todBug) << std::endl;
+        os << DUMP("Sync with E-clock") << YESNO(config.eClockSyncing) << std::endl;
     }
     
     if (category & Dump::State) {
         
-        os << "                   Clock: " << clock;
-        os << "                Sleeping: " << YESNO(sleeping);
-        os << "               Tiredness: " << (int)tiredness;
-        os << " Most recent sleep cycle: " << sleepCycle;
-        os << "Most recent wakeup cycle: " << wakeUpCycle;
+        os << DUMP("Clock") << DEC << clock << std::endl;
+        os << DUMP("Sleeping") << YESNO(sleeping) << std::endl;
+        os << DUMP("Tiredness") << (int)tiredness << std::endl;
+        os << DUMP("Most recent sleep cycle") << sleepCycle << std::endl;
+        os << DUMP("Most recent wakeup cycle") << wakeUpCycle << std::endl;
         os << std::endl;
-        os << "               Counter A: " << HEX16 << (int)counterA;
-        os << "                 Latch A: " << HEX16 << (int)latchA;
-        os << "         Data register A: " << HEX8 << (int)PRA;
-        os << "   Data port direction A: " << HEX8 << (int)DDRA;
-        os << "             Data port A: " << HEX8 << (int)PA;
-        os << "      Control register A: " << HEX8 << (int)CRA;
+        os << DUMP("CNT") << CNT << std::endl;
+        os << DUMP("INT") << INT << std::endl;
+
+    }
+    
+    if (category & Dump::Registers) {
+        
         os << std::endl;
-        os << "               Counter B: " << HEX16 << (int)counterB;
-        os << "                 Latch B: " << HEX16 << (int)latchB;
-        os << "         Data register B: " << HEX8 << (int)PRB;
-        os << "   Data port direction B: " << HEX8 << (int)DDRB;
-        os << "             Data port B: " << HEX8 << (int)PB;
-        os << "      Control register B: " << HEX8 << (int)CRB;
+        os << DUMP("Counter A") << HEX16 << (int)counterA << std::endl;
+        os << DUMP("Latch A") << HEX16 << (int)latchA << std::endl;
+        os << DUMP("Data register A") << HEX8 << (int)PRA << std::endl;
+        os << DUMP("Data port direction A") << HEX8 << (int)DDRA << std::endl;
+        os << DUMP("Data port A") << HEX8 << (int)PA << std::endl;
+        os << DUMP("Control register A") << HEX8 << (int)CRA << std::endl;
         os << std::endl;
-        os << "   Interrupt control reg: " << HEX8 << (int)icr;
-        os << "      Interrupt mask reg: " << HEX8 << (int)imr;
+        os << DUMP("Counter B") << HEX16 << (int)counterB << std::endl;
+        os << DUMP("Latch B") << HEX16 << (int)latchB << std::endl;
+        os << DUMP("Data register B") << HEX8 << (int)PRB << std::endl;
+        os << DUMP("Data port direction B") << HEX8 << (int)DDRB << std::endl;
+        os << DUMP("Data port B") << HEX8 << (int)PB << std::endl;
+        os << DUMP("Control register B") << HEX8 << (int)CRB << std::endl;
         os << std::endl;
-        os << "                     SDR: " << HEX8 << (int)sdr;
-        os << "                     SSR: " << HEX8 << (int)ssr;
-        os << "              serCounter: " << HEX8 << (int)serCounter;
+        os << DUMP("Interrupt control reg") << HEX8 << (int)icr << std::endl;
+        os << DUMP("Interrupt mask reg") << HEX8 << (int)imr << std::endl;
         os << std::endl;
-        os << "                     CNT: " << CNT;
-        os << "                     INT: " << INT;
+        os << DUMP("SDR") << HEX8 << (int)sdr << std::endl;
+        os << DUMP("SSR") << HEX8 << (int)ssr << std::endl;
+        os << DUMP("serCounter") << HEX8 << (int)serCounter << std::endl;
         os << std::endl;
     }
 }

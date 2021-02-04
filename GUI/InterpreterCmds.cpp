@@ -20,6 +20,10 @@ Interpreter::registerInstructions()
              "command", "Clears the console window",
              &Controller::exec <Token::clear>, 0, 0);
 
+    root.add("help",
+             "command", "Prints instructions",
+             &Controller::exec <Token::help>, 0, 0);
+
     root.add("hide",
              "command", "Hides the debug console",
              &Controller::exec <Token::hide>, 0, 0);
@@ -61,7 +65,7 @@ Interpreter::registerInstructions()
              &Controller::exec <Token::amiga, Token::reset>, 0, 0);
     
     root.add("amiga", "dump",
-             "command", "Displays the internal state",
+             "command", "Displays the component state",
              &Controller::exec <Token::amiga, Token::dump>, 0, 0);
 
     
@@ -123,10 +127,10 @@ Interpreter::registerInstructions()
              &Controller::exec <Token::memory, Token::load, Token::extrom>, 1, 0);
 
     root.add("memory", "dump",
-             "command", "Displays the internal state");
+             "command", "Displays the component state");
 
     root.add("memory", "dump", "state",
-             "command", "Displays the internal state",
+             "command", "Displays the current state",
              &Controller::exec <Token::memory, Token::dump, Token::state>, 0, 0);
 
     root.add("memory", "dump", "bankmap",
@@ -146,17 +150,27 @@ Interpreter::registerInstructions()
              "component", "Motorola 68k CPU");
     
     root.add("cpu", "dump",
-             "command", "Displays the internal state",
-             &Controller::exec <Token::cpu, Token::dump>, 0, 0);
+             "command", "Displays the component state");
+
+    root.add("cpu", "dump", "state",
+             "command", "Displays the current state",
+             &Controller::exec <Token::cpu, Token::dump, Token::state>, 0, 0);
+
+    root.add("cpu", "dump", "registers",
+             "command", "Displays the current register values",
+             &Controller::exec <Token::cpu, Token::dump, Token::registers>, 0, 0);
 
     
     //
     // CIA
     //
     
-    root.add("cia",
-             "component", "Complex Interface Adapters");
-    
+    root.add("ciaa",
+             "component", "Complex Interface Adapter A");
+
+    root.add("ciab",
+             "component", "Complex Interface Adapter B");
+
     root.add("cia", "config",
              "command", "Displays the current configuration",
              &Controller::exec <Token::cia, Token::config>, 0, 0);
@@ -169,7 +183,7 @@ Interpreter::registerInstructions()
              &Controller::exec <Token::cia, Token::set, Token::revision>, 1, 0);
 
     root.add("cia", "dump",
-             "command", "Displays the internal state",
+             "command", "Displays the component state",
              &Controller::exec <Token::cia, Token::dump>, 0, 0);
 
     
@@ -199,7 +213,7 @@ Interpreter::registerInstructions()
              "command", "Displays the internal state");
 
     root.add("agnus", "dump", "registers",
-             "category", "Displays register values",
+             "category", "Displays the current register value",
              &Controller::exec <Token::agnus, Token::dump, Token::registers>, 0, 0);
 
     root.add("agnus", "dump", "events",
@@ -257,7 +271,7 @@ Interpreter::registerInstructions()
              "command", "Displays the internal state");
 
     root.add("denise", "dump", "registers",
-             "category", "Displays the register contents",
+             "category", "Displays the current register value",
              &Controller::exec <Token::denise, Token::dump, Token::registers>, 0, 0);
 
     
@@ -276,7 +290,7 @@ Interpreter::registerInstructions()
              "command", "Displays the internal state");
 
     root.add("paula", "dump", "registers",
-             "command", "Displays the register contents",
+             "command", "Displays the current register value",
              &Controller::exec <Token::paula, Token::dump, Token::registers>, 0, 0);
 
     
@@ -302,7 +316,7 @@ Interpreter::registerInstructions()
              "command", "Displays the internal state");
 
     root.add("rtc", "dump", "registers",
-             "command", "Displays the register contents",
+             "command", "Displays the current register value",
              &Controller::exec <Token::rtc, Token::dump, Token::registers>, 0, 0);
 
     

@@ -139,7 +139,7 @@ Application::processKeyEvents(const sf::Event& event)
 void
 Application::update()
 {
-    if (!amiga.isRunning()) {
+    if (amiga.isPoweredOff()) {
         emuTex.update((u8 *)amiga.denise.pixelEngine.getNoise());
         return;
     }

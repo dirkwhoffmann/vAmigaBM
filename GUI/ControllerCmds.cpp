@@ -20,6 +20,12 @@ Controller::exec <Token::clear> (Arguments &argv, long param)
 }
 
 template <> void
+Controller::exec <Token::help> (Arguments &argv, long param)
+{
+    app.interpreter.syntax();
+}
+
+template <> void
 Controller::exec <Token::hide> (Arguments &argv, long param)
 {
     app.console.close();
@@ -121,14 +127,6 @@ Controller::exec <Token::memory, Token::set, Token::fast> (Arguments& argv, long
     amiga.configure(OPT_FAST_RAM, parseDec(argv.front()));
 }
 
-/*
-template <> void
-Controller::exec <Token::memory, Token::set, Token::extrom> (Arguments& argv, long param)
-{
-    amiga.configure(OPT_EXT_START, parseHex(argv.front()));
-}
-*/
-
 template <> void
 Controller::exec <Token::memory, Token::set, Token::extstart> (Arguments& argv, long param)
 {
@@ -183,9 +181,15 @@ Controller::exec <Token::memory, Token::dump, Token::checksum> (Arguments& argv,
 //
 
 template <> void
-Controller::exec <Token::cpu, Token::dump> (Arguments& argv, long param)
+Controller::exec <Token::cpu, Token::dump, Token::state> (Arguments& argv, long param)
 {
     dump(amiga.cpu, Dump::State);
+}
+
+template <> void
+Controller::exec <Token::cpu, Token::dump, Token::registers> (Arguments& argv, long param)
+{
+    dump(amiga.cpu, Dump::Registers);
 }
 
 
@@ -196,19 +200,31 @@ Controller::exec <Token::cpu, Token::dump> (Arguments& argv, long param)
 template <> void
 Controller::exec <Token::cia, Token::config> (Arguments &argv, long param)
 {
-    dump(amiga.ciaA, Dump::Config);
+    if (param == 0) {
+        dump(amiga.ciaA, Dump::Config);
+    } else {
+        dump(amiga.ciaB, Dump::Config);
+    }
 }
 
 template <> void
 Controller::exec <Token::cia, Token::dump> (Arguments& argv, long param)
 {
-    dump(amiga.ciaA, Dump::State);
+    if (param == 0) {
+        dump(amiga.ciaA, Dump::State);
+    } else {
+        dump(amiga.ciaB, Dump::State);
+    }
 }
 
 template <> void
 Controller::exec <Token::cia, Token::set, Token::revision> (Arguments &argv, long param)
 {
-    amiga.configure(OPT_CIA_REVISION, CIARevisionEnum::parse(argv.front()));
+    if (param == 0) {
+        amiga.ciaA.configure(OPT_CIA_REVISION, CIARevisionEnum::parse(argv.front()));
+    } else {
+        amiga.ciaB.configure(OPT_CIA_REVISION, CIARevisionEnum::parse(argv.front()));
+    }
 }
 
 

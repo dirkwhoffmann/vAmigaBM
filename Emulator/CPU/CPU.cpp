@@ -243,19 +243,45 @@ CPU::_inspect(u32 dasmStart)
 void
 CPU::_dump(Dump::Category category, std::ostream& os) const
 {
-    for (int i = 0; i < 4; i++) os << "D" << i << ": " << HEX32 << reg.d[i] << " ";
-    os << std::endl;
-    for (int i = 4; i < 8; i++) os << "D" << i << ": " << HEX32 << reg.d[i] << " ";
-    os << std::endl;
-    for (int i = 0; i < 4; i++) os << "A" << i << ": " << HEX32 << reg.a[i] << " ";
-    os << std::endl;
-    for (int i = 4; i < 8; i++) os << "A" << i << ": " << HEX32 << reg.a[i] << " ";
-    os << std::endl;
+    if (category & Dump::State) {
+        
+        os << DUMP("Clock") << DEC << clock << std::endl;
+        os << DUMP("Control flags") <<  std::hex << flags << std::endl;
+        os << DUMP("Last exception") << DEC << exception;
+    }
+    
+    if (category & Dump::Registers) {
 
-    os << "PC: " << HEX32 << reg.pc0;
-    os << " SP: " << HEX32 << reg.ssp;
-    os << " UP: " << HEX32 << reg.usp << std::endl;
-    os << "Flags: " << HEX16 << getSR() << std::endl;
+        os << DUMP("PC") << HEX32 << reg.pc0 << std::endl;
+        os << std::endl;
+        os << DUMP("SSP") << HEX32 << reg.ssp << std::endl;
+        os << DUMP("USP") << HEX32 << reg.usp << std::endl;
+        os << DUMP("IRC") << HEX32 << queue.irc << std::endl;
+        os << DUMP("IRD") << HEX32 << queue.ird << std::endl;
+        os << std::endl;
+        os << DUMP("D0 - D3");
+        os << HEX32 << reg.d[0] << ' ' << HEX32 << reg.d[1] << ' ';
+        os << HEX32 << reg.d[2] << ' ' << HEX32 << reg.d[3] << ' ' << std::endl;
+        os << DUMP("D4 - D7");
+        os << HEX32 << reg.d[4] << ' ' << HEX32 << reg.d[5] << ' ';
+        os << HEX32 << reg.d[6] << ' ' << HEX32 << reg.d[7] << ' ' << std::endl;
+        os << DUMP("A0 - A3");
+        os << HEX32 << reg.a[0] << ' ' << HEX32 << reg.a[1] << ' ';
+        os << HEX32 << reg.a[2] << ' ' << HEX32 << reg.a[3] << ' ' << std::endl;
+        os << DUMP("A4 - A7");
+        os << HEX32 << reg.a[4] << ' ' << HEX32 << reg.a[5] << ' ';
+        os << HEX32 << reg.a[6] << ' ' << HEX32 << reg.a[7] << ' ' << std::endl;
+        os << std::endl;
+        os << DUMP("Flags");
+        os << (reg.sr.t ? 'T' : 't');
+        os << (reg.sr.s ? 'S' : 's') << "--";
+        os << "<" << DEC << (int)reg.sr.ipl << ">---";
+        os << (reg.sr.x ? 'X' : 'x');
+        os << (reg.sr.n ? 'N' : 'n');
+        os << (reg.sr.z ? 'Z' : 'z');
+        os << (reg.sr.v ? 'V' : 'v');
+        os << (reg.sr.c ? 'C' : 'c') << std::endl;
+    }
 }
 
 void

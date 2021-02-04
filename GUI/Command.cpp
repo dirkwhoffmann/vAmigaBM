@@ -20,6 +20,11 @@ Command::add(const std::string &token,
     assert(seek(token) == nullptr);
 
     // Expand template tokens
+    if (token == "cia") {
+        add("ciaa", a1, help, func, num, 0);
+        add("ciab", a1, help, func, num, 1);
+        return nullptr;
+    }
     if (token == "dfn") {
         add("df0", a1, help, func, num, 0);
         add("df1", a1, help, func, num, 1);
@@ -43,6 +48,11 @@ Command::add(const std::string &t1, const std::string &t2,
                    isize num, long param)
 {
     // Expand template tokens
+    if (t1 == "cia") {
+        add("ciaa", t2, a1, help, func, num, 0);
+        add("ciab", t2, a1, help, func, num, 1);
+        return nullptr;
+    }
     if (t1 == "dfn") {
         add("df0", t2, a1, help, func, num, 0);
         add("df1", t2, a1, help, func, num, 1);
@@ -62,6 +72,11 @@ Command::add(const std::string &t1, const std::string &t2, const std::string &t3
                    isize num, long param)
 {
     // Expand template tokens
+    if (t1 == "cia") {
+        add("ciaa", t2, t3, a1, help, func, num, 0);
+        add("ciab", t2, t3, a1, help, func, num, 1);
+        return nullptr;
+    }
     if (t1 == "dfn") {
         add("df0", t2, t3, a1, help, func, num, 0);
         add("df1", t2, t3, a1, help, func, num, 1);
@@ -88,7 +103,9 @@ Command::seek(const string& token)
     isize hits = 0;
     
     for (auto& it : args) {
-        if (it.token.substr(0, token.size()) == token) {
+        if (token.size() == 0) {
+            if (it.token.size() == 0) return &it;
+        } else if (it.token.substr(0, token.size()) == token) {
             result = &it;
             hits++;
         }
