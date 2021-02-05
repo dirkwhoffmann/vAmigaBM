@@ -17,6 +17,9 @@ typedef std::list<string> Arguments;
 
 struct Command {
     
+    // Pointer to the parent command
+    Command *parent = nullptr;
+    
     // The token string (e.g., "agnus" or "set")
     string token;
     
@@ -27,7 +30,7 @@ struct Command {
     string info;
     
     // The sub commands of this command
-    std::vector<Command> args;
+    std::list<Command> args;
     
     // Command handler
     void (Controller::*func)(Arguments&, long) = nullptr;
@@ -75,6 +78,9 @@ struct Command {
 
     // Automatically completes a partial token string
     bool autoComplete(string& token);
+    
+    // Returns the full command string for this command
+    string fullName();
     
     // Returns a syntax string for this command
     string syntax();

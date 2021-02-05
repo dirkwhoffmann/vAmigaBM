@@ -34,7 +34,7 @@ Command::add(const std::string &token,
     }
     
     // Register instruction
-    Command d { token, a1, help, std::vector<Command>(), func, num, param };
+    Command d { this, token, a1, help, std::list<Command>(), func, num, param };
     args.push_back(d);
     
     return seek(token);
@@ -194,6 +194,12 @@ Command::autoComplete(string& token)
     }
     
     return result;
+}
+
+string
+Command::fullName()
+{
+    return this->parent ? (this->parent->fullName() + " " + token) : token;
 }
 
 string

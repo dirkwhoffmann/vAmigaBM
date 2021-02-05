@@ -71,15 +71,15 @@ Interpreter::exec(Arguments &argv, bool verbose)
         
     } catch (NoCommandHandlerError &err) {
         if (token != "") app.console << "Syntax error: " << token << '\n';
-        if (prefix != "") syntax(*current, prefix); else help();
+        if (prefix != "") syntax(*current); else help();
         
     } catch (TooFewArgumentsError &err) {
         app.console << "Too few arguments." << '\n';
-        syntax(*current, prefix);
+        syntax(*current);
         
     } catch (TooManyArgumentsError &err) {
         app.console << "Too many arguments." << '\n';
-        syntax(*current, prefix);
+        syntax(*current);
         
     } catch (EnumParseError &err) {
         app.console << "Invalid key. Expected: " << err.what() << '\n';
@@ -119,7 +119,7 @@ Interpreter::execSyntax(Arguments &argv)
     Command *current = &root;
     std::string prefix, token;
     
-    while (current) {
+    while (1) {
                 
         // Extract token
         token = argv.empty() ? "" : argv.front();
@@ -133,7 +133,7 @@ Interpreter::execSyntax(Arguments &argv)
         if (!argv.empty()) argv.pop_front();
     }
 
-    syntax(*current, prefix);
+    syntax(*current);
 }
 
 Arguments
@@ -185,16 +185,16 @@ Interpreter::help()
 }
 
 void
-Interpreter::usage(Command& current, const string& prefix)
+Interpreter::usage(Command& current)
 {
-    app.console << "Usage: " << prefix << current.syntax() << '\n' << '\n';
+    app.console << "Usage: " << current.fullName() << " " << current.syntax() << '\n' << '\n';
 }
 
 void
-Interpreter::syntax(Command& current, const string& prefix)
+Interpreter::syntax(Command& current)
 {
     // Print the usage string
-    usage(current, prefix);
+    usage(current);
     
     // Collect all argument types
     auto types = current.types();

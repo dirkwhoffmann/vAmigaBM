@@ -44,16 +44,6 @@ struct ParseBoolError : ParseError {
     const char *what() const throw() override { return "true, false"; }
 };
 
-/*
-struct UnknownComponentError : public ParseError {
-    UnknownComponentError(const std::string &s) : ParseError(s) { }
-};
-
-struct UnknownCommandError : public ParseError {
-    UnknownCommandError(const std::string &s) : ParseError(s) { }
-};
-*/
-
 struct NoCommandHandlerError : public ParseError {
     NoCommandHandlerError() : ParseError() { }
 };
@@ -119,7 +109,7 @@ public:
 
     // Prints a syntax summary
     void help();
-    void usage(Command& command, const string& prefix);
-    void syntax(Command& command, const string& prefix);
-    void syntax() { syntax(root, ""); }
+    void usage(Command& command);
+    void syntax(Command& command);
+    void syntax() { syntax(root); }
 };
