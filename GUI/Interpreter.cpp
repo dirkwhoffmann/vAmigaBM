@@ -16,7 +16,49 @@ app(ref), controller(ref.controller), console(ref.console)
 {
     registerInstructions();
 };
- 
+
+Arguments
+Interpreter::split(const string& userInput)
+{
+    std::stringstream ss(userInput);
+    std::string token;
+    Arguments result;
+
+    while (std::getline(ss, token, ' ')) result.push_back(lowercased(token));
+    return result;
+}
+    
+isize
+Interpreter::autoComplete(Arguments &argv)
+{
+    isize result = 0;
+
+    Command *current = &root;
+    std::string prefix, token;
+
+    for (auto it = argv.begin(); current && it != argv.end(); it++) {
+        
+        result += (isize)current->autoComplete(*it);
+        current = current->seek(*it);
+    }
+    return result;
+}
+
+isize
+Interpreter::autoComplete(string& userInput)
+{
+    Arguments tokens = split(userInput);
+    isize result = autoComplete(tokens);
+    
+    if (result > 0) {
+        userInput = "";
+        for (const auto &it : tokens) {
+            userInput += (userInput == "" ? "" : " ") + it;
+        }
+    }
+    return result;
+}
+
 void
 Interpreter::exec(const string& userInput, bool verbose)
 {
@@ -110,7 +152,13 @@ Interpreter::exec(Arguments &argv, bool verbose)
 }
 
 void
-Interpreter::execSyntax(const string& userInput)
+Interpreter::usage(Command& current)
+{
+    console << "Usage: " << current.usage() << '\n' << '\n';
+}
+
+void
+Interpreter::help(const string& userInput)
 {
     // Split the command string
     Arguments tokens = split(userInput);
@@ -119,11 +167,11 @@ Interpreter::execSyntax(const string& userInput)
     autoComplete(tokens);
             
     // Process the command
-    execSyntax(tokens);
+    help(tokens);
 }
 
 void
-Interpreter::execSyntax(Arguments &argv)
+Interpreter::help(Arguments &argv)
 {
     Command *current = &root;
     std::string prefix, token;
@@ -142,59 +190,11 @@ Interpreter::execSyntax(Arguments &argv)
         if (!argv.empty()) argv.pop_front();
     }
 
-    syntax(*current);
-}
-
-Arguments
-Interpreter::split(const string& userInput)
-{
-    std::stringstream ss(userInput);
-    std::string token;
-    Arguments result;
-
-    while (std::getline(ss, token, ' ')) result.push_back(lowercased(token));
-    return result;
-}
-    
-isize
-Interpreter::autoComplete(Arguments &argv)
-{
-    isize result = 0;
-
-    Command *current = &root;
-    std::string prefix, token;
-
-    for (auto it = argv.begin(); current && it != argv.end(); it++) {
-        
-        result += (isize)current->autoComplete(*it);
-        current = current->seek(*it);
-    }
-    return result;
-}
-
-isize
-Interpreter::autoComplete(string& userInput)
-{
-    Arguments tokens = split(userInput);
-    isize result = autoComplete(tokens);
-    
-    if (result > 0) {
-        userInput = "";
-        for (const auto &it : tokens) {
-            userInput += (userInput == "" ? "" : " ") + it;
-        }
-    }
-    return result;
+    help(*current);
 }
 
 void
-Interpreter::usage(Command& current)
-{
-    console << "Usage: " << current.usage() << '\n' << '\n';
-}
-
-void
-Interpreter::syntax(Command& current)
+Interpreter::help(Command& current)
 {
     // Print the usage string
     usage(current);

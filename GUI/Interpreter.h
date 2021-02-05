@@ -86,8 +86,15 @@ private:
     // Parsing input
     //
     
-private:
-        
+public:
+    
+    // Splits an input string into an argument list
+    Arguments split(const string& userInput);
+
+    // Auto-completes a command. Returns the number of auto-completed tokens
+    isize autoComplete(Arguments &argv);
+    isize autoComplete(string& userInput);
+
     
     //
     // Executing commands
@@ -98,20 +105,12 @@ public:
     // Executes a command
     void exec(const string& userInput, bool verbose = false);
     bool exec(Arguments &argv, bool verbose = false);
-
-    // Prints the syntax for a (partially typed in) command
-    void execSyntax(const string& userInput);
-    void execSyntax(Arguments &argv);
-
-    // Splits an input string into an argument list
-    Arguments split(const string& userInput);
-
-    // Auto-completes a command. Returns the number of auto-completed tokens
-    isize autoComplete(Arguments &argv);
-    isize autoComplete(string& userInput);
-
-    // Prints a syntax summary
-    void usage(Command& command);
-    void syntax(Command& command);
-    void syntax() { syntax(root); }
+    
+    // Prints a usage string for a command
+    void usage(Command &command);
+    
+    // Displays a help text for a (partially typed in) command
+    void help(const string &userInput);
+    void help(Arguments &argv);
+    void help(Command &command);
 };

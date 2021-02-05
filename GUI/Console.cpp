@@ -216,7 +216,7 @@ Console::type(char c)
                 *this << '\n';
 
                 // Print the instructions for this command
-                app.interpreter.execSyntax(input[ipos]);
+                app.interpreter.help(input[ipos]);
                 
                 // Repeat the old input string
                 *this << string(prompt) << input[ipos];
