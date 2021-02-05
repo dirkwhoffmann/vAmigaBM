@@ -17,6 +17,8 @@ class Console {
     
     // Reference to the associated application
     class Application &app;
+    class Controller &controller;
+    class Interpreter &interpreter;
 
 
     //

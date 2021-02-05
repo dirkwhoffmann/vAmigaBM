@@ -21,8 +21,8 @@ enum class Token
 
     // Commands
     about, autosync, clear, config, connect, disconnect, dsksync, easteregg,
-    eject, help, close, insert, dump, list, load, lock, on, off, pause,
-    reset, run, set,
+    eject, close, insert, dump, list, load, lock, on, off, pause, reset, run,
+    set,
     
     // Categories
     state, registers, events, checksums,
@@ -34,27 +34,27 @@ enum class Token
 };
 
 struct ParseError : public std::exception {
+    
     std::string description;
-    ParseError() : description("") { }
+    
     ParseError(const std::string &s) : description(s) { }
     const char *what() const throw() override { return description.c_str(); }
 };
 
 struct ParseBoolError : ParseError {
-    const char *what() const throw() override { return "true, false"; }
+    ParseBoolError() : ParseError("true, false") { }
 };
 
-/*
-struct NoCommandHandlerError : public ParseError {
-    NoCommandHandlerError() : ParseError() { }
+struct SyntaxError : public ParseError {
+    SyntaxError() : ParseError("Unknown command") { }
 };
-*/
+
 struct TooFewArgumentsError : public ParseError {
-    TooFewArgumentsError() : ParseError() { }
+    TooFewArgumentsError() : ParseError("") { }
 };
 
 struct TooManyArgumentsError : public ParseError {
-    TooManyArgumentsError() : ParseError() { }
+    TooManyArgumentsError() : ParseError("") { }
 };
 
 class Interpreter
@@ -62,6 +62,7 @@ class Interpreter
     // Reference to other components
     class Application &app;
     class Controller &controller;
+    class Console &console;
     
     // The registered instruction set
     Command root;
@@ -110,7 +111,6 @@ public:
     isize autoComplete(string& userInput);
 
     // Prints a syntax summary
-    void help();
     void usage(Command& command);
     void syntax(Command& command);
     void syntax() { syntax(root); }

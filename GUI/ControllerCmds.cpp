@@ -20,12 +20,6 @@ Controller::exec <Token::clear> (Arguments &argv, long param)
 }
 
 template <> void
-Controller::exec <Token::help> (Arguments &argv, long param)
-{
-    app.interpreter.syntax();
-}
-
-template <> void
 Controller::exec <Token::close> (Arguments &argv, long param)
 {
     app.console.close();
@@ -43,12 +37,6 @@ Controller::exec <Token::easteregg> (Arguments& argv, long param)
 //
 // Amiga
 //
-
-template <> void
-Controller::exec <Token::amiga, Token::help> (Arguments &argv, long param)
-{
-    printf("amiga help\n");
-}
 
 template <> void
 Controller::exec <Token::amiga, Token::on> (Arguments &argv, long param)

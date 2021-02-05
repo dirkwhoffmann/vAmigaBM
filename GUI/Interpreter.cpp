@@ -11,7 +11,8 @@
 #include "Interpreter.h"
 
 
-Interpreter::Interpreter(Application &ref) : app(ref), controller(ref.controller)
+Interpreter::Interpreter(Application &ref) :
+app(ref), controller(ref.controller), console(ref.console)
 {
     registerInstructions();
 };
@@ -37,8 +38,8 @@ Interpreter::exec(Arguments &argv, bool verbose)
     
     // In 'verbose' mode, print the token list
     if (verbose) {
-        for (const auto &it : argv) app.console << it << ' ';
-        app.console << '\n';
+        for (const auto &it : argv) console << it << ' ';
+        console << '\n';
     }
 
     try {
@@ -59,6 +60,9 @@ Interpreter::exec(Arguments &argv, bool verbose)
             if (!argv.empty()) argv.pop_front();
         }
         
+        // Error out if no token has been recognized
+        if (current == &root) throw SyntaxError();
+
         // Error out if no command handler is present
         if (current->func == nullptr) throw TooFewArgumentsError();
                 
@@ -68,34 +72,38 @@ Interpreter::exec(Arguments &argv, bool verbose)
         
         // Call the command handler
         (controller.*(current->func))(argv, current->param);
-                
+
+    } catch (SyntaxError &err) {
+        console << token << ": Syntax error. Press 'TAB' twice for help.";
+        console << '\n';
+        
     } catch (TooFewArgumentsError &err) {
-        app.console << current->tokens() << ": Too few arguments";
-        app.console << '\n';
+        console << current->tokens() << ": Too few arguments";
+        console << '\n';
         
     } catch (TooManyArgumentsError &err) {
-        app.console << current->tokens() << ": Too many arguments";
-        app.console << '\n';
+        console << current->tokens() << ": Too many arguments";
+        console << '\n';
         
     } catch (EnumParseError &err) {
-        app.console << current->tokens() << ": Invalid key. ";
-        app.console << "Expected: " << err.what() << '\n';
+        console << current->tokens() << ": Invalid key. ";
+        console << "Expected: " << err.what() << '\n';
 
     } catch (ParseError &err) {
-        app.console << "Invalid argument. ";
-        app.console << "Expected: " << err.what() << '\n';
+        console << "Invalid argument. ";
+        console << "Expected: " << err.what() << '\n';
 
     } catch (ConfigLockedError &err) {
-        app.console << "This option is locked because the Amiga is powered on.";
-        app.console << '\n';
+        console << "This option is locked because the Amiga is powered on.";
+        console << '\n';
 
     } catch (ConfigArgError &err) {
-        app.console << "Error: Invalid argument. Expected: " << err.what();
-        app.console << '\n';
+        console << "Error: Invalid argument. Expected: " << err.what();
+        console << '\n';
     
     } catch (VAError &err) {
-        app.console << err.what();
-        app.console << '\n';
+        console << err.what();
+        console << '\n';
     }
     
     return false;
@@ -180,15 +188,9 @@ Interpreter::autoComplete(string& userInput)
 }
 
 void
-Interpreter::help()
-{
-    app.console << "Press 'TAB' twice for a list of available commands." << '\n' << '\n';
-}
-
-void
 Interpreter::usage(Command& current)
 {
-    app.console << "Usage: " << current.usage() << '\n' << '\n';
+    console << "Usage: " << current.usage() << '\n' << '\n';
 }
 
 void
@@ -214,20 +216,20 @@ Interpreter::syntax(Command& current)
         auto opts = current.filterType(it);
         int size = (int)it.length();
 
-        app.console.tab(tab - size);
-        app.console << "<" << it << "> : ";
-        app.console << (int)opts.size() << (opts.size() == 1 ? " choice" : " choices");
-        app.console << '\n' << '\n';
+        console.tab(tab - size);
+        console << "<" << it << "> : ";
+        console << (int)opts.size() << (opts.size() == 1 ? " choice" : " choices");
+        console << '\n' << '\n';
         
         for (auto &opt : opts) {
 
             string name = opt->token == "" ? "<>" : opt->token;
-            app.console.tab(tab + 2 - (int)name.length());
-            app.console << name;
-            app.console << " : ";
-            app.console << opt->info;
-            app.console << '\n';
+            console.tab(tab + 2 - (int)name.length());
+            console << name;
+            console << " : ";
+            console << opt->info;
+            console << '\n';
         }
-        app.console << '\n';
+        console << '\n';
     }
 }

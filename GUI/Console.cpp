@@ -11,7 +11,8 @@
 
 const std::string& Console::prompt = string("vAmiga\% ");
 
-Console::Console(Application &ref) : app(ref)
+Console::Console(Application &ref) :
+app(ref), controller(ref.controller), interpreter(ref.interpreter)
 {
 }
 
@@ -35,7 +36,7 @@ Console::init()
     *this << __DATE__ << " " << __TIME__ << "." << '\n';
     *this << "Linked to vAmiga core " << V_MAJOR << '.' << V_MINOR << '.' << V_SUBMINOR;
     *this << '.' << '\n' << '\n';
-    app.interpreter.help();
+    *this << "Press 'TAB' twice for help." << '\n' << '\n';
     
     *this << prompt;
         

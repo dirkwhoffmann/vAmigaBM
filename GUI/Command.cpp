@@ -210,7 +210,7 @@ Command::usage()
     
     if (args.empty()) {
 
-        firstArg = numArgs == 0 ? "" : numArgs == 1 ? " <value>" : " <values>";
+        firstArg = numArgs == 0 ? "" : numArgs == 1 ? "<value>" : "<values>";
 
     } else {
         
