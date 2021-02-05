@@ -44,6 +44,7 @@ struct ParseBoolError : ParseError {
     const char *what() const throw() override { return "true, false"; }
 };
 
+/*
 struct UnknownComponentError : public ParseError {
     UnknownComponentError(const std::string &s) : ParseError(s) { }
 };
@@ -51,7 +52,11 @@ struct UnknownComponentError : public ParseError {
 struct UnknownCommandError : public ParseError {
     UnknownCommandError(const std::string &s) : ParseError(s) { }
 };
+*/
 
+struct NoCommandHandlerError : public ParseError {
+    NoCommandHandlerError() : ParseError() { }
+};
 struct TooFewArgumentsError : public ParseError {
     TooFewArgumentsError() : ParseError() { }
 };

@@ -19,14 +19,12 @@ Interpreter::registerInstructions()
     root.add("clear",
              "command", "Clears the console window",
              &Controller::exec <Token::clear>, 0, 0);
-
-    root.add("help",
-             "command", "Prints instructions",
-             &Controller::exec <Token::help>, 0, 0);
+    root.seek("clear")->hidden = true;
 
     root.add("close",
              "command", "Hides the debug console",
              &Controller::exec <Token::close>, 0, 0);
+    root.seek("close")->hidden = true;
 
     root.add("joshua",
              "command", "",

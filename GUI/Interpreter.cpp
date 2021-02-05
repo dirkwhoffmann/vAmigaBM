@@ -41,34 +41,37 @@ Interpreter::exec(Arguments &argv, bool verbose)
         app.console << '\n';
     }
 
-    while (current) {
-                
-        // Extract token
-        token = argv.empty() ? "" : argv.front();
-        
-        // Check if this token matches a known command
-        Command *next = current->seek(token);
-        if (next == nullptr) break;
-        
-        prefix += next->token + " ";
-        current = next;
-        if (!argv.empty()) argv.pop_front();
-    }
-
-    // Error out if no command handler is present
-    if (current->func == nullptr) {
-        if (token != "") app.console << "Parse error: " << token << '\n';
-        prefix != "" ? syntax(*current, prefix) : help();
-        return false;
-    }
-    
     try {
-        // Check the remaining arguments
+        
+        // Seek the command in the command tree
+        while (current) {
+            
+            // Extract token
+            token = argv.empty() ? "" : argv.front();
+            
+            // Break the loop if this token is unknown
+            Command *next = current->seek(token);
+            if (next == nullptr) break;
+            
+            // Go one level down
+            prefix += next->token + " ";
+            current = next;
+            if (!argv.empty()) argv.pop_front();
+        }
+        
+        // Error out if no command handler is present
+        if (current->func == nullptr) throw NoCommandHandlerError();
+                
+        // Check the argument count
         if (argv.size() < current->numArgs) throw TooFewArgumentsError();
         if (argv.size() > current->numArgs) throw TooFewArgumentsError();
         
         // Call the command handler
         (controller.*(current->func))(argv, current->param);
+        
+    } catch (NoCommandHandlerError &err) {
+        if (token != "") app.console << "Syntax error: " << token << '\n';
+        if (prefix != "") syntax(*current, prefix); else help();
         
     } catch (TooFewArgumentsError &err) {
         app.console << "Too few arguments." << '\n';
@@ -178,7 +181,7 @@ Interpreter::autoComplete(string& userInput)
 void
 Interpreter::help()
 {
-    app.console << "Type 'help' for a list of available commands." << '\n' << '\n';
+    app.console << "Press 'tab' twice for a list of available commands." << '\n' << '\n';
 }
 
 void
