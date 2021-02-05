@@ -25,7 +25,7 @@ Interpreter::exec(const string& userInput, bool verbose)
     // Auto complete the token list
     autoComplete(tokens);
             
-    // Execute the command
+    // Process the command
     if (!tokens.empty()) exec(tokens, verbose);
 }
 
@@ -97,6 +97,42 @@ Interpreter::exec(Arguments &argv, bool verbose)
     return false;
 }
 
+void
+Interpreter::execSyntax(const string& userInput)
+{
+    // Split the command string
+    Arguments tokens = split(userInput);
+        
+    // Auto complete the token list
+    autoComplete(tokens);
+            
+    // Process the command
+    execSyntax(tokens);
+}
+
+void
+Interpreter::execSyntax(Arguments &argv)
+{
+    Command *current = &root;
+    std::string prefix, token;
+    
+    while (current) {
+                
+        // Extract token
+        token = argv.empty() ? "" : argv.front();
+        
+        // Check if this token matches a known command
+        Command *next = current->seek(token);
+        if (next == nullptr) break;
+        
+        prefix += next->token + " ";
+        current = next;
+        if (!argv.empty()) argv.pop_front();
+    }
+
+    syntax(*current, prefix);
+}
+
 Arguments
 Interpreter::split(const string& userInput)
 {
@@ -105,19 +141,12 @@ Interpreter::split(const string& userInput)
     Arguments result;
 
     while (std::getline(ss, token, ' ')) result.push_back(lowercased(token));
-
-    printf("split\n");
-    for (auto &it : result) {
-        printf("%s\n", it.c_str());
-    }
-    printf("end split\n"); 
     return result;
 }
 
 string
 Interpreter::autoComplete(const string& userInput)
 {
-    printf("autoComplete: %s\n", userInput.c_str());
     Arguments tokens = split(userInput);
     autoComplete(tokens);
     
@@ -125,7 +154,7 @@ Interpreter::autoComplete(const string& userInput)
     for (const auto &it : tokens) {
         result += (result == "" ? "" : " ") + it;
     }
-    printf("result: %s\n", result.c_str());
+
     return result;
 }
     
@@ -137,7 +166,7 @@ Interpreter::autoComplete(Arguments &argv)
     
     for (auto it = argv.begin(); current && it != argv.end(); it++) {
         
-        *it += current->autoComplete(*it);
+        *it = current->autoComplete(*it);
         current = current->seek(*it);
     }
 }

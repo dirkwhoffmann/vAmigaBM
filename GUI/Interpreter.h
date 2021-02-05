@@ -101,6 +101,10 @@ public:
     void exec(const string& userInput, bool verbose = false);
     bool exec(Arguments &argv, bool verbose = false);
 
+    // Prints the syntax for a (partially typed in) command
+    void execSyntax(const string& userInput);
+    void execSyntax(Arguments &argv);
+
     // Splits an input string into an argument list
     Arguments split(const string& userInput);
 

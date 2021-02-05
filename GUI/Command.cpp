@@ -164,26 +164,33 @@ Command::filterPrefix(const string& prefix)
         if (it.token.substr(0, prefix.size()) == prefix) result.push_back(&it);
     }
 
+    /*
+    printf("filterPrefix\n");
+    for (auto &it : result) { printf("%s\n", it->token.c_str()); }
+    printf("---\n");
+    */
     return result;
 }
 
 string
 Command::autoComplete(const string& token)
 {
-    string result;
-    
+    string result = token;
     auto matches = filterPrefix(token);
-    if (matches.empty()) return "";
-    Command *first = matches.front();
     
-    for (isize i = token.size(); i < first->token.size(); i++) {
+    if (!matches.empty()) {
         
-        for (auto m: matches) {
-            if (m->token.size() <= i || m->token[i] != first->token[i]) {
-                return result;
+        Command *first = matches.front();
+        
+        for (isize i = token.size(); i < first->token.size(); i++) {
+            
+            for (auto m: matches) {
+                if (m->token.size() <= i || m->token[i] != first->token[i]) {
+                    return result;
+                }
             }
+            result += first->token[i];
         }
-        result += first->token[i];
     }
     
     return result;

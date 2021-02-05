@@ -176,7 +176,9 @@ Console::rowOfLastLine()
 
 void
 Console::type(char c)
-{    
+{
+    static isize doubleTab = 0;
+    
     switch (c) {
             
         case '\n':
@@ -208,9 +210,27 @@ Console::type(char c)
             
         case '\t':
             
-            input[ipos] = app.interpreter.autoComplete(input[ipos]);
-            cpos = (isize)input[ipos].length();
-            replace(input[ipos]);
+            if (doubleTab) {
+                
+                *this << '\n';
+
+                // Print the instructions for this command
+                app.interpreter.execSyntax(input[ipos]);
+                
+                // Repeat the old input string
+                *this << string(prompt) << input[ipos];
+                
+            } else {
+                
+                string completion = app.interpreter.autoComplete(input[ipos]);
+                if (completion.size() > input[ipos].size()) {
+                    input[ipos] = completion;
+                    cpos = (isize)input[ipos].length();
+                    replace(input[ipos]);
+                }
+            }
+            
+            doubleTab = 2;
             break;
             
         default:
@@ -222,6 +242,7 @@ Console::type(char c)
             *this << '\r' << string(prompt) << input[ipos];
     }
 
+    if (doubleTab > 0) doubleTab--;
     makeLastLineVisible();
     isDirty = true;
 }
