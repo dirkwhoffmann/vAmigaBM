@@ -337,9 +337,15 @@ Controller::exec <Token::blitter, Token::dump, Token::registers> (Arguments& arg
 //
 
 template <> void
-Controller::exec <Token::copper, Token::dump> (Arguments& argv, long param)
+Controller::exec <Token::copper, Token::dump, Token::state> (Arguments& argv, long param)
 {
     dump(amiga.agnus.copper, Dump::State);
+}
+
+template <> void
+Controller::exec <Token::copper, Token::dump, Token::registers> (Arguments& argv, long param)
+{
+    dump(amiga.agnus.copper, Dump::Registers);
 }
 
 
@@ -354,12 +360,6 @@ Controller::exec <Token::denise, Token::config> (Arguments& argv, long param)
 }
 
 template <> void
-Controller::exec <Token::denise, Token::dump, Token::registers> (Arguments& argv, long param)
-{
-    dump(amiga.denise, Dump::Registers);
-}
-
-template <> void
 Controller::exec <Token::denise, Token::set, Token::revision> (Arguments &argv, long param)
 {
     amiga.configure(OPT_DENISE_REVISION, DeniseRevisionEnum::parse(argv.front()));
@@ -369,6 +369,18 @@ template <> void
 Controller::exec <Token::denise, Token::set, Token::borderblank> (Arguments &argv, long param)
 {
     amiga.configure(OPT_BRDRBLNK, parseBool(argv.front()));
+}
+
+template <> void
+Controller::exec <Token::denise, Token::dump, Token::state> (Arguments& argv, long param)
+{
+    dump(amiga.denise, Dump::State);
+}
+
+template <> void
+Controller::exec <Token::denise, Token::dump, Token::registers> (Arguments& argv, long param)
+{
+    dump(amiga.denise, Dump::Registers);
 }
 
 

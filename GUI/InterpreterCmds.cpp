@@ -278,8 +278,15 @@ Interpreter::registerInstructions()
              "component", "Custom Chip (Agnus)");
     
     root.add("copper", "dump",
-             "command", "Displays the internal state",
-             &Controller::exec <Token::copper, Token::dump>, 0, 0);
+             "command", "Displays the internal state");
+
+    root.add("copper", "dump", "state",
+             "category", "Displays the current state",
+             &Controller::exec <Token::copper, Token::dump, Token::state>, 0, 0);
+
+    root.add("copper", "dump", "registers",
+             "category", "Displays the current register value",
+             &Controller::exec <Token::copper, Token::dump, Token::registers>, 0, 0);
 
     
     //
@@ -306,6 +313,10 @@ Interpreter::registerInstructions()
 
     root.add("denise", "dump",
              "command", "Displays the internal state");
+
+    root.add("denise", "dump", "state",
+             "category", "Displays the current state",
+             &Controller::exec <Token::denise, Token::dump, Token::state>, 0, 0);
 
     root.add("denise", "dump", "registers",
              "category", "Displays the current register value",

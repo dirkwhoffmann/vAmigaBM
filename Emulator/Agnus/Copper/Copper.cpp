@@ -42,7 +42,7 @@ Copper::_dump(Dump::Category category, std::ostream& os) const
 {
     if (category & Dump::State) {
         
-        os << DUMP("Active Copper list") << DEC << copList << std::endl;
+        os << DUMP("Active Copper list") << DEC << (isize)copList << std::endl;
         os << DUMP("Skip flag") << ISSET(skip) << std::endl;
     }
     
@@ -53,7 +53,7 @@ Copper::_dump(Dump::Category category, std::ostream& os) const
         os << DUMP("COP1LC") << HEX32 << (isize)cop2lc << std::endl;
         os << DUMP("COPINS1") << HEX16 << (isize)cop1ins << std::endl;
         os << DUMP("COPINS2") << HEX16 << (isize)cop2ins << std::endl;
-        os << DUMP("CDANG") << (isize)cdang << std::endl;
+        os << DUMP("CDANG") << DEC << (isize)cdang << std::endl;
     }
 }
 
