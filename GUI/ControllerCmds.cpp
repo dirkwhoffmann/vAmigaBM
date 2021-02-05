@@ -431,7 +431,7 @@ Controller::exec <Token::rtc, Token::set, Token::revision> (Arguments &argv, lon
 template <> void
 Controller::exec <Token::keyboard, Token::config> (Arguments& argv, long param)
 {
-    dump(amiga.serialPort, Dump::Config);
+    dump(amiga.keyboard, Dump::Config);
 }
 
 template <> void
@@ -443,7 +443,7 @@ Controller::exec <Token::keyboard, Token::set, Token::accuracy> (Arguments &argv
 template <> void
 Controller::exec <Token::keyboard, Token::dump> (Arguments& argv, long param)
 {
-    dump(amiga.serialPort, Dump::State);
+    dump(amiga.keyboard, Dump::State);
 }
 
 
