@@ -98,9 +98,13 @@ private:
 public:
     
     // Executes a command
-    void exec(const std::string& userInput);
-    bool exec(Arguments &argv);
-        
+    void exec(const string& userInput, bool verbose = false);
+    bool exec(Arguments &argv, bool verbose = false);
+
+    // Auto-completes a command
+    // string autoComplete(const string& userInput);
+    void autoComplete(Arguments &argv);
+
     // Prints a syntax summary
     void help();
     void usage(Command& command, const string& prefix);

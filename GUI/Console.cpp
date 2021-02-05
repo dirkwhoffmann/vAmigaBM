@@ -289,7 +289,12 @@ Console::keyPressed(const sf::Keyboard::Key& key)
             
             scrollDown(numRows);
             break;
-                     
+
+        case sf::Keyboard::Tab:
+            
+            printf("");
+            break;
+            
         default:
             return;
     }

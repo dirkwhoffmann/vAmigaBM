@@ -99,6 +99,11 @@ Command::remove(const string& token)
 Command *
 Command::seek(const string& token)
 {
+    for (auto& it : args) {
+        if (it.token == token) return &it;
+    }
+    return nullptr;
+    /*
     Command *result = nullptr;
     isize hits = 0;
     
@@ -112,6 +117,7 @@ Command::seek(const string& token)
     }
     
     return hits == 1 ? result : nullptr;
+    */
 }
 
 std::vector<std::string>
@@ -136,7 +142,7 @@ Command::types()
 }
 
 std::vector<Command *>
-Command::filter(std::string& type)
+Command::filterType(const string& type)
 {
     std::vector<Command *> result;
     
@@ -144,6 +150,41 @@ Command::filter(std::string& type)
         
         if (it.hidden) continue;
         if (it.type == type) result.push_back(&it);
+    }
+    
+    return result;
+}
+std::vector<Command *>
+Command::filterPrefix(const string& prefix)
+{
+    std::vector<Command *> result;
+    
+    for (auto &it : args) {
+        
+        if (it.hidden) continue;
+        if (it.token.substr(0, prefix.size()) == prefix) result.push_back(&it);
+    }
+    
+    return result;
+}
+
+string
+Command::autoComplete(const string& token)
+{
+    string result;
+    
+    auto matches = filterPrefix(token);
+    if (matches.empty()) return "";
+    Command *first = matches.front();
+    
+    for (isize i = token.size(); i < first->token.size(); i++) {
+        
+        for (auto m: matches) {
+            if (m->token.size() <= i || m->token[i] != first->token[i]) {
+                return result;
+            }
+        }
+        result += first->token[i];
     }
     
     return result;

@@ -17,7 +17,7 @@ Interpreter::Interpreter(Application &ref) : app(ref), controller(ref.controller
 };
  
 void
-Interpreter::exec(const string& userInput)
+Interpreter::exec(const string& userInput, bool verbose)
 {
     Arguments tokens;
     std::string token;
@@ -25,25 +25,33 @@ Interpreter::exec(const string& userInput)
     // Split the command string
     std::stringstream ss(userInput);
     while (std::getline(ss, token, ' ')) tokens.push_back(lowercased(token));
-
-    // Only proceed if some input is given
-    if (tokens.empty()) return;
-
-    // Hand over the token vector
-    exec(tokens);
+        
+    // Auto complete the token list
+    autoComplete(tokens);
+            
+    // Process the token list
+    if (!tokens.empty()) exec(tokens, verbose);
 }
 
 bool
-Interpreter::exec(Arguments &argv)
+Interpreter::exec(Arguments &argv, bool verbose)
 {
     Command *current = &root;
     std::string prefix, token;
     
+    // Print the token list (if requested)
+    if (verbose) {
+        for (const auto &it : argv) app.console << it << ' ';
+        app.console << '\n';
+    }
+
     while (current) {
                 
         // Extract token
         token = argv.empty() ? "" : argv.front();
 
+        printf("auto completion(%s): %s\n", token.c_str(), current->autoComplete(token).c_str());
+        
         // Search token
         Command *next = current->seek(token);
         if (next == nullptr) break;
@@ -95,6 +103,38 @@ Interpreter::exec(Arguments &argv)
     return false;
 }
 
+/*
+string
+Interpreter::autoComplete(const string& userInput)
+{
+    Arguments tokens;
+    std::string token;
+
+    // Split the command string
+    std::stringstream ss(userInput);
+    while (std::getline(ss, token, ' ')) tokens.push_back(lowercased(token));
+
+    // Only proceed if some input is given
+    if (tokens.empty()) return "";
+
+    // Hand over the token vector
+    return autoComplete(tokens);
+}
+*/
+
+void
+Interpreter::autoComplete(Arguments &argv)
+{
+    Command *current = &root;
+    std::string prefix, token;
+    
+    for (auto it = argv.begin(); it != argv.end(); it++) {
+        
+        *it += current->autoComplete(*it);
+        current = current->seek(*it);
+    }
+}
+
 void
 Interpreter::help()
 {
@@ -127,7 +167,7 @@ Interpreter::syntax(Command& current, const string& prefix)
     
     for (auto &it : types) {
         
-        auto opts = current.filter(it);
+        auto opts = current.filterType(it);
         int size = (int)it.length();
 
         app.console.tab(tab - size);

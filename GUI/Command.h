@@ -69,8 +69,12 @@ struct Command {
     // Collects the type descriptions in the args vector
     std::vector<std::string> types();
     
-    // Filters out the args of a given type
-    std::vector<Command *> filter(string& type);
+    // Filters the argument list
+    std::vector<Command *> filterType(const string& type);
+    std::vector<Command *> filterPrefix(const string& prefix);
+
+    // Automatically completes a partial token string
+    string autoComplete(const string& token);
     
     // Returns a syntax string for this command
     string syntax();
