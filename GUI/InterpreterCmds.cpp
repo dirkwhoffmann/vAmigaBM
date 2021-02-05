@@ -24,9 +24,9 @@ Interpreter::registerInstructions()
              "command", "Prints instructions",
              &Controller::exec <Token::help>, 0, 0);
 
-    root.add("hide",
+    root.add("close",
              "command", "Hides the debug console",
-             &Controller::exec <Token::hide>, 0, 0);
+             &Controller::exec <Token::close>, 0, 0);
 
     root.add("joshua",
              "command", "",
@@ -139,7 +139,7 @@ Interpreter::registerInstructions()
 
     root.add("memory", "dump", "checksum",
              "command", "Computes memory checksums",
-             &Controller::exec <Token::memory, Token::dump, Token::checksum>, 0, 0);
+             &Controller::exec <Token::memory, Token::dump, Token::checksums>, 0, 0);
 
     
     //
@@ -247,9 +247,27 @@ Interpreter::registerInstructions()
     root.add("blitter",
              "component", "Custom Chip (Agnus)");
     
+    root.add("blitter", "config",
+             "command", "Displays the current configuration",
+             &Controller::exec <Token::blitter, Token::config>, 0, 0);
+    
+    root.add("blitter", "set",
+             "command", "Configures the component");
+        
+    root.add("blitter", "set", "accuracy",
+             "level", "Selects the emulation accuracy level",
+             &Controller::exec <Token::blitter, Token::set, Token::accuracy>, 1, 0);
+
     root.add("blitter", "dump",
-             "command", "Displays the internal state",
-             &Controller::exec <Token::blitter, Token::dump>, 0, 0);
+             "command", "Displays the internal state");
+
+    root.add("blitter", "dump", "state",
+             "category", "Displays the internal state",
+             &Controller::exec <Token::blitter, Token::dump, Token::state>, 0, 0);
+
+    root.add("blitter", "dump", "registers",
+             "category", "Displays the current register value",
+             &Controller::exec <Token::blitter, Token::dump, Token::registers>, 0, 0);
 
     
     //
@@ -340,6 +358,29 @@ Interpreter::registerInstructions()
 
     
     //
+    // Keyboard
+    //
+
+    root.add("keyboard",
+             "component", "Keyboard");
+
+    root.add("keyboard", "config",
+             "command", "Displays the current configuration",
+             &Controller::exec <Token::keyboard, Token::config>, 0, 0);
+    
+    root.add("keyboard", "set",
+             "command", "Configures the component");
+        
+    root.add("keyboard", "set", "accurate",
+             "key", "",
+             &Controller::exec <Token::keyboard, Token::set, Token::accuracy>, 1, 0);
+
+    root.add("keyboard", "dump",
+             "command", "Displays the internal state",
+             &Controller::exec <Token::keyboard, Token::dump>, 0, 0);
+
+    
+    //
     // Serial port
     //
     
@@ -349,6 +390,13 @@ Interpreter::registerInstructions()
     root.add("serial", "config",
              "command", "Displays the current configuration",
              &Controller::exec <Token::serial, Token::config>, 0, 0);
+
+    root.add("serial", "set",
+             "command", "Configures the component");
+        
+    root.add("serial", "set", "device",
+             "key", "",
+             &Controller::exec <Token::serial, Token::set, Token::device>, 1, 0);
 
     root.add("serial", "dump",
              "command", "Displays the internal state",

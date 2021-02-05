@@ -61,12 +61,12 @@ Keyboard::_dump(Dump::Category category, std::ostream& os) const
 {
     if (category & Dump::Config) {
         
-        os << "Accurate emulation: " << YESNO(config.accurate) << endl;
+        os << DUMP("Accurate emulation") << YESNO(config.accurate) << endl;
     }
     
     if (category & Dump::State) {
         
-        os << "Type ahead buffer: ";
+        os << DUMP("Type ahead buffer");
         for (isize i = 0; i < bufferIndex; i++) {
             os << HEX8 << (int)typeAheadBuffer[i] << " ";
         }

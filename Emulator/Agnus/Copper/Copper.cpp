@@ -42,6 +42,8 @@ Copper::_dump(Dump::Category category, std::ostream& os) const
 {
     if (category & Dump::State) {
         
+        os << DUMP("Active Copper list") << DEC << copList << std::endl;
+        os << DUMP("Skip flag") << ISSET(skip) << std::endl;
     }
     
     if (category & Dump::Registers) {

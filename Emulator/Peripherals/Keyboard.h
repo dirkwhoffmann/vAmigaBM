@@ -14,7 +14,7 @@
 class Keyboard : public AmigaComponent {
 
     // Current configuration
-     KeyboardConfig config;
+    KeyboardConfig config;
 
     // The current keyboard state
     KeyboardState state;

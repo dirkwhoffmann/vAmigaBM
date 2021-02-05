@@ -55,8 +55,8 @@ Interpreter::exec(Arguments &argv)
 
     // Error out if no command handler is present
     if (current->func == nullptr) {
-        if (token != "") app.console << "Parse error: " << token << '\n' << '\n';
-        syntax(*current, prefix);
+        if (token != "") app.console << "Parse error: " << token << '\n';
+        prefix != "" ? syntax(*current, prefix) : help();
         return false;
     }
     
@@ -69,30 +69,36 @@ Interpreter::exec(Arguments &argv)
         (controller.*(current->func))(argv, current->param);
         
     } catch (TooFewArgumentsError &err) {
-        app.console << "Error. Too few arguments." << '\n';
+        app.console << "Error: Too few arguments." << '\n';
         syntax(*current, prefix);
         
     } catch (TooManyArgumentsError &err) {
-        app.console << "Error. Too many arguments." << '\n';
+        app.console << "Error: Too many arguments." << '\n';
         syntax(*current, prefix);
         
     } catch (EnumParseError &err) {
-        app.console << "Invalid key. Expected: " << err.what() << '\n';
+        app.console << "Error: Invalid key. Expected: " << err.what() << '\n';
 
     } catch (ParseError &err) {
-        app.console << "Invalid argument. Expected: " << err.what() << '\n';
+        app.console << "Error: Invalid argument. Expected: " << err.what() << '\n';
 
     } catch (ConfigLockedError &err) {
-        app.console << "This option cannot be changed while the Amiga is powered on." << '\n';
+        app.console << "Error: Power off the Amiga before changing this option." << '\n';
         
     } catch (ConfigArgError &err) {
-        app.console << "Invalid argument. Expected: " << err.what() << '\n';
+        app.console << "Error: Invalid argument. Expected: " << err.what() << '\n';
     
     } catch (VAError &err) {
         app.console << err.what() << '\n';
     }
     
     return false;
+}
+
+void
+Interpreter::help()
+{
+    app.console << "Type 'help' for a list of available commands." << '\n' << '\n';
 }
 
 void

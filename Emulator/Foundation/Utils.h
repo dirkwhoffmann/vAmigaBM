@@ -174,6 +174,9 @@ bool releaseBuild();
 #define TAB(x) std::left << std::setw(x)
 #define YESNO(x) ((x) ? "yes" : "no")
 #define ONOFF(x) ((x) ? "on" : "off")
+#define HILO(x) ((x) ? "high" : "low")
+#define ISENABLED(x) ((x) ? "enabled" : "disabled")
+#define ISSET(x) ((x) ? "set" : "not set")
 #define EMULATED(x) ((x) ? "emulated" : "not emulated")
 #define DUMP(x) std::setw(24) << std::right << std::setfill(' ') << (x) << " : "
 

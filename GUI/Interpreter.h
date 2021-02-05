@@ -17,17 +17,20 @@ enum class Token
     
     // Components
     agnus, amiga, blitter, cia, copper, cpu, denise, dfn, diskcontroller,
-    memory, paula, serial, rtc,
+    keyboard, memory, paula, serial, rtc,
 
     // Commands
     about, autosync, clear, config, connect, disconnect, dsksync, easteregg,
-    eject, help, hide, insert, dump, list, load, lock, on, off, pause,
-    registers, reset, run, set,
+    eject, help, close, insert, dump, list, load, lock, on, off, pause,
+    reset, run, set,
+    
+    // Categories
+    state, registers, events, checksums,
     
     // Keys
-    bankmap, borderblank, checksum, chip, device, esync, events, extrom,
+    accuracy, bankmap, borderblank, chip, device, esync, extrom,
     extstart, fast, raminitpattern, revision, rom, slow, slowramdelay,
-    slowrammirror, speed, state, tod, todbug, unmappingtype, wom
+    slowrammirror, speed, tod, todbug, unmappingtype, wom
 };
 
 struct ParseError : public std::exception {
@@ -99,6 +102,7 @@ public:
     bool exec(Arguments &argv);
         
     // Prints a syntax summary
+    void help();
     void usage(Command& command, const string& prefix);
     void syntax(Command& command, const string& prefix);
     void syntax() { syntax(root, ""); }

@@ -26,7 +26,7 @@ Controller::exec <Token::help> (Arguments &argv, long param)
 }
 
 template <> void
-Controller::exec <Token::hide> (Arguments &argv, long param)
+Controller::exec <Token::close> (Arguments &argv, long param)
 {
     app.console.close();
 }
@@ -170,7 +170,7 @@ Controller::exec <Token::memory, Token::dump, Token::bankmap> (Arguments& argv, 
 }
 
 template <> void
-Controller::exec <Token::memory, Token::dump, Token::checksum> (Arguments& argv, long param)
+Controller::exec <Token::memory, Token::dump, Token::checksums> (Arguments& argv, long param)
 {
     dump(amiga.mem, Dump::Checksums);
 }
@@ -279,18 +279,6 @@ Controller::exec <Token::agnus, Token::config> (Arguments &argv, long param)
 }
 
 template <> void
-Controller::exec <Token::agnus, Token::dump, Token::registers> (Arguments &argv, long param)
-{
-    dump(amiga.agnus, Dump::Registers);
-}
-
-template <> void
-Controller::exec <Token::agnus, Token::dump, Token::events> (Arguments &argv, long param)
-{
-    dump(amiga.agnus, Dump::Events);
-}
-
-template <> void
 Controller::exec <Token::agnus, Token::set, Token::revision> (Arguments &argv, long param)
 {
     amiga.configure(OPT_AGNUS_REVISION, AgnusRevisionEnum::parse(argv.front()));
@@ -302,15 +290,45 @@ Controller::exec <Token::agnus, Token::set, Token::slowrammirror> (Arguments &ar
     amiga.configure(OPT_SLOW_RAM_MIRROR, parseBool(argv.front()));
 }
 
+template <> void
+Controller::exec <Token::agnus, Token::dump, Token::registers> (Arguments &argv, long param)
+{
+    dump(amiga.agnus, Dump::Registers);
+}
+
+template <> void
+Controller::exec <Token::agnus, Token::dump, Token::events> (Arguments &argv, long param)
+{
+    dump(amiga.agnus, Dump::Events);
+}
+
 
 //
 // Blitter
 //
 
 template <> void
-Controller::exec <Token::blitter, Token::dump> (Arguments& argv, long param)
+Controller::exec <Token::blitter, Token::config> (Arguments& argv, long param)
+{
+    dump(amiga.agnus.blitter, Dump::Config);
+}
+
+template <> void
+Controller::exec <Token::blitter, Token::set, Token::accuracy> (Arguments &argv, long param)
+{
+    amiga.configure(OPT_BLITTER_ACCURACY, parseDec(argv.front()));
+}
+
+template <> void
+Controller::exec <Token::blitter, Token::dump, Token::state> (Arguments& argv, long param)
 {
     dump(amiga.agnus.blitter, Dump::State);
+}
+
+template <> void
+Controller::exec <Token::blitter, Token::dump, Token::registers> (Arguments& argv, long param)
+{
+    dump(amiga.agnus.blitter, Dump::Registers);
 }
 
 
@@ -395,6 +413,29 @@ Controller::exec <Token::rtc, Token::set, Token::revision> (Arguments &argv, lon
 
 
 //
+// Keyboard
+//
+
+template <> void
+Controller::exec <Token::keyboard, Token::config> (Arguments& argv, long param)
+{
+    dump(amiga.serialPort, Dump::Config);
+}
+
+template <> void
+Controller::exec <Token::keyboard, Token::set, Token::accuracy> (Arguments &argv, long param)
+{
+    amiga.configure(OPT_ACCURATE_KEYBOARD, parseBool(argv.front()));
+}
+
+template <> void
+Controller::exec <Token::keyboard, Token::dump> (Arguments& argv, long param)
+{
+    dump(amiga.serialPort, Dump::State);
+}
+
+
+//
 // Serial port
 //
 
@@ -405,15 +446,15 @@ Controller::exec <Token::serial, Token::config> (Arguments& argv, long param)
 }
 
 template <> void
-Controller::exec <Token::serial, Token::dump> (Arguments& argv, long param)
-{
-    dump(amiga.serialPort, Dump::State);
-}
-
-template <> void
 Controller::exec <Token::serial, Token::set, Token::device> (Arguments &argv, long param)
 {
     amiga.configure(OPT_SERIAL_DEVICE, SerialPortDeviceEnum::parse(argv.front()));
+}
+
+template <> void
+Controller::exec <Token::serial, Token::dump> (Arguments& argv, long param)
+{
+    dump(amiga.serialPort, Dump::State);
 }
 
 

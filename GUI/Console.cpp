@@ -11,7 +11,7 @@
 
 const std::string& Console::prompt = string("vAmiga\% ");
 
-Console::Console(Application &ref) : application(ref)
+Console::Console(Application &ref) : app(ref)
 {
 }
 
@@ -35,7 +35,7 @@ Console::init()
     *this << __DATE__ << " " << __TIME__ << "." << '\n';
     *this << "Linked to vAmiga core " << V_MAJOR << '.' << V_MINOR << '.' << V_SUBMINOR;
     *this << '.' << '\n' << '\n';
-    *this << "Type 'help' for a list of available commands." << '\n' << '\n';
+    app.interpreter.help();
     
     *this << prompt;
         
@@ -51,7 +51,7 @@ Console::init()
     drawable.setTextureRect(sf::IntRect(0, height, width, -height));
     drawable.setTexture(&texture.getTexture());
             
-    auto winSize = application.window.getSize();
+    auto winSize = app.window.getSize();
     sf::Vector2f size = { (float)winSize.x, (float)winSize.y };
     drawable.setSize(size);
  
@@ -184,7 +184,7 @@ Console::type(char c)
             *this << '\n';
             
             // Execute the command
-            application.interpreter.exec(input[ipos]);
+            app.interpreter.exec(input[ipos]);
             
             // Add the command to the user input history
             input[input.size() - 1] = input[ipos];
