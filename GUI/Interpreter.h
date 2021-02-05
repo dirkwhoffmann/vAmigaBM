@@ -96,13 +96,16 @@ private:
     //
     
 public:
-    
+        
     // Executes a command
     void exec(const string& userInput, bool verbose = false);
     bool exec(Arguments &argv, bool verbose = false);
 
+    // Splits an input string into an argument list
+    Arguments split(const string& userInput);
+
     // Auto-completes a command
-    // string autoComplete(const string& userInput);
+    string autoComplete(const string& userInput);
     void autoComplete(Arguments &argv);
 
     // Prints a syntax summary

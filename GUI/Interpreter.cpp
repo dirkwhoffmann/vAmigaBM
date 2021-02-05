@@ -19,17 +19,13 @@ Interpreter::Interpreter(Application &ref) : app(ref), controller(ref.controller
 void
 Interpreter::exec(const string& userInput, bool verbose)
 {
-    Arguments tokens;
-    std::string token;
-
     // Split the command string
-    std::stringstream ss(userInput);
-    while (std::getline(ss, token, ' ')) tokens.push_back(lowercased(token));
+    Arguments tokens = split(userInput);
         
     // Auto complete the token list
     autoComplete(tokens);
             
-    // Process the token list
+    // Execute the command
     if (!tokens.empty()) exec(tokens, verbose);
 }
 
@@ -39,7 +35,7 @@ Interpreter::exec(Arguments &argv, bool verbose)
     Command *current = &root;
     std::string prefix, token;
     
-    // Print the token list (if requested)
+    // In 'verbose' mode, print the token list
     if (verbose) {
         for (const auto &it : argv) app.console << it << ' ';
         app.console << '\n';
@@ -49,10 +45,8 @@ Interpreter::exec(Arguments &argv, bool verbose)
                 
         // Extract token
         token = argv.empty() ? "" : argv.front();
-
-        printf("auto completion(%s): %s\n", token.c_str(), current->autoComplete(token).c_str());
         
-        // Search token
+        // Check if this token matches a known command
         Command *next = current->seek(token);
         if (next == nullptr) break;
         
@@ -103,32 +97,45 @@ Interpreter::exec(Arguments &argv, bool verbose)
     return false;
 }
 
-/*
+Arguments
+Interpreter::split(const string& userInput)
+{
+    std::stringstream ss(userInput);
+    std::string token;
+    Arguments result;
+
+    while (std::getline(ss, token, ' ')) result.push_back(lowercased(token));
+
+    printf("split\n");
+    for (auto &it : result) {
+        printf("%s\n", it.c_str());
+    }
+    printf("end split\n"); 
+    return result;
+}
+
 string
 Interpreter::autoComplete(const string& userInput)
 {
-    Arguments tokens;
-    std::string token;
-
-    // Split the command string
-    std::stringstream ss(userInput);
-    while (std::getline(ss, token, ' ')) tokens.push_back(lowercased(token));
-
-    // Only proceed if some input is given
-    if (tokens.empty()) return "";
-
-    // Hand over the token vector
-    return autoComplete(tokens);
+    printf("autoComplete: %s\n", userInput.c_str());
+    Arguments tokens = split(userInput);
+    autoComplete(tokens);
+    
+    string result;
+    for (const auto &it : tokens) {
+        result += (result == "" ? "" : " ") + it;
+    }
+    printf("result: %s\n", result.c_str());
+    return result;
 }
-*/
-
+    
 void
 Interpreter::autoComplete(Arguments &argv)
 {
     Command *current = &root;
     std::string prefix, token;
     
-    for (auto it = argv.begin(); it != argv.end(); it++) {
+    for (auto it = argv.begin(); current && it != argv.end(); it++) {
         
         *it += current->autoComplete(*it);
         current = current->seek(*it);

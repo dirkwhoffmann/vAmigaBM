@@ -206,6 +206,13 @@ Console::type(char c)
             *this << '\r' << string(prompt) << input[ipos];
             break;
             
+        case '\t':
+            
+            input[ipos] = app.interpreter.autoComplete(input[ipos]);
+            cpos = (isize)input[ipos].length();
+            replace(input[ipos]);
+            break;
+            
         default:
             
             if (input[ipos].length() < numCols - (int)prompt.length() - 1) {
@@ -226,10 +233,9 @@ Console::keyPressed(const sf::Keyboard::Key& key)
             
         case sf::Keyboard::Up:
 
-            printf("Cursor up %zd\n", ipos);
             if (ipos > 0) {
                 ipos--;
-                cpos = (int)input[ipos].size();
+                cpos = (isize)input[ipos].size();
 
                 replace(input[ipos]);
             }
@@ -238,10 +244,9 @@ Console::keyPressed(const sf::Keyboard::Key& key)
 
         case sf::Keyboard::Down:
 
-            printf("Cursor down %zd\n", ipos);
             if (ipos < input.size() - 1) {
                 ipos++;
-                cpos = (int)input[ipos].size();
+                cpos = (isize)input[ipos].size();
                 
                 replace(input[ipos]);
             }
@@ -250,21 +255,17 @@ Console::keyPressed(const sf::Keyboard::Key& key)
             
         case sf::Keyboard::Left:
 
-            printf("Cursor left\n");
             if (cpos > 0) {
                 cpos--;
             }
-            printf("hpos = %zd\n", cpos);
             makeLastLineVisible();
             break;
             
         case sf::Keyboard::Right:
             
-            printf("Cursor right\n");
             if (cpos < input[ipos].length()) {
                 cpos++;
             }
-            printf("hpos = %zd\n", cpos);
             makeLastLineVisible();
             break;
             
@@ -276,7 +277,7 @@ Console::keyPressed(const sf::Keyboard::Key& key)
 
         case sf::Keyboard::End:
             
-            cpos = (int)input[ipos].length();
+            cpos = (isize)input[ipos].length();
             makeLastLineVisible();
             break;
 
@@ -288,11 +289,6 @@ Console::keyPressed(const sf::Keyboard::Key& key)
         case sf::Keyboard::PageDown:
             
             scrollDown(numRows);
-            break;
-
-        case sf::Keyboard::Tab:
-            
-            printf("");
             break;
             
         default:

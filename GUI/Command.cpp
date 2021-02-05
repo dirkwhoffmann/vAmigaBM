@@ -160,11 +160,10 @@ Command::filterPrefix(const string& prefix)
     std::vector<Command *> result;
     
     for (auto &it : args) {
-        
         if (it.hidden) continue;
         if (it.token.substr(0, prefix.size()) == prefix) result.push_back(&it);
     }
-    
+
     return result;
 }
 
