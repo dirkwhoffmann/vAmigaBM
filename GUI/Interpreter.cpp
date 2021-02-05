@@ -71,22 +71,22 @@ Interpreter::exec(Arguments &argv, bool verbose)
         (controller.*(current->func))(argv, current->param);
         
     } catch (TooFewArgumentsError &err) {
-        app.console << "Error: Too few arguments." << '\n';
+        app.console << "Too few arguments." << '\n';
         syntax(*current, prefix);
         
     } catch (TooManyArgumentsError &err) {
-        app.console << "Error: Too many arguments." << '\n';
+        app.console << "Too many arguments." << '\n';
         syntax(*current, prefix);
         
     } catch (EnumParseError &err) {
-        app.console << "Error: Invalid key. Expected: " << err.what() << '\n';
+        app.console << "Invalid key. Expected: " << err.what() << '\n';
 
     } catch (ParseError &err) {
-        app.console << "Error: Invalid argument. Expected: " << err.what() << '\n';
+        app.console << "Invalid argument. Expected: " << err.what() << '\n';
 
     } catch (ConfigLockedError &err) {
-        app.console << "Error: Power off the Amiga before changing this option." << '\n';
-        
+        app.console << "This option is locked because the Amiga is powered on." << '\n';
+
     } catch (ConfigArgError &err) {
         app.console << "Error: Invalid argument. Expected: " << err.what() << '\n';
     
@@ -143,32 +143,36 @@ Interpreter::split(const string& userInput)
     while (std::getline(ss, token, ' ')) result.push_back(lowercased(token));
     return result;
 }
-
-string
-Interpreter::autoComplete(const string& userInput)
-{
-    Arguments tokens = split(userInput);
-    autoComplete(tokens);
     
-    string result;
-    for (const auto &it : tokens) {
-        result += (result == "" ? "" : " ") + it;
-    }
-
-    return result;
-}
-    
-void
+isize
 Interpreter::autoComplete(Arguments &argv)
 {
+    isize result = 0;
+
     Command *current = &root;
     std::string prefix, token;
-    
+
     for (auto it = argv.begin(); current && it != argv.end(); it++) {
         
-        *it = current->autoComplete(*it);
+        result += (isize)current->autoComplete(*it);
         current = current->seek(*it);
     }
+    return result;
+}
+
+isize
+Interpreter::autoComplete(string& userInput)
+{
+    Arguments tokens = split(userInput);
+    isize result = autoComplete(tokens);
+    
+    if (result > 0) {
+        userInput = "";
+        for (const auto &it : tokens) {
+            userInput += (userInput == "" ? "" : " ") + it;
+        }
+    }
+    return result;
 }
 
 void

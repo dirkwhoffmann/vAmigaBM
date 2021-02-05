@@ -172,16 +172,15 @@ Command::filterPrefix(const string& prefix)
     return result;
 }
 
-string
-Command::autoComplete(const string& token)
+bool
+Command::autoComplete(string& token)
 {
-    string result = token;
-    auto matches = filterPrefix(token);
+    bool result = false;
     
+    auto matches = filterPrefix(token);
     if (!matches.empty()) {
         
         Command *first = matches.front();
-        
         for (isize i = token.size(); i < first->token.size(); i++) {
             
             for (auto m: matches) {
@@ -189,7 +188,8 @@ Command::autoComplete(const string& token)
                     return result;
                 }
             }
-            result += first->token[i];
+            token += first->token[i];
+            result = true;
         }
     }
     
@@ -203,7 +203,7 @@ Command::syntax()
     
     // The simple case: All command tokens have been parsed successfully
     if (args.empty()) {
-        return numArgs == 0 ? "" : numArgs == 1 ? "<argument>" : "<arguments>";
+        return numArgs == 0 ? "" : numArgs == 1 ? "<value>" : "<values>";
     }
     
     // Collect all argument types

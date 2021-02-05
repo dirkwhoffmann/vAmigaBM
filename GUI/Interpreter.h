@@ -108,9 +108,9 @@ public:
     // Splits an input string into an argument list
     Arguments split(const string& userInput);
 
-    // Auto-completes a command
-    string autoComplete(const string& userInput);
-    void autoComplete(Arguments &argv);
+    // Auto-completes a command. Returns the number of auto-completed tokens
+    isize autoComplete(Arguments &argv);
+    isize autoComplete(string& userInput);
 
     // Prints a syntax summary
     void help();

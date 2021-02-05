@@ -222,9 +222,7 @@ Console::type(char c)
                 
             } else {
                 
-                string completion = app.interpreter.autoComplete(input[ipos]);
-                if (completion.size() > input[ipos].size()) {
-                    input[ipos] = completion;
+                if (app.interpreter.autoComplete(input[ipos])) {
                     cpos = (isize)input[ipos].length();
                     replace(input[ipos]);
                 }
