@@ -60,7 +60,7 @@ Interpreter::exec(Arguments &argv, bool verbose)
         }
         
         // Error out if no command handler is present
-        if (current->func == nullptr) throw NoCommandHandlerError();
+        if (current->func == nullptr) throw TooFewArgumentsError();
                 
         // Check the argument count
         if (argv.size() < current->numArgs) throw TooFewArgumentsError();
@@ -68,33 +68,34 @@ Interpreter::exec(Arguments &argv, bool verbose)
         
         // Call the command handler
         (controller.*(current->func))(argv, current->param);
-        
-    } catch (NoCommandHandlerError &err) {
-        if (token != "") app.console << "Syntax error: " << token << '\n';
-        if (prefix != "") syntax(*current); else help();
-        
+                
     } catch (TooFewArgumentsError &err) {
-        app.console << "Too few arguments." << '\n';
-        syntax(*current);
+        app.console << current->tokens() << ": Too few arguments";
+        app.console << '\n';
         
     } catch (TooManyArgumentsError &err) {
-        app.console << "Too many arguments." << '\n';
-        syntax(*current);
+        app.console << current->tokens() << ": Too many arguments";
+        app.console << '\n';
         
     } catch (EnumParseError &err) {
-        app.console << "Invalid key. Expected: " << err.what() << '\n';
+        app.console << current->tokens() << ": Invalid key. ";
+        app.console << "Expected: " << err.what() << '\n';
 
     } catch (ParseError &err) {
-        app.console << "Invalid argument. Expected: " << err.what() << '\n';
+        app.console << "Invalid argument. ";
+        app.console << "Expected: " << err.what() << '\n';
 
     } catch (ConfigLockedError &err) {
-        app.console << "This option is locked because the Amiga is powered on." << '\n';
+        app.console << "This option is locked because the Amiga is powered on.";
+        app.console << '\n';
 
     } catch (ConfigArgError &err) {
-        app.console << "Error: Invalid argument. Expected: " << err.what() << '\n';
+        app.console << "Error: Invalid argument. Expected: " << err.what();
+        app.console << '\n';
     
     } catch (VAError &err) {
-        app.console << err.what() << '\n';
+        app.console << err.what();
+        app.console << '\n';
     }
     
     return false;
@@ -181,13 +182,13 @@ Interpreter::autoComplete(string& userInput)
 void
 Interpreter::help()
 {
-    app.console << "Press 'tab' twice for a list of available commands." << '\n' << '\n';
+    app.console << "Press 'TAB' twice for a list of available commands." << '\n' << '\n';
 }
 
 void
 Interpreter::usage(Command& current)
 {
-    app.console << "Usage: " << current.fullName() << " " << current.syntax() << '\n' << '\n';
+    app.console << "Usage: " << current.usage() << '\n' << '\n';
 }
 
 void

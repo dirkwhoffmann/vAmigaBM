@@ -197,39 +197,42 @@ Command::autoComplete(string& token)
 }
 
 string
-Command::fullName()
+Command::tokens()
 {
-    return this->parent ? (this->parent->fullName() + " " + token) : token;
+    string result = this->parent ? this->parent->tokens() : "";
+    return result == "" ? token : result + " " + token;
 }
 
 string
-Command::syntax()
+Command::usage()
 {
     string firstArg, otherArgs;
     
-    // The simple case: All command tokens have been parsed successfully
     if (args.empty()) {
-        return numArgs == 0 ? "" : numArgs == 1 ? "<value>" : "<values>";
+
+        firstArg = numArgs == 0 ? "" : numArgs == 1 ? " <value>" : " <values>";
+
+    } else {
+        
+        // Collect all argument types
+        auto t = types();
+        
+        // Describe the first argument
+        for (usize i = 0; i < t.size(); i++) {
+            firstArg += (i == 0 ? "" : "|") + t[i];
+        }
+        firstArg = "<" + firstArg + ">";
+        
+        // Describe the remaining arguments (if any)
+        bool printArg = false, printOpt = false;
+        for (auto &it : args) {
+            if (it.func != nullptr && it.numArgs == 0) printOpt = true;
+            if (it.numArgs > 0 || !it.args.empty()) printArg = true;
+        }
+        if (printArg) {
+            otherArgs = printOpt ? "[<arguments>]" : "<arguments>";
+        }
     }
     
-    // Collect all argument types
-    auto t = types();
-    
-    // Describe the first argument
-    for (usize i = 0; i < t.size(); i++) {
-        firstArg += (i == 0 ? "" : "|") + t[i];
-    }
-    firstArg = "<" + firstArg + ">";
-    
-    // Describe the remaining arguments (if any)
-    bool printArg = false, printOpt = false;
-    for (auto &it : args) {
-        if (it.func != nullptr && it.numArgs == 0) printOpt = true;
-        if (it.numArgs > 0 || !it.args.empty()) printArg = true;
-    }
-    if (printArg) {
-        otherArgs = printOpt ? " [<arguments>]" : " <arguments>";
-    }
-    
-    return firstArg + otherArgs;
+    return tokens() + " " + firstArg + " " + otherArgs;
 }

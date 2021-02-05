@@ -44,9 +44,11 @@ struct ParseBoolError : ParseError {
     const char *what() const throw() override { return "true, false"; }
 };
 
+/*
 struct NoCommandHandlerError : public ParseError {
     NoCommandHandlerError() : ParseError() { }
 };
+*/
 struct TooFewArgumentsError : public ParseError {
     TooFewArgumentsError() : ParseError() { }
 };

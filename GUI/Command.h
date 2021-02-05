@@ -80,8 +80,8 @@ struct Command {
     bool autoComplete(string& token);
     
     // Returns the full command string for this command
-    string fullName();
+    string tokens();
     
     // Returns a syntax string for this command
-    string syntax();
+    string usage();
 };

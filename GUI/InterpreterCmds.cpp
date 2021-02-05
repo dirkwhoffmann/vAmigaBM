@@ -380,8 +380,8 @@ Interpreter::registerInstructions()
     root.add("keyboard", "set",
              "command", "Configures the component");
         
-    root.add("keyboard", "set", "accurate",
-             "key", "",
+    root.add("keyboard", "set", "accuracy",
+             "key", "Determines the emulation accuracy level",
              &Controller::exec <Token::keyboard, Token::set, Token::accuracy>, 1, 0);
 
     root.add("keyboard", "dump",
