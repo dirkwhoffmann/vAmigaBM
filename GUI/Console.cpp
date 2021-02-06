@@ -96,9 +96,7 @@ Console::operator<<(char value)
         storage.back() += value;
     }
     
-    // Shorten the text storage if it has grown too large
-    if (storage.size() > 100) storage.erase(storage.begin());
-        
+    shorten();
     return *this;
 }
 
@@ -114,9 +112,7 @@ Console::operator<<(const std::string& text)
         storage.back() += text;
     }
     
-    // Shorten the text storage if it has grown too large
-    if (storage.size() > 100) storage.erase(storage.begin());
-
+    shorten();
     return *this;
 }
 
@@ -125,6 +121,16 @@ Console::operator<<(int value)
 {
     *this << std::to_string(value);
     return *this;
+}
+
+void
+Console::shorten()
+{
+    while (storage.size() > 600) {
+        
+        storage.erase(storage.begin());
+        scrollUp(1);
+    }
 }
 
 void
@@ -164,6 +170,8 @@ Console::scrollTo(isize line)
 void
 Console::makeLastLineVisible()
 {
+    printf("makeLastLineVisible: size: %d %d\n", (int)storage.size(), vpos);
+    
     if (!lastLineIsVisible()) {
         scrollTo((int)storage.size() - numRows);
     }
@@ -173,6 +181,12 @@ isize
 Console::rowOfLastLine()
 {
     return (isize)storage.size() - vpos - 1;
+}
+
+bool
+Console::lastLineIsVisible()
+{
+    return rowOfLastLine() >= 0 && rowOfLastLine() < numRows;
 }
 
 void

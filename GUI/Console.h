@@ -133,6 +133,9 @@ public:
     Console& operator<<(const std::string& value);
     Console& operator<<(int value);
 
+    // Shortens the text storage if it grows too large
+    void shorten();
+    
     // Clears the current line
     void clearLine() { *this << '\r'; }
 
@@ -150,7 +153,7 @@ public:
     isize rowOfLastLine();
 
     // Checks if the last line is visible
-    bool lastLineIsVisible() { return rowOfLastLine() < numRows; }
+    bool lastLineIsVisible();
     
     
     //
