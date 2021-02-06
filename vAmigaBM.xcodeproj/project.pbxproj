@@ -482,6 +482,13 @@
 		50CAD07625CEAF8100DD55A5 /* Makefile */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
 		50CAD07825CEAFAB00DD55A5 /* Makefile */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
 		50CAD07A25CEAFDF00DD55A5 /* Makefile */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
+		50CAD07C25CEB11D00DD55A5 /* vAmiga.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = vAmiga.cpp; sourceTree = "<group>"; };
+		50CAD07E25CEB38B00DD55A5 /* Makefile */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
+		50CAD08025CEB3B700DD55A5 /* Makefile */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
+		50CAD08225CEB3DE00DD55A5 /* Makefile */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
+		50CAD08425CEB40100DD55A5 /* Makefile */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
+		50CAD08625CEB45600DD55A5 /* Makefile */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
+		50CAD08825CEB47C00DD55A5 /* Makefile */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
 		50CF561625BFECA900B1AC0D /* vAmigaBM */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = vAmigaBM; sourceTree = BUILT_PRODUCTS_DIR; };
 		50CF561925BFECA900B1AC0D /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		50E08E1C25C3101C00B82E96 /* IBMPlexMono-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "IBMPlexMono-Medium.ttf"; sourceTree = "<group>"; };
@@ -578,6 +585,7 @@
 				50AE112A25C42D6600AD13B7 /* Drive */,
 				50AE113325C42D6600AD13B7 /* CIA */,
 				50AE113D25C42D6700AD13B7 /* FileSystems */,
+				50CAD07C25CEB11D00DD55A5 /* vAmiga.cpp */,
 			);
 			path = Emulator;
 			sourceTree = "<group>";
@@ -684,6 +692,7 @@
 				50AE109025C42D6600AD13B7 /* Buffers.h */,
 				50AE109125C42D6600AD13B7 /* MsgQueue.h */,
 				50AE109225C42D6600AD13B7 /* Reflection.h */,
+				50CAD08825CEB47C00DD55A5 /* Makefile */,
 			);
 			path = Foundation;
 			sourceTree = "<group>";
@@ -699,6 +708,7 @@
 				50AE109925C42D6600AD13B7 /* RTC.h */,
 				50AE109A25C42D6600AD13B7 /* RTCTypes.h */,
 				50AE109B25C42D6600AD13B7 /* Oscillator.cpp */,
+				50CAD08625CEB45600DD55A5 /* Makefile */,
 			);
 			path = LogicBoard;
 			sourceTree = "<group>";
@@ -763,6 +773,7 @@
 		50AE10C125C42D6600AD13B7 /* Files */ = {
 			isa = PBXGroup;
 			children = (
+				50CAD08025CEB3B700DD55A5 /* Makefile */,
 				50AE10C225C42D6600AD13B7 /* AmigaFile.cpp */,
 				50AE10C325C42D6600AD13B7 /* RomFiles */,
 				50AE10C825C42D6600AD13B7 /* FileTypes.h */,
@@ -780,6 +791,7 @@
 		50AE10C325C42D6600AD13B7 /* RomFiles */ = {
 			isa = PBXGroup;
 			children = (
+				50CAD08225CEB3DE00DD55A5 /* Makefile */,
 				50AE10C425C42D6600AD13B7 /* RomFile.cpp */,
 				50AE10C525C42D6600AD13B7 /* ExtendedRomFile.cpp */,
 				50AE10C625C42D6600AD13B7 /* RomFile.h */,
@@ -791,6 +803,7 @@
 		50AE10CB25C42D6600AD13B7 /* DiskFiles */ = {
 			isa = PBXGroup;
 			children = (
+				50CAD08425CEB40100DD55A5 /* Makefile */,
 				50AE10CC25C42D6600AD13B7 /* DMSFile.cpp */,
 				50AE10CD25C42D6600AD13B7 /* IMGFile.cpp */,
 				50AE10CE25C42D6600AD13B7 /* DiskFile.h */,
@@ -829,6 +842,7 @@
 				50AE10ED25C42D6600AD13B7 /* Keyboard.cpp */,
 				50AE10EE25C42D6600AD13B7 /* Joystick.cpp */,
 				50AE10EF25C42D6600AD13B7 /* KeyboardTypes.h */,
+				50CAD07E25CEB38B00DD55A5 /* Makefile */,
 			);
 			path = Peripherals;
 			sourceTree = "<group>";
