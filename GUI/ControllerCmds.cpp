@@ -379,6 +379,64 @@ Controller::exec <Token::denise, Token::dump, Token::registers> (Arguments& argv
 
 
 //
+// Audio
+//
+
+template <> void
+Controller::exec <Token::audio, Token::config> (Arguments& argv, long param)
+{
+    dump(amiga.paula.muxer, Dump::Config);
+}
+
+template <> void
+Controller::exec <Token::audio, Token::set, Token::sampling> (Arguments& argv, long param)
+{
+    amiga.configure(OPT_SAMPLING_METHOD, SamplingMethodEnum::parse(argv.front()));
+}
+
+template <> void
+Controller::exec <Token::audio, Token::set, Token::filter> (Arguments& argv, long param)
+{
+    amiga.configure(OPT_FILTER_TYPE, FilterTypeEnum::parse(argv.front()));
+}
+
+template <> void
+Controller::exec <Token::audio, Token::set, Token::volume> (Arguments& argv, long param)
+{
+    switch (param) {
+            
+        case 0: amiga.configure(OPT_AUDVOL, 0, parseDec(argv.front())); break;
+        case 1: amiga.configure(OPT_AUDVOL, 1, parseDec(argv.front())); break;
+        case 2: amiga.configure(OPT_AUDVOL, 2, parseDec(argv.front())); break;
+        case 3: amiga.configure(OPT_AUDVOL, 3, parseDec(argv.front())); break;
+        case 4: amiga.configure(OPT_AUDVOLL, parseDec(argv.front())); break;
+        case 5: amiga.configure(OPT_AUDVOLR, parseDec(argv.front())); break;
+            
+        default:
+            assert(false);
+    }
+}
+
+template <> void
+Controller::exec <Token::audio, Token::set, Token::pan> (Arguments& argv, long param)
+{
+    amiga.configure(OPT_AUDPAN, 0, parseDec(argv.front()));
+}
+
+template <> void
+Controller::exec <Token::audio, Token::dump, Token::state> (Arguments& argv, long param)
+{
+    dump(amiga.paula.muxer, Dump::State);
+}
+
+template <> void
+Controller::exec <Token::audio, Token::dump, Token::registers> (Arguments& argv, long param)
+{
+    dump(amiga.paula.muxer, Dump::Registers);
+}
+
+
+//
 // Paula
 //
 

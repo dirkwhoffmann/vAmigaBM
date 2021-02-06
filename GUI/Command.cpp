@@ -10,11 +10,11 @@
 #include "Application.h"
 
 Command *
-Command::add(const std::string &token,
-                   const std::string &a1,
-                   const std::string &help,
-                   void (Controller::*func)(Arguments&, long),
-                   isize num, long param)
+Command::add(const string &token,
+             const string &a1,
+             const string &help,
+             void (Controller::*func)(Arguments&, long),
+             isize num, long param)
 {
     // Make sure the key does not yet exist
     assert(seek(token) == nullptr);
@@ -41,11 +41,11 @@ Command::add(const std::string &token,
 }
 
 Command *
-Command::add(const std::string &t1, const std::string &t2,
-                   const std::string &a1,
-                   const std::string &help,
-                   void (Controller::*func)(Arguments&, long),
-                   isize num, long param)
+Command::add(const string &t1, const string &t2,
+             const string &a1,
+             const string &help,
+             void (Controller::*func)(Arguments&, long),
+             isize num, long param)
 {
     // Expand template tokens
     if (t1 == "cia") {
@@ -65,11 +65,11 @@ Command::add(const std::string &t1, const std::string &t2,
 }
 
 Command *
-Command::add(const std::string &t1, const std::string &t2, const std::string &t3,
-                   const std::string &a1,
-                   const std::string &help,
-                   void (Controller::*func)(Arguments&, long),
-                   isize num, long param)
+Command::add(const string &t1, const string &t2, const string &t3,
+             const string &a1,
+             const string &help,
+             void (Controller::*func)(Arguments&, long),
+             isize num, long param)
 {
     // Expand template tokens
     if (t1 == "cia") {
@@ -86,6 +86,19 @@ Command::add(const std::string &t1, const std::string &t2, const std::string &t3
     }
     
     return seek(t1)->add(t2, t3, a1, help, func, num, param);
+}
+
+Command *
+Command::add(const string &t1, const string &t2, const string &t3, const string &t4,
+             const string &a1,
+             const string &help,
+             void (Controller::*func)(Arguments&, long),
+             isize num, long param)
+{
+    assert(t1 != "cia");
+    assert(t2 != "dfn");
+    
+    return seek(t1)->add(t2, t3, t4, a1, help, func, num, param);
 }
 
 void

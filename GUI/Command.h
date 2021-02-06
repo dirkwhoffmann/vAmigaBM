@@ -62,7 +62,13 @@ struct Command {
                        const string &help,
                        void (Controller::*func)(Arguments&, long) = nullptr,
                        isize numArgs = 0, long param = 0);
-    
+
+    Command *add(const string &t1, const string &t2, const string &t3, const string &t4,
+                       const string &a1,
+                       const string &help,
+                       void (Controller::*func)(Arguments&, long) = nullptr,
+                       isize numArgs = 0, long param = 0);
+
     // Removes an already register command
     void remove(const string& token);
     

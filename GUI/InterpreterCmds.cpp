@@ -326,6 +326,83 @@ Interpreter::registerInstructions()
 
     
     //
+    // Audio
+    //
+    
+    root.add("audio",
+             "component", "Audio Unit (Paula)");
+    
+    root.add("audio", "config",
+             "command", "Displays the current configuration",
+             &Controller::exec <Token::audio, Token::config>, 0, 0);
+
+    root.add("audio", "set",
+             "command", "Configures the component");
+
+    root.add("audio", "set", "sampling",
+             "key", "Selects the sampling method",
+             &Controller::exec <Token::audio, Token::set, Token::sampling>, 1, 0);
+
+    root.add("audio", "set", "filter",
+             "key", "Configures the audio filter",
+             &Controller::exec <Token::audio, Token::set, Token::filter>, 1, 0);
+    
+    root.add("audio", "set", "volume",
+             "key", "Sets the volume");
+
+    root.add("audio", "set", "volume", "channel0",
+             "key", "Sets the volume for audio channel 0",
+             &Controller::exec <Token::audio, Token::set, Token::volume>, 1, 0);
+    
+    root.add("audio", "set", "volume", "channel2",
+             "key", "Sets the volume for audio channel 1",
+             &Controller::exec <Token::audio, Token::set, Token::volume>, 1, 1);
+    
+    root.add("audio", "set", "volume", "channel3",
+             "key", "Sets the volume for audio channel 2",
+             &Controller::exec <Token::audio, Token::set, Token::volume>, 1, 2);
+    
+    root.add("audio", "set", "volume", "channel4",
+             "key", "Sets the volume for audio channel 3",
+             &Controller::exec <Token::audio, Token::set, Token::volume>, 1, 3);
+    
+    root.add("audio", "set", "volume", "left",
+             "key", "Sets the master volume for the left speaker",
+             &Controller::exec <Token::audio, Token::set, Token::volume>, 1, 4);
+    
+    root.add("audio", "set", "volume", "right",
+             "key", "Sets the master volume for the right speaker",
+             &Controller::exec <Token::audio, Token::set, Token::volume>, 1, 5);
+
+    root.add("audio", "set", "pan",
+             "key", "Sets the pan for one of the four audio channels");
+    
+    root.add("audio", "set", "pan", "channel0",
+             "key", "Sets the pan for audio channel 0",
+             &Controller::exec <Token::audio, Token::set, Token::pan>, 1, 0);
+    root.add("audio", "set", "pan", "channel1",
+             "key", "Sets the pan for audio channel 1",
+             &Controller::exec <Token::audio, Token::set, Token::pan>, 1, 1);
+    root.add("audio", "set", "pan", "channel2",
+             "key", "Sets the pan for audio channel 2",
+             &Controller::exec <Token::audio, Token::set, Token::pan>, 1, 2);
+    root.add("audio", "set", "pan", "channel3",
+             "key", "Sets the pan for audio channel 3",
+             &Controller::exec <Token::audio, Token::set, Token::pan>, 1, 3);
+
+    root.add("audio", "dump",
+             "command", "Displays the internal state");
+
+    root.add("audio", "dump", "state",
+             "category", "Displays the current state",
+             &Controller::exec <Token::audio, Token::dump, Token::state>, 0, 0);
+
+    root.add("audio", "dump", "registers",
+             "category", "Displays the current register value",
+             &Controller::exec <Token::audio, Token::dump, Token::registers>, 0, 0);
+    
+    
+    //
     // Paula
     //
     

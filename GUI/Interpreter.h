@@ -16,8 +16,8 @@ enum class Token
     none,
     
     // Components
-    agnus, amiga, blitter, cia, copper, cpu, denise, dfn, diskcontroller,
-    keyboard, memory, paula, serial, rtc,
+    agnus, amiga, audio, blitter, cia, copper, cpu, denise, dfn,
+    diskcontroller, keyboard, memory, paula, serial, rtc,
 
     // Commands
     about, autosync, clear, config, connect, disconnect, dsksync, easteregg,
@@ -28,9 +28,10 @@ enum class Token
     state, registers, events, checksums,
     
     // Keys
-    accuracy, bankmap, borderblank, chip, device, esync, extrom,
-    extstart, fast, raminitpattern, revision, rom, slow, slowramdelay,
-    slowrammirror, speed, tod, todbug, unmappingtype, wom
+    accuracy, bankmap, borderblank, chip, device, esync, extrom, extstart,
+    fast, filter, pan, raminitpattern, revision, rom, sampling, slow,
+    slowramdelay, slowrammirror, speed, tod, todbug, unmappingtype, volume,
+    wom
 };
 
 struct ParseError : public std::exception {
