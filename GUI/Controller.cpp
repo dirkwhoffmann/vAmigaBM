@@ -115,6 +115,9 @@ Controller::dump(HardwareComponent &component, Dump::Category category)
 {
     std::stringstream ss; string line;
     
+    amiga.suspend();
     component.dump(category, ss);
+    amiga.resume();
+    
     while(std::getline(ss, line)) console << line << '\n';
 }

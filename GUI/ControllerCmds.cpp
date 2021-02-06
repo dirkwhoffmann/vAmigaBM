@@ -293,10 +293,7 @@ Controller::exec <Token::agnus, Token::dump, Token::registers> (Arguments &argv,
 template <> void
 Controller::exec <Token::agnus, Token::dump, Token::events> (Arguments &argv, long param)
 {
-    std::stringstream ss; string line;
-    
-    amiga.agnus.dumpEvents(ss);
-    while(std::getline(ss, line)) console << line << '\n';
+    dump(amiga.agnus, Dump::Events);
 }
 
 

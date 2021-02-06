@@ -449,16 +449,13 @@ private:
     void _inspect() override;
     void _dump(Dump::Category category, std::ostream& os) const override;
     
-    void inspectEvents(EventInfo &info);
-    void inspectEvents() { inspectEvents(eventInfo); }
-    void inspectEventSlot(EventInfo &info, EventSlot nr);
+    void inspectEvents(EventInfo &info) const;
+    void inspectEvents() { synchronized { inspectEvents(eventInfo); } }
+    void inspectEventSlot(EventInfo &info, EventSlot nr) const;
     void inspectEventSlot(EventSlot nr) { inspectEventSlot(eventInfo, nr); }
 
 public:
     
-    void dumpEvents();
-    void dumpEvents(std::ostream &os);
-        
     AgnusStats getStats() { return stats; }
     
 private:

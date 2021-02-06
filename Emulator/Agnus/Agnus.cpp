@@ -270,9 +270,48 @@ Agnus::_dump(Dump::Category category, std::ostream& os) const
     
     if (category & Dump::Events) {
         
-        // Call dumpEvents()
-        assert(false);
+        EventInfo eventInfo;
+        inspectEvents(eventInfo);
+            
+        os << TAB(10) << "Slot";
+        os << TAB(14) << "Event";
+        os << TAB(18) << "Trigger position";
+        os << TAB(16) << "Trigger cycle" << std::endl;
+        
+
+        for (isize i = 0; i < 15; i++) {
+        // for (isize i = 0; i < SLOT_COUNT; i++) {
+
+            EventSlotInfo &info = eventInfo.slotInfo[i];
+            bool willTrigger = info.trigger != NEVER;
+            
+            os << TAB(10) << EventSlotEnum::key(info.slot);
+            os << TAB(14) << info.eventName;
+            
+            if (willTrigger) {
+                
+                if (info.frameRel == -1) {
+                    os << TAB(18) << "previous frame";
+                } else if (info.frameRel > 0) {
+                    os << TAB(18) << "next frame";
+                } else {
+                    string vpos = std::to_string(info.vpos);
+                    string hpos = std::to_string(info.hpos);
+                    string pos = "(" + vpos + "," + hpos + ")";
+                    os << TAB(18) << pos;
+                }
+
+                if (info.triggerRel == 0) {
+                    os << TAB(16) << "due immediately";
+                } else {
+                    string cycle = std::to_string(info.triggerRel / 8);
+                    os << TAB(16) << "due in " + cycle + " DMA cycles";
+                }
+            }
+            os << std::endl;
+        }
     }
+    
     /*
     ss << "\nBPL DMA table:\n\n");
     dumpBplEventTable();
