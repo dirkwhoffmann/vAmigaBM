@@ -474,6 +474,7 @@
 		50AE115C25C42D6700AD13B7 /* Amiga.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Amiga.h; sourceTree = "<group>"; };
 		50AE11C325C44AAC00AD13B7 /* Controller.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Controller.cpp; sourceTree = "<group>"; };
 		50AE11C425C44AAC00AD13B7 /* Controller.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Controller.h; sourceTree = "<group>"; };
+		50CAD06D25CEAAA300DD55A5 /* Makefile */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
 		50CF561625BFECA900B1AC0D /* vAmigaBM */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = vAmigaBM; sourceTree = BUILT_PRODUCTS_DIR; };
 		50CF561925BFECA900B1AC0D /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		50E08E1C25C3101C00B82E96 /* IBMPlexMono-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "IBMPlexMono-Medium.ttf"; sourceTree = "<group>"; };
@@ -551,6 +552,7 @@
 		50AE104925C42D6500AD13B7 /* Emulator */ = {
 			isa = PBXGroup;
 			children = (
+				50CAD06D25CEAAA300DD55A5 /* Makefile */,
 				50AE107525C42D6500AD13B7 /* AmigaPublicTypes.h */,
 				50AE107425C42D6500AD13B7 /* AmigaTypes.h */,
 				50AE115C25C42D6700AD13B7 /* Amiga.h */,
