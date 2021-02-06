@@ -42,3 +42,7 @@ struct ConfigArgError : ConfigError {
 struct ConfigLockedError : ConfigError {
     ConfigLockedError() : ConfigError("") { };
 };
+
+struct ConfigUnsupportedError : ConfigError {
+    ConfigUnsupportedError() : ConfigError("") { };
+};

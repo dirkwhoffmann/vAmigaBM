@@ -1,4 +1,4 @@
-/// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 // This file is part of vAmiga Bare Metal
 //
 // Copyright (C) Dirk W. Hoffmann. www.dirkwhoffmann.de
@@ -16,22 +16,22 @@ enum class Token
     none,
     
     // Components
-    agnus, amiga, audio, blitter, cia, copper, cpu, denise, dfn,
-    diskcontroller, keyboard, memory, paula, serial, rtc,
+    agnus, amiga, audio, blitter, cia, copper, cpu, denise, dfn, dc, keyboard,
+    memory, paula, serial, rtc,
 
     // Commands
     about, autosync, clear, config, connect, disconnect, dsksync, easteregg,
-    eject, close, insert, dump, list, load, lock, on, off, pause, reset, run,
-    set,
+    eject, close, insert, inspect, list, load, lock, on, off, pause, reset,
+    run, set,
     
     // Categories
     state, registers, events, checksums,
     
     // Keys
     accuracy, bankmap, borderblank, chip, device, esync, extrom, extstart,
-    fast, filter, pan, raminitpattern, revision, rom, sampling, slow,
-    slowramdelay, slowrammirror, speed, tod, todbug, unmappingtype, volume,
-    wom
+    fast, filter, mechanics, model, pan, raminitpattern, revision, rom,
+    sampling, slow, slowramdelay, slowrammirror, speed, tod, todbug,
+    unmappingtype, volume, wom
 };
 
 struct ParseError : public std::exception {

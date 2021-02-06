@@ -62,9 +62,9 @@ Interpreter::registerInstructions()
              "command", "Performs a hard reset",
              &Controller::exec <Token::amiga, Token::reset>, 0, 0);
     
-    root.add("amiga", "dump",
+    root.add("amiga", "inspect",
              "command", "Displays the component state",
-             &Controller::exec <Token::amiga, Token::dump>, 0, 0);
+             &Controller::exec <Token::amiga, Token::inspect>, 0, 0);
 
     
     //
@@ -124,20 +124,20 @@ Interpreter::registerInstructions()
              "command", "Installs a Rom extension",
              &Controller::exec <Token::memory, Token::load, Token::extrom>, 1, 0);
 
-    root.add("memory", "dump",
+    root.add("memory", "inspect",
              "command", "Displays the component state");
 
-    root.add("memory", "dump", "state",
+    root.add("memory", "inspect", "state",
              "command", "Displays the current state",
-             &Controller::exec <Token::memory, Token::dump, Token::state>, 0, 0);
+             &Controller::exec <Token::memory, Token::inspect, Token::state>, 0, 0);
 
-    root.add("memory", "dump", "bankmap",
+    root.add("memory", "inspect", "bankmap",
              "command", "Displays the bank map",
-             &Controller::exec <Token::memory, Token::dump, Token::bankmap>, 0, 0);
+             &Controller::exec <Token::memory, Token::inspect, Token::bankmap>, 0, 0);
 
-    root.add("memory", "dump", "checksum",
+    root.add("memory", "inspect", "checksum",
              "command", "Computes memory checksums",
-             &Controller::exec <Token::memory, Token::dump, Token::checksums>, 0, 0);
+             &Controller::exec <Token::memory, Token::inspect, Token::checksums>, 0, 0);
 
     
     //
@@ -147,16 +147,16 @@ Interpreter::registerInstructions()
     root.add("cpu",
              "component", "Motorola 68k CPU");
     
-    root.add("cpu", "dump",
+    root.add("cpu", "inspect",
              "command", "Displays the component state");
 
-    root.add("cpu", "dump", "state",
+    root.add("cpu", "inspect", "state",
              "command", "Displays the current state",
-             &Controller::exec <Token::cpu, Token::dump, Token::state>, 0, 0);
+             &Controller::exec <Token::cpu, Token::inspect, Token::state>, 0, 0);
 
-    root.add("cpu", "dump", "registers",
+    root.add("cpu", "inspect", "registers",
              "command", "Displays the current register values",
-             &Controller::exec <Token::cpu, Token::dump, Token::registers>, 0, 0);
+             &Controller::exec <Token::cpu, Token::inspect, Token::registers>, 0, 0);
 
     
     //
@@ -188,20 +188,20 @@ Interpreter::registerInstructions()
              "key", "Turns E-clock syncing on or off",
              &Controller::exec <Token::cia, Token::set, Token::esync>, 1, 0);
 
-    root.add("cia", "dump",
+    root.add("cia", "inspect",
              "command", "Displays the component state");
 
-    root.add("cia", "dump", "state",
+    root.add("cia", "inspect", "state",
              "category", "Displays the current state",
-             &Controller::exec <Token::cia, Token::dump, Token::state>, 0, 0);
+             &Controller::exec <Token::cia, Token::inspect, Token::state>, 0, 0);
 
-    root.add("cia", "dump", "registers",
+    root.add("cia", "inspect", "registers",
              "category", "Displays the current register values",
-             &Controller::exec <Token::cia, Token::dump, Token::registers>, 0, 0);
+             &Controller::exec <Token::cia, Token::inspect, Token::registers>, 0, 0);
 
-    root.add("cia", "dump", "tod",
+    root.add("cia", "inspect", "tod",
              "category", "Displays the state of the 24-bit counter",
-             &Controller::exec <Token::cia, Token::dump, Token::tod>, 0, 0);
+             &Controller::exec <Token::cia, Token::inspect, Token::tod>, 0, 0);
 
     
     //
@@ -226,20 +226,20 @@ Interpreter::registerInstructions()
              "key", "Enables or disables ECS Slow Ram mirroring",
              &Controller::exec <Token::agnus, Token::set, Token::slowrammirror>, 1, 0);
 
-    root.add("agnus", "dump",
+    root.add("agnus", "inspect",
              "command", "Displays the internal state");
 
-    root.add("agnus", "dump", "state",
+    root.add("agnus", "inspect", "state",
              "category", "Displays the current state",
-             &Controller::exec <Token::agnus, Token::dump, Token::state>, 0, 0);
+             &Controller::exec <Token::agnus, Token::inspect, Token::state>, 0, 0);
 
-    root.add("agnus", "dump", "registers",
+    root.add("agnus", "inspect", "registers",
              "category", "Displays the current register value",
-             &Controller::exec <Token::agnus, Token::dump, Token::registers>, 0, 0);
+             &Controller::exec <Token::agnus, Token::inspect, Token::registers>, 0, 0);
 
-    root.add("agnus", "dump", "events",
+    root.add("agnus", "inspect", "events",
              "category", "Displays scheduled events",
-             &Controller::exec <Token::agnus, Token::dump, Token::events>, 0, 0);
+             &Controller::exec <Token::agnus, Token::inspect, Token::events>, 0, 0);
     
     
     //
@@ -260,16 +260,16 @@ Interpreter::registerInstructions()
              "level", "Selects the emulation accuracy level",
              &Controller::exec <Token::blitter, Token::set, Token::accuracy>, 1, 0);
 
-    root.add("blitter", "dump",
+    root.add("blitter", "inspect",
              "command", "Displays the internal state");
 
-    root.add("blitter", "dump", "state",
+    root.add("blitter", "inspect", "state",
              "category", "Displays the internal state",
-             &Controller::exec <Token::blitter, Token::dump, Token::state>, 0, 0);
+             &Controller::exec <Token::blitter, Token::inspect, Token::state>, 0, 0);
 
-    root.add("blitter", "dump", "registers",
+    root.add("blitter", "inspect", "registers",
              "category", "Displays the current register value",
-             &Controller::exec <Token::blitter, Token::dump, Token::registers>, 0, 0);
+             &Controller::exec <Token::blitter, Token::inspect, Token::registers>, 0, 0);
 
     
     //
@@ -279,16 +279,16 @@ Interpreter::registerInstructions()
     root.add("copper",
              "component", "Custom Chip (Agnus)");
     
-    root.add("copper", "dump",
+    root.add("copper", "inspect",
              "command", "Displays the internal state");
 
-    root.add("copper", "dump", "state",
+    root.add("copper", "inspect", "state",
              "category", "Displays the current state",
-             &Controller::exec <Token::copper, Token::dump, Token::state>, 0, 0);
+             &Controller::exec <Token::copper, Token::inspect, Token::state>, 0, 0);
 
-    root.add("copper", "dump", "registers",
+    root.add("copper", "inspect", "registers",
              "category", "Displays the current register value",
-             &Controller::exec <Token::copper, Token::dump, Token::registers>, 0, 0);
+             &Controller::exec <Token::copper, Token::inspect, Token::registers>, 0, 0);
 
     
     //
@@ -313,16 +313,16 @@ Interpreter::registerInstructions()
              "key", "Enables the ECS borderblank feature",
              &Controller::exec <Token::denise, Token::set, Token::borderblank>, 1, 0);
 
-    root.add("denise", "dump",
+    root.add("denise", "inspect",
              "command", "Displays the internal state");
 
-    root.add("denise", "dump", "state",
+    root.add("denise", "inspect", "state",
              "category", "Displays the current state",
-             &Controller::exec <Token::denise, Token::dump, Token::state>, 0, 0);
+             &Controller::exec <Token::denise, Token::inspect, Token::state>, 0, 0);
 
-    root.add("denise", "dump", "registers",
+    root.add("denise", "inspect", "registers",
              "category", "Displays the current register value",
-             &Controller::exec <Token::denise, Token::dump, Token::registers>, 0, 0);
+             &Controller::exec <Token::denise, Token::inspect, Token::registers>, 0, 0);
 
     
     //
@@ -390,16 +390,16 @@ Interpreter::registerInstructions()
              "key", "Sets the pan for audio channel 3",
              &Controller::exec <Token::audio, Token::set, Token::pan>, 1, 3);
 
-    root.add("audio", "dump",
+    root.add("audio", "inspect",
              "command", "Displays the internal state");
 
-    root.add("audio", "dump", "state",
+    root.add("audio", "inspect", "state",
              "category", "Displays the current state",
-             &Controller::exec <Token::audio, Token::dump, Token::state>, 0, 0);
+             &Controller::exec <Token::audio, Token::inspect, Token::state>, 0, 0);
 
-    root.add("audio", "dump", "registers",
+    root.add("audio", "inspect", "registers",
              "category", "Displays the current register value",
-             &Controller::exec <Token::audio, Token::dump, Token::registers>, 0, 0);
+             &Controller::exec <Token::audio, Token::inspect, Token::registers>, 0, 0);
     
     
     //
@@ -409,20 +409,16 @@ Interpreter::registerInstructions()
     root.add("paula",
              "component", "Custom chip");
 
-    root.add("paula", "config",
-             "command", "Displays the current configuration",
-             &Controller::exec <Token::paula, Token::config>, 0, 0);
-
-    root.add("paula", "dump",
+    root.add("paula", "inspect",
              "command", "Displays the internal state");
 
-    root.add("paula", "dump", "state",
+    root.add("paula", "inspect", "state",
              "command", "Displays the current register value",
-             &Controller::exec <Token::paula, Token::dump, Token::state>, 0, 0);
+             &Controller::exec <Token::paula, Token::inspect, Token::state>, 0, 0);
 
-    root.add("paula", "dump", "registers",
+    root.add("paula", "inspect", "registers",
              "command", "Displays the current register value",
-             &Controller::exec <Token::paula, Token::dump, Token::registers>, 0, 0);
+             &Controller::exec <Token::paula, Token::inspect, Token::registers>, 0, 0);
 
     
     //
@@ -443,12 +439,12 @@ Interpreter::registerInstructions()
              "key", "Selects the emulated chip model",
              &Controller::exec <Token::rtc, Token::set, Token::revision>, 1, 0);
 
-    root.add("rtc", "dump",
+    root.add("rtc", "inspect",
              "command", "Displays the internal state");
 
-    root.add("rtc", "dump", "registers",
+    root.add("rtc", "inspect", "registers",
              "command", "Displays the current register value",
-             &Controller::exec <Token::rtc, Token::dump, Token::registers>, 0, 0);
+             &Controller::exec <Token::rtc, Token::inspect, Token::registers>, 0, 0);
 
     
     //
@@ -469,9 +465,9 @@ Interpreter::registerInstructions()
              "key", "Determines the emulation accuracy level",
              &Controller::exec <Token::keyboard, Token::set, Token::accuracy>, 1, 0);
 
-    root.add("keyboard", "dump",
+    root.add("keyboard", "inspect",
              "command", "Displays the internal state",
-             &Controller::exec <Token::keyboard, Token::dump>, 0, 0);
+             &Controller::exec <Token::keyboard, Token::inspect>, 0, 0);
 
     
     //
@@ -492,9 +488,9 @@ Interpreter::registerInstructions()
              "key", "",
              &Controller::exec <Token::serial, Token::set, Token::device>, 1, 0);
 
-    root.add("serial", "dump",
+    root.add("serial", "inspect",
              "command", "Displays the internal state",
-             &Controller::exec <Token::serial, Token::dump>, 0, 0);
+             &Controller::exec <Token::serial, Token::inspect>, 0, 0);
 
     
     //
@@ -504,27 +500,31 @@ Interpreter::registerInstructions()
     root.add("dc",
              "component", "Disk Controller");
 
+    root.add("dc", "config",
+             "command", "Displays the current configuration",
+             &Controller::exec <Token::dc, Token::config>, 0, 0);
+
     root.add("dc", "set",
              "command", "Configures the component");
         
     root.add("dc", "set", "revision" ,
              "key", "Configures the drive speed",
-             &Controller::exec <Token::diskcontroller, Token::speed>, 1, 0);
+             &Controller::exec <Token::dc, Token::speed>, 1, 0);
 
     root.add("dc", "disksync",
-             "command", "Controls modifications of the DSKSYNC register");
+             "command", "Secures the DSKSYNC register");
 
     root.add("dc", "disksync", "auto" ,
              "key", "Always receive a SYNC signal",
-             &Controller::exec <Token::diskcontroller, Token::dsksync, Token::autosync>, 1, 0);
+             &Controller::exec <Token::dc, Token::dsksync, Token::autosync>, 1, 0);
 
     root.add("dc", "disksync", "lock",
              "command", "Prevents writes to DSKSYNC",
-             &Controller::exec <Token::diskcontroller, Token::dsksync, Token::lock>, 1, 0);
+             &Controller::exec <Token::dc, Token::dsksync, Token::lock>, 1, 0);
         
-    root.add("dc", "dump",
+    root.add("dc", "inspect",
              "command", "Displays the internal state",
-             &Controller::exec <Token::diskcontroller, Token::dump>, 0, 0);
+             &Controller::exec <Token::dc, Token::inspect>, 0, 0);
 
 
     //
@@ -552,7 +552,18 @@ Interpreter::registerInstructions()
              "command", "Inserts a floppy disk",
              &Controller::exec <Token::dfn, Token::insert>, 1, 0);
 
-    root.add("dfn", "dump",
+    root.add("dfn", "set",
+             "command", "Configures the component");
+        
+    root.add("dfn", "set", "model",
+             "key", "Selects the drive model",
+             &Controller::exec <Token::dfn, Token::set, Token::model>, 1, 0);
+
+    root.add("dfn", "set", "mechanics",
+             "key", "Enables or disables the emulation of mechanical delays",
+             &Controller::exec <Token::dfn, Token::set, Token::mechanics>, 1, 0);
+    
+    root.add("dfn", "inspect",
              "command", "Displays the internal state",
-             &Controller::exec <Token::dfn, Token::dump>, 0, 0);
+             &Controller::exec <Token::dfn, Token::inspect>, 0, 0);
 }

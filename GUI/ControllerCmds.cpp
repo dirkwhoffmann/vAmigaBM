@@ -69,7 +69,7 @@ Controller::exec <Token::amiga, Token::reset> (Arguments &argv, long param)
 }
 
 template <> void
-Controller::exec <Token::amiga, Token::dump> (Arguments &argv, long param)
+Controller::exec <Token::amiga, Token::inspect> (Arguments &argv, long param)
 {
     dump(amiga, Dump::State);
 }
@@ -146,19 +146,19 @@ Controller::exec <Token::memory, Token::set, Token::raminitpattern> (Arguments& 
 }
 
 template <> void
-Controller::exec <Token::memory, Token::dump, Token::state> (Arguments& argv, long param)
+Controller::exec <Token::memory, Token::inspect, Token::state> (Arguments& argv, long param)
 {
     dump(amiga.mem, Dump::State);
 }
 
 template <> void
-Controller::exec <Token::memory, Token::dump, Token::bankmap> (Arguments& argv, long param)
+Controller::exec <Token::memory, Token::inspect, Token::bankmap> (Arguments& argv, long param)
 {
     dump(amiga.mem, Dump::BankMap);
 }
 
 template <> void
-Controller::exec <Token::memory, Token::dump, Token::checksums> (Arguments& argv, long param)
+Controller::exec <Token::memory, Token::inspect, Token::checksums> (Arguments& argv, long param)
 {
     dump(amiga.mem, Dump::Checksums);
 }
@@ -169,13 +169,13 @@ Controller::exec <Token::memory, Token::dump, Token::checksums> (Arguments& argv
 //
 
 template <> void
-Controller::exec <Token::cpu, Token::dump, Token::state> (Arguments& argv, long param)
+Controller::exec <Token::cpu, Token::inspect, Token::state> (Arguments& argv, long param)
 {
     dump(amiga.cpu, Dump::State);
 }
 
 template <> void
-Controller::exec <Token::cpu, Token::dump, Token::registers> (Arguments& argv, long param)
+Controller::exec <Token::cpu, Token::inspect, Token::registers> (Arguments& argv, long param)
 {
     dump(amiga.cpu, Dump::Registers);
 }
@@ -226,7 +226,7 @@ Controller::exec <Token::cia, Token::set, Token::esync> (Arguments &argv, long p
 }
 
 template <> void
-Controller::exec <Token::cia, Token::dump, Token::state> (Arguments& argv, long param)
+Controller::exec <Token::cia, Token::inspect, Token::state> (Arguments& argv, long param)
 {
     if (param == 0) {
         dump(amiga.ciaA, Dump::State);
@@ -236,7 +236,7 @@ Controller::exec <Token::cia, Token::dump, Token::state> (Arguments& argv, long 
 }
 
 template <> void
-Controller::exec <Token::cia, Token::dump, Token::registers> (Arguments& argv, long param)
+Controller::exec <Token::cia, Token::inspect, Token::registers> (Arguments& argv, long param)
 {
     if (param == 0) {
         dump(amiga.ciaA, Dump::Registers);
@@ -246,7 +246,7 @@ Controller::exec <Token::cia, Token::dump, Token::registers> (Arguments& argv, l
 }
 
 template <> void
-Controller::exec <Token::cia, Token::dump, Token::tod> (Arguments& argv, long param)
+Controller::exec <Token::cia, Token::inspect, Token::tod> (Arguments& argv, long param)
 {
     if (param == 0) {
         dump(amiga.ciaA.tod, Dump::State);
@@ -279,19 +279,19 @@ Controller::exec <Token::agnus, Token::set, Token::slowrammirror> (Arguments &ar
 }
 
 template <> void
-Controller::exec <Token::agnus, Token::dump, Token::state> (Arguments &argv, long param)
+Controller::exec <Token::agnus, Token::inspect, Token::state> (Arguments &argv, long param)
 {
     dump(amiga.agnus, Dump::State);
 }
 
 template <> void
-Controller::exec <Token::agnus, Token::dump, Token::registers> (Arguments &argv, long param)
+Controller::exec <Token::agnus, Token::inspect, Token::registers> (Arguments &argv, long param)
 {
     dump(amiga.agnus, Dump::Registers);
 }
 
 template <> void
-Controller::exec <Token::agnus, Token::dump, Token::events> (Arguments &argv, long param)
+Controller::exec <Token::agnus, Token::inspect, Token::events> (Arguments &argv, long param)
 {
     dump(amiga.agnus, Dump::Events);
 }
@@ -314,13 +314,13 @@ Controller::exec <Token::blitter, Token::set, Token::accuracy> (Arguments &argv,
 }
 
 template <> void
-Controller::exec <Token::blitter, Token::dump, Token::state> (Arguments& argv, long param)
+Controller::exec <Token::blitter, Token::inspect, Token::state> (Arguments& argv, long param)
 {
     dump(amiga.agnus.blitter, Dump::State);
 }
 
 template <> void
-Controller::exec <Token::blitter, Token::dump, Token::registers> (Arguments& argv, long param)
+Controller::exec <Token::blitter, Token::inspect, Token::registers> (Arguments& argv, long param)
 {
     dump(amiga.agnus.blitter, Dump::Registers);
 }
@@ -331,13 +331,13 @@ Controller::exec <Token::blitter, Token::dump, Token::registers> (Arguments& arg
 //
 
 template <> void
-Controller::exec <Token::copper, Token::dump, Token::state> (Arguments& argv, long param)
+Controller::exec <Token::copper, Token::inspect, Token::state> (Arguments& argv, long param)
 {
     dump(amiga.agnus.copper, Dump::State);
 }
 
 template <> void
-Controller::exec <Token::copper, Token::dump, Token::registers> (Arguments& argv, long param)
+Controller::exec <Token::copper, Token::inspect, Token::registers> (Arguments& argv, long param)
 {
     dump(amiga.agnus.copper, Dump::Registers);
 }
@@ -366,13 +366,13 @@ Controller::exec <Token::denise, Token::set, Token::borderblank> (Arguments &arg
 }
 
 template <> void
-Controller::exec <Token::denise, Token::dump, Token::state> (Arguments& argv, long param)
+Controller::exec <Token::denise, Token::inspect, Token::state> (Arguments& argv, long param)
 {
     dump(amiga.denise, Dump::State);
 }
 
 template <> void
-Controller::exec <Token::denise, Token::dump, Token::registers> (Arguments& argv, long param)
+Controller::exec <Token::denise, Token::inspect, Token::registers> (Arguments& argv, long param)
 {
     dump(amiga.denise, Dump::Registers);
 }
@@ -424,13 +424,13 @@ Controller::exec <Token::audio, Token::set, Token::pan> (Arguments& argv, long p
 }
 
 template <> void
-Controller::exec <Token::audio, Token::dump, Token::state> (Arguments& argv, long param)
+Controller::exec <Token::audio, Token::inspect, Token::state> (Arguments& argv, long param)
 {
     dump(amiga.paula.muxer, Dump::State);
 }
 
 template <> void
-Controller::exec <Token::audio, Token::dump, Token::registers> (Arguments& argv, long param)
+Controller::exec <Token::audio, Token::inspect, Token::registers> (Arguments& argv, long param)
 {
     dump(amiga.paula.muxer, Dump::Registers);
 }
@@ -441,19 +441,13 @@ Controller::exec <Token::audio, Token::dump, Token::registers> (Arguments& argv,
 //
 
 template <> void
-Controller::exec <Token::paula, Token::config> (Arguments& argv, long param)
-{
-    dump(amiga.paula.muxer, Dump::Config);
-}
-
-template <> void
-Controller::exec <Token::paula, Token::dump, Token::state> (Arguments& argv, long param)
+Controller::exec <Token::paula, Token::inspect, Token::state> (Arguments& argv, long param)
 {
     dump(amiga.paula, Dump::State);
 }
 
 template <> void
-Controller::exec <Token::paula, Token::dump, Token::registers> (Arguments& argv, long param)
+Controller::exec <Token::paula, Token::inspect, Token::registers> (Arguments& argv, long param)
 {
     dump(amiga.paula, Dump::Registers);
 }
@@ -470,7 +464,7 @@ Controller::exec <Token::rtc, Token::config> (Arguments& argv, long param)
 }
 
 template <> void
-Controller::exec <Token::rtc, Token::dump, Token::registers> (Arguments& argv, long param)
+Controller::exec <Token::rtc, Token::inspect, Token::registers> (Arguments& argv, long param)
 {
     dump(amiga.rtc, Dump::Registers);
 }
@@ -499,7 +493,7 @@ Controller::exec <Token::keyboard, Token::set, Token::accuracy> (Arguments &argv
 }
 
 template <> void
-Controller::exec <Token::keyboard, Token::dump> (Arguments& argv, long param)
+Controller::exec <Token::keyboard, Token::inspect> (Arguments& argv, long param)
 {
     dump(amiga.keyboard, Dump::State);
 }
@@ -522,7 +516,7 @@ Controller::exec <Token::serial, Token::set, Token::device> (Arguments &argv, lo
 }
 
 template <> void
-Controller::exec <Token::serial, Token::dump> (Arguments& argv, long param)
+Controller::exec <Token::serial, Token::inspect> (Arguments& argv, long param)
 {
     dump(amiga.serialPort, Dump::State);
 }
@@ -533,31 +527,31 @@ Controller::exec <Token::serial, Token::dump> (Arguments& argv, long param)
 //
 
 template <> void
-Controller::exec <Token::diskcontroller, Token::config> (Arguments& argv, long param)
+Controller::exec <Token::dc, Token::config> (Arguments& argv, long param)
 {
     dump(amiga.paula.diskController, Dump::Config);
 }
 
 template <> void
-Controller::exec <Token::diskcontroller, Token::dump> (Arguments& argv, long param)
+Controller::exec <Token::dc, Token::inspect> (Arguments& argv, long param)
 {
     dump(amiga.paula.diskController, Dump::Registers);
 }
 
 template <> void
-Controller::exec <Token::diskcontroller, Token::speed> (Arguments& argv, long param)
+Controller::exec <Token::dc, Token::speed> (Arguments& argv, long param)
 {
     amiga.configure(OPT_DRIVE_SPEED, parseDec(argv.front()));
 }
 
 template <> void
-Controller::exec <Token::diskcontroller, Token::dsksync, Token::autosync> (Arguments& argv, long param)
+Controller::exec <Token::dc, Token::dsksync, Token::autosync> (Arguments& argv, long param)
 {
     amiga.configure(OPT_AUTO_DSKSYNC, parseBool(argv.front()));
 }
 
 template <> void
-Controller::exec <Token::diskcontroller, Token::dsksync, Token::lock> (Arguments& argv, long param)
+Controller::exec <Token::dc, Token::dsksync, Token::lock> (Arguments& argv, long param)
 {
     amiga.configure(OPT_LOCK_DSKSYNC, parseBool(argv.front()));
 }
@@ -572,12 +566,6 @@ Controller::exec <Token::dfn, Token::eject> (Arguments& argv, long param)
 {
     printf("Df%ld::eject\n", param);
     amiga.df[param]->ejectDisk();
-}
-
-template <> void
-Controller::exec <Token::dfn, Token::dump> (Arguments& argv, long param)
-{
-    dump(*amiga.df[param], Dump::State);
 }
 
 template <> void
@@ -608,3 +596,22 @@ Controller::exec <Token::dfn, Token::insert> (Arguments& argv, long param)
         console << "Failed to insert disk: " << err.what() << '\n';
     }
 }
+
+template <> void
+Controller::exec <Token::dfn, Token::set, Token::model> (Arguments& argv, long param)
+{
+    amiga.configure(OPT_DRIVE_TYPE, param, DriveTypeEnum::parse(argv.front()));
+}
+
+template <> void
+Controller::exec <Token::dfn, Token::set, Token::mechanics> (Arguments& argv, long param)
+{
+    amiga.configure(OPT_EMULATE_MECHANICS, param, parseBool(argv.front()));
+}
+
+template <> void
+Controller::exec <Token::dfn, Token::inspect> (Arguments& argv, long param)
+{
+    dump(*amiga.df[param], Dump::State);
+}
+

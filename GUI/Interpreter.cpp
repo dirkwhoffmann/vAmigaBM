@@ -135,6 +135,10 @@ Interpreter::exec(Arguments &argv, bool verbose)
         console << "Invalid argument. ";
         console << "Expected: " << err.what() << '\n';
 
+    } catch (ConfigUnsupportedError) {
+        console << "This option is not yet supported.";
+        console << '\n';
+        
     } catch (ConfigLockedError &err) {
         console << "This option is locked because the Amiga is powered on.";
         console << '\n';

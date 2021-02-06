@@ -66,8 +66,7 @@ Drive::setConfigItem(Option option, long id, long value)
             }
 
             if (value != DRIVE_DD_35 && value != DRIVE_HD_35) {
-                warn("Unsupported type: %s\n", DriveTypeEnum::key((DriveType)value));
-                return false;
+                throw ConfigUnsupportedError();
             }
             
             config.type = (DriveType)value;
