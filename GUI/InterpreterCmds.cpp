@@ -416,6 +416,10 @@ Interpreter::registerInstructions()
     root.add("paula", "dump",
              "command", "Displays the internal state");
 
+    root.add("paula", "dump", "state",
+             "command", "Displays the current register value",
+             &Controller::exec <Token::paula, Token::dump, Token::state>, 0, 0);
+
     root.add("paula", "dump", "registers",
              "command", "Displays the current register value",
              &Controller::exec <Token::paula, Token::dump, Token::registers>, 0, 0);

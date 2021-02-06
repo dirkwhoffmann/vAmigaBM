@@ -132,7 +132,7 @@ public:
     Console& operator<<(char value);
     Console& operator<<(const std::string& value);
     Console& operator<<(int value);
-    
+
     // Clears the current line
     void clearLine() { *this << '\r'; }
 

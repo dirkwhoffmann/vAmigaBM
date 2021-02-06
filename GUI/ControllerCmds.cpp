@@ -447,9 +447,15 @@ Controller::exec <Token::paula, Token::config> (Arguments& argv, long param)
 }
 
 template <> void
+Controller::exec <Token::paula, Token::dump, Token::state> (Arguments& argv, long param)
+{
+    dump(amiga.paula, Dump::State);
+}
+
+template <> void
 Controller::exec <Token::paula, Token::dump, Token::registers> (Arguments& argv, long param)
 {
-    dump(amiga.paula.muxer, Dump::Registers);
+    dump(amiga.paula, Dump::Registers);
 }
 
 
