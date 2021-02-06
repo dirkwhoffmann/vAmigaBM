@@ -449,8 +449,10 @@ private:
     void _inspect() override;
     void _dump(Dump::Category category, std::ostream& os) const override;
     
-    void inspectEvents();
-    void inspectEventSlot(EventSlot nr);
+    void inspectEvents(EventInfo &info);
+    void inspectEvents() { inspectEvents(eventInfo); }
+    void inspectEventSlot(EventInfo &info, EventSlot nr);
+    void inspectEventSlot(EventSlot nr) { inspectEventSlot(eventInfo, nr); }
 
 public:
     

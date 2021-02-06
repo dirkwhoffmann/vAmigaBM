@@ -10,30 +10,30 @@
 #include "Amiga.h"
 
 void
-Agnus::inspectEvents()
+Agnus::inspectEvents(EventInfo &info)
 {
     synchronized {
         
-        eventInfo.cpuClock = cpu.getMasterClock();
-        eventInfo.cpuCycles = cpu.getCpuClock();
-        eventInfo.dmaClock = clock;
-        eventInfo.ciaAClock = ciaa.clock;
-        eventInfo.ciaBClock  = ciab.clock;
-        eventInfo.frame = frame.nr;
-        eventInfo.vpos = pos.v;
-        eventInfo.hpos = pos.h;
+        info.cpuClock = cpu.getMasterClock();
+        info.cpuCycles = cpu.getCpuClock();
+        info.dmaClock = clock;
+        info.ciaAClock = ciaa.clock;
+        info.ciaBClock  = ciab.clock;
+        info.frame = frame.nr;
+        info.vpos = pos.v;
+        info.hpos = pos.h;
         
         // Inspect all slots
-        for (isize i = 0; i < SLOT_COUNT; i++) inspectEventSlot((EventSlot)i);
+        for (isize i = 0; i < SLOT_COUNT; i++) inspectEventSlot(info, (EventSlot)i);
     }
 }
 
 void
-Agnus::inspectEventSlot(EventSlot nr)
+Agnus::inspectEventSlot(EventInfo &info, EventSlot nr)
 {
     assert_enum(EventSlot, nr);
     
-    EventSlotInfo &i = eventInfo.slotInfo[nr];
+    EventSlotInfo &i = info.slotInfo[nr];
     Cycle trigger = slot[nr].triggerCycle;
 
     i.slot = nr;

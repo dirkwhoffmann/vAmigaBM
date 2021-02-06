@@ -103,21 +103,6 @@ Command::seek(const string& token)
         if (it.token == token) return &it;
     }
     return nullptr;
-    /*
-    Command *result = nullptr;
-    isize hits = 0;
-    
-    for (auto& it : args) {
-        if (token.size() == 0) {
-            if (it.token.size() == 0) return &it;
-        } else if (it.token.substr(0, token.size()) == token) {
-            result = &it;
-            hits++;
-        }
-    }
-    
-    return hits == 1 ? result : nullptr;
-    */
 }
 
 std::vector<std::string>
@@ -132,10 +117,6 @@ Command::types()
         if (std::find(result.begin(), result.end(), it.type) == result.end()) {
             result.push_back(it.type);
         }
-    }
-    
-    for (auto &it : result) {
-        printf("key: %s\n", it.c_str());
     }
     
     return result;
@@ -164,11 +145,6 @@ Command::filterPrefix(const string& prefix)
         if (it.token.substr(0, prefix.size()) == prefix) result.push_back(&it);
     }
 
-    /*
-    printf("filterPrefix\n");
-    for (auto &it : result) { printf("%s\n", it->token.c_str()); }
-    printf("---\n");
-    */
     return result;
 }
 

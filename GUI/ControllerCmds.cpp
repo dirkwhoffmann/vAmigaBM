@@ -209,9 +209,9 @@ template <> void
 Controller::exec <Token::cia, Token::set, Token::todbug> (Arguments &argv, long param)
 {
     if (param == 0) {
-        amiga.ciaA.configure(OPT_TODBUG, CIARevisionEnum::parse(argv.front()));
+        amiga.ciaA.configure(OPT_TODBUG, parseBool(argv.front()));
     } else {
-        amiga.ciaB.configure(OPT_TODBUG, CIARevisionEnum::parse(argv.front()));
+        amiga.ciaB.configure(OPT_TODBUG,parseBool(argv.front()));
     }
 }
 
@@ -219,9 +219,9 @@ template <> void
 Controller::exec <Token::cia, Token::set, Token::esync> (Arguments &argv, long param)
 {
     if (param == 0) {
-        amiga.ciaA.configure(OPT_ECLOCK_SYNCING, CIARevisionEnum::parse(argv.front()));
+        amiga.ciaA.configure(OPT_ECLOCK_SYNCING, parseBool(argv.front()));
     } else {
-        amiga.ciaB.configure(OPT_ECLOCK_SYNCING, CIARevisionEnum::parse(argv.front()));
+        amiga.ciaB.configure(OPT_ECLOCK_SYNCING, parseBool(argv.front()));
     }
 }
 
@@ -279,6 +279,12 @@ Controller::exec <Token::agnus, Token::set, Token::slowrammirror> (Arguments &ar
 }
 
 template <> void
+Controller::exec <Token::agnus, Token::dump, Token::state> (Arguments &argv, long param)
+{
+    dump(amiga.agnus, Dump::State);
+}
+
+template <> void
 Controller::exec <Token::agnus, Token::dump, Token::registers> (Arguments &argv, long param)
 {
     dump(amiga.agnus, Dump::Registers);
@@ -287,7 +293,10 @@ Controller::exec <Token::agnus, Token::dump, Token::registers> (Arguments &argv,
 template <> void
 Controller::exec <Token::agnus, Token::dump, Token::events> (Arguments &argv, long param)
 {
-    dump(amiga.agnus, Dump::Events);
+    std::stringstream ss; string line;
+    
+    amiga.agnus.dumpEvents(ss);
+    while(std::getline(ss, line)) console << line << '\n';
 }
 
 

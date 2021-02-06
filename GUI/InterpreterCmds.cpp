@@ -229,6 +229,10 @@ Interpreter::registerInstructions()
     root.add("agnus", "dump",
              "command", "Displays the internal state");
 
+    root.add("agnus", "dump", "state",
+             "category", "Displays the current state",
+             &Controller::exec <Token::agnus, Token::dump, Token::state>, 0, 0);
+
     root.add("agnus", "dump", "registers",
              "category", "Displays the current register value",
              &Controller::exec <Token::agnus, Token::dump, Token::registers>, 0, 0);
