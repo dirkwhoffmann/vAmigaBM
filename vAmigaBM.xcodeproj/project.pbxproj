@@ -489,6 +489,7 @@
 		50CAD08425CEB40100DD55A5 /* Makefile */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
 		50CAD08625CEB45600DD55A5 /* Makefile */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
 		50CAD08825CEB47C00DD55A5 /* Makefile */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
+		50CAD08A25CEB72700DD55A5 /* Makefile */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
 		50CF561625BFECA900B1AC0D /* vAmigaBM */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = vAmigaBM; sourceTree = BUILT_PRODUCTS_DIR; };
 		50CF561925BFECA900B1AC0D /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		50E08E1C25C3101C00B82E96 /* IBMPlexMono-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "IBMPlexMono-Medium.ttf"; sourceTree = "<group>"; };
@@ -827,6 +828,7 @@
 		50AE10E025C42D6600AD13B7 /* Peripherals */ = {
 			isa = PBXGroup;
 			children = (
+				50CAD07E25CEB38B00DD55A5 /* Makefile */,
 				50AE10E125C42D6600AD13B7 /* KeyboardEvents.cpp */,
 				50AE10E225C42D6600AD13B7 /* PortTypes.h */,
 				50AE10E325C42D6600AD13B7 /* ControlPort.cpp */,
@@ -842,7 +844,6 @@
 				50AE10ED25C42D6600AD13B7 /* Keyboard.cpp */,
 				50AE10EE25C42D6600AD13B7 /* Joystick.cpp */,
 				50AE10EF25C42D6600AD13B7 /* KeyboardTypes.h */,
-				50CAD07E25CEB38B00DD55A5 /* Makefile */,
 			);
 			path = Peripherals;
 			sourceTree = "<group>";
@@ -850,6 +851,7 @@
 		50AE10F025C42D6600AD13B7 /* xdms */ = {
 			isa = PBXGroup;
 			children = (
+				50CAD08A25CEB72700DD55A5 /* Makefile */,
 				50AE10F125C42D6600AD13B7 /* u_heavy.c */,
 				50AE10F225C42D6600AD13B7 /* tables.c */,
 				50AE10F325C42D6600AD13B7 /* u_deep.c */,
