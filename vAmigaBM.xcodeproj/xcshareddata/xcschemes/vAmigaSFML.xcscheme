@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "50CF561525BFECA900B1AC0D"
-               BuildableName = "vAmigaSFML"
-               BlueprintName = "vAmigaSFML"
-               ReferencedContainer = "container:vAmigaSFML.xcodeproj">
+               BuildableName = "vAmigaBM"
+               BlueprintName = "vAmigaBM"
+               ReferencedContainer = "container:vAmigaBM.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -45,9 +45,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "50CF561525BFECA900B1AC0D"
-            BuildableName = "vAmigaSFML"
-            BlueprintName = "vAmigaSFML"
-            ReferencedContainer = "container:vAmigaSFML.xcodeproj">
+            BuildableName = "vAmigaBM"
+            BlueprintName = "vAmigaBM"
+            ReferencedContainer = "container:vAmigaBM.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
@@ -62,9 +62,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "50CF561525BFECA900B1AC0D"
-            BuildableName = "vAmigaSFML"
-            BlueprintName = "vAmigaSFML"
-            ReferencedContainer = "container:vAmigaSFML.xcodeproj">
+            BuildableName = "vAmigaBM"
+            BlueprintName = "vAmigaBM"
+            ReferencedContainer = "container:vAmigaBM.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

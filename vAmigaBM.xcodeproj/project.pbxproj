@@ -474,7 +474,7 @@
 		50AE115C25C42D6700AD13B7 /* Amiga.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Amiga.h; sourceTree = "<group>"; };
 		50AE11C325C44AAC00AD13B7 /* Controller.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Controller.cpp; sourceTree = "<group>"; };
 		50AE11C425C44AAC00AD13B7 /* Controller.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Controller.h; sourceTree = "<group>"; };
-		50CF561625BFECA900B1AC0D /* vAmigaSFML */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = vAmigaSFML; sourceTree = BUILT_PRODUCTS_DIR; };
+		50CF561625BFECA900B1AC0D /* vAmigaBM */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = vAmigaBM; sourceTree = BUILT_PRODUCTS_DIR; };
 		50CF561925BFECA900B1AC0D /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		50E08E1C25C3101C00B82E96 /* IBMPlexMono-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "IBMPlexMono-Medium.ttf"; sourceTree = "<group>"; };
 		50E4DD5425C6B180001F6432 /* InterpreterCmds.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = InterpreterCmds.cpp; sourceTree = "<group>"; };
@@ -560,7 +560,6 @@
 				50AE105B25C42D6500AD13B7 /* CPU */,
 				50AE107625C42D6500AD13B7 /* Foundation */,
 				50AE109325C42D6600AD13B7 /* LogicBoard */,
-				50AE109C25C42D6600AD13B7 /* adftools */,
 				50AE109E25C42D6600AD13B7 /* Agnus */,
 				50AE10C025C42D6600AD13B7 /* AmigaConfig.h */,
 				50AE10C125C42D6600AD13B7 /* Files */,
@@ -689,21 +688,6 @@
 				50AE109B25C42D6600AD13B7 /* Oscillator.cpp */,
 			);
 			path = LogicBoard;
-			sourceTree = "<group>";
-		};
-		50AE109C25C42D6600AD13B7 /* adftools */ = {
-			isa = PBXGroup;
-			children = (
-				50AE109D25C42D6600AD13B7 /* gradle */,
-			);
-			path = adftools;
-			sourceTree = "<group>";
-		};
-		50AE109D25C42D6600AD13B7 /* gradle */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = gradle;
 			sourceTree = "<group>";
 		};
 		50AE109E25C42D6600AD13B7 /* Agnus */ = {
@@ -1005,7 +989,7 @@
 		50CF561725BFECA900B1AC0D /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				50CF561625BFECA900B1AC0D /* vAmigaSFML */,
+				50CF561625BFECA900B1AC0D /* vAmigaBM */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1055,9 +1039,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		50CF561525BFECA900B1AC0D /* vAmigaSFML */ = {
+		50CF561525BFECA900B1AC0D /* vAmigaBM */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 50CF561D25BFECA900B1AC0D /* Build configuration list for PBXNativeTarget "vAmigaSFML" */;
+			buildConfigurationList = 50CF561D25BFECA900B1AC0D /* Build configuration list for PBXNativeTarget "vAmigaBM" */;
 			buildPhases = (
 				50CF561225BFECA900B1AC0D /* Sources */,
 				50CF561325BFECA900B1AC0D /* Frameworks */,
@@ -1069,9 +1053,9 @@
 			);
 			dependencies = (
 			);
-			name = vAmigaSFML;
+			name = vAmigaBM;
 			productName = vAmigaSFML;
-			productReference = 50CF561625BFECA900B1AC0D /* vAmigaSFML */;
+			productReference = 50CF561625BFECA900B1AC0D /* vAmigaBM */;
 			productType = "com.apple.product-type.tool";
 		};
 /* End PBXNativeTarget section */
@@ -1080,14 +1064,14 @@
 		50CF560E25BFECA900B1AC0D /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 1230;
+				LastUpgradeCheck = 1240;
 				TargetAttributes = {
 					50CF561525BFECA900B1AC0D = {
 						CreatedOnToolsVersion = 12.3;
 					};
 				};
 			};
-			buildConfigurationList = 50CF561125BFECA900B1AC0D /* Build configuration list for PBXProject "vAmigaSFML" */;
+			buildConfigurationList = 50CF561125BFECA900B1AC0D /* Build configuration list for PBXProject "vAmigaBM" */;
 			compatibilityVersion = "Xcode 9.3";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -1100,7 +1084,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				50CF561525BFECA900B1AC0D /* vAmigaSFML */,
+				50CF561525BFECA900B1AC0D /* vAmigaBM */,
 			);
 		};
 /* End PBXProject section */
@@ -1359,6 +1343,7 @@
 		50CF561E25BFECA900B1AC0D /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "";
 				DEVELOPMENT_TEAM = 3NG65ZLYW7;
@@ -1376,6 +1361,7 @@
 		50CF561F25BFECA900B1AC0D /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "";
 				DEVELOPMENT_TEAM = 3NG65ZLYW7;
@@ -1393,7 +1379,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		50CF561125BFECA900B1AC0D /* Build configuration list for PBXProject "vAmigaSFML" */ = {
+		50CF561125BFECA900B1AC0D /* Build configuration list for PBXProject "vAmigaBM" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				50CF561B25BFECA900B1AC0D /* Debug */,
@@ -1402,7 +1388,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		50CF561D25BFECA900B1AC0D /* Build configuration list for PBXNativeTarget "vAmigaSFML" */ = {
+		50CF561D25BFECA900B1AC0D /* Build configuration list for PBXNativeTarget "vAmigaBM" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				50CF561E25BFECA900B1AC0D /* Debug */,
