@@ -145,9 +145,6 @@
 		50AE11C125C42D6700AD13B7 /* FSDevice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50AE115A25C42D6700AD13B7 /* FSDevice.cpp */; };
 		50AE11C225C42D6700AD13B7 /* FSDataBlock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50AE115B25C42D6700AD13B7 /* FSDataBlock.cpp */; };
 		50AE11C525C44AAC00AD13B7 /* Controller.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50AE11C325C44AAC00AD13B7 /* Controller.cpp */; };
-		50CAD06F25CEAC3A00DD55A5 /* Makefile in Sources */ = {isa = PBXBuildFile; fileRef = 50CAD06E25CEAC3A00DD55A5 /* Makefile */; };
-		50CAD07125CEAC6100DD55A5 /* Makefile in Sources */ = {isa = PBXBuildFile; fileRef = 50CAD07025CEAC6100DD55A5 /* Makefile */; };
-		50CAD07325CEAC8A00DD55A5 /* Makefiles in Resources */ = {isa = PBXBuildFile; fileRef = 50CAD07225CEAC8A00DD55A5 /* Makefiles */; };
 		50CF561A25BFECA900B1AC0D /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50CF561925BFECA900B1AC0D /* main.cpp */; };
 		50E08E1D25C3102200B82E96 /* IBMPlexMono-Medium.ttf in CopyFiles */ = {isa = PBXBuildFile; fileRef = 50E08E1C25C3101C00B82E96 /* IBMPlexMono-Medium.ttf */; };
 		50E4DD5525C6B180001F6432 /* InterpreterCmds.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50E4DD5425C6B180001F6432 /* InterpreterCmds.cpp */; };
@@ -1105,7 +1102,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				50CAD07325CEAC8A00DD55A5 /* Makefiles in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1170,7 +1166,6 @@
 				50AE119025C42D6700AD13B7 /* Mouse.cpp in Sources */,
 				50AE117325C42D6700AD13B7 /* CopperRegisters.cpp in Sources */,
 				50AE116E25C42D6700AD13B7 /* RTC.cpp in Sources */,
-				50CAD06F25CEAC3A00DD55A5 /* Makefile in Sources */,
 				50AE118825C42D6700AD13B7 /* BootBlockImage.cpp in Sources */,
 				50AE119A25C42D6700AD13B7 /* crc_csum.c in Sources */,
 				50AE118625C42D6700AD13B7 /* ADFFile.cpp in Sources */,
@@ -1179,7 +1174,6 @@
 				50AE11A725C42D6700AD13B7 /* Sampler.cpp in Sources */,
 				50AE118925C42D6700AD13B7 /* DiskFile.cpp in Sources */,
 				50AE119F25C42D6700AD13B7 /* DiskControllerEvents.cpp in Sources */,
-				50CAD07125CEAC6100DD55A5 /* Makefile in Sources */,
 				50AE118F25C42D6700AD13B7 /* SerialPort.cpp in Sources */,
 				50AE119325C42D6700AD13B7 /* u_heavy.c in Sources */,
 				50AE119225C42D6700AD13B7 /* Joystick.cpp in Sources */,

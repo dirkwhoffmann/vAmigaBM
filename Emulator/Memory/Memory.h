@@ -363,32 +363,35 @@ public:
     void eraseRom() { assert(rom); memset(rom, 0, config.romSize); }
     void eraseWom() { assert(wom); memset(wom, 0, config.womSize); }
     void eraseExt() { assert(ext); memset(ext, 0, config.extSize); }
-
+    
     // Installs a Boot Rom or Kickstart Rom
     void loadRom(RomFile *rom) throws;
     void loadRomFromFile(const char *path) throws;
-    bool loadRomFromFile(const char *path, ErrorCode *ec);
+    void loadRomFromFile(const char *path, ErrorCode *ec);
     void loadRomFromBuffer(const u8 *buf, isize len) throws;
-    bool loadRomFromBuffer(const u8 *buf, isize len, ErrorCode *ec);
-
+    void loadRomFromBuffer(const u8 *buf, isize len, ErrorCode *ec);
+    
     void loadExt(ExtendedRomFile *rom) throws;
     void loadExtFromFile(const char *path) throws;
-    bool loadExtFromFile(const char *path, ErrorCode *ec);
+    void loadExtFromFile(const char *path, ErrorCode *ec);
     void loadExtFromBuffer(const u8 *buf, isize len) throws;
-    bool loadExtFromBuffer(const u8 *buf, isize len, ErrorCode *ec);
-
+    void loadExtFromBuffer(const u8 *buf, isize len, ErrorCode *ec);
+    
 private:
 
-    // Loads Rom data from a file
+     // Loads Rom data from a file
     // DEPRECATED: USE AnyAmigaFile::flash(...) instead
     void loadRom(AmigaFile *rom, u8 *target, isize length);
-
+    
 public:
     
     // Saves a Rom to disk
-    bool saveRom(const char *path);
-    bool saveWom(const char *path);
-    bool saveExt(const char *path);
+    void saveRom(const char *path) throws;
+    void saveRom(const char *path, ErrorCode *ec);
+    void saveWom(const char *path) throws;
+    void saveWom(const char *path, ErrorCode *ec);
+    void saveExt(const char *path) throws;
+    void saveExt(const char *path, ErrorCode *ec);
 
     
     //
@@ -481,3 +484,4 @@ public:
     // Returns a certain amount of bytes as a string containing hex words
     template <Accessor A> const char *hex(u32 addr, isize bytes);
 };
+

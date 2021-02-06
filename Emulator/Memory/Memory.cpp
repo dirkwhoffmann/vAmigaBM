@@ -71,7 +71,7 @@ Memory::getConfigItem(Option option) const
 
 bool
 Memory::setConfigItem(Option option, long value)
-{    
+{
     switch (option) {
             
         case OPT_CHIP_RAM:
@@ -511,20 +511,12 @@ Memory::loadRomFromFile(const char *path)
     loadRom(file);
 }
 
-bool
+void
 Memory::loadRomFromFile(const char *path, ErrorCode *ec)
 {
-    try
-    {
-        loadRomFromFile(path);
-        return true;
-    }
-    catch (VAError &exception)
-    {
-        msg("Failed to read Kick Rom from file %s\n", path);
-        *ec = exception.errorCode;
-        return false;
-    }
+    *ec = ERROR_OK;
+    try { loadRomFromFile(path); }
+    catch (VAError &err) { *ec = err.errorCode; }
 }
 
 void
@@ -536,20 +528,12 @@ Memory::loadRomFromBuffer(const u8 *buf, isize len)
     loadRom(file);
 }
 
-bool
+void
 Memory::loadRomFromBuffer(const u8 *buf, isize len, ErrorCode *ec)
 {
-    try
-    {
-        loadRomFromBuffer(buf, len);
-        return true;
-    }
-    catch (VAError &exception)
-    {
-        msg("Failed to read Kick Rom from buffer at %p\n", buf);
-        *ec = exception.errorCode;
-        return false;
-    }
+    *ec = ERROR_OK;
+    try { loadRomFromBuffer(buf, len); }
+    catch (VAError &err) { *ec = err.errorCode; }
 }
 
 void
@@ -573,45 +557,29 @@ Memory::loadExtFromFile(const char *path)
     loadExt(file);
 }
 
-bool
+void
 Memory::loadExtFromFile(const char *path, ErrorCode *ec)
 {
-    try
-    {
-        loadExtFromFile(path);
-        return true;
-    }
-    catch (VAError &exception)
-    {
-        msg("Failed to read Extended Rom from file %s\n", path);
-        *ec = exception.errorCode;
-        return false;
-    }
+    *ec = ERROR_OK;
+    try { loadExtFromFile(path); }
+    catch (VAError &exception) { *ec = exception.errorCode; }
 }
 
 void
 Memory::loadExtFromBuffer(const u8 *buf, isize len)
 {
     assert(buf);
-
+    
     ExtendedRomFile *file = AmigaFile::make <ExtendedRomFile> (buf, len);
     loadExt(file);
 }
 
-bool
+void
 Memory::loadExtFromBuffer(const u8 *buf, isize len, ErrorCode *ec)
 {
-    try
-    {
-        loadExtFromBuffer(buf, len);
-        return true;
-    }
-    catch (VAError &exception)
-    {
-        msg("Failed to read Extended Rom from buffer at %p\n", buf);
-        *ec = exception.errorCode;
-        return false;
-    }
+    *ec = ERROR_OK;
+    try { loadExtFromBuffer(buf, len); }
+    catch (VAError &exception) { *ec = exception.errorCode; }
 }
  
 void
@@ -630,31 +598,52 @@ Memory::loadRom(AmigaFile *file, u8 *target, isize length)
     }
 }
 
-bool
+void
 Memory::saveRom(const char *path)
 {
-    if (rom == nullptr) return false;
-
+    if (rom == nullptr) return;
+    
     RomFile *file = AmigaFile::make <RomFile> (rom, config.romSize);
-    return file && file->writeToFile(path);
+    file->writeToFile(path);
 }
 
-bool
+void
+Memory::saveRom(const char *path, ErrorCode *ec)
+{
+    *ec = ERROR_OK;
+    try { saveRom(path); } catch (VAError &err) { *ec = err.errorCode; }
+}
+
+void
 Memory::saveWom(const char *path)
 {
-    if (wom == nullptr) return false;
+    if (wom == nullptr) return;
     
     RomFile *file = AmigaFile::make <RomFile> (wom, config.womSize);
-    return file && file->writeToFile(path);
+    file->writeToFile(path);
 }
 
-bool
+void
+Memory::saveWom(const char *path, ErrorCode *ec)
+{
+    *ec = ERROR_OK;
+    try { saveWom(path); } catch (VAError &err) { *ec = err.errorCode; }
+}
+
+void
 Memory::saveExt(const char *path)
 {
-    if (ext == nullptr) return false;
+    if (ext == nullptr) return;
 
     RomFile *file = AmigaFile::make <RomFile> (ext, config.extSize);
-    return file && file->writeToFile(path);
+    file->writeToFile(path);
+}
+
+void
+Memory::saveExt(const char *path, ErrorCode *ec)
+{
+    *ec = ERROR_OK;
+    try { saveExt(path); } catch (VAError &err) { *ec = err.errorCode; }
 }
 
 template <> MemorySource
@@ -1020,7 +1009,7 @@ Memory::peek8 <ACCESSOR_CPU, MEM_AUTOCONF> (u32 addr)
         return dataBus;
     }
     
-    dataBus = zorro.peekFastRamDevice(addr) << 4;         
+    dataBus = zorro.peekFastRamDevice(addr) << 4;
     trace(FAS_DEBUG, "peek8<AUTOCONF>(%x) = %x\n", addr, dataBus);
     return dataBus;
 }
@@ -2436,3 +2425,4 @@ template const char *Memory::ascii <ACCESSOR_AGNUS> (u32 addr);
 
 template const char *Memory::hex <ACCESSOR_CPU> (u32 addr, isize bytes);
 template const char *Memory::hex <ACCESSOR_AGNUS> (u32 addr, isize bytes);
+
