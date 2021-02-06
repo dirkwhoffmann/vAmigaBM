@@ -478,6 +478,10 @@
 		50CAD06E25CEAC3A00DD55A5 /* Makefile */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
 		50CAD07025CEAC6100DD55A5 /* Makefile */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
 		50CAD07225CEAC8A00DD55A5 /* Makefiles */ = {isa = PBXFileReference; lastKnownFileType = text; path = Makefiles; sourceTree = "<group>"; };
+		50CAD07425CEAF4900DD55A5 /* Makefile */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
+		50CAD07625CEAF8100DD55A5 /* Makefile */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
+		50CAD07825CEAFAB00DD55A5 /* Makefile */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
+		50CAD07A25CEAFDF00DD55A5 /* Makefile */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
 		50CF561625BFECA900B1AC0D /* vAmigaBM */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = vAmigaBM; sourceTree = BUILT_PRODUCTS_DIR; };
 		50CF561925BFECA900B1AC0D /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		50E08E1C25C3101C00B82E96 /* IBMPlexMono-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "IBMPlexMono-Medium.ttf"; sourceTree = "<group>"; };
@@ -581,6 +585,7 @@
 		50AE104A25C42D6500AD13B7 /* Denise */ = {
 			isa = PBXGroup;
 			children = (
+				50CAD07425CEAF4900DD55A5 /* Makefile */,
 				50AE104B25C42D6500AD13B7 /* DenisePublicTypes.h */,
 				50AE104C25C42D6500AD13B7 /* DeniseTypes.h */,
 				50AE104D25C42D6500AD13B7 /* DeniseRegisters.cpp */,
@@ -603,6 +608,7 @@
 				50AE105825C42D6500AD13B7 /* MemoryPublicTypes.h */,
 				50AE105925C42D6500AD13B7 /* Memory.h */,
 				50AE105A25C42D6500AD13B7 /* MemoryTypes.h */,
+				50CAD07625CEAF8100DD55A5 /* Makefile */,
 			);
 			path = Memory;
 			sourceTree = "<group>";
@@ -610,6 +616,7 @@
 		50AE105B25C42D6500AD13B7 /* CPU */ = {
 			isa = PBXGroup;
 			children = (
+				50CAD07825CEAFAB00DD55A5 /* Makefile */,
 				50AE105D25C42D6500AD13B7 /* CPUPublicTypes.h */,
 				50AE107325C42D6500AD13B7 /* CPUTypes.h */,
 				50AE105C25C42D6500AD13B7 /* CPU.h */,
@@ -622,6 +629,7 @@
 		50AE105E25C42D6500AD13B7 /* Moira */ = {
 			isa = PBXGroup;
 			children = (
+				50CAD07A25CEAFDF00DD55A5 /* Makefile */,
 				50AE105F25C42D6500AD13B7 /* MoiraDataflow.h */,
 				50AE106025C42D6500AD13B7 /* MoiraALU.h */,
 				50AE106125C42D6500AD13B7 /* Moira.cpp */,
