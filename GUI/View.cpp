@@ -13,12 +13,17 @@
 // ImageView
 //
 
+ImageView::ImageView(usize flags)
+{
+    this->flags = flags;
+}
+
 void
 ImageView::init(const sf::Vector2f &origin, const sf::Vector2f &size, const sf::Texture &tex)
 {
-    setPosition(origin);
-    setSize(size);
     setTexture(&tex);
+    setSize(size);
+    setPosition(origin);
 }
 
 void
@@ -52,31 +57,78 @@ ImageView::init(float w, const sf::Texture &tex)
 }
 
 void
-ImageView::move(const sf::RenderWindow &window, float x, float y)
+ImageView::setPosition(const sf::Vector2f &position)
 {
-    auto size = window.getView().getSize();
-    
-    sf::Vector2f origin = sf::Vector2f{x * size.x, y * size.y };
-    setPosition(origin);
-    
-    auto pos = getPosition();
-    printf("x %f y %f\n", x, y);
-    printf("%f %f\n", pos.x, pos.y);
+    setPosition(position.x, position.y);
 }
 
 void
-ImageView::center(const sf::RenderWindow &window, float x, float y)
+ImageView::setPosition(float x, float y)
 {
-    auto size = window.getView().getSize();
-    auto dx = getSize().x / 2;
-    auto dy = getSize().y / 2;
-    
-    sf::Vector2f origin = sf::Vector2f{x * size.x - dx, y * size.y - dy};
-    setPosition(origin);
+    if (flags & view::center) {
+        
+        x -= getSize().x / 2;
+        y -= getSize().y / 2;
+    }
+    RectangleShape::setPosition(x, y);
 }
 
 void
 ImageView::draw(sf::RenderWindow &window)
 {
     window.draw(*this);
+}
+
+//
+// GradientView
+//
+
+GradientView::GradientView(usize flags)
+{
+    this->flags = flags;
+}
+
+void
+GradientView::init(float x, float y, float w, float h,
+                   sf::Color ul, sf::Color ur, sf::Color ll, sf::Color lr)
+{
+    this->w = w;
+    this->h = h;
+    
+    setPosition(x, y);
+    rectangle[0].color = ul;
+    rectangle[1].color = ur;
+    rectangle[2].color = ll;
+    rectangle[3].color = lr;
+}
+
+void
+GradientView::init(float w, float h,
+                   sf::Color ul, sf::Color ur, sf::Color ll, sf::Color lr)
+{
+    init(0, 0, w, h, ul, ur, ll, lr);
+}
+
+void
+GradientView::setPosition(const sf::Vector2f &position)
+{
+    setPosition(position.x, position.y);
+}
+
+void
+GradientView::setPosition(float x, float y)
+{
+    float xx = x + (flags & view::center) ? w / 2 : 0;
+    float yy = y + (flags & view::center) ? h / 2 : 0;
+
+    rectangle[0].position = sf::Vector2f(xx + 0, yy + 0);
+    rectangle[1].position = sf::Vector2f(xx + w, yy + 0);
+    rectangle[2].position = sf::Vector2f(xx + w, yy + h);
+    rectangle[3].position = sf::Vector2f(xx + 0, yy + h);
+}
+
+void
+GradientView::draw(sf::RenderWindow &window)
+{
+    window.draw(rectangle, 4, sf::Quads);
 }

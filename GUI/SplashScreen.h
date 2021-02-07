@@ -18,9 +18,13 @@ class SplashScreen : public Layer {
     float w, h;
         
     sf::Text info1;
-    sf::Vertex rectangle[4];
+
+    // Background
+    GradientView background;
+//     sf::Vertex rectangle[4];
   
-    ImageView logoView;
+    // vAmiga logo
+    ImageView logo = ImageView(view::center);
     
     
     //

@@ -35,16 +35,21 @@ SplashScreen::init()
                    textRect.top + textRect.height/2.0f);
     info1.setPosition(sf::Vector2f(w * 0.5, h * 0.8));
 
+    // Setup background
+    background.init(w, h,
+                    sf::Color(0x89,0x89,0x89), sf::Color(0x89,0x89,0x89),
+                    sf::Color(0xF0,0xF0,0xF0), sf::Color(0xF0,0xF0,0xF0));
+    
     // Setup vAmiga logo
-    //     logoView.init(0.17 * w, 0.125 * h, 0.66 * w, Assets::get(TextureID::logo));
-    logoView.init(0.66 * w, Assets::get(TextureID::logo));
-    logoView.center(app.window, 0.5, 0.4);
+    logo.init(0.5 * w, 0.4 * h, 0.66 * w, Assets::get(TextureID::logo));
     
     // Setup rectangle that spans the whole screen
+    /*
     rectangle[0] = sf::Vertex(sf::Vector2f(0,0), sf::Color(0x89,0x89,0x89));
     rectangle[1] = sf::Vertex(sf::Vector2f(w,0), sf::Color(0x89,0x89,0x89));
     rectangle[2] = sf::Vertex(sf::Vector2f(w,h), sf::Color(0xF0,0xF0,0xF0));
     rectangle[3] = sf::Vertex(sf::Vector2f(0,h), sf::Color(0xF0,0xF0,0xF0));
+    */
     return true;
 }
 
@@ -63,8 +68,8 @@ SplashScreen::handle(const sf::Event &event)
 void
 SplashScreen::render()
 {
-    app.window.draw(rectangle, 4, sf::Quads);
-    logoView.draw(app.window);
+    background.draw(app.window);
+    logo.draw(app.window);
     app.window.draw(info1);
 }
 

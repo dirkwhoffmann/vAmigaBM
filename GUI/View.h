@@ -11,8 +11,20 @@
 
 #include <SFML/Graphics.hpp>
 
-struct ImageView : sf::RectangleShape {
+namespace view {
+static const usize center = 0b0001;
+}
+
+struct View {
+
+    usize flags = 0;
+};
+
+
+struct ImageView : View, sf::RectangleShape {
         
+    ImageView(usize _flags = 0);
+    
     // Initializers
     void init(float x, float y, float w, float h, const sf::Texture &tex);
     void init(float x, float y, float w, const sf::Texture &tex);
@@ -21,9 +33,26 @@ struct ImageView : sf::RectangleShape {
     void init(const sf::Vector2f &origin, const sf::Vector2f &size, const sf::Texture &tex);
     void init(const sf::Vector2f &size, const sf::Texture &tex);
 
-    // Positions the view using normalized coordiates
-    void move(const sf::RenderWindow &window, float x, float y);
-    void center(const sf::RenderWindow &window, float x = 0.5, float y = 0.5);
+    // Wrappers
+    void setPosition(const sf::Vector2f &position);
+    void setPosition(float x, float y);
+    void draw(sf::RenderWindow &window);
+};
 
+struct GradientView : View {
+    
+    float w, h;
+    sf::Vertex rectangle[4];
+    
+    GradientView(usize _flags = 0);
+
+    void init(float x, float y, float w, float h,
+              sf::Color ul, sf::Color ur, sf::Color ll, sf::Color lr);
+    void init(float w, float h,
+              sf::Color ul, sf::Color ur, sf::Color ll, sf::Color lr);
+
+    // Wrappers
+    void setPosition(const sf::Vector2f &position);
+    void setPosition(float x, float y);
     void draw(sf::RenderWindow &window);
 };
