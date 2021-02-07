@@ -9,24 +9,20 @@
 
 #pragma once
 
-#include "Application.h"
+// #include "Application.h"
+#include "View.h"
 
 class SplashScreen : public Layer {
     
-    static const int W = 1536;
-    static const int H = W * 0.7525;
-    
-    sf::RectangleShape background;
+    // Drawing dimensions
+    float w, h;
+        
+    sf::RectangleShape logo;
     sf::Text info1;
-    sf::Vertex rectangle[4] =
-    {
-        sf::Vertex(sf::Vector2f(0,0), sf::Color(0x89,0x89,0x89)),
-        sf::Vertex(sf::Vector2f(W,0), sf::Color(0x89,0x89,0x89)),
-        sf::Vertex(sf::Vector2f(W,H), sf::Color(0xF0,0xF0,0xF0)),
-        sf::Vertex(sf::Vector2f(0,H), sf::Color(0xF0,0xF0,0xF0))
-    };
-
-    sf::Texture logo;
+    sf::Vertex rectangle[4];
+    // sf::Texture logo;
+    
+    ImageView logoView;
     
     
     //
@@ -48,4 +44,5 @@ public:
     virtual bool isVisible() override;
     void handle(const sf::Event &event) override;
     void render() override;
+    void resize(float width, float height);
 }; 

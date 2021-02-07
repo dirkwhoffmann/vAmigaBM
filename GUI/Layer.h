@@ -42,5 +42,8 @@ public:
     virtual void handle(const sf::Event &event) = 0;
     virtual void update(sf::Time dt);
     virtual void render() { };
+    
+    // Delegation methods
+    void resize(float width, float height) { }; 
 };
 

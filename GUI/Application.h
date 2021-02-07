@@ -18,6 +18,7 @@
 #include "Console.h"
 #include "Interpreter.h"
 #include "AssetManager.h"
+#include "View.h"
 
 #include <SFML/Graphics.hpp>
 

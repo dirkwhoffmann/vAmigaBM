@@ -19,8 +19,12 @@ SplashScreen::~SplashScreen()
     
 }
 
-bool SplashScreen::init()
+bool
+SplashScreen::init()
 {
+    w = app.window.getView().getSize().x;
+    h = app.window.getView().getSize().y;
+
     info1 = sf::Text("Press F12 to enter the debug console",
                      Assets::get(FontID::logo));
     
@@ -28,35 +32,48 @@ bool SplashScreen::init()
     info1.setFillColor(sf::Color(0x50,0x50,0x50,0xFF));
     sf::FloatRect textRect = info1.getLocalBounds();
     info1.setOrigin(textRect.left + textRect.width/2.0f,
-                   textRect.top  + textRect.height/2.0f);
-    info1.setPosition(sf::Vector2f(W * 0.5, H * 0.8));
-    
-    logo = Assets::get(TextureID::logo);
-    
-    sf::Vector2u size = logo.getSize();
-    unsigned logoWidth = 0.66 * W;
-    unsigned logoHeight = logoWidth * ((float)size.y / (float)size.x);
-    
-    background.setSize(sf::Vector2f(logoWidth, logoHeight));
-    background.setTexture(&logo);
-    background.setPosition(0.17 * W, 0.125 * H);
+                   textRect.top + textRect.height/2.0f);
+    info1.setPosition(sf::Vector2f(w * 0.5, h * 0.8));
 
+    sf::Vector2u size = Assets::get(TextureID::logo).getSize();
+    logo.setSize(sf::Vector2f(0.66 * w,
+                                    0.66 * w * (float)size.y / (float)size.x));
+    logo.setTexture(&Assets::get(TextureID::logo));
+    logo.setPosition(0.17 * w, 0.125 * h);
+
+    logoView.init(0.17 * w, 0.125 * h, 0.66 * w, Assets::get(TextureID::logo));
+    
+    // Setup rectangle that spans the whole screen
+    rectangle[0] = sf::Vertex(sf::Vector2f(0,0), sf::Color(0x89,0x89,0x89));
+    rectangle[1] = sf::Vertex(sf::Vector2f(w,0), sf::Color(0x89,0x89,0x89));
+    rectangle[2] = sf::Vertex(sf::Vector2f(w,h), sf::Color(0xF0,0xF0,0xF0));
+    rectangle[3] = sf::Vertex(sf::Vector2f(0,h), sf::Color(0xF0,0xF0,0xF0));
     return true;
 }
 
-bool SplashScreen::isVisible()
+bool
+SplashScreen::isVisible()
 {
     return app.amiga.isPoweredOff() || app.canvas.isAnimating();
 }
 
-void SplashScreen::handle(const sf::Event &event)
+void
+SplashScreen::handle(const sf::Event &event)
 {
     
 }
 
-void SplashScreen::render()
+void
+SplashScreen::render()
 {
     app.window.draw(rectangle, 4, sf::Quads);
-    app.window.draw(background);
+    logoView.draw(app.window);
+//     app.window.draw(logo);
     app.window.draw(info1);
+}
+
+void
+SplashScreen::resize(float width, float height)
+{
+    printf("(%f,%f)\n", width, height); 
 }

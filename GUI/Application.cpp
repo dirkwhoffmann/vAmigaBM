@@ -65,23 +65,32 @@ Application::processEvents()
         switch (event.type) {
                 
             case sf::Event::Closed:
-                
+            {
                 window.close();
                 break;
-                
+            }
             case sf::Event::KeyPressed:
-                
+            {
                 if (event.key.code == sf::Keyboard::F12) console.toggle();
                 break;
-                
+            }
+            case sf::Event::Resized:
+            {
+                float w = static_cast<float>(event.size.width);
+                float h = static_cast<float>(event.size.height);
+                splashScreen.resize(w, h);
+                canvas.resize(w, h);
+                console.resize(w, h);
+                break;
+            }
             default:
                 break;
         }
         
         // Distribute the event to the uppermost visible layer
-        if (console.isVisible())     { console.handle(event); }
-        else if (canvas.isVisible()) { canvas.handle(event); }
-        else                         { splashScreen.handle(event); }
+        if (console.isVisible()) return console.handle(event);
+        if (canvas.isVisible()) return canvas.handle(event);
+        if (splashScreen.isVisible()) return splashScreen.handle(event);
     }
 }
 
