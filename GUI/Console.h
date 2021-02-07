@@ -93,6 +93,16 @@ public:
 
 
     //
+    // Methods from Layer
+    //
+    
+    bool isActive() override { return true; }
+    bool isResponsive() override;
+    void handle(const sf::Event &event) override;
+    void render() override;
+
+    
+    //
     // Managing the console window
     //
     
@@ -172,9 +182,7 @@ public:
     //
     // Rendering
     //
-    
-    void render(sf::RenderWindow &window);
-    
+        
 private:
 
     // Translates rows and columns to drawing coordinates

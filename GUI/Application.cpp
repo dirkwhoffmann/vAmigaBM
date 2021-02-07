@@ -91,52 +91,20 @@ Application::processEvents()
         switch (event.type) {
                 
             case sf::Event::Closed:
+                
                 window.close();
                 break;
                 
             case sf::Event::KeyPressed:
-                processKeyEvents(event);
-                break;
                 
-            case sf::Event::KeyReleased:
-                console.keyReleased(event.key.code);
+                if (event.key.code == sf::Keyboard::F12) console.toggle();
                 break;
-                
-            case sf::Event::TextEntered:
-                if (event.text.unicode < 128) {
-                    console.type(static_cast<char>(event.text.unicode));
-                }
-                break;
-                
-            case sf::Event::MouseWheelScrolled:
-            {
-                if(event.mouseWheelScroll.wheel == sf::Mouse::VerticalWheel) {
-                    console.scroll(event.mouseWheelScroll.delta);
-                }
-            }
                 
             default:
                 break;
         }
-    }
-}
-
-void
-Application::processKeyEvents(const sf::Event& event)
-{
-    switch (event.key.code) {
-            
-        case sf::Keyboard::F12:
-            
-            printf("F12\n");
-            console.toggle();
-            break;
-            
-        default:
-            
-            if (console.isVisible()) {
-                console.keyPressed(event.key.code);
-            }
+        
+        if (console.isResponsive()) console.handle(event);
     }
 }
 
@@ -168,7 +136,7 @@ Application::render()
     
     window.draw(foreground);
     
-    console.render(window);
+    console.render();
     
     window.display();
 }

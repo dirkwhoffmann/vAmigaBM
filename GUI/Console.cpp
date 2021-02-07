@@ -69,6 +69,61 @@ Console::init()
     return true;
 }
 
+bool
+Console::isResponsive()
+{
+    return isVisible();
+}
+
+void
+Console::handle(const sf::Event &event)
+{
+    switch (event.type) {
+            
+        case sf::Event::KeyPressed:
+            
+            keyPressed(event.key.code);
+            break;
+            
+        case sf::Event::KeyReleased:
+            
+            keyReleased(event.key.code);
+            break;
+            
+        case sf::Event::TextEntered:
+            
+            if (event.text.unicode < 128) {
+                type(static_cast<char>(event.text.unicode));
+            }
+            break;
+            
+        case sf::Event::MouseWheelScrolled:
+
+            if(event.mouseWheelScroll.wheel == sf::Mouse::VerticalWheel) {
+                scroll(event.mouseWheelScroll.delta);
+            }
+            break;
+            
+        default:
+            break;
+    }
+}
+
+void
+Console::render()
+{
+    drawable.setFillColor(sf::Color(0xFF,0xFF,0xFF,alpha));
+    
+    if (isVisible()) {
+        
+        if (isDirty) {
+            updateTexture();
+            isDirty = false;
+        }
+        app.window.draw(drawable);
+    }
+}
+
 void
 Console::clear()
 {
@@ -376,21 +431,6 @@ Console::exec(const string &command, bool verbose)
     // Print a new prompt
     *this << string(prompt);
     cpos = 0;
-}
-
-void
-Console::render(sf::RenderWindow &window)
-{
-    drawable.setFillColor(sf::Color(0xFF,0xFF,0xFF,alpha));
-    
-    if (isVisible()) {
-        
-        if (isDirty) {
-            updateTexture();
-            isDirty = false;
-        }
-        window.draw(drawable);
-    }
 }
 
 void

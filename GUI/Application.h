@@ -93,7 +93,6 @@ public:
     
     // Game loop handlers
     void processEvents();
-    void processKeyEvents(const sf::Event& event);
     void update(sf::Time dt);
     void render();
 };
