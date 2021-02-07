@@ -21,6 +21,10 @@ struct View {
 };
 
 
+//
+// Image view
+//
+
 struct ImageView : View, sf::RectangleShape {
         
     ImageView(usize _flags = 0);
@@ -39,12 +43,17 @@ struct ImageView : View, sf::RectangleShape {
     void draw(sf::RenderWindow &window);
 };
 
+
+//
+// Gradient view
+//
+
 struct GradientView : View {
     
     float w, h;
     sf::Vertex rectangle[4];
     
-    GradientView(usize _flags = 0);
+    GradientView(usize flags = 0);
 
     void init(float x, float y, float w, float h,
               sf::Color ul, sf::Color ur, sf::Color ll, sf::Color lr);
@@ -54,5 +63,20 @@ struct GradientView : View {
     // Wrappers
     void setPosition(const sf::Vector2f &position);
     void setPosition(float x, float y);
+    void draw(sf::RenderWindow &window);
+};
+
+
+//
+// Text view
+//
+
+struct TextView : View, sf::Text {
+
+    TextView(usize flags = 0);
+
+    // Wrappers
+    void setString(const string &str);
+    void setStyle(const sf::Font &font, unsigned int size, const sf::Color &color);
     void draw(sf::RenderWindow &window);
 };

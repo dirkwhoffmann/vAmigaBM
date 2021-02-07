@@ -79,6 +79,7 @@ ImageView::draw(sf::RenderWindow &window)
     window.draw(*this);
 }
 
+
 //
 // GradientView
 //
@@ -131,4 +132,40 @@ void
 GradientView::draw(sf::RenderWindow &window)
 {
     window.draw(rectangle, 4, sf::Quads);
+}
+
+
+//
+// TextView
+//
+
+TextView::TextView(usize flags)
+{
+    this->flags = flags;
+}
+
+void
+TextView::setString(const string &str)
+{
+    sf::Text::setString(str);
+    
+    if (flags & view::center) {
+        sf::FloatRect textRect = getLocalBounds();
+        setOrigin(textRect.left + textRect.width / 2,
+                  textRect.top  + textRect.height / 2);
+    }
+}
+
+void
+TextView::setStyle(const sf::Font &font, unsigned int size, const sf::Color &color)
+{
+    setFont(font);
+    setCharacterSize(size);
+    setFillColor(color);
+}
+
+void
+TextView::draw(sf::RenderWindow &window)
+{
+    window.draw(*this);
 }

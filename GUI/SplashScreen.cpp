@@ -25,6 +25,12 @@ SplashScreen::init()
     w = app.window.getView().getSize().x;
     h = app.window.getView().getSize().y;
 
+    // Help text
+    text1.setStyle(Assets::get(FontID::logo), 48, sf::Color(0x50,0x50,0x50,0xFF));
+    text1.setPosition(sf::Vector2f(w * 0.5, h * 0.8));
+    text1.setString("Press F12 to enter the debug console");
+
+    /*
     info1 = sf::Text("Press F12 to enter the debug console",
                      Assets::get(FontID::logo));
     
@@ -34,7 +40,8 @@ SplashScreen::init()
     info1.setOrigin(textRect.left + textRect.width/2.0f,
                    textRect.top + textRect.height/2.0f);
     info1.setPosition(sf::Vector2f(w * 0.5, h * 0.8));
-
+    */
+    
     // Setup background
     background.init(w, h,
                     sf::Color(0x89,0x89,0x89), sf::Color(0x89,0x89,0x89),
@@ -43,13 +50,6 @@ SplashScreen::init()
     // Setup vAmiga logo
     logo.init(0.5 * w, 0.4 * h, 0.66 * w, Assets::get(TextureID::logo));
     
-    // Setup rectangle that spans the whole screen
-    /*
-    rectangle[0] = sf::Vertex(sf::Vector2f(0,0), sf::Color(0x89,0x89,0x89));
-    rectangle[1] = sf::Vertex(sf::Vector2f(w,0), sf::Color(0x89,0x89,0x89));
-    rectangle[2] = sf::Vertex(sf::Vector2f(w,h), sf::Color(0xF0,0xF0,0xF0));
-    rectangle[3] = sf::Vertex(sf::Vector2f(0,h), sf::Color(0xF0,0xF0,0xF0));
-    */
     return true;
 }
 
@@ -70,7 +70,7 @@ SplashScreen::render()
 {
     background.draw(app.window);
     logo.draw(app.window);
-    app.window.draw(info1);
+    text1.draw(app.window);
 }
 
 void

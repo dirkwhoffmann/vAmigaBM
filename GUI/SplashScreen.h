@@ -17,14 +17,16 @@ class SplashScreen : public Layer {
     // Drawing dimensions
     float w, h;
         
-    sf::Text info1;
+    // sf::Text info1;
 
     // Background
     GradientView background;
-//     sf::Vertex rectangle[4];
   
     // vAmiga logo
     ImageView logo = ImageView(view::center);
+
+    // Help text
+    TextView text1 = TextView(view::center);
     
     
     //
