@@ -9,11 +9,12 @@
 
 #pragma once
 
-#include <SFML/Graphics.hpp>
+#include "Layer.h"
+
 #include <stack>
 #include <sstream>
 
-class Console {
+class Console : public Layer {
     
     // Reference to the associated application
     class Application &app;
@@ -77,10 +78,7 @@ class Console {
         
     // The cursor's visual shape
     sf::RectangleShape cursor;
-            
-    // Alpha channel parameters
-    int alpha = 0, targetAlpha = 0;
-        
+                    
     
     //
     // Initializing
@@ -101,17 +99,11 @@ public:
 public:
     
     // Opens or closes the console
-    void open() { targetAlpha = 0xFF; }
-    void close() { targetAlpha = 0x00; }
+    void open() { setTargetAlpha(0xFF, 0.2); }
+    void close() { setTargetAlpha(0x00, 0.2); }
     void toggle() { isVisible() ? close() : open(); }
     
-    // Analyzing the window state
-    bool isVisible() { return alpha > 0; }
-    bool isAnimating() { return alpha != targetAlpha; }
-    bool isOpening() { return targetAlpha > alpha; }
-    bool isClosing() { return targetAlpha < alpha; }
-
-    
+ 
     //
     // Working with the text storage
     //

@@ -381,12 +381,8 @@ Console::exec(const string &command, bool verbose)
 void
 Console::render(sf::RenderWindow &window)
 {
-    if (isAnimating()) {
-        if (isOpening()) alpha = std::min(targetAlpha, alpha + 24);
-        if (isClosing()) alpha = std::max(targetAlpha, alpha - 24);
-        drawable.setFillColor(sf::Color(0xFF,0xFF,0xFF,alpha));
-    }
-        
+    drawable.setFillColor(sf::Color(0xFF,0xFF,0xFF,alpha));
+    
     if (isVisible()) {
         
         if (isDirty) {

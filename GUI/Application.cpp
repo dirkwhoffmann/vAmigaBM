@@ -153,6 +153,8 @@ Application::update(sf::Time dt)
         screenBuffer = current;
         emuTex.update((u8 *)(screenBuffer.data + 4 * HBLANK_MIN));
     }
+    
+    console.update(dt); 
 }
 
 void

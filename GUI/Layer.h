@@ -9,7 +9,11 @@
 
 #pragma once
 
+#include <SFML/Graphics.hpp>
+
 class Layer {
+    
+public:
     
     // The render texture
     sf::RenderTexture texture;
@@ -22,6 +26,12 @@ class Layer {
     
     // Triggers an alpha animation
     void setTargetAlpha(isize target, float seconds);
+    
+    // Informs about the visual state
+    bool isVisible() { return alpha > 0; }
+    bool isAnimating() { return alpha != targetAlpha; }
+    bool isFadingIn() { return targetAlpha > alpha; }
+    bool isFadingOut() { return targetAlpha < alpha; }
     
     // Event loop handlers
     void draw() { };
