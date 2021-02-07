@@ -11,6 +11,7 @@
 		5000932625C0C3D000F01BEF /* SourceSansPro-SemiBold.ttf in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5000932425C0C3C200F01BEF /* SourceSansPro-SemiBold.ttf */; };
 		5000933125C0CB4A00F01BEF /* logo.png in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5000932F25C0CB4500F01BEF /* logo.png */; };
 		5002A27725CFCB0400665F89 /* startup.ini in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5002A27625CFCB0400665F89 /* startup.ini */; };
+		5002A27B25CFF35000665F89 /* Layer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5002A27925CFF35000665F89 /* Layer.cpp */; };
 		505485E925C15C3B00892284 /* AssetManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 505485E725C15C3B00892284 /* AssetManager.cpp */; };
 		50658EE025C03EF800F7128D /* Console.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50658EDE25C03EF800F7128D /* Console.cpp */; };
 		5066F75425C55F75009199B6 /* ControllerCmds.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5066F75325C55F75009199B6 /* ControllerCmds.cpp */; };
@@ -202,6 +203,8 @@
 		5000932425C0C3C200F01BEF /* SourceSansPro-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SourceSansPro-SemiBold.ttf"; sourceTree = "<group>"; };
 		5000932F25C0CB4500F01BEF /* logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo.png; sourceTree = "<group>"; };
 		5002A27625CFCB0400665F89 /* startup.ini */ = {isa = PBXFileReference; lastKnownFileType = text; path = startup.ini; sourceTree = "<group>"; };
+		5002A27925CFF35000665F89 /* Layer.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Layer.cpp; sourceTree = "<group>"; };
+		5002A27A25CFF35000665F89 /* Layer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Layer.h; sourceTree = "<group>"; };
 		505485E725C15C3B00892284 /* AssetManager.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = AssetManager.cpp; sourceTree = "<group>"; };
 		505485E825C15C3B00892284 /* AssetManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AssetManager.h; sourceTree = "<group>"; };
 		50658EDE25C03EF800F7128D /* Console.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Console.cpp; sourceTree = "<group>"; };
@@ -1047,6 +1050,8 @@
 				50AE11C425C44AAC00AD13B7 /* Controller.h */,
 				50AE11C325C44AAC00AD13B7 /* Controller.cpp */,
 				5066F75325C55F75009199B6 /* ControllerCmds.cpp */,
+				5002A27A25CFF35000665F89 /* Layer.h */,
+				5002A27925CFF35000665F89 /* Layer.cpp */,
 				50658EDF25C03EF800F7128D /* Console.h */,
 				50658EDE25C03EF800F7128D /* Console.cpp */,
 				50E9337125C2188700F4958B /* Interpreter.h */,
@@ -1251,6 +1256,7 @@
 				50AE116225C42D6700AD13B7 /* Memory.cpp in Sources */,
 				50AE11B525C42D6700AD13B7 /* FSBlock.cpp in Sources */,
 				50AE11BF25C42D6700AD13B7 /* FSBootBlock.cpp in Sources */,
+				5002A27B25CFF35000665F89 /* Layer.cpp in Sources */,
 				50AE11C025C42D6700AD13B7 /* FSRootBlock.cpp in Sources */,
 				50AE116125C42D6700AD13B7 /* ScreenRecorder.cpp in Sources */,
 				50AE11BB25C42D6700AD13B7 /* FSBitmapExtBlock.cpp in Sources */,

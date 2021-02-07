@@ -13,6 +13,7 @@
 
 #include "Controller.h"
 #include "Console.h"
+#include "Layer.h"
 #include "Interpreter.h"
 #include "AssetManager.h"
 
@@ -39,6 +40,9 @@ public:
     // The emulator instance
     Amiga amiga;
 
+    // The event loop timer
+    sf::Clock clock;
+    
     // The current screen buffer
     ScreenBuffer screenBuffer = { nullptr, false };
     
@@ -90,6 +94,6 @@ public:
     // Game loop handlers
     void processEvents();
     void processKeyEvents(const sf::Event& event);
-    void update();
+    void update(sf::Time dt);
     void render();
 };

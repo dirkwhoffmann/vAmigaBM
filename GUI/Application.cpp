@@ -71,8 +71,10 @@ Application::run()
     
     while (window.isOpen()) {
         
+        sf::Time dt = clock.restart();
+        
         processEvents();
-        update();
+        update(dt);
         render();
     }
     
@@ -139,7 +141,7 @@ Application::processKeyEvents(const sf::Event& event)
 }
 
 void
-Application::update()
+Application::update(sf::Time dt)
 {
     if (amiga.isPoweredOff()) {
         emuTex.update((u8 *)amiga.denise.pixelEngine.getNoise());
