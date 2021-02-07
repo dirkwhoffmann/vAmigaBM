@@ -117,6 +117,13 @@ Console::operator<<(const std::string& text)
 }
 
 Console&
+Console::operator<<(isize value)
+{
+    *this << std::to_string(value);
+    return *this;
+}
+
+Console&
 Console::operator<<(int value)
 {
     *this << std::to_string(value);
@@ -169,9 +176,7 @@ Console::scrollTo(isize line)
 
 void
 Console::makeLastLineVisible()
-{
-    printf("makeLastLineVisible: size: %d %d\n", (int)storage.size(), vpos);
-    
+{    
     if (!lastLineIsVisible()) {
         scrollTo((int)storage.size() - numRows);
     }

@@ -33,6 +33,16 @@ Controller::exec <Token::easteregg> (Arguments& argv, long param)
     console << "HOW ABOUT A NICE GAME OF CHESS?" << '\n';
 }
 
+template <> void
+Controller::exec <Token::source> (Arguments &argv, long param)
+{
+    string filename = argv.front();
+    
+    std::ifstream stream(filename);
+    if (!stream.is_open()) throw ConfigFileReadError(filename);
+    
+    app.interpreter.exec(stream);
+}
 
 //
 // Amiga

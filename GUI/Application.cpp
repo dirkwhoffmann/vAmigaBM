@@ -66,7 +66,9 @@ Application::run()
     }
 
     controller.init();
-        
+    
+    interpreter.exec("source startup.ini");
+    
     while (window.isOpen()) {
         
         processEvents();

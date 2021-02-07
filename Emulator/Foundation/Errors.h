@@ -39,6 +39,10 @@ struct ConfigArgError : ConfigError {
     ConfigArgError(const std::string &s) : ConfigError(s) { }; 
 };
 
+struct ConfigFileReadError : ConfigError {
+    ConfigFileReadError(const std::string &s) : ConfigError(s) { };
+};
+
 struct ConfigLockedError : ConfigError {
     ConfigLockedError() : ConfigError("") { };
 };

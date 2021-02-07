@@ -22,7 +22,7 @@ enum class Token
     // Commands
     about, autosync, clear, config, connect, disconnect, dsksync, easteregg,
     eject, close, insert, inspect, list, load, lock, on, off, pause, reset,
-    run, set,
+    run, set, source,
     
     // Categories
     state, registers, events, checksums,
@@ -102,11 +102,14 @@ public:
     //
     
 public:
-        
-    // Executes a command
-    void exec(const string& userInput, bool verbose = false);
-    bool exec(Arguments &argv, bool verbose = false);
     
+    // Executes a script file
+    bool exec(std::istream &stream);
+
+    // Executes a single command
+    bool exec(const string& userInput, bool verbose = false);
+    bool exec(Arguments &argv, bool verbose = false);
+            
     // Prints a usage string for a command
     void usage(Command &command);
     

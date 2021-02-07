@@ -34,16 +34,6 @@ Controller::init()
     
     amiga.queue.addListener(this, process);
     
-    try {
-        RomFile *rom = AmigaFile::make <RomFile> ("/tmp/kick13.rom");
-        amiga.mem.loadRom(rom);
-        amiga.configure(OPT_CHIP_RAM, 512);
-        amiga.denise.pixelEngine.setPalette(PALETTE_COLOR);
-        
-    } catch (VAError &exception) {
-        printf("Can't find kickstart rom\n");
-    }
-    
     if (amiga.isReady(&ec)) {
         amiga.run();
     } else {

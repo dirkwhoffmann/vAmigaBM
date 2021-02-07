@@ -131,6 +131,7 @@ public:
     // Prints a message
     Console& operator<<(char value);
     Console& operator<<(const std::string& value);
+    Console& operator<<(isize value);
     Console& operator<<(int value);
 
     // Shortens the text storage if it grows too large

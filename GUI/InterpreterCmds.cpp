@@ -30,6 +30,10 @@ Interpreter::registerInstructions()
              "command", "",
              &Controller::exec <Token::easteregg>, 0, 0);
     root.seek("joshua")->hidden = true;
+
+    root.add("source",
+             "command", "Processes a command script",
+             &Controller::exec <Token::source>, 1, 0);
     
     
     //

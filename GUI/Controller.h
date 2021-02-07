@@ -50,11 +50,11 @@ public:
     // Executing commands
     //
     
-    void exec(const std::string& command);
+    void exec(const std::string& command) throws;
     
-    template <Token t1> void exec(Arguments& argv, long param);
-    template <Token t1, Token t2> void exec(Arguments& argv, long param);
-    template <Token t1, Token t2, Token t3> void exec(Arguments& argv, long param);
+    template <Token t1> void exec(Arguments& argv, long param) throws;
+    template <Token t1, Token t2> void exec(Arguments& argv, long param) throws;
+    template <Token t1, Token t2, Token t3> void exec(Arguments& argv, long param) throws;
 
 private:
     

@@ -59,7 +59,26 @@ Interpreter::autoComplete(string& userInput)
     return result;
 }
 
-void
+bool
+Interpreter::exec(std::istream &stream)
+{
+    isize line = 0;
+    string command;
+    while(std::getline(stream, command)) {
+
+        line++;
+        printf("Line %zd: %s\n", line, command.c_str());
+        
+        if (!exec(command, true)) {
+            console << "Error in line " << line << "." << '\n';
+            return false;
+        }
+    }
+    return true;
+}
+
+
+bool
 Interpreter::exec(const string& userInput, bool verbose)
 {
     // Split the command string
@@ -69,7 +88,7 @@ Interpreter::exec(const string& userInput, bool verbose)
     autoComplete(tokens);
             
     // Process the command
-    if (!tokens.empty()) exec(tokens, verbose);
+    return exec(tokens, verbose);
 }
 
 bool
@@ -77,12 +96,20 @@ Interpreter::exec(Arguments &argv, bool verbose)
 {
     Command *current = &root;
     std::string prefix, token;
-    
+
     // In 'verbose' mode, print the token list
     if (verbose) {
         for (const auto &it : argv) console << it << ' ';
         console << '\n';
     }
+
+    // Skip empty lines
+    if (argv.empty()) return true;
+
+    // Skip comments
+    if (argv.front().substr(0,2) == "//") return true;
+    if (argv.front().substr(0,1) == "#") return true;
+    if (argv.front().substr(0,1) == ";") return true;
 
     try {
         
@@ -114,6 +141,7 @@ Interpreter::exec(Arguments &argv, bool verbose)
         
         // Call the command handler
         (controller.*(current->func))(argv, current->param);
+        return true;
 
     } catch (SyntaxError &err) {
         console << token << ": Syntax error. Press 'TAB' twice for help.";
@@ -146,7 +174,11 @@ Interpreter::exec(Arguments &argv, bool verbose)
     } catch (ConfigArgError &err) {
         console << "Error: Invalid argument. Expected: " << err.what();
         console << '\n';
-    
+
+    } catch (ConfigFileReadError &err) {
+        console << "Error: Unable to read file " << err.what();
+        console << '\n';
+
     } catch (VAError &err) {
         console << err.what();
         console << '\n';
