@@ -69,12 +69,6 @@ Console::init()
     return true;
 }
 
-bool
-Console::isResponsive()
-{
-    return true; // isVisible();
-}
-
 void
 Console::handle(const sf::Event &event)
 {

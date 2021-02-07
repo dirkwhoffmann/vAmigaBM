@@ -95,14 +95,12 @@ public:
     // Methods from Layer class
     //
     
-    bool isActive() override { return true; }
-    bool isResponsive() override;
     void handle(const sf::Event &event) override;
     void render() override;
 
     
     //
-    // Managing the console window
+    // Opening and closing
     //
     
 public:

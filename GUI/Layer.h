@@ -32,15 +32,11 @@ public:
     // Triggers an alpha animation
     void setTargetAlpha(isize target, float seconds);
     
-    // Informs about the current state
-    virtual bool isActive() = 0;
-    virtual bool isResponsive() = 0;
+    // Informs about the visual state of this layer
     virtual bool isVisible() { return alpha > 0; }
     virtual bool isAnimating() { return alpha != targetAlpha; }
-    /*
     virtual bool isFadingIn() { return targetAlpha > alpha; }
     virtual bool isFadingOut() { return targetAlpha < alpha; }
-    */
     
     // Event loop handlers
     virtual void handle(const sf::Event &event) = 0;

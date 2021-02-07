@@ -14,6 +14,7 @@
 #include "Controller.h"
 #include "Layer.h"
 #include "SplashScreen.h"
+#include "Canvas.h"
 #include "Console.h"
 #include "Interpreter.h"
 #include "AssetManager.h"
@@ -46,19 +47,16 @@ public:
     // The event loop timer
     sf::Clock clock;
     
-    // The current screen buffer
-    ScreenBuffer screenBuffer = { nullptr, false };
-    
-    // The emulator texture
-    sf::Texture emuTex;
- 
     // Gateway to the emulator
     Controller controller;
     
-    // The intro screen
+    // Splash screen layer
     SplashScreen splashScreen;
-    
-    // The debug console
+
+    // The emulator layer
+    Canvas canvas;
+
+    // The debug console layer
     Console console;
  
     // Interpreter for commands typed into the debug console
@@ -66,9 +64,6 @@ public:
 
     // The render window
     sf::RenderWindow window;
-
-    // Render objects
-    sf::RectangleShape foreground;
 
     
     //

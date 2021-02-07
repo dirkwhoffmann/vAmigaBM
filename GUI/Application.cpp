@@ -11,7 +11,7 @@
 #include "Amiga.h"
 
 Application::Application() :
-console(*this), splashScreen(*this), controller(*this), interpreter(*this)
+console(*this), splashScreen(*this), canvas(*this), controller(*this), interpreter(*this)
 {
 }
 
@@ -31,18 +31,9 @@ Application::run()
     window.create(sf::VideoMode(W,H), "My Window");
     window.setFramerateLimit(60);
     
-    emuTex.create(HPIXELS, VPIXELS);
-    
     splashScreen.init();
-        
-    int x1 = HBLANK_CNT * 4;
-    int x2 = HPOS_CNT * 4;
-    int y1 = VBLANK_CNT;
-    int y2 = VPOS_CNT - 1;
-    foreground.setSize(sf::Vector2f(W,H));
-    foreground.setTexture(&emuTex);
-    foreground.setTextureRect(sf::IntRect(x1, y1, x2 - x1, y2 - y1));
-
+    canvas.init();
+    
     if (!console.init()) {
         printf("Can't initialize Console\n");
         exit(1);
@@ -87,7 +78,10 @@ Application::processEvents()
                 break;
         }
         
-        if (console.isResponsive()) console.handle(event);
+        // Distribute the event to the uppermost visible layer
+        if (console.isVisible())     { console.handle(event); }
+        else if (canvas.isVisible()) { canvas.handle(event); }
+        else                         { splashScreen.handle(event); }
     }
 }
 
@@ -95,30 +89,21 @@ void
 Application::update(sf::Time dt)
 {
     splashScreen.update(dt);
+    canvas.update(dt);
     console.update(dt);
-
-    if (amiga.isPoweredOff()) {
-        emuTex.update((u8 *)amiga.denise.pixelEngine.getNoise());
-        return;
-    }
-    
-    ScreenBuffer current = amiga.denise.pixelEngine.getStableBuffer();
-    if (screenBuffer.data != current.data) {
-        screenBuffer = current;
-        emuTex.update((u8 *)(screenBuffer.data + 4 * HBLANK_MIN));
-    }
 }
 
 void
 Application::render()
 {
-    window.clear(sf::Color::Blue);
-        
+    // Splash screen layer
     if (splashScreen.isVisible()) splashScreen.render();
-
-    if (amiga.isPoweredOn()) window.draw(foreground);
     
+    // Emulator layer
+    if (canvas.isVisible()) canvas.render();
+    
+    // Console layer
     if (console.isVisible()) console.render();
-    
+
     window.display();
 }

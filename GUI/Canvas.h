@@ -11,32 +11,26 @@
 
 #include "Application.h"
 
-class SplashScreen : public Layer {
+class Canvas : public Layer {
     
-    static const int W = 1536;
-    static const int H = W * 0.7525;
+    // The current screen buffer
+    ScreenBuffer screenBuffer = { nullptr, false };
     
-    sf::RectangleShape background;
-    sf::Text info1;
-    sf::Vertex rectangle[4] =
-    {
-        sf::Vertex(sf::Vector2f(0,0), sf::Color(0x89,0x89,0x89)),
-        sf::Vertex(sf::Vector2f(W,0), sf::Color(0x89,0x89,0x89)),
-        sf::Vertex(sf::Vector2f(W,H), sf::Color(0xF0,0xF0,0xF0)),
-        sf::Vertex(sf::Vector2f(0,H), sf::Color(0xF0,0xF0,0xF0))
-    };
-
-    sf::Texture logo;
+    // The emulator texture
+    sf::Texture emuTex;
+ 
+    // Render object
+    sf::RectangleShape foreground;
     
     
     //
     // Initializing
     //
-
+    
 public:
-
-    SplashScreen(class Application &ref);
-    ~SplashScreen();
+    
+    Canvas(class Application &ref);
+    ~Canvas();
     
     bool init();
     
@@ -44,8 +38,20 @@ public:
     //
     // Methods from Layer class
     //
-
-    virtual bool isVisible() override;
+    
     void handle(const sf::Event &event) override;
+    void update(sf::Time dt) override; 
     void render() override;
-}; 
+    
+    
+    //
+    // Opening and closing
+    //
+    
+public:
+    
+    // Shows or hides the canvas window
+    void open() { setTargetAlpha(0xFF, 0.5); }
+    void close() { setTargetAlpha(0x00, 0.5); }
+    void toggle() { isVisible() ? close() : open(); }
+};

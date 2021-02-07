@@ -56,9 +56,13 @@ Controller::processMessage(long id, long data)
     switch (msg) {
             
         case MSG_POWER_ON:
+            printf("MSG_POWER_ON\n");
+            app.canvas.open();
             break;
             
         case MSG_POWER_OFF:
+            printf("MSG_POWER_OFF\n");
+            app.canvas.close();
             break;
 
         case MSG_RUN:

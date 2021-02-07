@@ -13,6 +13,7 @@
 		5002A27725CFCB0400665F89 /* startup.ini in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5002A27625CFCB0400665F89 /* startup.ini */; };
 		5002A27B25CFF35000665F89 /* Layer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5002A27925CFF35000665F89 /* Layer.cpp */; };
 		5002A27E25D00F3000665F89 /* SplashScreen.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5002A27C25D00F3000665F89 /* SplashScreen.cpp */; };
+		5002A28125D03B2300665F89 /* Canvas.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5002A27F25D03B2300665F89 /* Canvas.cpp */; };
 		505485E925C15C3B00892284 /* AssetManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 505485E725C15C3B00892284 /* AssetManager.cpp */; };
 		50658EE025C03EF800F7128D /* Console.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50658EDE25C03EF800F7128D /* Console.cpp */; };
 		5066F75425C55F75009199B6 /* ControllerCmds.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5066F75325C55F75009199B6 /* ControllerCmds.cpp */; };
@@ -208,6 +209,8 @@
 		5002A27A25CFF35000665F89 /* Layer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Layer.h; sourceTree = "<group>"; };
 		5002A27C25D00F3000665F89 /* SplashScreen.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = SplashScreen.cpp; sourceTree = "<group>"; };
 		5002A27D25D00F3000665F89 /* SplashScreen.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SplashScreen.h; sourceTree = "<group>"; };
+		5002A27F25D03B2300665F89 /* Canvas.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Canvas.cpp; sourceTree = "<group>"; };
+		5002A28025D03B2300665F89 /* Canvas.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Canvas.h; sourceTree = "<group>"; };
 		505485E725C15C3B00892284 /* AssetManager.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = AssetManager.cpp; sourceTree = "<group>"; };
 		505485E825C15C3B00892284 /* AssetManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AssetManager.h; sourceTree = "<group>"; };
 		50658EDE25C03EF800F7128D /* Console.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Console.cpp; sourceTree = "<group>"; };
@@ -1057,6 +1060,8 @@
 				5002A27925CFF35000665F89 /* Layer.cpp */,
 				5002A27D25D00F3000665F89 /* SplashScreen.h */,
 				5002A27C25D00F3000665F89 /* SplashScreen.cpp */,
+				5002A28025D03B2300665F89 /* Canvas.h */,
+				5002A27F25D03B2300665F89 /* Canvas.cpp */,
 				50658EDF25C03EF800F7128D /* Console.h */,
 				50658EDE25C03EF800F7128D /* Console.cpp */,
 				50E9337125C2188700F4958B /* Interpreter.h */,
@@ -1247,6 +1252,7 @@
 				50AE119C25C42D6700AD13B7 /* u_rle.c in Sources */,
 				50AE118D25C42D6700AD13B7 /* KeyboardEvents.cpp in Sources */,
 				50658EE025C03EF800F7128D /* Console.cpp in Sources */,
+				5002A28125D03B2300665F89 /* Canvas.cpp in Sources */,
 				50AE116925C42D6700AD13B7 /* HardwareComponent.cpp in Sources */,
 				50AE117125C42D6700AD13B7 /* Copper.cpp in Sources */,
 				50AE118B25C42D6700AD13B7 /* Snapshot.cpp in Sources */,

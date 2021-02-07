@@ -11,7 +11,7 @@
 
 SplashScreen::SplashScreen(Application &ref) : Layer(ref)
 {
-    
+    alpha = targetAlpha = 0xFF;
 }
 
 SplashScreen::~SplashScreen()
@@ -44,14 +44,9 @@ bool SplashScreen::init()
     return true;
 }
 
-bool SplashScreen::isResponsive()
-{
-    return app.amiga.isPoweredOff();
-}
-
 bool SplashScreen::isVisible()
 {
-    return app.amiga.isPoweredOff();
+    return app.amiga.isPoweredOff() || app.canvas.isAnimating();
 }
 
 void SplashScreen::handle(const sf::Event &event)
