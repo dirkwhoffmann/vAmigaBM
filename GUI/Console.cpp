@@ -205,19 +205,15 @@ Console::type(char c)
 
             *this << '\n';
             
-            // Execute the command
-            app.interpreter.exec(input[ipos]);
-            
-            // Add the command to the user input history
+            // Add the current input line to the user input history
             input[input.size() - 1] = input[ipos];
 
-            // Print a new prompt
+            // Create a new input line
             input.push_back("");
-            ipos = (int)input.size() - 1;
-            cpos = 0;
-            
-            // Print a new prompt
-            *this << string(prompt);
+            ipos = (isize)input.size() - 1;
+
+            // Execute the command
+            exec(input[ipos]);
             break;
             
         case '\b':
@@ -366,6 +362,20 @@ Console::scroll(float delta)
         if (newpos > 0) { scrollUp(dy); newpos -= dy; }
         if (newpos < 0) { scrollDown(dy); newpos += dy; }
     }
+}
+
+void
+Console::exec(const string &command, bool verbose)
+{
+    // Print the command string if requested
+    if (verbose) *this << command << '\n';
+        
+    // Hand the command over to the intepreter
+    app.interpreter.exec(command);
+
+    // Print a new prompt
+    *this << string(prompt);
+    cpos = 0;
 }
 
 void

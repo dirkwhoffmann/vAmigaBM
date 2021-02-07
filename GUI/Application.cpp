@@ -67,7 +67,7 @@ Application::run()
 
     controller.init();
     
-    interpreter.exec("source startup.ini");
+    console.exec("source startup.ini", true);
     
     while (window.isOpen()) {
         

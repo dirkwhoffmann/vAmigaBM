@@ -129,10 +129,10 @@ public:
     void makeLastLineVisible();
     
     // Prints a message
-    Console& operator<<(char value);
-    Console& operator<<(const std::string& value);
-    Console& operator<<(isize value);
-    Console& operator<<(int value);
+    Console &operator<<(char value);
+    Console &operator<<(const string &value);
+    Console &operator<<(isize value);
+    Console &operator<<(int value);
 
     // Shortens the text storage if it grows too large
     void shorten();
@@ -144,8 +144,8 @@ public:
     void tab(int hpos);
 
     // Replaces the last line
-    void replace(const std::string& text,
-                 const std::string& prefix = std::string(prompt));
+    void replace(const string &text,
+                 const string &prefix = string(prompt));
 
     // Prints some debug output
     void list();
@@ -167,11 +167,14 @@ public:
     void type(char c);
 
     // Processes special keys
-    void keyPressed(const sf::Keyboard::Key& key);
-    void keyReleased(const sf::Keyboard::Key& key);
+    void keyPressed(const sf::Keyboard::Key &key);
+    void keyReleased(const sf::Keyboard::Key &key);
 
     // Processes a mouse scrolling event
     void scroll(float delta);
+    
+    // Executes a user command
+    void exec(const string &command, bool verbose = false);
     
     
     //
