@@ -10,7 +10,8 @@
 #include "Application.h"
 #include "Amiga.h"
 
-Application::Application() : console(*this), controller(*this), interpreter(*this)
+Application::Application() :
+console(*this), splashScreen(*this), controller(*this), interpreter(*this)
 {
 }
 
@@ -32,26 +33,8 @@ Application::run()
     
     emuTex.create(HPIXELS, VPIXELS);
     
-    logoTex = Assets::get(TextureID::logo);
-    
-    info1 = sf::Text("Press F12 to enter the debug console",
-                     Assets::get(FontID::logo));
-    
-    info1.setCharacterSize(48);
-    info1.setFillColor(sf::Color(0x50,0x50,0x50,0xFF));
-    sf::FloatRect textRect = info1.getLocalBounds();
-    info1.setOrigin(textRect.left + textRect.width/2.0f,
-                   textRect.top  + textRect.height/2.0f);
-    info1.setPosition(sf::Vector2f(W * 0.5, H * 0.8));
+    splashScreen.init();
         
-    sf::Vector2u size = logoTex.getSize();
-    unsigned logoWidth = 0.66 * W;
-    unsigned logoHeight = logoWidth * ((float)size.y / (float)size.x);
-    
-    background.setSize(sf::Vector2f(logoWidth, logoHeight));
-    background.setTexture(&logoTex);
-    background.setPosition(0.17 * W, 0.125 * H);
-    
     int x1 = HBLANK_CNT * 4;
     int x2 = HPOS_CNT * 4;
     int y1 = VBLANK_CNT;
@@ -111,6 +94,9 @@ Application::processEvents()
 void
 Application::update(sf::Time dt)
 {
+    splashScreen.update(dt);
+    console.update(dt);
+
     if (amiga.isPoweredOff()) {
         emuTex.update((u8 *)amiga.denise.pixelEngine.getNoise());
         return;
@@ -121,22 +107,18 @@ Application::update(sf::Time dt)
         screenBuffer = current;
         emuTex.update((u8 *)(screenBuffer.data + 4 * HBLANK_MIN));
     }
-    
-    console.update(dt); 
 }
 
 void
 Application::render()
 {
     window.clear(sf::Color::Blue);
+        
+    if (splashScreen.isVisible()) splashScreen.render();
+
+    if (amiga.isPoweredOn()) window.draw(foreground);
     
-    window.draw(rectangle, 4, sf::Quads);
-    window.draw(background);
-    window.draw(info1);
-    
-    window.draw(foreground);
-    
-    console.render();
+    if (console.isVisible()) console.render();
     
     window.display();
 }

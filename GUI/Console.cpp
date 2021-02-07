@@ -12,7 +12,7 @@
 const std::string& Console::prompt = string("vAmiga\% ");
 
 Console::Console(Application &ref) :
-app(ref), controller(ref.controller), interpreter(ref.interpreter)
+Layer(ref), controller(ref.controller), interpreter(ref.interpreter)
 {
 }
 
@@ -72,7 +72,7 @@ Console::init()
 bool
 Console::isResponsive()
 {
-    return isVisible();
+    return true; // isVisible();
 }
 
 void
@@ -268,7 +268,7 @@ Console::type(char c)
             ipos = (isize)input.size() - 1;
 
             // Execute the command
-            exec(input[ipos]);
+            exec(input[ipos - 1]);
             break;
             
         case '\b':
@@ -425,6 +425,8 @@ Console::exec(const string &command, bool verbose)
     // Print the command string if requested
     if (verbose) *this << command << '\n';
         
+    printf("Command: %s\n", command.c_str());
+    
     // Hand the command over to the intepreter
     app.interpreter.exec(command);
 

@@ -12,8 +12,9 @@
 #include "Utils.h"
 
 #include "Controller.h"
-#include "Console.h"
 #include "Layer.h"
+#include "SplashScreen.h"
+#include "Console.h"
 #include "Interpreter.h"
 #include "AssetManager.h"
 
@@ -22,6 +23,8 @@
 class Application
 {
 
+public:
+    
     //
     // Constants
     //
@@ -34,9 +37,9 @@ class Application
     //
     // Members
     //
-    
+
 public:
-       
+    
     // The emulator instance
     Amiga amiga;
 
@@ -52,6 +55,9 @@ public:
     // Gateway to the emulator
     Controller controller;
     
+    // The intro screen
+    SplashScreen splashScreen;
+    
     // The debug console
     Console console;
  
@@ -62,17 +68,8 @@ public:
     sf::RenderWindow window;
 
     // Render objects
-    sf::RectangleShape background;
     sf::RectangleShape foreground;
-    sf::Texture logoTex;
-    sf::Text info1;
-    sf::Vertex rectangle[4] =
-    {
-        sf::Vertex(sf::Vector2f(0,0), sf::Color(0x89,0x89,0x89)),
-        sf::Vertex(sf::Vector2f(W,0), sf::Color(0x89,0x89,0x89)),
-        sf::Vertex(sf::Vector2f(W,H), sf::Color(0xF0,0xF0,0xF0)),
-        sf::Vertex(sf::Vector2f(0,H), sf::Color(0xF0,0xF0,0xF0))
-    };
+
     
     //
     // Initializing

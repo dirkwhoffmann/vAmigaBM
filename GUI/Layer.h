@@ -14,7 +14,10 @@
 class Layer {
     
 public:
-    
+
+    // Reference to the parent object
+    class Application &app;
+        
     // The render texture
     sf::RenderTexture texture;
     
@@ -24,6 +27,8 @@ public:
     // Time until alpha is supposed to reach targetAlpha in seconds
     float delay;
     
+    Layer(Application &ref) : app(ref) { }
+    
     // Triggers an alpha animation
     void setTargetAlpha(isize target, float seconds);
     
@@ -32,8 +37,10 @@ public:
     virtual bool isResponsive() = 0;
     virtual bool isVisible() { return alpha > 0; }
     virtual bool isAnimating() { return alpha != targetAlpha; }
+    /*
     virtual bool isFadingIn() { return targetAlpha > alpha; }
     virtual bool isFadingOut() { return targetAlpha < alpha; }
+    */
     
     // Event loop handlers
     virtual void handle(const sf::Event &event) = 0;

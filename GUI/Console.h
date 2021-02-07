@@ -17,7 +17,6 @@
 class Console : public Layer {
     
     // Reference to the associated application
-    class Application &app;
     class Controller &controller;
     class Interpreter &interpreter;
 
@@ -93,7 +92,7 @@ public:
 
 
     //
-    // Methods from Layer
+    // Methods from Layer class
     //
     
     bool isActive() override { return true; }
@@ -111,7 +110,7 @@ public:
     // Opens or closes the console
     void open() { setTargetAlpha(0xFF, 0.2); }
     void close() { setTargetAlpha(0x00, 0.2); }
-    void toggle() { isVisible() ? close() : open(); }
+    void toggle() { printf("toggle\n"); isVisible() ? close() : open(); }
     
  
     //

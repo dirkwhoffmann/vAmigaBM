@@ -20,7 +20,7 @@ void
 Layer::update(sf::Time dt)
 {
     if (alpha != targetAlpha) {
-        
+
         float delta = dt.asSeconds();
         if (delta >= delay) {
             alpha = targetAlpha;
