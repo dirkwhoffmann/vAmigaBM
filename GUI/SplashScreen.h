@@ -17,11 +17,9 @@ class SplashScreen : public Layer {
     // Drawing dimensions
     float w, h;
         
-    sf::RectangleShape logo;
     sf::Text info1;
     sf::Vertex rectangle[4];
-    // sf::Texture logo;
-    
+  
     ImageView logoView;
     
     

@@ -12,17 +12,18 @@
 #include <SFML/Graphics.hpp>
 
 struct ImageView : sf::RectangleShape {
-    
-    /*
-    ImageView(float x, float y, float w, float h, sf::Texture &tex);
-    ImageView(sf::Vector2f &origin, sf::Vector2f &size, sf::Texture &tex);
-    ImageView(sf::Vector2f &size, sf::Texture &tex);
-    */
-    
-    void init(float x, float y, float w, float h, sf::Texture &tex);
-    void init(float x, float y, float w, sf::Texture &tex);
+        
+    // Initializers
+    void init(float x, float y, float w, float h, const sf::Texture &tex);
+    void init(float x, float y, float w, const sf::Texture &tex);
+    void init(float w, float h, const sf::Texture &tex);
+    void init(float w, const sf::Texture &tex);
     void init(const sf::Vector2f &origin, const sf::Vector2f &size, const sf::Texture &tex);
     void init(const sf::Vector2f &size, const sf::Texture &tex);
+
+    // Positions the view using normalized coordiates
+    void move(const sf::RenderWindow &window, float x, float y);
+    void center(const sf::RenderWindow &window, float x = 0.5, float y = 0.5);
 
     void draw(sf::RenderWindow &window);
 };
