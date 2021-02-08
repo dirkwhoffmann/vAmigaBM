@@ -152,6 +152,7 @@
 		50AE11C525C44AAC00AD13B7 /* Controller.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50AE11C325C44AAC00AD13B7 /* Controller.cpp */; };
 		50C4C26F25D1278A00849A01 /* Exception.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50C4C26D25D1278A00849A01 /* Exception.cpp */; };
 		50C4C27225D16C4D00849A01 /* SourceSansPro-Regular.ttf in CopyFiles */ = {isa = PBXBuildFile; fileRef = 50C4C27125D16C2100849A01 /* SourceSansPro-Regular.ttf */; };
+		50C4C27425D1D40C00849A01 /* startup_german.ini in Resources */ = {isa = PBXBuildFile; fileRef = 50C4C27325D1D40C00849A01 /* startup_german.ini */; };
 		50CF561A25BFECA900B1AC0D /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50CF561925BFECA900B1AC0D /* main.cpp */; };
 		50E08E1D25C3102200B82E96 /* IBMPlexMono-Medium.ttf in CopyFiles */ = {isa = PBXBuildFile; fileRef = 50E08E1C25C3101C00B82E96 /* IBMPlexMono-Medium.ttf */; };
 		50E4DD5525C6B180001F6432 /* InterpreterCmds.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50E4DD5425C6B180001F6432 /* InterpreterCmds.cpp */; };
@@ -495,6 +496,7 @@
 		50C4C26D25D1278A00849A01 /* Exception.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Exception.cpp; sourceTree = "<group>"; };
 		50C4C26E25D1278A00849A01 /* Exception.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Exception.h; sourceTree = "<group>"; };
 		50C4C27125D16C2100849A01 /* SourceSansPro-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SourceSansPro-Regular.ttf"; sourceTree = "<group>"; };
+		50C4C27325D1D40C00849A01 /* startup_german.ini */ = {isa = PBXFileReference; lastKnownFileType = text; path = startup_german.ini; sourceTree = "<group>"; };
 		50CAD06D25CEAAA300DD55A5 /* Makefile */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
 		50CAD06E25CEAC3A00DD55A5 /* Makefile */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
 		50CAD07025CEAC6100DD55A5 /* Makefile */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
@@ -551,6 +553,7 @@
 			isa = PBXGroup;
 			children = (
 				5002A27625CFCB0400665F89 /* startup.ini */,
+				50C4C27325D1D40C00849A01 /* startup_german.ini */,
 			);
 			path = Scripts;
 			sourceTree = "<group>";
@@ -1175,6 +1178,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				50C4C27425D1D40C00849A01 /* startup_german.ini in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

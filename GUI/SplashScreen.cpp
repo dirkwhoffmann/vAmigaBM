@@ -39,8 +39,8 @@ SplashScreen::init()
     info[2].setPosition(sf::Vector2f(w * 0.5, h * 0.85));
     info[3].setPosition(sf::Vector2f(w * 0.5, h * 0.90));
 
-    info[2].setString("Press F12 to open the menu");
-    info[3].setString("Press SHIFT+F12 to open the debug console");
+    info[2].setString("Press F11 to open the menu");
+    info[3].setString("Press F12 to open the debug console");
 
     // Setup background
     background.init(w, h,
