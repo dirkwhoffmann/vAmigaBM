@@ -55,16 +55,12 @@ Application::configure(const string& file)
 void
 Application::run()
 {
-
-    
-
-   
-    
     console.exec("source startup.ini", true);
     
     while (window.isOpen()) {
         
         sf::Time dt = clock.restart();
+        // printf("dt = %f\n", dt.asSeconds());
         
         processEvents();
         update(dt);
@@ -107,9 +103,9 @@ Application::processEvents()
         }
         
         // Distribute the event to the uppermost visible layer
-        if (console.isVisible()) return console.handle(event);
-        if (canvas.isVisible()) return canvas.handle(event);
-        if (splashScreen.isVisible()) return splashScreen.handle(event);
+        if (console.isVisible()) console.handle(event);
+        else if (canvas.isVisible()) canvas.handle(event);
+        else if (splashScreen.isVisible()) splashScreen.handle(event);
     }
 }
 
