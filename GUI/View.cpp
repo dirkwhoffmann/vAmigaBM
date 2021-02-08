@@ -150,9 +150,10 @@ TextView::setString(const string &str)
     sf::Text::setString(str);
     
     if (flags & view::center) {
+        
         sf::FloatRect textRect = getLocalBounds();
         setOrigin(textRect.left + textRect.width / 2,
-                  textRect.top  + textRect.height / 2);
+                  textRect.top + textRect.height / 2);
     }
 }
 

@@ -20,9 +20,11 @@ Console::~Console()
 {
 }
 
-bool
+void
 Console::init()
 {
+    Layer::init();
+    
     sf::Font& font = Assets::get(FontID::console);
 
     // Initialize the text storage
@@ -65,8 +67,6 @@ Console::init()
         text[i].setFillColor(sf::Color::White);
         text[i].setPosition(hposForCol(0), vposForRow(i));
     }
-    
-    return true;
 }
 
 void

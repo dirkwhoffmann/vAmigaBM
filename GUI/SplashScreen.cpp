@@ -19,12 +19,11 @@ SplashScreen::~SplashScreen()
     
 }
 
-bool
+void
 SplashScreen::init()
 {
-    w = app.window.getView().getSize().x;
-    h = app.window.getView().getSize().y;
-
+    Layer::init();
+    
     // Help text
     text1.setStyle(Assets::get(FontID::logo), 48, sf::Color(0x50,0x50,0x50,0xFF));
     text1.setPosition(sf::Vector2f(w * 0.5, h * 0.8));
@@ -49,8 +48,6 @@ SplashScreen::init()
     
     // Setup vAmiga logo
     logo.init(0.5 * w, 0.4 * h, 0.66 * w, Assets::get(TextureID::logo));
-    
-    return true;
 }
 
 bool

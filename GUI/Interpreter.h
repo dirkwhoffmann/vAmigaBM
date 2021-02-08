@@ -10,6 +10,7 @@
 #pragma once
 
 #include "Command.h"
+#include "Exception.h"
 
 enum class Token
 {
@@ -34,12 +35,18 @@ enum class Token
     unmappingtype, volume, wom
 };
 
+/*
 struct ParseError : public std::exception {
     
     std::string description;
     
     ParseError(const std::string &s) : description(s) { }
     const char *what() const throw() override { return description.c_str(); }
+};
+*/
+
+struct ParseError : Exception {
+    ParseError(const string &s) : Exception(s) { }
 };
 
 struct ParseBoolError : ParseError {

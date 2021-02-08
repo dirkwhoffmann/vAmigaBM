@@ -10,6 +10,15 @@
 #include "Application.h"
 
 void
+Layer::init()
+{
+    assert(app.window.isOpen());
+    
+    w = app.window.getView().getSize().x;
+    h = app.window.getView().getSize().y;
+}
+
+void
 Layer::setTargetAlpha(isize target, float seconds)
 {
     targetAlpha = target;

@@ -21,13 +21,26 @@ public:
     // The render texture
     sf::RenderTexture texture;
     
+    // Drawing dimensions
+    float w, h;
+    
     // Alpha channel parameters
     isize alpha = 0, targetAlpha = 0;
     
     // Time until alpha is supposed to reach targetAlpha in seconds
     float delay;
     
+    //
+    // Initializing
+    //
+    
     Layer(Application &ref) : app(ref) { }
+    void init();
+    
+    
+    //
+    // Working with the layer
+    //
     
     // Triggers an alpha animation
     void setTargetAlpha(isize target, float seconds);

@@ -20,26 +20,45 @@ Application::~Application()
 }
 
 void
-Application::run()
+Application::check()
 {
-    printf("vAmigaSFML\n");
-
+    // Check for shader support
     if (!sf::Shader::isAvailable()) {
-        throw std::runtime_error("Sorry. No shader support\n");
+        throw Exception("No shader support");
     }
-     
-    window.create(sf::VideoMode(W,H), "My Window");
+}
+
+void
+Application::init()
+{
+    // Create window
+    window.create(sf::VideoMode(W,H), "vAmiga Bare Metal");
     window.setFramerateLimit(60);
+
+    if (!window.isOpen()) {
+        throw Exception("Unable to create window");
+    }
     
+    // Initialize sub components
+    controller.init();
     splashScreen.init();
     canvas.init();
-    
-    if (!console.init()) {
-        printf("Can't initialize Console\n");
-        exit(1);
-    }
+    console.init();
+}
 
-    controller.init();
+void
+Application::configure(const string& file)
+{
+    
+}
+
+void
+Application::run()
+{
+
+    
+
+   
     
     console.exec("source startup.ini", true);
     

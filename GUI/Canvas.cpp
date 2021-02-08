@@ -19,9 +19,13 @@ Canvas::~Canvas()
     
 }
 
-bool Canvas::init()
+void Canvas::init()
 {
-    emuTex.create(HPIXELS, VPIXELS);
+    Layer::init();
+    
+    if (!emuTex.create(HPIXELS, VPIXELS)) {
+        throw Exception("Can't create emulator texture");
+    }
     
     int x1 = HBLANK_CNT * 4;
     int x2 = HPOS_CNT * 4;
@@ -30,8 +34,6 @@ bool Canvas::init()
     foreground.setSize(sf::Vector2f(Application::W, Application::H));
     foreground.setTexture(&emuTex);
     foreground.setTextureRect(sf::IntRect(x1, y1, x2 - x1, y2 - y1));
-    
-    return true;
 }
 
 void

@@ -150,6 +150,7 @@
 		50AE11C125C42D6700AD13B7 /* FSDevice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50AE115A25C42D6700AD13B7 /* FSDevice.cpp */; };
 		50AE11C225C42D6700AD13B7 /* FSDataBlock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50AE115B25C42D6700AD13B7 /* FSDataBlock.cpp */; };
 		50AE11C525C44AAC00AD13B7 /* Controller.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50AE11C325C44AAC00AD13B7 /* Controller.cpp */; };
+		50C4C26F25D1278A00849A01 /* Exception.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50C4C26D25D1278A00849A01 /* Exception.cpp */; };
 		50CF561A25BFECA900B1AC0D /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50CF561925BFECA900B1AC0D /* main.cpp */; };
 		50E08E1D25C3102200B82E96 /* IBMPlexMono-Medium.ttf in CopyFiles */ = {isa = PBXBuildFile; fileRef = 50E08E1C25C3101C00B82E96 /* IBMPlexMono-Medium.ttf */; };
 		50E4DD5525C6B180001F6432 /* InterpreterCmds.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50E4DD5425C6B180001F6432 /* InterpreterCmds.cpp */; };
@@ -489,6 +490,8 @@
 		50AE115C25C42D6700AD13B7 /* Amiga.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Amiga.h; sourceTree = "<group>"; };
 		50AE11C325C44AAC00AD13B7 /* Controller.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Controller.cpp; sourceTree = "<group>"; };
 		50AE11C425C44AAC00AD13B7 /* Controller.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Controller.h; sourceTree = "<group>"; };
+		50C4C26D25D1278A00849A01 /* Exception.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Exception.cpp; sourceTree = "<group>"; };
+		50C4C26E25D1278A00849A01 /* Exception.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Exception.h; sourceTree = "<group>"; };
 		50CAD06D25CEAAA300DD55A5 /* Makefile */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
 		50CAD06E25CEAC3A00DD55A5 /* Makefile */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
 		50CAD07025CEAC6100DD55A5 /* Makefile */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
@@ -1031,6 +1034,15 @@
 			path = FileSystems;
 			sourceTree = "<group>";
 		};
+		50C4C27025D127AE00849A01 /* Foundation */ = {
+			isa = PBXGroup;
+			children = (
+				50C4C26E25D1278A00849A01 /* Exception.h */,
+				50C4C26D25D1278A00849A01 /* Exception.cpp */,
+			);
+			path = Foundation;
+			sourceTree = "<group>";
+		};
 		50CF560D25BFECA900B1AC0D = {
 			isa = PBXGroup;
 			children = (
@@ -1053,6 +1065,7 @@
 		50CF561825BFECA900B1AC0D /* GUI */ = {
 			isa = PBXGroup;
 			children = (
+				50C4C27025D127AE00849A01 /* Foundation */,
 				50CF561925BFECA900B1AC0D /* main.cpp */,
 				50FD19B725C20102004E7388 /* Application.h */,
 				50FD19B625C20102004E7388 /* Application.cpp */,
@@ -1189,6 +1202,7 @@
 				505485E925C15C3B00892284 /* AssetManager.cpp in Sources */,
 				50AE115E25C42D6700AD13B7 /* Denise.cpp in Sources */,
 				50AE116325C42D6700AD13B7 /* Moira.cpp in Sources */,
+				50C4C26F25D1278A00849A01 /* Exception.cpp in Sources */,
 				50AE11B725C42D6700AD13B7 /* FSFileHeaderBlock.cpp in Sources */,
 				50AE118125C42D6700AD13B7 /* RomFile.cpp in Sources */,
 				50F712CD25C8838D00EC288B /* Command.cpp in Sources */,

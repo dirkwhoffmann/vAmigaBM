@@ -88,7 +88,7 @@ public:
     Console(class Application &ref);
     ~Console();
     
-    bool init();
+    void init();
 
 
     //

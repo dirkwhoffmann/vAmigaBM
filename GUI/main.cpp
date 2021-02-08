@@ -15,7 +15,25 @@
 int main(int argc, const char * argv[]) {
 
     Application app;
-    app.run();
 
+    // REMOVE ASAP
+    for (int i = 0; i < argc; i++) {
+        printf("%d: %s\n", i, argv[i]);
+    }
+    
+    // Initiate the launch sequence
+    try {
+        app.check();
+        app.init();
+        app.configure("");
+        
+    } catch (Exception &e) {
+        std::cout << "vAmiga is not able to launch." << std::endl;
+        std::cout << "Error: " << e.what() << std::endl;
+        exit(1);
+    }
+    
+    // Enter the event loop
+    app.run();
     return 0;
 }

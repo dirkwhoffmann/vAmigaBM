@@ -30,15 +30,8 @@ Controller::~Controller()
 void
 Controller::init()
 {
-    ErrorCode ec;
-    
+    // Register to the message queue
     amiga.queue.addListener(this, process);
-    
-    if (amiga.isReady(&ec)) {
-        amiga.run();
-    } else {
-        printf("Amiga can't run: %s\n", ErrorCodeEnum::key(ec));
-    }    
 }
 
 void

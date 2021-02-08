@@ -11,6 +11,7 @@
 
 #include "Utils.h"
 
+#include "Exception.h"
 #include "Controller.h"
 #include "Layer.h"
 #include "SplashScreen.h"
@@ -78,11 +79,33 @@ public:
     
     
     //
-    // Running the app
+    // Launching the app
     //
     
-    // Main entry point of the application
+    /* On start, the application processes the following launching sequence:
+     *
+     * 1. check     : The applications performs some system checks to see if
+     *                it can run in the given environment.
+     *
+     * 2. init      : All sub components are initialized.
+     *
+     * 3. configure : The emulator is configured by reading and processing a
+     *                configuration file. If a file name was provided as a
+     *                command line parameter, this file is used. Otherwise, the
+     *                default init file is used.
+     *
+     * 4. run        : The application enters the main event loop. It remains
+     *                 in this loop until the user quits the application.
+     */
+    void check();
+    void init();
+    void configure(const string& file);
     void run();
+
+    
+    //
+    // Running the app
+    //
     
     // Game loop handlers
     void processEvents();

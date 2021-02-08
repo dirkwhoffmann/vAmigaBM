@@ -14,8 +14,7 @@
 
 class SplashScreen : public Layer {
     
-    // Drawing dimensions
-    float w, h;
+ 
         
     // sf::Text info1;
 
@@ -38,7 +37,7 @@ public:
     SplashScreen(class Application &ref);
     ~SplashScreen();
     
-    bool init();
+    void init();
     
     
     //

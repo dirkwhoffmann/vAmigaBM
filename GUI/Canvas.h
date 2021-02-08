@@ -32,7 +32,7 @@ public:
     Canvas(class Application &ref);
     ~Canvas();
     
-    bool init();
+    void init();
     
     
     //
