@@ -29,10 +29,10 @@ SplashScreen::init()
     configFile = extractName(configPath);
     
     // Help text
-    info[0].setStyle(Assets::get(FontID::sans_r), 40, sf::Color(0xD0,0x50,0x50,0xFF));
-    info[1].setStyle(Assets::get(FontID::sans_l), 40, sf::Color(0x00,0x00,0x00,0xFF));
-    info[2].setStyle(Assets::get(FontID::sans_l), 40, sf::Color(0x00,0x00,0x00,0xFF));
-    info[3].setStyle(Assets::get(FontID::sans_l), 40, sf::Color(0x00,0x00,0x00,0xFF));
+    info[0].setStyle(Assets::get(FontID::sans_l), 46, sf::Color(0x00,0x00,0x00,0xFF));
+    info[1].setStyle(Assets::get(FontID::sans_l), 36, sf::Color(0x50,0x50,0x50,0xFF));
+    info[2].setStyle(Assets::get(FontID::sans_l), 36, sf::Color(0x50,0x50,0x50,0xFF));
+    info[3].setStyle(Assets::get(FontID::sans_l), 36, sf::Color(0x50,0x50,0x50,0xFF));
 
     info[0].setPosition(sf::Vector2f(w * 0.5, h * 0.71));
     info[1].setPosition(sf::Vector2f(w * 0.5, h * 0.80));
@@ -56,33 +56,65 @@ SplashScreen::init()
 }
 
 void
-SplashScreen::awake()
+SplashScreen::execLaunchPhase(isize phase)
 {
-    std::ifstream stream; // (path);
+    std::ifstream stream;
     
-    // Launch phase 1: Open the config file
-    if (!configFileProcessed) {
+    switch (phase) {
+            
+        case 1: // Open and process the config file
+            
+            stream.open(configPath);
+            if (!stream.is_open()) {
+                info[0].setString("Failed to open " + configFile);
+                info[0].setFillColor(sf::Color::Red);
+                info[1].setString("Press SPACE to quit");
+                action = Quit;
+                return;
+            }
+            
+            try { app.interpreter.exec(stream); }
+            catch (Exception &e) {
+                info[0].setString(configFile + ": Error in line " + std::to_string(e.data));
+                info[0].setFillColor(sf::Color::Red);
+                info[1].setString("Press SPACE to quit");
+                action = Quit;
+                return;
+            }
+            
+            [[fallthrough]];
+            
+        case 2: // Check the Kickstart Rom
+            
+            if (!app.amiga.mem.hasKickRom()) {
+                info[0].setString("No Kickstart Rom");
+                info[0].setFillColor(sf::Color::Red);
+                info[1].setString("Press SPACE to install the free Aros Kickstart replacement");
+                action = Aros;
+                return;
+            }
+            
+            [[fallthrough]];
+            
+        case 3: // Check if the emulator can run with the current config
+            
+            if (!app.amiga.isReady()) {
+                info[0].setString("Failed to launch the emulator");
+                info[0].setFillColor(sf::Color::Red);
+                info[1].setString("Press SPACE to quit");
+                action = Quit;
+                return;
+            }
         
-        stream.open(configPath);
-        if (!stream.is_open()) {
-            info[0].setString("Failed to open " + configFile);
-            info[1].setString("Press SPACE to quit");
+            [[fallthrough]];
+            
+        case 4: // All clear. Ready to lift off
+            
+            info[0].setString("Press SPACE to start");
+            info[0].setFillColor(sf::Color::Black);
+            info[1].setString("");
             return;
-        }
-        
-        try {
-            app.interpreter.exec(stream);
-            configFileProcessed = true;
-        } catch (Exception &e) {
-            info[0].setString(configFile + ": Error in line " + std::to_string(e.data));
-            info[1].setString("Press SPACE to quit");
-            return;
-        }
     }
-    
-    // Launch phase 2: Check the Kickstart Rom
-    info[0].setString("Checking Kickstart Rom");
-    info[1].setString("Press SPACE to install the free Aros Kickstart replacement");
 }
 
 bool

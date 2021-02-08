@@ -36,7 +36,7 @@ public:
     void init();
     void awake();
     
-    
+
     //
     // Methods from Layer class
     //

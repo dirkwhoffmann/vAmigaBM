@@ -70,17 +70,13 @@ Interpreter::exec(std::istream &stream)
         printf("Line %zd: %s\n", line, command.c_str());
 
         // Skip empty lines
-        if (command == "") return;
+        if (command == "") continue;
 
         // Skip comments
-        if (command.substr(0,1) == "#") return;
+        if (command.substr(0,1) == "#") continue;
         
         // Execute the command
-        try {
-            exec(command, true);
-        } catch (Exception &e) {
-            e.data = line; throw e;
-        }
+        if (!exec(command, true)) throw Exception(command, line);
     }
 }
 
