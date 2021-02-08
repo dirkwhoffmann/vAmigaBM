@@ -41,7 +41,12 @@ Controller::exec <Token::source> (Arguments &argv, long param)
     std::ifstream stream(filename);
     if (!stream.is_open()) throw ConfigFileReadError(filename);
     
-    app.interpreter.exec(stream);
+    try {
+        app.interpreter.exec(stream);
+    } catch (Exception &e) {
+        console << "Error in line " << (isize)e.data << '\n';
+        console << e.what() << '\n';
+    }
 }
 
 //

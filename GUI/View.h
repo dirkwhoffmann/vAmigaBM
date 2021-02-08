@@ -65,6 +65,7 @@ struct GradientView : View {
     // Wrappers
     void setPosition(const sf::Vector2f &position);
     void setPosition(float x, float y);
+    void setColors(sf::Color ul, sf::Color ur, sf::Color ll, sf::Color lr);
     void draw(sf::RenderWindow &window);
 };
 

@@ -8,24 +8,18 @@
 // -----------------------------------------------------------------------------
 
 #include "Application.h"
-// #include <unistd.h>
 
-// TextureManager textures;
+int main(int argc, const char *argv[]) {
 
-int main(int argc, const char * argv[]) {
-
-    Application app;
-
-    // REMOVE ASAP
-    for (int i = 0; i < argc; i++) {
-        printf("%d: %s\n", i, argv[i]);
-    }
+    Application app(argc, argv);
     
-    // Initiate the launch sequence
+    // Launch the app
     try {
         app.check();
         app.init();
-        app.configure("");
+        app.awake();
+        
+        // app.configure(argc, argv);
         
     } catch (Exception &e) {
         std::cout << "vAmiga is not able to launch." << std::endl;

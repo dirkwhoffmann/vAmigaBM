@@ -67,6 +67,12 @@ Console::init()
 }
 
 void
+Console::awake()
+{
+    
+}
+
+void
 Console::handle(const sf::Event &event)
 {
     switch (event.type) {

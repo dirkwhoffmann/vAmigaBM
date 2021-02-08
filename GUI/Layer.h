@@ -36,7 +36,7 @@ public:
     
     Layer(Application &ref) : app(ref) { }
     void init();
-    
+
     
     //
     // Working with the layer

@@ -142,6 +142,15 @@ GradientView::setPosition(float x, float y)
 }
 
 void
+GradientView::setColors(sf::Color ul, sf::Color ur, sf::Color ll, sf::Color lr)
+{
+    rectangle[0].color = ul;
+    rectangle[1].color = ur;
+    rectangle[2].color = ll;
+    rectangle[3].color = lr;
+}
+
+void
 GradientView::draw(sf::RenderWindow &window)
 {
     window.draw(rectangle, 4, sf::Quads);

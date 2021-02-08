@@ -20,7 +20,9 @@ enum class TextureID
 enum class FontID
 {
     console,
-    logo
+    sans_l,
+    sans_r,
+    sans_sb
 };
 
 enum class ShaderID

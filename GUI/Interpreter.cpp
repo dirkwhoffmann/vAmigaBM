@@ -59,7 +59,7 @@ Interpreter::autoComplete(string& userInput)
     return result;
 }
 
-bool
+void
 Interpreter::exec(std::istream &stream)
 {
     isize line = 0;
@@ -68,15 +68,21 @@ Interpreter::exec(std::istream &stream)
 
         line++;
         printf("Line %zd: %s\n", line, command.c_str());
+
+        // Skip empty lines
+        if (command == "") return;
+
+        // Skip comments
+        if (command.substr(0,1) == "#") return;
         
-        if (!exec(command, true)) {
-            console << "Error in line " << line << "." << '\n';
-            return false;
+        // Execute the command
+        try {
+            exec(command, true);
+        } catch (Exception &e) {
+            e.data = line; throw e;
         }
     }
-    return true;
 }
-
 
 bool
 Interpreter::exec(const string& userInput, bool verbose)
@@ -105,12 +111,7 @@ Interpreter::exec(Arguments &argv, bool verbose)
 
     // Skip empty lines
     if (argv.empty()) return true;
-
-    // Skip comments
-    if (argv.front().substr(0,2) == "//") return true;
-    if (argv.front().substr(0,1) == "#") return true;
-    if (argv.front().substr(0,1) == ";") return true;
-
+    
     try {
         
         // Seek the command in the command tree

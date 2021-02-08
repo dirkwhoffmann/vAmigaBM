@@ -35,16 +35,6 @@ enum class Token
     unmappingtype, volume, wom
 };
 
-/*
-struct ParseError : public std::exception {
-    
-    std::string description;
-    
-    ParseError(const std::string &s) : description(s) { }
-    const char *what() const throw() override { return description.c_str(); }
-};
-*/
-
 struct ParseError : Exception {
     ParseError(const string &s) : Exception(s) { }
 };
@@ -111,11 +101,11 @@ public:
 public:
     
     // Executes a script file
-    bool exec(std::istream &stream);
+    void exec(std::istream &stream) throws;
 
     // Executes a single command
-    bool exec(const string& userInput, bool verbose = false);
-    bool exec(Arguments &argv, bool verbose = false);
+    bool exec(const string& userInput, bool verbose = false) throws;
+    bool exec(Arguments &argv, bool verbose = false) throws;
             
     // Prints a usage string for a command
     void usage(Command &command);

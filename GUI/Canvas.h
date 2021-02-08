@@ -32,7 +32,9 @@ public:
     Canvas(class Application &ref);
     ~Canvas();
     
+    // Delegation methods
     void init();
+    void awake();
     
     
     //

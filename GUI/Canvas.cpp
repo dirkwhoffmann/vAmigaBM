@@ -37,6 +37,12 @@ void Canvas::init()
 }
 
 void
+Canvas::awake()
+{
+    
+}
+
+void
 Canvas::handle(const sf::Event &event)
 {
     switch (event.type) {

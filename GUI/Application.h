@@ -42,7 +42,7 @@ public:
     //
 
 public:
-    
+        
     // The emulator instance
     Amiga amiga;
 
@@ -67,6 +67,9 @@ public:
     // The render window
     sf::RenderWindow window;
 
+    // The command line parameters
+    std::vector<string> argv;
+    
     
     //
     // Initializing
@@ -74,7 +77,7 @@ public:
     
 public:
     
-    Application();
+    Application(int argc, const char *argv[]);
     ~Application();
     
     
@@ -89,6 +92,8 @@ public:
      *
      * 2. init      : All sub components are initialized.
      *
+     * 3. launch    : All components are requested to launch.
+     *
      * 3. configure : The emulator is configured by reading and processing a
      *                configuration file. If a file name was provided as a
      *                command line parameter, this file is used. Otherwise, the
@@ -99,7 +104,9 @@ public:
      */
     void check();
     void init();
-    void configure(const string& file);
+    void awake();
+    void configure();
+    void configure(const string& path);
     void run();
 
     

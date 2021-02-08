@@ -10,9 +10,12 @@
 #include "Application.h"
 #include "Amiga.h"
 
-Application::Application() :
+Application::Application(int argc, const char *argv[]) :
 console(*this), splashScreen(*this), canvas(*this), controller(*this), interpreter(*this)
 {
+    for (int i = 0; i < argc; i++) {
+        this->argv.push_back(string(argv[i]));
+    }
 }
 
 Application::~Application()
@@ -39,7 +42,6 @@ Application::init()
         throw Exception("Unable to create window");
     }
     
-    // Initialize sub components
     controller.init();
     splashScreen.init();
     canvas.init();
@@ -47,16 +49,43 @@ Application::init()
 }
 
 void
-Application::configure(const string& file)
+Application::awake()
+{
+    controller.awake();
+    splashScreen.awake();
+    canvas.awake();
+    console.awake();
+}
+
+void
+Application::configure()
 {
     
 }
 
 void
-Application::run()
+Application::configure(const string& path)
 {
-    console.exec("source startup.ini", true);
+    std::cout << "Reading config file " << path << std::endl;
+        
+    // Open file
+    std::ifstream stream(path);
+    if (!stream.is_open()) {
+        std::cout << "Can't open file " << path << std::endl;
+    }
     
+    // Process script
+    try {
+        interpreter.exec(stream);
+    } catch (Exception &e) {
+        std::cout << "Error in line " << DEC << (isize)e.data << '\n';
+        console << e.what() << '\n';
+    }
+}
+
+void
+Application::run()
+{    
     while (window.isOpen()) {
         
         sf::Time dt = clock.restart();
@@ -120,13 +149,8 @@ Application::update(sf::Time dt)
 void
 Application::render()
 {
-    // Splash screen layer
     if (splashScreen.isVisible()) splashScreen.render();
-    
-    // Emulator layer
     if (canvas.isVisible()) canvas.render();
-    
-    // Console layer
     if (console.isVisible()) console.render();
 
     window.display();

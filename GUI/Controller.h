@@ -31,13 +31,13 @@ public:
     
     Controller(Application &ref);
     ~Controller();
-    
-    // Creates the emulator instance
+
+    // Delegation methods
     void init();
-    
-    // Destroys the emulator instance
+    void awake();
+
     void deinit();
-    
+
     
     //
     // Processing messages

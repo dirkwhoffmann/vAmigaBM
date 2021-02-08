@@ -14,18 +14,27 @@
 
 class SplashScreen : public Layer {
     
- 
-        
-    // sf::Text info1;
-
     // Background
     GradientView background;
   
     // vAmiga logo
     ImageView logo = ImageView(view::center);
+    
+    // Text
+    TextView info[4] = {
+        TextView(view::center), TextView(view::center),
+        TextView(view::center), TextView(view::center)
+    };
 
-    // Help text
-    TextView text1 = TextView(view::center);
+    // Name of the config file
+    string configPath;
+    string configFile;
+
+    // Bookkeeping
+    bool configFileFound     = false;
+    bool configFileProcessed = false;
+    bool kickstartFound      = false;
+    bool emulatorReady       = false;
     
     
     //
@@ -37,13 +46,17 @@ public:
     SplashScreen(class Application &ref);
     ~SplashScreen();
     
+    // Delegation methods
     void init();
+    void awake();
     
     
     //
     // Methods from Layer class
     //
 
+public:
+    
     virtual bool isVisible() override;
     void handle(const sf::Event &event) override;
     void render() override;

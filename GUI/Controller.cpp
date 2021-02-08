@@ -30,6 +30,11 @@ Controller::~Controller()
 void
 Controller::init()
 {
+}
+
+void
+Controller::awake()
+{
     // Register to the message queue
     amiga.queue.addListener(this, process);
 }

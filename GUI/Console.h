@@ -90,7 +90,9 @@ public:
     Console(class Application &ref);
     ~Console();
     
+    // Delegation methods
     void init();
+    void awake();
 
 
     //
