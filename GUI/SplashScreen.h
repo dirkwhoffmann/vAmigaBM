@@ -33,14 +33,7 @@ class SplashScreen : public Layer {
     // Action assigned to the space key
     enum { Quit, Aros, Launch} action = Quit;
     
-    // Bookkeeping
-    /*
-    bool configFileFound     = false;
-    bool configFileProcessed = false;
-    bool kickstartFound      = false;
-    bool emulatorReady       = false;
-    */
-    
+ 
     //
     // Initializing
     //
@@ -52,13 +45,11 @@ public:
     
     // Delegation methods
     void init();
-    void awake() { execLaunchPhase(1); }
+    void awake() { launchPhase(1); }
     
     // Runs a certain launch phase
-    void execLaunchPhase(isize phase);
-    
-    // void launchEmulator();
-    
+    void launchPhase(isize phase);
+        
     
     //
     // Methods from Layer class
