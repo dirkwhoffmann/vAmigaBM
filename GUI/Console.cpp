@@ -29,18 +29,15 @@ void
 Console::init()
 {
     Layer::init();
- 
-    printf("w = %f h = %f width = %d height = %d\n", w, h, width, height);
-    
+     
     // Create the render texture
-    if (!texture.create(width, height)) {
+    if (!texture.create(1060, 785)) {
         throw std::runtime_error("Console: Can't allocate render texture");
     }
-    auto size = texture.getSize();
-    drawable.setTexture(&texture.getTexture());
-    drawable.setTextureRect(sf::IntRect(0, size.y, size.x, -size.y));
-    drawable.setSize(sf::Vector2f{w,h});
-
+    
+    // Embed texture in an image view
+    view.init(w, h, texture.getTexture());
+    
     // Initialize font parameters
     sf::Font& font = Assets::get(FontID::console);
     glyphWidth = font.getGlyph(32, fontSize, false).advance;
@@ -106,7 +103,7 @@ Console::handle(const sf::Event &event)
 void
 Console::render()
 {
-    drawable.setFillColor(sf::Color(0xFF,0xFF,0xFF,alpha));
+    view.setFillColor(sf::Color(0xFF,0xFF,0xFF,alpha));
     
     if (isVisible()) {
         
@@ -114,7 +111,7 @@ Console::render()
             updateTexture();
             isDirty = false;
         }
-        app.window.draw(drawable);
+        view.draw(app.window); 
     }
 }
 

@@ -24,6 +24,19 @@ ImageView::init(const sf::Vector2f &origin, const sf::Vector2f &size, const sf::
     setTexture(&tex);
     setSize(size);
     setPosition(origin);
+    
+    if (flags & view::flipx) {
+        
+        auto rect = getTextureRect();
+        auto size = tex.getSize();
+        setTextureRect(sf::IntRect(size.x, rect.top, -size.x, rect.height));
+    }
+    if (flags & view::flipy) {
+        
+        auto rect = getTextureRect();
+        auto size = tex.getSize();
+        setTextureRect(sf::IntRect(rect.left, size.y, rect.width, -size.y));
+    }
 }
 
 void

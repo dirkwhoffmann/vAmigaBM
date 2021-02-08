@@ -13,6 +13,8 @@
 
 namespace view {
 static const usize center = 0b0001;
+static const usize flipx  = 0b0010;
+static const usize flipy  = 0b0100;
 }
 
 struct View {

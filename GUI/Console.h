@@ -26,8 +26,10 @@ class Console : public Layer {
     //
     
     // Texture dimensions
+    /*
     static const int width = 1060;
     static const int height = 785;
+    */
     
     // Text window size
     static const int numRows = 25;
@@ -63,8 +65,8 @@ class Console : public Layer {
     // The render texture
     sf::RenderTexture texture;
     
-    // A drawable holding the render texture
-    sf::RectangleShape drawable;
+    // The image view holding the texture
+    ImageView view = ImageView(view::flipy);
 
     // The rendered text rows
     sf::Text text[numRows];
