@@ -20,7 +20,7 @@ class Canvas : public Layer {
     sf::Texture emuTex;
  
     // Render object
-    sf::RectangleShape foreground;
+    ImageView foreground;
     
     
     //

@@ -29,18 +29,6 @@ SplashScreen::init()
     text1.setPosition(sf::Vector2f(w * 0.5, h * 0.8));
     text1.setString("Press F12 to enter the debug console");
 
-    /*
-    info1 = sf::Text("Press F12 to enter the debug console",
-                     Assets::get(FontID::logo));
-    
-    info1.setCharacterSize(48);
-    info1.setFillColor(sf::Color(0x50,0x50,0x50,0xFF));
-    sf::FloatRect textRect = info1.getLocalBounds();
-    info1.setOrigin(textRect.left + textRect.width/2.0f,
-                   textRect.top + textRect.height/2.0f);
-    info1.setPosition(sf::Vector2f(w * 0.5, h * 0.8));
-    */
-    
     // Setup background
     background.init(w, h,
                     sf::Color(0x89,0x89,0x89), sf::Color(0x89,0x89,0x89),

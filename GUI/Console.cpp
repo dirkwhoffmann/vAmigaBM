@@ -14,6 +14,11 @@ const std::string& Console::prompt = string("vAmiga\% ");
 Console::Console(Application &ref) :
 Layer(ref), controller(ref.controller), interpreter(ref.interpreter)
 {
+    // Initialize the text storage
+    storage.push_back("");
+
+    // Initialize the input buffer
+    input.push_back("");
 }
 
 Console::~Console()
@@ -24,40 +29,26 @@ void
 Console::init()
 {
     Layer::init();
+ 
+    printf("w = %f h = %f width = %d height = %d\n", w, h, width, height);
     
-    sf::Font& font = Assets::get(FontID::console);
-
-    // Initialize the text storage
-    storage.push_back("");
-
-    // Initialize the input buffer
-    input.push_back("");
-
-    *this << "Retro shell 0.1, ";
-    *this << "Dirk W. Hoffmann, ";
-    *this << __DATE__ << " " << __TIME__ << "." << '\n';
-    *this << "Linked to vAmiga core " << V_MAJOR << '.' << V_MINOR << '.' << V_SUBMINOR;
-    *this << '.' << '\n' << '\n';
-    *this << "Press 'TAB' twice for help." << '\n' << '\n';
-    
-    *this << prompt;
-        
-    // Initialize the cursor
-    glyphWidth = font.getGlyph(32, fontSize, false).advance;
-    cursor.setSize(sf::Vector2f(glyphWidth + 2, fontSize + 3));
-    cursor.setFillColor(sf::Color(0xFF,0xFF,0xFF,0x80));
-    
-    // Initialize the render target
+    // Create the render texture
     if (!texture.create(width, height)) {
         throw std::runtime_error("Console: Can't allocate render texture");
     }
-    drawable.setTextureRect(sf::IntRect(0, height, width, -height));
+    auto size = texture.getSize();
     drawable.setTexture(&texture.getTexture());
+    drawable.setTextureRect(sf::IntRect(0, size.y, size.x, -size.y));
+    drawable.setSize(sf::Vector2f{w,h});
+
+    // Initialize font parameters
+    sf::Font& font = Assets::get(FontID::console);
+    glyphWidth = font.getGlyph(32, fontSize, false).advance;
             
-    auto winSize = app.window.getSize();
-    sf::Vector2f size = { (float)winSize.x, (float)winSize.y };
-    drawable.setSize(size);
- 
+    // Initialize cursor
+    cursor.setSize(sf::Vector2f(glyphWidth + 2, fontSize + 3));
+    cursor.setFillColor(sf::Color(0xFF,0xFF,0xFF,0x80));
+     
     // Initialize render items
     for (int i = 0; i < numRows; i++) {
         
@@ -67,6 +58,15 @@ Console::init()
         text[i].setFillColor(sf::Color::White);
         text[i].setPosition(hposForCol(0), vposForRow(i));
     }
+    
+    // Print intro message
+    *this << "Retro shell 0.1, ";
+    *this << "Dirk W. Hoffmann, ";
+    *this << __DATE__ << " " << __TIME__ << "." << '\n';
+    *this << "Linked to vAmiga core " << V_MAJOR << '.' << V_MINOR << '.' << V_SUBMINOR;
+    *this << '.' << '\n' << '\n';
+    *this << "Press 'TAB' twice for help." << '\n' << '\n';
+    *this << prompt;
 }
 
 void

@@ -31,8 +31,8 @@ void Canvas::init()
     int x2 = HPOS_CNT * 4;
     int y1 = VBLANK_CNT;
     int y2 = VPOS_CNT - 1;
-    foreground.setSize(sf::Vector2f(Application::W, Application::H));
-    foreground.setTexture(&emuTex);
+    
+    foreground.init(w, h, emuTex);
     foreground.setTextureRect(sf::IntRect(x1, y1, x2 - x1, y2 - y1));
 }
 
