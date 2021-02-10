@@ -28,30 +28,27 @@ Interpreter::split(const string& userInput)
     return result;
 }
     
-isize
+void
 Interpreter::autoComplete(Arguments &argv)
 {
-    isize result = 0;
-
     Command *current = &root;
     std::string prefix, token;
 
     for (auto it = argv.begin(); current && it != argv.end(); it++) {
         
-        result += (isize)current->autoComplete(*it);
+        current->autoComplete(*it);
         current = current->seek(*it);
     }
-    return result;
 }
 
-isize
+void
 Interpreter::autoComplete(string& userInput)
 {
     // Split input string
     Arguments tokens = split(userInput);
     
     // Complete all tokens
-    isize result = autoComplete(tokens);
+    autoComplete(tokens);
 
     // Recreate the command string
     userInput = "";
@@ -63,8 +60,6 @@ Interpreter::autoComplete(string& userInput)
     if (root.seek(tokens) != nullptr) {
         userInput += " ";
     }
-    
-    return result;
 }
 
 void

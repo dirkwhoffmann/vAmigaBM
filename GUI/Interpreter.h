@@ -83,8 +83,8 @@ public:
     Arguments split(const string& userInput);
 
     // Auto-completes a command. Returns the number of auto-completed tokens
-    isize autoComplete(Arguments &argv);
-    isize autoComplete(string& userInput);
+    void autoComplete(Arguments &argv);
+    void autoComplete(string& userInput);
 
     
     //

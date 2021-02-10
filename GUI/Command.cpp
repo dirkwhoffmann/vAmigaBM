@@ -173,11 +173,9 @@ Command::filterPrefix(const string& prefix)
     return result;
 }
 
-bool
+void
 Command::autoComplete(string& token)
 {
-    bool result = false;
-    
     auto matches = filterPrefix(token);
     if (!matches.empty()) {
         
@@ -186,15 +184,12 @@ Command::autoComplete(string& token)
             
             for (auto m: matches) {
                 if (m->token.size() <= i || m->token[i] != first->token[i]) {
-                    return result;
+                    return;
                 }
             }
             token += first->token[i];
-            result = true;
         }
     }
-    
-    return result;
 }
 
 string

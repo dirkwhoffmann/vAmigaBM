@@ -84,7 +84,7 @@ struct Command {
     std::vector<Command *> filterPrefix(const string& prefix);
 
     // Automatically completes a partial token string
-    bool autoComplete(string& token);
+    void autoComplete(string& token);
     
     // Returns the full command string for this command
     string tokens();
