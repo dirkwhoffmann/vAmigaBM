@@ -11,6 +11,7 @@
 
 #include "Command.h"
 #include "Exception.h"
+#include "Errors.h"
 
 enum class Token
 {
@@ -35,24 +36,24 @@ enum class Token
     unmappingtype, volume, wom
 };
 
-struct ParseError : Exception {
-    ParseError(const string &s) : Exception(s) { }
-};
-
 struct ParseBoolError : ParseError {
-    ParseBoolError() : ParseError("true, false") { }
+    using ParseError::ParseError;
+    // ParseBoolError(const string &s) : ParseError(s) { }
 };
 
 struct SyntaxError : public ParseError {
-    SyntaxError() : ParseError("Unknown command") { }
+    using ParseError::ParseError;
+    // SyntaxError(const string &s) : ParseError(s) { }
 };
 
 struct TooFewArgumentsError : public ParseError {
-    TooFewArgumentsError() : ParseError("") { }
+    using ParseError::ParseError;
+    // TooFewArgumentsError(const string &s) : ParseError(s) { }
 };
 
 struct TooManyArgumentsError : public ParseError {
-    TooManyArgumentsError() : ParseError("") { }
+    using ParseError::ParseError;
+    // TooManyArgumentsError(const string &s) : ParseError(s) { }
 };
 
 class Interpreter
@@ -104,8 +105,8 @@ public:
     // void exec(std::istream &stream) throws;
 
     // Executes a single command
-    bool exec(const string& userInput, bool verbose = false) throws;
-    bool exec(Arguments &argv, bool verbose = false) throws;
+    void exec(const string& userInput, bool verbose = false) throws;
+    void exec(Arguments &argv, bool verbose = false) throws;
             
     // Prints a usage string for a command
     void usage(Command &command);

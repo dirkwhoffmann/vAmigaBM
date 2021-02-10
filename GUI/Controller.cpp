@@ -85,7 +85,7 @@ Controller::parseBool(string& token)
     if (token == "1" || token == "true" || token == "yes") return true;
     if (token == "0" || token == "false" || token == "no") return false;
 
-    throw ParseBoolError();
+    throw ParseBoolError("");
 }
 
 long

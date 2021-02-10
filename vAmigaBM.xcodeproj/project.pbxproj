@@ -47,6 +47,7 @@
 		5095D47025C021FD006AB819 /* vorbisenc.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5095D44825C021E8006AB819 /* vorbisenc.framework */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		5095D47125C02201006AB819 /* vorbisfile.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5095D44B25C021E8006AB819 /* vorbisfile.framework */; };
 		5095D47225C02201006AB819 /* vorbisfile.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5095D44B25C021E8006AB819 /* vorbisfile.framework */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		509F49E125D47672005DA7CB /* Errors.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 509F49E025D47578005DA7CB /* Errors.cpp */; };
 		50AE115D25C42D6700AD13B7 /* DeniseRegisters.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50AE104D25C42D6500AD13B7 /* DeniseRegisters.cpp */; };
 		50AE115E25C42D6700AD13B7 /* Denise.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50AE105225C42D6500AD13B7 /* Denise.cpp */; };
 		50AE115F25C42D6700AD13B7 /* PixelEngine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50AE105325C42D6500AD13B7 /* PixelEngine.cpp */; };
@@ -239,6 +240,7 @@
 		5095D44925C021E8006AB819 /* sfml-network.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = "sfml-network.framework"; path = "SFML/sfml-network.framework"; sourceTree = "<group>"; };
 		5095D44A25C021E8006AB819 /* sfml-audio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = "sfml-audio.framework"; path = "SFML/sfml-audio.framework"; sourceTree = "<group>"; };
 		5095D44B25C021E8006AB819 /* vorbisfile.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = vorbisfile.framework; path = SFML/vorbisfile.framework; sourceTree = "<group>"; };
+		509F49E025D47578005DA7CB /* Errors.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Errors.cpp; sourceTree = "<group>"; };
 		50AE104B25C42D6500AD13B7 /* DenisePublicTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DenisePublicTypes.h; sourceTree = "<group>"; };
 		50AE104C25C42D6500AD13B7 /* DeniseTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DeniseTypes.h; sourceTree = "<group>"; };
 		50AE104D25C42D6500AD13B7 /* DeniseRegisters.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DeniseRegisters.cpp; sourceTree = "<group>"; };
@@ -718,6 +720,7 @@
 				50AE108725C42D6600AD13B7 /* Serialization.h */,
 				50AE108825C42D6600AD13B7 /* Frame.h */,
 				50AE108925C42D6600AD13B7 /* Errors.h */,
+				509F49E025D47578005DA7CB /* Errors.cpp */,
 				50AE108A25C42D6600AD13B7 /* AmigaComponent.h */,
 				50AE108B25C42D6600AD13B7 /* MsgQueueTypes.h */,
 				50AE108C25C42D6600AD13B7 /* AmigaConstants.cpp */,
@@ -1302,6 +1305,7 @@
 				50AE11BB25C42D6700AD13B7 /* FSBitmapExtBlock.cpp in Sources */,
 				50AE11AF25C42D6700AD13B7 /* Drive.cpp in Sources */,
 				50AE11A825C42D6700AD13B7 /* StateMachineEvents.cpp in Sources */,
+				509F49E125D47672005DA7CB /* Errors.cpp in Sources */,
 				50AE11A225C42D6700AD13B7 /* PaulaEvents.cpp in Sources */,
 				50AE11AA25C42D6700AD13B7 /* AudioFilter.cpp in Sources */,
 				50AE11BC25C42D6700AD13B7 /* FSPartition.cpp in Sources */,

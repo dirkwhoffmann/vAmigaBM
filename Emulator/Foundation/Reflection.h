@@ -10,6 +10,7 @@
 #pragma once
 
 #include "Aliases.h"
+#include "Errors.h"
 
 #include <stdio.h>
 #include <map>

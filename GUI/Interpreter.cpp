@@ -60,33 +60,7 @@ Interpreter::autoComplete(string& userInput)
     return result;
 }
 
-/*
 void
-Interpreter::exec(std::istream &stream)
-{
-    isize line = 0;
-    string command;
-        
-    while(std::getline(stream, command)) {
-
-        line++;
-        printf("Line %zd: %s\n", line, command.c_str());
-
-        // Skip empty lines
-        if (command == "") continue;
-
-        // Skip comments
-        if (command.substr(0,1) == "#") continue;
-        
-        // Execute the command
-        if (!exec(command, true)) {
-            throw Exception(command, line);
-        }
-    }
-}
-*/
-
-bool
 Interpreter::exec(const string& userInput, bool verbose)
 {
     // Split the command string
@@ -96,10 +70,10 @@ Interpreter::exec(const string& userInput, bool verbose)
     autoComplete(tokens);
             
     // Process the command
-    return exec(tokens, verbose);
+    exec(tokens, verbose);
 }
 
-bool
+void
 Interpreter::exec(Arguments &argv, bool verbose)
 {
     Command *current = &root;
@@ -110,84 +84,38 @@ Interpreter::exec(Arguments &argv, bool verbose)
         for (const auto &it : argv) console << it << ' ';
         console << '\n';
     }
-
-    // Skip empty lines
-    if (argv.empty()) return true;
     
-    try {
+    // Skip empty lines
+    if (argv.empty()) return;
+    
+    // Seek the command in the command tree
+    while (current) {
         
-        // Seek the command in the command tree
-        while (current) {
-            
-            // Extract token
-            token = argv.empty() ? "" : argv.front();
-            
-            // Break the loop if this token is unknown
-            Command *next = current->seek(token);
-            if (next == nullptr) break;
-            
-            // Go one level down
-            prefix += next->token + " ";
-            current = next;
-            if (!argv.empty()) argv.pop_front();
-        }
+        // Extract token
+        token = argv.empty() ? "" : argv.front();
         
-        // Error out if no token has been recognized
-        if (current == &root) throw SyntaxError();
-
-        // Error out if no command handler is present
-        if (current->func == nullptr) throw TooFewArgumentsError();
-                
-        // Check the argument count
-        if (argv.size() < current->numArgs) throw TooFewArgumentsError();
-        if (argv.size() > current->numArgs) throw TooFewArgumentsError();
+        // Break the loop if this token is unknown
+        Command *next = current->seek(token);
+        if (next == nullptr) break;
         
-        // Call the command handler
-        (controller.*(current->func))(argv, current->param);
-        return true;
-
-    } catch (SyntaxError &err) {
-        console << token << ": Syntax error";
-        console << '\n';
-        
-    } catch (TooFewArgumentsError &err) {
-        console << current->tokens() << ": Too few arguments";
-        console << '\n';
-        
-    } catch (TooManyArgumentsError &err) {
-        console << current->tokens() << ": Too many arguments";
-        console << '\n';
-        
-    } catch (EnumParseError &err) {
-        console << current->tokens() << ": Invalid key. ";
-        console << "Expected: " << err.what() << '\n';
-
-    } catch (ParseError &err) {
-        console << "Invalid argument. ";
-        console << "Expected: " << err.what() << '\n';
-
-    } catch (ConfigUnsupportedError) {
-        console << "This option is not yet supported.";
-        console << '\n';
-        
-    } catch (ConfigLockedError &err) {
-        console << "This option is locked because the Amiga is powered on.";
-        console << '\n';
-
-    } catch (ConfigArgError &err) {
-        console << "Error: Invalid argument. Expected: " << err.what();
-        console << '\n';
-
-    } catch (ConfigFileReadError &err) {
-        console << "Error: Unable to read file " << err.what();
-        console << '\n';
-
-    } catch (VAError &err) {
-        console << err.what();
-        console << '\n';
+        // Go one level down
+        prefix += next->token + " ";
+        current = next;
+        if (!argv.empty()) argv.pop_front();
     }
     
-    return false;
+    // Error out if no token has been recognized
+    if (current == &root) throw SyntaxError(token); //  current->tokens());
+    
+    // Error out if no command handler is present
+    if (current->func == nullptr) throw TooFewArgumentsError(current->tokens());
+    
+    // Check the argument count
+    if (argv.size() < current->numArgs) throw TooFewArgumentsError(current->tokens());
+    if (argv.size() > current->numArgs) throw TooFewArgumentsError(current->tokens());
+    
+    // Call the command handler
+    (controller.*(current->func))(argv, current->param);
 }
 
 void

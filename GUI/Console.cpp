@@ -443,19 +443,71 @@ Console::scroll(float delta)
 bool
 Console::exec(const string &command, bool verbose)
 {
+    bool success = false;
+    
     // Print the command string if requested
     if (verbose) *this << command << '\n';
         
     printf("Command: %s\n", command.c_str());
     
-    // Hand the command over to the intepreter
-    bool result = interpreter.exec(command);
+    try {
+        
+        // Hand the command over to the intepreter
+        interpreter.exec(command);
+        success = true;
+        
+    } catch (SyntaxError &err) {
+        *this << err.what() << ": Syntax error";
+        *this << '\n';
+        
+    } catch (TooFewArgumentsError &err) {
+        *this << err.what() << ": Too few arguments";
+        *this << '\n';
+        
+    } catch (TooManyArgumentsError &err) {
+        *this << err.what() << ": Too many arguments";
+        *this << '\n';
+        
+    } catch (ParseEnumError &err) {
+        *this << err.token << ": Invalid key";
+        *this << "Expected: " << err.expected << '\n';
+        
+    } catch (ParseBoolError &err) {
+        *this << "Invalid key. ";
+        *this << "Expected: true or false" << '\n';
 
+    } catch (ParseError &err) {
+        *this << "Invalid argument. ";
+        *this << "Expected: " << err.what() << '\n';
+        
+    } catch (ConfigUnsupportedError) {
+        *this << "This option is not yet supported.";
+        *this << '\n';
+        
+    } catch (ConfigLockedError &err) {
+        *this << "This option is locked because the Amiga is powered on.";
+        *this << '\n';
+        
+    } catch (ConfigArgError &err) {
+        *this << "Error: Invalid argument. Expected: " << err.what();
+        *this << '\n';
+        
+    } catch (ConfigFileReadError &err) {
+        *this << "Error: Unable to read file " << err.what();
+        *this << '\n';
+        
+    } catch (VAError &err) {
+        *this << err.what();
+        *this << '\n';
+    }
+    
     // Print a new prompt
-    *this << string(prompt);
+    // printf("Command: %s\n", command.c_str());
+    // *this << string(prompt);
+    printPrompt();
     cpos = 0;
     
-    return result;
+    return success;
 }
 
 void
