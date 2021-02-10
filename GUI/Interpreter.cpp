@@ -105,7 +105,7 @@ Interpreter::exec(Arguments &argv, bool verbose)
     }
     
     // Error out if no token has been recognized
-    if (current == &root) throw SyntaxError(token); //  current->tokens());
+    if (current == &root) throw ParseError(token);
     
     // Error out if no command handler is present
     if (current->func == nullptr) throw TooFewArgumentsError(current->tokens());

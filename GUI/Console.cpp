@@ -455,11 +455,7 @@ Console::exec(const string &command, bool verbose)
         // Hand the command over to the intepreter
         interpreter.exec(command);
         success = true;
-        
-    } catch (SyntaxError &err) {
-        *this << err.what() << ": Syntax error";
-        *this << '\n';
-        
+               
     } catch (TooFewArgumentsError &err) {
         *this << err.what() << ": Too few arguments";
         *this << '\n';
@@ -477,8 +473,9 @@ Console::exec(const string &command, bool verbose)
         *this << "Expected: true or false" << '\n';
 
     } catch (ParseError &err) {
-        *this << "Invalid argument. ";
-        *this << "Expected: " << err.what() << '\n';
+        *this << err.what() << ": Syntax error";
+        *this << '\n';
+        // *this << "Expected: " << err.what() << '\n';
         
     } catch (ConfigUnsupportedError) {
         *this << "This option is not yet supported.";

@@ -36,24 +36,16 @@ enum class Token
     unmappingtype, volume, wom
 };
 
-struct ParseBoolError : ParseError {
+struct ParseBoolError : public ParseError {
     using ParseError::ParseError;
-    // ParseBoolError(const string &s) : ParseError(s) { }
-};
-
-struct SyntaxError : public ParseError {
-    using ParseError::ParseError;
-    // SyntaxError(const string &s) : ParseError(s) { }
 };
 
 struct TooFewArgumentsError : public ParseError {
     using ParseError::ParseError;
-    // TooFewArgumentsError(const string &s) : ParseError(s) { }
 };
 
 struct TooManyArgumentsError : public ParseError {
     using ParseError::ParseError;
-    // TooManyArgumentsError(const string &s) : ParseError(s) { }
 };
 
 class Interpreter
