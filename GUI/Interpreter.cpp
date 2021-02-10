@@ -21,10 +21,32 @@ Arguments
 Interpreter::split(const string& userInput)
 {
     std::stringstream ss(userInput);
-    std::string token;
     Arguments result;
 
-    while (std::getline(ss, token, ' ')) result.push_back(lowercased(token));
+    std::string token;
+    bool str = false;
+    
+    for (isize i = 0; i < userInput.size(); i++) {
+
+        // Switch between string mode and non-string mode if '"' is detected
+        if (userInput[i] == '"') { str = !str; continue; }
+        
+        // Process character
+        if (userInput[i] != ' ' || str) {
+            token += userInput[i];
+        } else {
+            if (!token.empty()) result.push_back(token);
+            token = "";
+        }
+    }
+    if (!token.empty()) result.push_back(token);
+    
+    /*
+    printf("Tokens:\n");
+    for (auto &it : result) {
+        printf("%s\n", it.c_str());
+    }
+    */
     return result;
 }
     
