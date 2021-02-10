@@ -42,7 +42,7 @@ Controller::exec <Token::source> (Arguments &argv, long param)
     if (!stream.is_open()) throw ConfigFileReadError(filename);
     
     try {
-        app.interpreter.exec(stream);
+        app.console.exec(stream);
     } catch (Exception &e) {
         console << "Error in line " << (isize)e.data << '\n';
         console << e.what() << '\n';

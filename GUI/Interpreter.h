@@ -101,7 +101,7 @@ public:
 public:
     
     // Executes a script file
-    void exec(std::istream &stream) throws;
+    // void exec(std::istream &stream) throws;
 
     // Executes a single command
     bool exec(const string& userInput, bool verbose = false) throws;

@@ -53,17 +53,20 @@ Interpreter::autoComplete(string& userInput)
     if (result > 0) {
         userInput = "";
         for (const auto &it : tokens) {
-            userInput += (userInput == "" ? "" : " ") + it;
+            // userInput += (userInput == "" ? "" : " ") + it;
+            userInput += it + " ";
         }
     }
     return result;
 }
 
+/*
 void
 Interpreter::exec(std::istream &stream)
 {
     isize line = 0;
     string command;
+        
     while(std::getline(stream, command)) {
 
         line++;
@@ -76,9 +79,12 @@ Interpreter::exec(std::istream &stream)
         if (command.substr(0,1) == "#") continue;
         
         // Execute the command
-        if (!exec(command, true)) throw Exception(command, line);
+        if (!exec(command, true)) {
+            throw Exception(command, line);
+        }
     }
 }
+*/
 
 bool
 Interpreter::exec(const string& userInput, bool verbose)
@@ -141,7 +147,7 @@ Interpreter::exec(Arguments &argv, bool verbose)
         return true;
 
     } catch (SyntaxError &err) {
-        console << token << ": Syntax error. Press 'TAB' twice for help.";
+        console << token << ": Syntax error";
         console << '\n';
         
     } catch (TooFewArgumentsError &err) {

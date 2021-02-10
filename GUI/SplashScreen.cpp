@@ -71,7 +71,7 @@ SplashScreen::launchPhase(isize phase)
                 return;
             }
             
-            try { app.interpreter.exec(stream); }
+            try { app.console.exec(stream); }
             catch (Exception &e) {
                 info[0].setString(configFile + ": Error in line " + std::to_string(e.data));
                 info[1].setString("Press SPACE to quit");

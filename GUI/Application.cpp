@@ -76,7 +76,7 @@ Application::configure(const string& path)
     
     // Process script
     try {
-        interpreter.exec(stream);
+        console.exec(stream);
     } catch (Exception &e) {
         std::cout << "Error in line " << DEC << (isize)e.data << '\n';
         console << e.what() << '\n';

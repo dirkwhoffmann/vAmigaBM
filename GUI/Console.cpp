@@ -60,10 +60,12 @@ Console::init()
     *this << "Retro shell 0.1, ";
     *this << "Dirk W. Hoffmann, ";
     *this << __DATE__ << " " << __TIME__ << "." << '\n';
-    *this << "Linked to vAmiga core " << V_MAJOR << '.' << V_MINOR << '.' << V_SUBMINOR;
-    *this << '.' << '\n' << '\n';
-    *this << "Press 'TAB' twice for help." << '\n' << '\n';
-    *this << prompt;
+    *this << "Linked to vAmiga core ";
+    *this << V_MAJOR << '.' << V_MINOR << '.' << V_SUBMINOR << '.' << '\n' << '\n';
+
+    printHelp();
+    *this << '\n';
+    printPrompt();
 }
 
 void
@@ -124,8 +126,23 @@ Console::render()
 void
 Console::clear()
 {
-    printf("::clear\n");
     scrollTo(65536);
+}
+
+void
+Console::printHelp()
+{
+    *this << "Press 'TAB' twice for help." << '\n';
+}
+
+void
+Console::printPrompt()
+{
+    // Finish the current line (if necessary)
+    if (!lastLine().empty()) *this << '\n';
+
+    // Print the prompt
+    *this << prompt;
 }
 
 Console&
@@ -256,7 +273,14 @@ Console::type(char c)
         case '\n':
 
             *this << '\n';
-            
+                        
+            // Print a help message if no input is given
+            if (input[ipos].empty()) {
+                printHelp();
+                printPrompt();
+                break;
+            }
+
             // Add the current input line to the user input history
             input[input.size() - 1] = input[ipos];
 
@@ -416,7 +440,7 @@ Console::scroll(float delta)
     }
 }
 
-void
+bool
 Console::exec(const string &command, bool verbose)
 {
     // Print the command string if requested
@@ -425,11 +449,37 @@ Console::exec(const string &command, bool verbose)
     printf("Command: %s\n", command.c_str());
     
     // Hand the command over to the intepreter
-    app.interpreter.exec(command);
+    bool result = app.interpreter.exec(command);
 
     // Print a new prompt
     *this << string(prompt);
     cpos = 0;
+    
+    return result;
+}
+
+void
+Console::exec(std::istream &stream)
+{
+    isize line = 0;
+    string command;
+        
+    while(std::getline(stream, command)) {
+
+        line++;
+        printf("Line %zd: %s\n", line, command.c_str());
+
+        // Skip empty lines
+        if (command == "") continue;
+
+        // Skip comments
+        if (command.substr(0,1) == "#") continue;
+        
+        // Execute the command
+        if (!exec(command, true)) {
+            throw Exception(command, line);
+        }
+    }
 }
 
 void

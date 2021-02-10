@@ -120,10 +120,19 @@ public:
     //
     
 public:
-        
+
+    // Returns a reference to the last line in the text storage
+    string &lastLine() { return storage.back(); }
+            
     // Clears the console window
     void clear();
     
+    // Prints a help line
+    void printHelp();
+
+    // Prints the input prompt
+    void printPrompt();
+        
     // Moves to a certain line in the console window
     void scrollTo(isize line);
     void scrollToTop() { scrollTo(0); }
@@ -177,8 +186,11 @@ public:
     void scroll(float delta);
     
     // Executes a user command
-    void exec(const string &command, bool verbose = false);
+    bool exec(const string &command, bool verbose = false);
     
+    // Executes a user script
+    void exec(std::istream &stream) throws;
+
     
     //
     // Rendering
