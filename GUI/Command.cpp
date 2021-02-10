@@ -118,6 +118,18 @@ Command::seek(const string& token)
     return nullptr;
 }
 
+Command *
+Command::seek(Arguments argv)
+{
+    Command *result = this;
+    
+    for (auto& it : argv) {
+        if (!(result = result->seek(it))) break;
+    }
+    
+    return result;
+}
+
 std::vector<std::string>
 Command::types()
 {

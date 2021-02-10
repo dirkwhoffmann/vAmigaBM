@@ -74,7 +74,8 @@ struct Command {
     
     // Returns a matching descriptor from the args vector
     Command *seek(const string& token);
-
+    Command *seek(Arguments argv);
+    
     // Collects the type descriptions in the args vector
     std::vector<std::string> types();
     

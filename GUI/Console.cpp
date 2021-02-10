@@ -314,10 +314,9 @@ Console::type(char c)
                 
             } else {
                 
-                if (interpreter.autoComplete(input[ipos])) {
-                    cpos = (isize)input[ipos].length();
-                    replace(input[ipos]);
-                }
+                interpreter.autoComplete(input[ipos]);
+                cpos = (isize)input[ipos].length();
+                replace(input[ipos]);
             }
             
             doubleTab = 2;

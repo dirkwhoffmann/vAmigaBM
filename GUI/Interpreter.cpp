@@ -47,15 +47,23 @@ Interpreter::autoComplete(Arguments &argv)
 isize
 Interpreter::autoComplete(string& userInput)
 {
+    // Split input string
     Arguments tokens = split(userInput);
-    isize result = autoComplete(tokens);
     
-    if (result > 0) {
-        userInput = "";
-        for (const auto &it : tokens) {
-            userInput += it + " ";
-        }
+    // Complete all tokens
+    isize result = autoComplete(tokens);
+
+    // Recreate the command string
+    userInput = "";
+    for (const auto &it : tokens) {
+        userInput += (userInput == "" ? "" : " ") + it;
     }
+
+    // Add a space if the command has been fully completed
+    if (root.seek(tokens) != nullptr) {
+        userInput += " ";
+    }
+    
     return result;
 }
 
