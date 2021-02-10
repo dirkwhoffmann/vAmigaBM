@@ -53,7 +53,6 @@ Interpreter::autoComplete(string& userInput)
     if (result > 0) {
         userInput = "";
         for (const auto &it : tokens) {
-            // userInput += (userInput == "" ? "" : " ") + it;
             userInput += it + " ";
         }
     }
@@ -77,7 +76,7 @@ void
 Interpreter::exec(Arguments &argv, bool verbose)
 {
     Command *current = &root;
-    std::string prefix, token;
+    std::string token;
 
     // In 'verbose' mode, print the token list
     if (verbose) {
@@ -98,21 +97,22 @@ Interpreter::exec(Arguments &argv, bool verbose)
         Command *next = current->seek(token);
         if (next == nullptr) break;
         
-        // Go one level down
-        prefix += next->token + " ";
+        // Move one level down
         current = next;
         if (!argv.empty()) argv.pop_front();
     }
-    
-    // Error out if no token has been recognized
-    if (current == &root) throw ParseError(token);
-    
+        
     // Error out if no command handler is present
-    if (current->func == nullptr) throw TooFewArgumentsError(current->tokens());
+    if (current->func == nullptr && !argv.empty()) {
+        throw ParseError(token);
+    }
+    if (current->func == nullptr && argv.empty()) {
+        throw TooFewArgumentsError(current->tokens());
+    }
     
     // Check the argument count
     if (argv.size() < current->numArgs) throw TooFewArgumentsError(current->tokens());
-    if (argv.size() > current->numArgs) throw TooFewArgumentsError(current->tokens());
+    if (argv.size() > current->numArgs) throw TooManyArgumentsError(current->tokens());
     
     // Call the command handler
     (controller.*(current->func))(argv, current->param);
