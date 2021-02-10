@@ -12,7 +12,7 @@
 const std::string& Console::prompt = string("vAmiga\% ");
 
 Console::Console(Application &ref) :
-Layer(ref), controller(ref.controller), interpreter(ref.interpreter)
+Layer(ref), controller(ref.controller)
 {
     // Initialize the text storage
     storage.push_back("");
@@ -307,14 +307,14 @@ Console::type(char c)
                 *this << '\n';
 
                 // Print the instructions for this command
-                app.interpreter.help(input[ipos]);
+                interpreter.help(input[ipos]);
                 
                 // Repeat the old input string
                 *this << string(prompt) << input[ipos];
                 
             } else {
                 
-                if (app.interpreter.autoComplete(input[ipos])) {
+                if (interpreter.autoComplete(input[ipos])) {
                     cpos = (isize)input[ipos].length();
                     replace(input[ipos]);
                 }
@@ -449,7 +449,7 @@ Console::exec(const string &command, bool verbose)
     printf("Command: %s\n", command.c_str());
     
     // Hand the command over to the intepreter
-    bool result = app.interpreter.exec(command);
+    bool result = interpreter.exec(command);
 
     // Print a new prompt
     *this << string(prompt);

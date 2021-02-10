@@ -16,10 +16,11 @@
 
 class Console : public Layer {
     
-    // Reference to the associated application
+    // References to other components
     class Controller &controller;
-    class Interpreter &interpreter;
 
+    // Interpreter for commands typed into the debug console
+    Interpreter interpreter = Interpreter(app);
 
     //
     // Constants

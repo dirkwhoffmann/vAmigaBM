@@ -60,9 +60,6 @@ public:
 
     // The debug console layer
     Console console;
- 
-    // Interpreter for commands typed into the debug console
-    Interpreter interpreter;
 
     // The render window
     sf::RenderWindow window;

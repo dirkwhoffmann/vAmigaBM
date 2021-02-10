@@ -11,7 +11,7 @@
 #include "Amiga.h"
 
 Application::Application(int argc, const char *argv[]) :
-console(*this), splashScreen(*this), canvas(*this), controller(*this), interpreter(*this)
+console(*this), splashScreen(*this), canvas(*this), controller(*this)
 {
     for (int i = 0; i < argc; i++) {
         this->argv.push_back(string(argv[i]));
