@@ -69,7 +69,8 @@ SplashScreen::launchPhase(isize phase)
             if (!stream.is_open()) {
                 errMsg.setString("Failed to open " + configFile);
                 runMsg.setString("Press SPACE to quit");
-                action = Quit;
+                spcAction = Quit;
+                f10Action = None;
                 return;
             }
             
@@ -77,7 +78,8 @@ SplashScreen::launchPhase(isize phase)
             catch (Exception &e) {
                 errMsg.setString(configFile + ": Error in line " + std::to_string(e.data));
                 runMsg.setString("Press SPACE to quit");
-                action = Quit;
+                spcAction = Quit;
+                f10Action = None;
                 return;
             }
             
@@ -89,7 +91,8 @@ SplashScreen::launchPhase(isize phase)
                 errMsg.setString("No Kickstart Rom");
                 runMsg.setString("");
                 info[0].setString("Press F10 to install the Aros Kickstart replacement");
-                action = Aros;
+                spcAction = None;
+                f10Action = Aros;
                 return;
             }
             
@@ -100,7 +103,8 @@ SplashScreen::launchPhase(isize phase)
             if (!app.amiga.isReady()) {
                 errMsg.setString("Failed to launch the emulator");
                 runMsg.setString("Press SPACE to quit");
-                action = Quit;
+                spcAction = Quit;
+                f10Action = None;
                 return;
             }
         
@@ -111,7 +115,24 @@ SplashScreen::launchPhase(isize phase)
             errMsg.setString("");
             runMsg.setString("Press SPACE to start");
             info[0].setString("");
+            spcAction = Launch;
+            f10Action = None;
             return;
+    }
+}
+
+bool
+SplashScreen::loadAros()
+{
+    try {
+        app.amiga.mem.loadRomFromFile("aros-amiga-m68k-rom.bin");
+        app.amiga.mem.loadExtFromFile("aros-amiga-m68k-ext.bin");
+        app.amiga.configure(OPT_EXT_START, 0xE0);
+        return true;
+        
+    } catch (VAError &err) {
+        printf("Failed to load Aros: %s\n", ErrorCodeEnum::key(err.errorCode));
+        return false;
     }
 }
 
@@ -124,7 +145,37 @@ SplashScreen::isVisible()
 void
 SplashScreen::handle(const sf::Event &event)
 {
-    
+    switch (event.type) {
+            
+        case sf::Event::KeyPressed:
+        {
+            KeyAction action =
+            (event.key.code == sf::Keyboard::F10) ? f10Action :
+            (event.key.code == sf::Keyboard::Space) ? spcAction : None;
+            
+            switch (action) {
+                    
+                case Launch:
+                    spcAction = None;
+                    app.amiga.run();
+                    break;
+                    
+                case Quit:
+                    app.window.close();
+                    break;
+                    
+                case Aros:
+                    loadAros();
+                    launchPhase(3);
+                    break;
+                    
+                default:
+                    break;
+            }
+        }
+        default:
+            break;
+    }
 }
 
 void

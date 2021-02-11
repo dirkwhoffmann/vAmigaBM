@@ -48,6 +48,8 @@
 		5095D47125C02201006AB819 /* vorbisfile.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5095D44B25C021E8006AB819 /* vorbisfile.framework */; };
 		5095D47225C02201006AB819 /* vorbisfile.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5095D44B25C021E8006AB819 /* vorbisfile.framework */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		509F49E125D47672005DA7CB /* Errors.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 509F49E025D47578005DA7CB /* Errors.cpp */; };
+		509F49E325D5332F005DA7CB /* aros-amiga-m68k-ext.bin in CopyFiles */ = {isa = PBXBuildFile; fileRef = 509F49E225D5332F005DA7CB /* aros-amiga-m68k-ext.bin */; };
+		509F49E525D53363005DA7CB /* aros-amiga-m68k-rom.bin in CopyFiles */ = {isa = PBXBuildFile; fileRef = 509F49E425D53363005DA7CB /* aros-amiga-m68k-rom.bin */; };
 		50AE115D25C42D6700AD13B7 /* DeniseRegisters.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50AE104D25C42D6500AD13B7 /* DeniseRegisters.cpp */; };
 		50AE115E25C42D6700AD13B7 /* Denise.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50AE105225C42D6500AD13B7 /* Denise.cpp */; };
 		50AE115F25C42D6700AD13B7 /* PixelEngine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50AE105325C42D6500AD13B7 /* PixelEngine.cpp */; };
@@ -201,6 +203,8 @@
 				507F613025C1B3E0003D695F /* concrete.png in CopyFiles */,
 				5000933125C0CB4A00F01BEF /* logo.png in CopyFiles */,
 				5002A27725CFCB0400665F89 /* startup.ini in CopyFiles */,
+				509F49E525D53363005DA7CB /* aros-amiga-m68k-rom.bin in CopyFiles */,
+				509F49E325D5332F005DA7CB /* aros-amiga-m68k-ext.bin in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -241,6 +245,8 @@
 		5095D44A25C021E8006AB819 /* sfml-audio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = "sfml-audio.framework"; path = "SFML/sfml-audio.framework"; sourceTree = "<group>"; };
 		5095D44B25C021E8006AB819 /* vorbisfile.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = vorbisfile.framework; path = SFML/vorbisfile.framework; sourceTree = "<group>"; };
 		509F49E025D47578005DA7CB /* Errors.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Errors.cpp; sourceTree = "<group>"; };
+		509F49E225D5332F005DA7CB /* aros-amiga-m68k-ext.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = "aros-amiga-m68k-ext.bin"; sourceTree = "<group>"; };
+		509F49E425D53363005DA7CB /* aros-amiga-m68k-rom.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = "aros-amiga-m68k-rom.bin"; sourceTree = "<group>"; };
 		50AE104B25C42D6500AD13B7 /* DenisePublicTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DenisePublicTypes.h; sourceTree = "<group>"; };
 		50AE104C25C42D6500AD13B7 /* DeniseTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DeniseTypes.h; sourceTree = "<group>"; };
 		50AE104D25C42D6500AD13B7 /* DeniseRegisters.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DeniseRegisters.cpp; sourceTree = "<group>"; };
@@ -563,6 +569,7 @@
 		5070133725C071A6003B3420 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				509F49E625D53370005DA7CB /* Roms */,
 				507F613325C1B9ED003D695F /* Shaders */,
 				507F613125C1B9CF003D695F /* Fonts */,
 				507F613225C1B9DF003D695F /* Textures */,
@@ -598,6 +605,15 @@
 				507F613425C1BA52003D695F /* blur.frag */,
 			);
 			path = Shaders;
+			sourceTree = "<group>";
+		};
+		509F49E625D53370005DA7CB /* Roms */ = {
+			isa = PBXGroup;
+			children = (
+				509F49E425D53363005DA7CB /* aros-amiga-m68k-rom.bin */,
+				509F49E225D5332F005DA7CB /* aros-amiga-m68k-ext.bin */,
+			);
+			path = Roms;
 			sourceTree = "<group>";
 		};
 		50AE104925C42D6500AD13B7 /* Emulator */ = {

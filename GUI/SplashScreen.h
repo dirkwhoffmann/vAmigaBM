@@ -31,10 +31,12 @@ class SplashScreen : public Layer {
     string configPath;
     string configFile;
 
-    // Action assigned to the space key
-    enum { Quit, Aros, Launch} action = Quit;
+    // Key actions
+    typedef enum { None, Launch, Quit, Aros, Menu, Console } KeyAction;
+    KeyAction spcAction = None;
+    KeyAction f10Action = None;
+
     
- 
     //
     // Initializing
     //
@@ -51,6 +53,9 @@ public:
     // Runs a certain launch phase
     void launchPhase(isize phase);
         
+    // Loads the Aros replacement Roms
+    bool loadAros();
+    
     
     //
     // Methods from Layer class

@@ -25,13 +25,7 @@ class Console : public Layer {
     //
     // Constants
     //
-    
-    // Texture dimensions
-    /*
-    static const int width = 1060;
-    static const int height = 785;
-    */
-    
+  
     // Text window size
     static const int numRows = 25;
     static const int numCols = 80;
