@@ -23,17 +23,17 @@ enum class Token
 
     // Commands
     about, autosync, clear, config, connect, disconnect, dsksync, easteregg,
-    eject, close, insert, inspect, list, load, lock, on, off, pause, reset,
-    run, set, source,
+    eject, close, insert, inspect, list, load, lock, on, off, pause,
+    reset, run, set, source,
     
     // Categories
     state, registers, events, checksums,
     
     // Keys
-    accuracy, bankmap, borderblank, chip, device, esync, extrom, extstart,
-    fast, filter, mechanics, model, pan, raminitpattern, revision, rom,
-    sampling, slow, slowramdelay, slowrammirror, speed, tod, todbug,
-    unmappingtype, volume, wom
+    accuracy, bankmap, borderblank, chip, clxsprspr, clxsprplf, clxplfplf,
+    device, esync, extrom, extstart, fast, filter, mechanics, model, palette,
+    pan, raminitpattern, revision, rom, sampling, slow, slowramdelay,
+    slowrammirror, speed, tod, todbug, unmappingtype, volume, wom
 };
 
 struct ParseBoolError : public ParseError {

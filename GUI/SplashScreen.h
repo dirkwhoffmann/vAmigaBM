@@ -20,10 +20,11 @@ class SplashScreen : public Layer {
     // vAmiga logo
     ImageView logo = ImageView(view::center);
     
-    // Text
-    TextView info[4] = {
-        TextView(view::center), TextView(view::center),
-        TextView(view::center), TextView(view::center)
+    // Text messages
+    TextView errMsg = TextView(view::center);
+    TextView runMsg = TextView(view::center);
+    TextView info[3] = {
+        TextView(view::center), TextView(view::center), TextView(view::center)
     };
 
     // Name of the config file

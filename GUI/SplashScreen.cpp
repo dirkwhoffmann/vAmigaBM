@@ -28,19 +28,21 @@ SplashScreen::init()
     configPath = app.argv.size() <= 1 ? "startup.ini" : app.argv[1];
     configFile = extractName(configPath);
     
-    // Help text
-    info[0].setStyle(Assets::get(FontID::sans_r), 40, sf::Color(0xE0,0x50,0x50,0xFF));
-    info[1].setStyle(Assets::get(FontID::sans_l), 46, sf::Color(0x50,0x50,0x50,0xFF));
+    // Messages
+    errMsg.setStyle(Assets::get(FontID::sans_r), 40, sf::Color(0xE0,0x50,0x50,0xFF));
+    runMsg.setStyle(Assets::get(FontID::sans_l), 46, sf::Color(0x50,0x50,0x50,0xFF));
+    info[0].setStyle(Assets::get(FontID::sans_l), 36, sf::Color(0x50,0x50,0x50,0xFF));
+    info[1].setStyle(Assets::get(FontID::sans_l), 36, sf::Color(0x50,0x50,0x50,0xFF));
     info[2].setStyle(Assets::get(FontID::sans_l), 36, sf::Color(0x50,0x50,0x50,0xFF));
-    info[3].setStyle(Assets::get(FontID::sans_l), 36, sf::Color(0x50,0x50,0x50,0xFF));
 
-    info[0].setPosition(sf::Vector2f(w * 0.5, h * 0.685));
-    info[1].setPosition(sf::Vector2f(w * 0.5, h * 0.74));
-    info[2].setPosition(sf::Vector2f(w * 0.5, h * 0.85));
-    info[3].setPosition(sf::Vector2f(w * 0.5, h * 0.90));
+    errMsg.setPosition(sf::Vector2f(w * 0.5, h * 0.685));
+    runMsg.setPosition(sf::Vector2f(w * 0.5, h * 0.74));
+    info[0].setPosition(sf::Vector2f(w * 0.5, h * 0.80));
+    info[1].setPosition(sf::Vector2f(w * 0.5, h * 0.85));
+    info[2].setPosition(sf::Vector2f(w * 0.5, h * 0.90));
 
-    info[2].setString("Press F11 to open the menu");
-    info[3].setString("Press F12 to open the debug console");
+    info[1].setString("Press F11 to open the debug console");
+    info[2].setString("Press F12 to open the menu");
 
     // Setup background
     background.init(w, h,
@@ -65,16 +67,16 @@ SplashScreen::launchPhase(isize phase)
             
             stream.open(configPath);
             if (!stream.is_open()) {
-                info[0].setString("Failed to open " + configFile);
-                info[1].setString("Press SPACE to quit");
+                errMsg.setString("Failed to open " + configFile);
+                runMsg.setString("Press SPACE to quit");
                 action = Quit;
                 return;
             }
             
             try { app.console.exec(stream); }
             catch (Exception &e) {
-                info[0].setString(configFile + ": Error in line " + std::to_string(e.data));
-                info[1].setString("Press SPACE to quit");
+                errMsg.setString(configFile + ": Error in line " + std::to_string(e.data));
+                runMsg.setString("Press SPACE to quit");
                 action = Quit;
                 return;
             }
@@ -84,8 +86,9 @@ SplashScreen::launchPhase(isize phase)
         case 2: // Check the Kickstart Rom
             
             if (!app.amiga.mem.hasKickRom()) {
-                info[0].setString("No Kickstart Rom");
-                info[1].setString("Press SPACE to install the Aros Kickstart replacement");
+                errMsg.setString("No Kickstart Rom");
+                runMsg.setString("");
+                info[0].setString("Press F10 to install the Aros Kickstart replacement");
                 action = Aros;
                 return;
             }
@@ -95,8 +98,8 @@ SplashScreen::launchPhase(isize phase)
         case 3: // Check if the emulator can run with the current config
             
             if (!app.amiga.isReady()) {
-                info[0].setString("Failed to launch the emulator");
-                info[1].setString("Press SPACE to quit");
+                errMsg.setString("Failed to launch the emulator");
+                runMsg.setString("Press SPACE to quit");
                 action = Quit;
                 return;
             }
@@ -105,8 +108,9 @@ SplashScreen::launchPhase(isize phase)
             
         case 4: // All clear. Ready to lift off
             
+            errMsg.setString("");
+            runMsg.setString("Press SPACE to start");
             info[0].setString("");
-            info[1].setString("Press SPACE to start");
             return;
     }
 }
@@ -128,10 +132,11 @@ SplashScreen::render()
 {
     background.draw(app.window);
     logo.draw(app.window);
+    errMsg.draw(app.window);
+    runMsg.draw(app.window);
     info[0].draw(app.window);
     info[1].draw(app.window);
     info[2].draw(app.window);
-    info[3].draw(app.window);
 }
 
 void

@@ -145,19 +145,19 @@ Controller::exec <Token::memory, Token::set, Token::slowramdelay> (Arguments& ar
 template <> void
 Controller::exec <Token::memory, Token::set, Token::bankmap> (Arguments& argv, long param)
 {
-    amiga.configure(OPT_BANKMAP, parseBool(argv.front()));
+    amiga.configure(OPT_BANKMAP, BankMapEnum::parse(argv.front()));
 }
 
 template <> void
 Controller::exec <Token::memory, Token::set, Token::unmappingtype> (Arguments& argv, long param)
 {
-    amiga.configure(OPT_UNMAPPING_TYPE, BankMapEnum::parse(argv.front()));
+    amiga.configure(OPT_UNMAPPING_TYPE, UnmappedMemoryEnum::parse(argv.front()));
 }
 
 template <> void
 Controller::exec <Token::memory, Token::set, Token::raminitpattern> (Arguments& argv, long param)
 {
-    amiga.configure(OPT_RAM_INIT_PATTERN, BankMapEnum::parse(argv.front()));
+    amiga.configure(OPT_RAM_INIT_PATTERN, RamInitPatternEnum::parse(argv.front()));
 }
 
 template <> void
@@ -372,6 +372,32 @@ template <> void
 Controller::exec <Token::denise, Token::set, Token::revision> (Arguments &argv, long param)
 {
     amiga.configure(OPT_DENISE_REVISION, DeniseRevisionEnum::parse(argv.front()));
+}
+
+/*
+template <> void
+Controller::exec <Token::denise, Token::set, Token::palette> (Arguments &argv, long param)
+{
+    amiga.configure(OPT_PALETTE, PaletteEnum::parse(argv.front()));
+}
+*/
+
+template <> void
+Controller::exec <Token::denise, Token::set, Token::clxsprspr> (Arguments &argv, long param)
+{
+    amiga.configure(OPT_CLX_SPR_SPR, parseBool(argv.front()));
+}
+
+template <> void
+Controller::exec <Token::denise, Token::set, Token::clxsprplf> (Arguments &argv, long param)
+{
+    amiga.configure(OPT_CLX_SPR_PLF, parseBool(argv.front()));
+}
+
+template <> void
+Controller::exec <Token::denise, Token::set, Token::clxplfplf> (Arguments &argv, long param)
+{
+    amiga.configure(OPT_CLX_PLF_PLF, parseBool(argv.front()));
 }
 
 template <> void

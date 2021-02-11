@@ -464,11 +464,11 @@ Console::exec(const string &command, bool verbose)
         *this << '\n';
         
     } catch (ParseEnumError &err) {
-        *this << err.token << ": Invalid key";
+        *this << err.token << ": Invalid key" << '\n';
         *this << "Expected: " << err.expected << '\n';
         
     } catch (ParseBoolError &err) {
-        *this << "Invalid key. ";
+        *this << "Invalid key" << '\n';
         *this << "Expected: true or false" << '\n';
 
     } catch (ParseError &err) {

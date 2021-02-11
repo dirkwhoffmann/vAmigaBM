@@ -313,7 +313,25 @@ Interpreter::registerInstructions()
              "key", "Selects the emulated chip model",
              &Controller::exec <Token::denise, Token::set, Token::revision>, 1, 0);
 
-    root.add("denise", "set", "borderblnk" ,
+    /*
+    root.add("denise", "set", "palette" ,
+             "key", "Selects the color palette",
+             &Controller::exec <Token::denise, Token::set, Token::palette>, 1, 0);
+    */
+    
+    root.add("denise", "set", "clxsprspr" ,
+             "key", "Enables or disables sprite-sprite collision detection",
+             &Controller::exec <Token::denise, Token::set, Token::clxsprspr>, 1, 0);
+
+    root.add("denise", "set", "clxsprplf" ,
+             "key", "Enables or disables sprite-playfield collision detection",
+             &Controller::exec <Token::denise, Token::set, Token::clxsprplf>, 1, 0);
+
+    root.add("denise", "set", "clxplfplf" ,
+             "key", "Enables or disables playfield-playfield collision detection",
+             &Controller::exec <Token::denise, Token::set, Token::clxplfplf>, 1, 0);
+    
+    root.add("denise", "set", "borderblank" ,
              "key", "Enables the ECS borderblank feature",
              &Controller::exec <Token::denise, Token::set, Token::borderblank>, 1, 0);
 
@@ -358,15 +376,15 @@ Interpreter::registerInstructions()
              "key", "Sets the volume for audio channel 0",
              &Controller::exec <Token::audio, Token::set, Token::volume>, 1, 0);
     
-    root.add("audio", "set", "volume", "channel2",
+    root.add("audio", "set", "volume", "channel1",
              "key", "Sets the volume for audio channel 1",
              &Controller::exec <Token::audio, Token::set, Token::volume>, 1, 1);
     
-    root.add("audio", "set", "volume", "channel3",
+    root.add("audio", "set", "volume", "channel2",
              "key", "Sets the volume for audio channel 2",
              &Controller::exec <Token::audio, Token::set, Token::volume>, 1, 2);
     
-    root.add("audio", "set", "volume", "channel4",
+    root.add("audio", "set", "volume", "channel3",
              "key", "Sets the volume for audio channel 3",
              &Controller::exec <Token::audio, Token::set, Token::volume>, 1, 3);
     
@@ -501,32 +519,32 @@ Interpreter::registerInstructions()
     // Disk controller
     //
     
-    root.add("dc",
+    root.add("diskcontroller",
              "component", "Disk Controller");
 
-    root.add("dc", "config",
+    root.add("diskcontroller", "config",
              "command", "Displays the current configuration",
              &Controller::exec <Token::dc, Token::config>, 0, 0);
 
-    root.add("dc", "set",
+    root.add("diskcontroller", "set",
              "command", "Configures the component");
         
-    root.add("dc", "set", "revision" ,
+    root.add("diskcontroller", "set", "speed" ,
              "key", "Configures the drive speed",
              &Controller::exec <Token::dc, Token::speed>, 1, 0);
 
-    root.add("dc", "disksync",
+    root.add("diskcontroller", "dsksync",
              "command", "Secures the DSKSYNC register");
 
-    root.add("dc", "disksync", "auto" ,
+    root.add("diskcontroller", "dsksync", "auto" ,
              "key", "Always receive a SYNC signal",
              &Controller::exec <Token::dc, Token::dsksync, Token::autosync>, 1, 0);
 
-    root.add("dc", "disksync", "lock",
-             "command", "Prevents writes to DSKSYNC",
+    root.add("diskcontroller", "dsksync", "lock",
+             "key", "Prevents writes to DSKSYNC",
              &Controller::exec <Token::dc, Token::dsksync, Token::lock>, 1, 0);
         
-    root.add("dc", "inspect",
+    root.add("diskcontroller", "inspect",
              "command", "Displays the internal state",
              &Controller::exec <Token::dc, Token::inspect>, 0, 0);
 

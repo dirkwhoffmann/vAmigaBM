@@ -115,7 +115,7 @@ Application::processEvents()
             }
             case sf::Event::KeyPressed:
             {
-                if (event.key.code == sf::Keyboard::F12) console.toggle();
+                if (event.key.code == sf::Keyboard::F11) console.toggle();
                 break;
             }
             case sf::Event::Resized:
