@@ -175,17 +175,24 @@ Mouse::getXY()
 void
 Mouse::setXY(double x, double y)
 {
+    // Check for a shaking mouse
+    if (shakeDetector.isShakingAbs(x)) amiga.queue.put(MSG_SHAKING);
+
     targetX = x * scaleX;
     targetY = y * scaleY;
-
+    
     port.device = CPD_MOUSE;
 }
 
 void
 Mouse::setDeltaXY(double dx, double dy)
 {
+    // Check for a shaking mouse
+    if (shakeDetector.isShakingRel(dx)) amiga.queue.put(MSG_SHAKING);
+
     targetX += dx * scaleX;
     targetY += dy * scaleY;
+    
     port.device = CPD_MOUSE;
 }
 
@@ -229,4 +236,58 @@ Mouse::execute()
 {
     mouseX = targetX;
     mouseY = targetY;
+}
+
+bool
+ShakeDetector::isShakingAbs(double newx)
+{
+    return isShakingRel(newx - x);
+}
+
+bool
+ShakeDetector::isShakingRel(double dx) {
+    
+    // Accumulate the travelled distance
+    x += dx;
+    dxsum += abs(dx);
+    
+    // Check for a direction reversal
+    if (dx * dxsign < 0) {
+    
+        u64 dt = Oscillator::nanos() - lastTurn;
+        dxsign = -dxsign;
+
+        // A direction reversal is considered part of a shake, if the
+        // previous reversal happened a short while ago.
+        if (dt < 400 * 1000 * 1000) {
+  
+            // Eliminate jitter by demanding that the mouse has travelled
+            // a long enough distance.
+            if (dxsum > 400) {
+                
+                dxturns += 1;
+                dxsum = 0;
+                
+                // Report a shake if the threshold has been reached.
+                if (dxturns > 3) {
+                    
+                    // printf("Mouse shake detected\n");
+                    lastShake = Oscillator::nanos();
+                    dxturns = 0;
+                    return true;
+                }
+            }
+            
+        } else {
+            
+            // Time out. The user is definitely not shaking the mouse.
+            // Let's reset the recorded movement histoy.
+            dxturns = 0;
+            dxsum = 0;
+        }
+        
+        lastTurn = Oscillator::nanos();
+    }
+    
+    return false;
 }

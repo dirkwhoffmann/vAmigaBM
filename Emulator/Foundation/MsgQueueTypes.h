@@ -68,7 +68,9 @@ struct MsgTypeEnum : Reflection<MsgTypeEnum, MsgType> {
             case MSG_DISK_UNPROTECT:      return "DISK_UNPROTECT";
 
             case MSG_CTRL_AMIGA_AMIGA:    return "CTRL_AMIGA_AMIGA";
-                
+
+            case MSG_SHAKING:             return "SHAKING";
+
             case MSG_SER_IN:              return "SER_IN";
             case MSG_SER_OUT:             return "SER_OUT";
 
