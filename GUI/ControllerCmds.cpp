@@ -541,6 +541,36 @@ Controller::exec <Token::keyboard, Token::inspect> (Arguments& argv, long param)
 
 
 //
+// Mouse
+//
+
+template <> void
+Controller::exec <Token::mouse, Token::config> (Arguments& argv, long param)
+{
+    dump(amiga.keyboard, Dump::Config);
+}
+
+template <> void
+Controller::exec <Token::mouse, Token::set, Token::velocity> (Arguments &argv, long param)
+{
+    amiga.configure(OPT_MOUSE_VELOCITY, PORT_1, parseDec(argv.front()));
+    amiga.configure(OPT_MOUSE_VELOCITY, PORT_2, parseDec(argv.front()));
+}
+
+template <> void
+Controller::exec <Token::mouse, Token::set, Token::pullup> (Arguments &argv, long param)
+{
+    amiga.configure(OPT_PULLUP_RESISTORS, parseBool(argv.front()));
+}
+
+template <> void
+Controller::exec <Token::mouse, Token::inspect> (Arguments& argv, long param)
+{
+    dump(amiga.keyboard, Dump::State);
+}
+
+
+//
 // Serial port
 //
 

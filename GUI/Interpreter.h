@@ -19,7 +19,7 @@ enum class Token
     
     // Components
     agnus, amiga, audio, blitter, cia, copper, cpu, denise, dfn, dc, keyboard,
-    memory, paula, serial, rtc,
+    memory, mouse, paula, serial, rtc,
 
     // Commands
     about, autosync, clear, config, connect, disconnect, dsksync, easteregg,
@@ -31,9 +31,10 @@ enum class Token
     
     // Keys
     accuracy, bankmap, borderblank, chip, clxsprspr, clxsprplf, clxplfplf,
-    device, esync, extrom, extstart, fast, filter, mechanics, model, palette,
-    pan, raminitpattern, revision, rom, sampling, slow, slowramdelay,
-    slowrammirror, speed, tod, todbug, unmappingtype, volume, wom
+    device, esync, extrom, extstart, fast, filter, mechanics, model,
+    palette, pan, pullup, raminitpattern, revision, rom, sampling, slow,
+    slowramdelay, slowrammirror, speed, tod, todbug, unmappingtype, velocity,
+    volume, wom
 };
 
 struct ParseBoolError : public ParseError {

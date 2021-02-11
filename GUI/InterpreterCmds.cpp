@@ -493,6 +493,33 @@ Interpreter::registerInstructions()
 
     
     //
+    // Mouse
+    //
+
+    root.add("mouse",
+             "component", "Mouse");
+
+    root.add("mouse", "config",
+             "command", "Displays the current configuration",
+             &Controller::exec <Token::mouse, Token::config>, 0, 0);
+    
+    root.add("mouse", "set",
+             "command", "Configures the component");
+        
+    root.add("mouse", "set", "velocity",
+             "key", "Sets the horizontal and vertical mouse velocity",
+             &Controller::exec <Token::mouse, Token::set, Token::velocity>, 1, 0);
+
+    root.add("mouse", "set", "pullup",
+             "key", "Enables or disables the emulation of pull-up resistors",
+             &Controller::exec <Token::mouse, Token::set, Token::pullup>, 1, 0);
+
+    root.add("mouse", "inspect",
+             "command", "Displays the internal state",
+             &Controller::exec <Token::mouse, Token::inspect>, 0, 0);
+    
+    
+    //
     // Serial port
     //
     

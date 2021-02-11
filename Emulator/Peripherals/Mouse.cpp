@@ -12,6 +12,9 @@
 Mouse::Mouse(Amiga& ref, ControlPort& pref) : AmigaComponent(ref), port(pref)
 {
     config.pullUpResistors = true;
+    config.velocity = 100;
+
+    updateScalingFactors();
 }
 
 const char *
@@ -34,21 +37,83 @@ void Mouse::_reset(bool hard)
     targetY = 0;
 }
 
+long
+Mouse::getConfigItem(Option option) const
+{
+    switch (option) {
+
+        case OPT_PULLUP_RESISTORS:  return config.pullUpResistors;
+        case OPT_MOUSE_VELOCITY:    return config.velocity;
+
+        default:
+            assert(false);
+            return 0;
+    }
+}
+
+bool
+Mouse::setConfigItem(Option option, long id, long value)
+{    
+    if (port.nr != id) return false;
+    
+    switch (option) {
+            
+        case OPT_PULLUP_RESISTORS:
+            
+            if (config.pullUpResistors == value) {
+                return false;
+            }
+            config.pullUpResistors = value;
+            return true;
+  
+        case OPT_MOUSE_VELOCITY:
+            
+            printf("config: OPT_MOUSE_VELOCITY\n");
+            
+            if (value < 0 || value > 255) {
+                throw ConfigArgError("0 ... 255");
+            }
+            if (config.velocity == value) {
+                return false;
+            }
+            config.velocity= value;
+            updateScalingFactors();
+            return true;
+
+        default:
+            return false;
+    }
+}
+
+void
+Mouse::updateScalingFactors()
+{
+    assert((unsigned long)config.velocity < 256);
+    scaleX = scaleY = (double)config.velocity / 100.0;
+}
+
 void
 Mouse::_dump(Dump::Category category, std::ostream& os) const
 {
-    os << " leftButton = " << leftButton;
-    os << "rightButton = " << rightButton;
-    os << "     mouseX = " << mouseX;
-    os << "     mouseY = " << mouseY;
-    os << "  oldMouseX = " << oldMouseX;
-    os << "  oldMouseY = " << oldMouseY;
-    os << "    targetX = " << targetX;
-    os << "    targetY = " << targetY;
-    os << "   dividerX = " << dividerX;
-    os << "   dividerY = " << dividerY;
-    os << "     shiftX = " << shiftX;
-    os << "     shiftY = " << shiftY;
+    if (category & Dump::Config) {
+
+        os << DUMP("Pull-up resistors") << YESNO(config.pullUpResistors) << std::endl;
+        os << DUMP("Velocity") << config.velocity << std::endl;
+    }
+    
+    if (category & Dump::State) {
+        
+        os << DUMP("leftButton") << leftButton << std::endl;
+        os << DUMP("rightButton") << rightButton << std::endl;
+        os << DUMP("mouseX") << mouseX << std::endl;
+        os << DUMP("mouseY") << mouseY << std::endl;
+        os << DUMP("oldMouseX") << oldMouseX << std::endl;
+        os << DUMP("oldMouseY") << oldMouseY << std::endl;
+        os << DUMP("targetX") << targetX << std::endl;
+        os << DUMP("targetY") << targetY << std::endl;
+        os << DUMP("shiftX") << shiftX << std::endl;
+        os << DUMP("shiftY") << shiftY << std::endl;
+    }
 }
 
 void
@@ -110,16 +175,17 @@ Mouse::getXY()
 void
 Mouse::setXY(double x, double y)
 {
-    targetX = x / dividerX;
-    targetY = y / dividerY;
+    targetX = x * scaleX;
+    targetY = y * scaleY;
+
     port.device = CPD_MOUSE;
 }
 
 void
 Mouse::setDeltaXY(double dx, double dy)
 {
-    targetX += dx / dividerX;
-    targetY += dy / dividerY;
+    targetX += dx * scaleX;
+    targetY += dy * scaleY;
     port.device = CPD_MOUSE;
 }
 

@@ -118,6 +118,7 @@ Application::processEvents()
                 if (event.key.code == sf::Keyboard::F11) console.toggle();
                 break;
             }
+                
             case sf::Event::Resized:
             {
                 float w = static_cast<float>(event.size.width);

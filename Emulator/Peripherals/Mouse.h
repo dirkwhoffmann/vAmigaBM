@@ -19,9 +19,6 @@ class Mouse : public AmigaComponent {
     // Current configuration
     MouseConfig config;
 
-    // The control port this device is connected to
-    // PortNr nr;
-
 public:
     
     // Mouse button states
@@ -46,9 +43,9 @@ private:
     double targetX;
     double targetY;
     
-    // Dividers applied to raw coordinates in setXY()
-    const double dividerX = 128;
-    const double dividerY = 128;
+    // Scaling factors applied to the raw mouse coordinates in setXY()
+    double scaleX = 1.0;
+    double scaleY = 1.0;
     
     // Mouse movement in pixels per execution step
     double shiftX = 31;
@@ -70,6 +67,22 @@ public:
     
     //
     // Configuring
+    //
+    
+public:
+    
+    const MouseConfig &getConfig() const { return config; }
+
+    long getConfigItem(Option option) const;
+    bool setConfigItem(Option option, long id, long value) override;
+    
+private:
+    
+    void updateScalingFactors();
+    
+    
+    //
+    // Analyzing
     //
     
 private:

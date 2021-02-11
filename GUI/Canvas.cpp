@@ -47,6 +47,35 @@ Canvas::handle(const sf::Event &event)
 {
     switch (event.type) {
                     
+        case sf::Event::MouseMoved:
+        {
+            double x = (double)(event.mouseMove.x / 2);
+            double y = (double)(event.mouseMove.y / 2);
+            app.amiga.controlPort1.mouse.setXY(x, y);
+            break;
+        }
+        case sf::Event::MouseButtonPressed:
+        {
+            if (event.mouseButton.button == sf::Mouse::Left) {
+                printf("Pressed left\n");
+                app.amiga.controlPort1.mouse.setLeftButton(true);
+            } else if (event.mouseButton.button == sf::Mouse::Right) {
+                printf("Pressed right\n");
+                app.amiga.controlPort1.mouse.setRightButton(true);
+            }
+            break;
+        }
+        case sf::Event::MouseButtonReleased:
+        {
+            if (event.mouseButton.button == sf::Mouse::Left) {
+                printf("Released left\n");
+                app.amiga.controlPort1.mouse.setLeftButton(false);
+            } else if (event.mouseButton.button == sf::Mouse::Right) {
+                printf("Released right\n");
+                app.amiga.controlPort1.mouse.setRightButton(false);
+            }
+            break;
+        }
         default:
             break;
     }
