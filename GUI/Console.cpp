@@ -69,7 +69,7 @@ Console::init()
 }
 
 void
-Console::awake()
+Console::configure()
 {
     
 }

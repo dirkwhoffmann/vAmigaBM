@@ -22,6 +22,8 @@ class Canvas : public Layer {
     // Render object
     ImageView foreground;
     
+    // Initial mouse position after releasing
+    int baseX, baseY;
     
     //
     // Initializing
@@ -34,7 +36,7 @@ public:
     
     // Delegation methods
     void init();
-    void awake();
+    void configure();
     
 
     //
@@ -56,4 +58,11 @@ public:
     void open() { setTargetAlpha(0xFF, 0.5); }
     void close() { setTargetAlpha(0x00, 0.5); }
     void toggle() { isVisible() ? close() : open(); }
+    
+    
+    //
+    // Working with the mouse
+    //
+    
+    void mouseMoved(int dx, int dy);
 };

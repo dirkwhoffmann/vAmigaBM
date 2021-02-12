@@ -33,7 +33,7 @@ Controller::init()
 }
 
 void
-Controller::awake()
+Controller::configure()
 {
     // Register to the message queue
     amiga.queue.addListener(this, process);
@@ -71,6 +71,7 @@ Controller::processMessage(long id, long data)
             break;
             
         case MSG_SHAKING:
+            OS::releaseMouse();
             break;
             
         default:

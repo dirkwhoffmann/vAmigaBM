@@ -50,6 +50,8 @@
 		509F49E125D47672005DA7CB /* Errors.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 509F49E025D47578005DA7CB /* Errors.cpp */; };
 		509F49E325D5332F005DA7CB /* aros-amiga-m68k-ext.bin in CopyFiles */ = {isa = PBXBuildFile; fileRef = 509F49E225D5332F005DA7CB /* aros-amiga-m68k-ext.bin */; };
 		509F49E525D53363005DA7CB /* aros-amiga-m68k-rom.bin in CopyFiles */ = {isa = PBXBuildFile; fileRef = 509F49E425D53363005DA7CB /* aros-amiga-m68k-rom.bin */; };
+		509F49EA25D66302005DA7CB /* ApplicationServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 509F49E925D66302005DA7CB /* ApplicationServices.framework */; };
+		509F49ED25D68405005DA7CB /* OS.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 509F49EB25D68405005DA7CB /* OS.cpp */; };
 		50AE115D25C42D6700AD13B7 /* DeniseRegisters.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50AE104D25C42D6500AD13B7 /* DeniseRegisters.cpp */; };
 		50AE115E25C42D6700AD13B7 /* Denise.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50AE105225C42D6500AD13B7 /* Denise.cpp */; };
 		50AE115F25C42D6700AD13B7 /* PixelEngine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50AE105325C42D6500AD13B7 /* PixelEngine.cpp */; };
@@ -247,6 +249,9 @@
 		509F49E025D47578005DA7CB /* Errors.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Errors.cpp; sourceTree = "<group>"; };
 		509F49E225D5332F005DA7CB /* aros-amiga-m68k-ext.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = "aros-amiga-m68k-ext.bin"; sourceTree = "<group>"; };
 		509F49E425D53363005DA7CB /* aros-amiga-m68k-rom.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = "aros-amiga-m68k-rom.bin"; sourceTree = "<group>"; };
+		509F49E925D66302005DA7CB /* ApplicationServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ApplicationServices.framework; path = System/Library/Frameworks/ApplicationServices.framework; sourceTree = SDKROOT; };
+		509F49EB25D68405005DA7CB /* OS.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = OS.cpp; sourceTree = "<group>"; };
+		509F49EC25D68405005DA7CB /* OS.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OS.h; sourceTree = "<group>"; };
 		50AE104B25C42D6500AD13B7 /* DenisePublicTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DenisePublicTypes.h; sourceTree = "<group>"; };
 		50AE104C25C42D6500AD13B7 /* DeniseTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DeniseTypes.h; sourceTree = "<group>"; };
 		50AE104D25C42D6500AD13B7 /* DeniseRegisters.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DeniseRegisters.cpp; sourceTree = "<group>"; };
@@ -545,6 +550,7 @@
 				5095D46125C021F3006AB819 /* sfml-audio.framework in Frameworks */,
 				5095D45B25C021EE006AB819 /* freetype.framework in Frameworks */,
 				5095D46525C021F6006AB819 /* sfml-network.framework in Frameworks */,
+				509F49EA25D66302005DA7CB /* ApplicationServices.framework in Frameworks */,
 				5095D46D25C021FC006AB819 /* vorbis.framework in Frameworks */,
 				5095D45F25C021F1006AB819 /* OpenAL.framework in Frameworks */,
 				5095D46925C021F9006AB819 /* sfml-window.framework in Frameworks */,
@@ -614,6 +620,15 @@
 				509F49E225D5332F005DA7CB /* aros-amiga-m68k-ext.bin */,
 			);
 			path = Roms;
+			sourceTree = "<group>";
+		};
+		509F49EE25D68411005DA7CB /* Arch */ = {
+			isa = PBXGroup;
+			children = (
+				509F49EC25D68405005DA7CB /* OS.h */,
+				509F49EB25D68405005DA7CB /* OS.cpp */,
+			);
+			path = Arch;
 			sourceTree = "<group>";
 		};
 		50AE104925C42D6500AD13B7 /* Emulator */ = {
@@ -1091,6 +1106,7 @@
 		50CF561825BFECA900B1AC0D /* GUI */ = {
 			isa = PBXGroup;
 			children = (
+				509F49EE25D68411005DA7CB /* Arch */,
 				50C4C27025D127AE00849A01 /* Foundation */,
 				50CF561925BFECA900B1AC0D /* main.cpp */,
 				50FD19B725C20102004E7388 /* Application.h */,
@@ -1122,6 +1138,7 @@
 		50CF562125BFEFDD00B1AC0D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				509F49E925D66302005DA7CB /* ApplicationServices.framework */,
 				5095D43F25C021E8006AB819 /* FLAC.framework */,
 				5095D44225C021E8006AB819 /* freetype.framework */,
 				5095D44125C021E8006AB819 /* ogg.framework */,
@@ -1257,6 +1274,7 @@
 				50AE118725C42D6700AD13B7 /* Folder.cpp in Sources */,
 				50AE11A625C42D6700AD13B7 /* AudioStream.cpp in Sources */,
 				50AE116B25C42D6700AD13B7 /* AmigaConstants.cpp in Sources */,
+				509F49ED25D68405005DA7CB /* OS.cpp in Sources */,
 				50AE119125C42D6700AD13B7 /* Keyboard.cpp in Sources */,
 				5066F75425C55F75009199B6 /* ControllerCmds.cpp in Sources */,
 				50AE117B25C42D6700AD13B7 /* AgnusDma.cpp in Sources */,

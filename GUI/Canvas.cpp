@@ -37,9 +37,11 @@ void Canvas::init()
 }
 
 void
-Canvas::awake()
+Canvas::configure()
 {
-    
+    auto size = app.window.getSize();
+    baseX = size.x / 2;
+    baseY = size.y / 2;
 }
 
 void
@@ -47,15 +49,10 @@ Canvas::handle(const sf::Event &event)
 {
     switch (event.type) {
                     
-        case sf::Event::MouseMoved:
-        {
-            double x = (double)(event.mouseMove.x / 2);
-            double y = (double)(event.mouseMove.y / 2);
-            app.amiga.controlPort1.mouse.setXY(x, y);
-            break;
-        }
         case sf::Event::MouseButtonPressed:
         {
+            if (!OS::gotMouse) { OS::retainMouse(); return; }
+            
             if (event.mouseButton.button == sf::Mouse::Left) {
                 printf("Pressed left\n");
                 app.amiga.controlPort1.mouse.setLeftButton(true);
@@ -67,6 +64,8 @@ Canvas::handle(const sf::Event &event)
         }
         case sf::Event::MouseButtonReleased:
         {
+            if (!OS::gotMouse) { return; }
+            
             if (event.mouseButton.button == sf::Mouse::Left) {
                 printf("Released left\n");
                 app.amiga.controlPort1.mouse.setLeftButton(false);
@@ -86,6 +85,12 @@ Canvas::update(sf::Time dt)
 {
     Layer::update(dt);
     
+    // Update the mouse location
+    if (OS::gotMouse && OS::mouseMoved()) {
+        mouseMoved(OS::mouseDX, OS::mouseDY);
+    }
+    
+    // Update the texture
     if (app.amiga.isPaused()) {
         
         emuTex.update((u8 *)app.amiga.denise.pixelEngine.getNoise());
@@ -106,4 +111,10 @@ Canvas::render()
     foreground.setFillColor(sf::Color(0xFF,0xFF,0xFF,alpha));
     
     app.window.draw(foreground);
+}
+
+void
+Canvas::mouseMoved(int dx, int dy)
+{
+    app.amiga.controlPort1.mouse.setDeltaXY(dx, dy);
 }

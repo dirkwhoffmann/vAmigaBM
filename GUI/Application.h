@@ -11,6 +11,7 @@
 
 #include "Utils.h"
 
+#include "OS.h"
 #include "Exception.h"
 #include "Controller.h"
 #include "Layer.h"
@@ -32,7 +33,7 @@ public:
     // Constants
     //
     
-    // Window dimensions
+    // Initial window size
     static const int W = 1536;
     static const int H = W * 0.7525;
     
@@ -45,9 +46,6 @@ public:
         
     // The emulator instance
     Amiga amiga;
-
-    // The event loop timer
-    sf::Clock clock;
     
     // Gateway to the emulator
     Controller controller;
@@ -64,9 +62,15 @@ public:
     // The render window
     sf::RenderWindow window;
 
+    // The event loop timer
+    sf::Clock clock;
+
     // The command line parameters
     std::vector<string> argv;
     
+    // The current window size
+    int curw = W, curh = H;
+        
     
     //
     // Initializing
@@ -82,28 +86,24 @@ public:
     // Launching the app
     //
     
-    /* On start, the application processes the following launching sequence:
+    /* On start, the application executes the following launch sequence:
      *
-     * 1. check     : The applications performs some system checks to see if
-     *                it can run in the given environment.
+     * 1. check     : The applications performs several system checks to see if
+     *                it can run in the given environment. E.g., it is checked
+     *                the underlying graphics system offers shader support.
      *
-     * 2. init      : All sub components are initialized.
+     * 2. init      : All sub components enter their initial state.
      *
-     * 3. launch    : All components are requested to launch.
+     * 3. configure : All components configure themself. Beside other things,
+     *                a configuration file is read which configures the
+     *                virtual Amiga.
      *
-     * 3. configure : The emulator is configured by reading and processing a
-     *                configuration file. If a file name was provided as a
-     *                command line parameter, this file is used. Otherwise, the
-     *                default init file is used.
-     *
-     * 4. run        : The application enters the main event loop. It remains
-     *                 in this loop until the user quits the application.
+     * 4. run       : The application enters the main event loop. It remains
+     *                in this loop until the user quits the application.
      */
     void check();
     void init();
-    void awake();
     void configure();
-    void configure(const string& path);
     void run();
 
     
@@ -111,7 +111,6 @@ public:
     // Running the app
     //
     
-    // Game loop handlers
     void processEvents();
     void update(sf::Time dt);
     void render();

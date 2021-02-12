@@ -41,7 +41,7 @@ Application::init()
     if (!window.isOpen()) {
         throw Exception("Unable to create window");
     }
-    
+        
     controller.init();
     splashScreen.init();
     canvas.init();
@@ -49,48 +49,21 @@ Application::init()
 }
 
 void
-Application::awake()
-{
-    controller.awake();
-    splashScreen.awake();
-    canvas.awake();
-    console.awake();
-}
-
-void
 Application::configure()
 {
-    
-}
-
-void
-Application::configure(const string& path)
-{
-    std::cout << "Reading config file " << path << std::endl;
-        
-    // Open file
-    std::ifstream stream(path);
-    if (!stream.is_open()) {
-        std::cout << "Can't open file " << path << std::endl;
-    }
-    
-    // Process script
-    try {
-        console.exec(stream);
-    } catch (Exception &e) {
-        std::cout << "Error in line " << DEC << (isize)e.data << '\n';
-        console << e.what() << '\n';
-    }
+    controller.configure();
+    splashScreen.configure();
+    canvas.configure();
+    console.configure();
 }
 
 void
 Application::run()
-{    
+{
     while (window.isOpen()) {
         
         sf::Time dt = clock.restart();
-        // printf("dt = %f\n", dt.asSeconds());
-        
+
         processEvents();
         update(dt);
         render();
@@ -103,7 +76,7 @@ void
 Application::processEvents()
 {
     sf::Event event;
-    
+
     while (window.pollEvent(event)) {
         
         switch (event.type) {
@@ -118,11 +91,18 @@ Application::processEvents()
                 if (event.key.code == sf::Keyboard::F11) console.toggle();
                 break;
             }
-                
+            case sf::Event::MouseButtonPressed:
+            {
+            }
             case sf::Event::Resized:
             {
                 float w = static_cast<float>(event.size.width);
                 float h = static_cast<float>(event.size.height);
+                
+                curw = (int)w;
+                curh = (int)h;
+                printf("curw curh: %d %d\n", curw, curh);
+                
                 splashScreen.resize(w, h);
                 canvas.resize(w, h);
                 console.resize(w, h);

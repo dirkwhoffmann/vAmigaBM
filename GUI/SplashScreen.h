@@ -48,7 +48,7 @@ public:
     
     // Delegation methods
     void init();
-    void awake() { launchPhase(1); }
+    void configure() { launchPhase(1); }
     
     // Runs a certain launch phase
     void launchPhase(isize phase);

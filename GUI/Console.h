@@ -87,7 +87,7 @@ public:
     
     // Delegation methods
     void init();
-    void awake();
+    void configure();
 
 
     //

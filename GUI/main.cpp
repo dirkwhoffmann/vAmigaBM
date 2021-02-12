@@ -17,7 +17,7 @@ int main(int argc, const char *argv[]) {
     try {
         app.check();
         app.init();
-        app.awake();
+        app.configure();
         
         // app.configure(argc, argv);
         
