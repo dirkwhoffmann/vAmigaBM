@@ -21,6 +21,7 @@
 #include "Interpreter.h"
 #include "AssetManager.h"
 #include "View.h"
+#include "AmigaMusicStream.h"
 
 #include <SFML/Graphics.hpp>
 
@@ -59,6 +60,9 @@ public:
     // The debug console layer
     Console console;
 
+    // The music stream
+    AmigaMusicStream musicStream;
+    
     // The render window
     sf::RenderWindow window;
 

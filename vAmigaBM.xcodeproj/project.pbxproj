@@ -52,6 +52,7 @@
 		509F49E525D53363005DA7CB /* aros-amiga-m68k-rom.bin in CopyFiles */ = {isa = PBXBuildFile; fileRef = 509F49E425D53363005DA7CB /* aros-amiga-m68k-rom.bin */; };
 		509F49EA25D66302005DA7CB /* ApplicationServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 509F49E925D66302005DA7CB /* ApplicationServices.framework */; };
 		509F49ED25D68405005DA7CB /* OS.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 509F49EB25D68405005DA7CB /* OS.cpp */; };
+		50A7E05B25D6AFDF00113BF8 /* AmigaMusicStream.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50A7E05925D6AFDF00113BF8 /* AmigaMusicStream.cpp */; };
 		50AE115D25C42D6700AD13B7 /* DeniseRegisters.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50AE104D25C42D6500AD13B7 /* DeniseRegisters.cpp */; };
 		50AE115E25C42D6700AD13B7 /* Denise.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50AE105225C42D6500AD13B7 /* Denise.cpp */; };
 		50AE115F25C42D6700AD13B7 /* PixelEngine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50AE105325C42D6500AD13B7 /* PixelEngine.cpp */; };
@@ -252,6 +253,8 @@
 		509F49E925D66302005DA7CB /* ApplicationServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ApplicationServices.framework; path = System/Library/Frameworks/ApplicationServices.framework; sourceTree = SDKROOT; };
 		509F49EB25D68405005DA7CB /* OS.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = OS.cpp; sourceTree = "<group>"; };
 		509F49EC25D68405005DA7CB /* OS.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OS.h; sourceTree = "<group>"; };
+		50A7E05925D6AFDF00113BF8 /* AmigaMusicStream.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = AmigaMusicStream.cpp; sourceTree = "<group>"; };
+		50A7E05A25D6AFDF00113BF8 /* AmigaMusicStream.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AmigaMusicStream.h; sourceTree = "<group>"; };
 		50AE104B25C42D6500AD13B7 /* DenisePublicTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DenisePublicTypes.h; sourceTree = "<group>"; };
 		50AE104C25C42D6500AD13B7 /* DeniseTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DeniseTypes.h; sourceTree = "<group>"; };
 		50AE104D25C42D6500AD13B7 /* DeniseRegisters.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DeniseRegisters.cpp; sourceTree = "<group>"; };
@@ -1080,6 +1083,8 @@
 			children = (
 				50C4C26E25D1278A00849A01 /* Exception.h */,
 				50C4C26D25D1278A00849A01 /* Exception.cpp */,
+				50A7E05A25D6AFDF00113BF8 /* AmigaMusicStream.h */,
+				50A7E05925D6AFDF00113BF8 /* AmigaMusicStream.cpp */,
 			);
 			path = Foundation;
 			sourceTree = "<group>";
@@ -1284,6 +1289,7 @@
 				50AE116E25C42D6700AD13B7 /* RTC.cpp in Sources */,
 				50AE118825C42D6700AD13B7 /* BootBlockImage.cpp in Sources */,
 				50AE119A25C42D6700AD13B7 /* crc_csum.c in Sources */,
+				50A7E05B25D6AFDF00113BF8 /* AmigaMusicStream.cpp in Sources */,
 				50AE118625C42D6700AD13B7 /* ADFFile.cpp in Sources */,
 				50AE116725C42D6700AD13B7 /* MsgQueue.cpp in Sources */,
 				50AE11AC25C42D6700AD13B7 /* UARTEvents.cpp in Sources */,

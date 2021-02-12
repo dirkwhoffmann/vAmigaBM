@@ -11,7 +11,11 @@
 #include "Amiga.h"
 
 Application::Application(int argc, const char *argv[]) :
-console(*this), splashScreen(*this), canvas(*this), controller(*this)
+console(*this),
+splashScreen(*this),
+canvas(*this),
+controller(*this),
+musicStream(*this)
 {
     for (int i = 0; i < argc; i++) {
         this->argv.push_back(string(argv[i]));
@@ -46,6 +50,7 @@ Application::init()
     splashScreen.init();
     canvas.init();
     console.init();
+    musicStream.init();
 }
 
 void
@@ -60,6 +65,9 @@ Application::configure()
 void
 Application::run()
 {
+    musicStream.setVolume(50.0); 
+    musicStream.play();
+    
     while (window.isOpen()) {
         
         sf::Time dt = clock.restart();
@@ -101,7 +109,6 @@ Application::processEvents()
                 
                 curw = (int)w;
                 curh = (int)h;
-                printf("curw curh: %d %d\n", curw, curh);
                 
                 splashScreen.resize(w, h);
                 canvas.resize(w, h);
