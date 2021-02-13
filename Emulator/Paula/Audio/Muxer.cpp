@@ -464,16 +464,16 @@ Muxer::copy(void *buffer1, void *buffer2, isize n)
     stream.unlock();
 }
 
-void *
+SampleType *
 Muxer::nocopy(isize n)
 {
-    void *result;
+    SampleType *addr;
     stream.lock();
     
     if (stream.count() < n) handleBufferUnderflow();
-    result = stream.currentAddr();
+    addr = stream.currentAddr();
     stream.skip(n);
         
     stream.unlock();
-    return result;
+    return addr;
 }

@@ -134,6 +134,6 @@ AudioStream<T>::draw(u32 *buffer, isize width, isize height,
 // Instantiate template functions
 //
 
-template void AudioStream<AUDIO_SAMPLE_TYPE>::copy(void *, isize, Volume &);
-template void AudioStream<AUDIO_SAMPLE_TYPE>::copy(void *, void *, isize, Volume &);
-template float AudioStream<AUDIO_SAMPLE_TYPE>::draw(u32 *, isize, isize, bool, float, u32);
+template void AudioStream<SampleType>::copy(void *, isize, Volume &);
+template void AudioStream<SampleType>::copy(void *, void *, isize, Volume &);
+template float AudioStream<SampleType>::draw(u32 *, isize, isize, bool, float, u32);

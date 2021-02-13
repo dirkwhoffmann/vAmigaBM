@@ -77,7 +77,7 @@ public:
     Sampler *sampler[4];
 
     // Output
-    AudioStream<AUDIO_SAMPLE_TYPE> stream;
+    AudioStream<SampleType> stream;
     
     // Audio filters
     AudioFilter filterL = AudioFilter(amiga);
@@ -232,5 +232,5 @@ public:
      * the ring buffer buffer read pointer is not closer than n elements to the
      * buffer end.
      */
-    void *nocopy(isize n);
+    SampleType *nocopy(isize n);
 };

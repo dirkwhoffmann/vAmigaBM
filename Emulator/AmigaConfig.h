@@ -27,8 +27,9 @@
 // Build settings
 //
 
-// Defines the audio sample type of the host machine's audio backend
-#define AUDIO_SAMPLE_TYPE U16Stereo
+// Type alias for the datatype used by the host machine's audio backend
+struct U16Stereo; typedef U16Stereo SampleType;
+
 
 //
 // Configuration overrides
