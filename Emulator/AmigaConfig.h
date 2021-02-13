@@ -28,7 +28,9 @@
 //
 
 // Type alias for the datatype used by the host machine's audio backend
+// struct U16Mono; typedef U16Mono SampleType;
 struct U16Stereo; typedef U16Stereo SampleType;
+// struct FloatStereo; typedef FloatStereo SampleType;
 
 
 //

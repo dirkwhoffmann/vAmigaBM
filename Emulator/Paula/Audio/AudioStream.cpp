@@ -12,8 +12,6 @@
 template <class T> void
 AudioStream<T>::copy(void *buffer, isize n, Volume &vol)
 {
-    static int tmp = 0;
-    
     // The caller has to ensure that no buffer underflows occurs
     assert(this->count() >= n);
 
@@ -34,7 +32,6 @@ AudioStream<T>::copy(void *buffer, isize n, Volume &vol)
 
             for (isize i = 0; i < n; i++) {
                 T sample = this->read();
-                if (tmp++ % 307 == 0) { printf("%d: Copying %d %d\n", tmp, sample.l, sample.r); }
                 sample.copy(buffer, i);
             }
             return;
@@ -103,7 +100,7 @@ AudioStream<T>::draw(u32 *buffer, isize width, isize height,
         
         // Read samples from ringbuffer
         T pair = this->current(w * dw);
-        float sample = left ? abs(pair.l) : abs(pair.r);
+        float sample = pair.magnitude(left);
         
         if (sample == 0) {
             

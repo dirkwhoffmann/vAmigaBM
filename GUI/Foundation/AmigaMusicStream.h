@@ -14,9 +14,7 @@
 class AmigaMusicStream : public sf::SoundStream
 {
     class Application &app;
-    
-    short buffer[2048];
-    
+        
 public :
 
     AmigaMusicStream(Application &ref) : sf::SoundStream(), app(ref) { }

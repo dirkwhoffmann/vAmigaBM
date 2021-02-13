@@ -461,7 +461,7 @@ Controller::exec <Token::audio, Token::set, Token::volume> (Arguments& argv, lon
 template <> void
 Controller::exec <Token::audio, Token::set, Token::pan> (Arguments& argv, long param)
 {
-    amiga.configure(OPT_AUDPAN, 0, parseDec(argv.front()));
+    amiga.configure(OPT_AUDPAN, param, parseDec(argv.front()));
 }
 
 template <> void

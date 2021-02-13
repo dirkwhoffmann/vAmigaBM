@@ -15,6 +15,8 @@ AmigaMusicStream::init() {
     unsigned int channelCnt = 2;
     unsigned int sampleRate = 44100;
     
+    app.amiga.paula.muxer.setSampleRate(sampleRate);
+
     initialize(channelCnt, sampleRate);
 }
 
