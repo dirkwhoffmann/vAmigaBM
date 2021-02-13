@@ -22,6 +22,14 @@
 // #define RELEASEBUILD
 // #define NDEBUG
 
+
+//
+// Build settings
+//
+
+// Defines the audio sample type of the host machine's audio backend
+#define AUDIO_SAMPLE_TYPE U16Stereo
+
 //
 // Configuration overrides
 //
@@ -56,12 +64,6 @@
 
 
 //
-// Compatibility settings
-//
-
-
-
-//
 // Debug settings
 //
 
@@ -83,7 +85,7 @@ static const int CPU_DEBUG       = 0; // CPU
 static const int OCSREG_DEBUG    = 0; // General OCS register debugging
 static const int ECSREG_DEBUG    = 0; // Special ECS register debugging
 static const int INVREG_DEBUG    = 0; // Invalid register accesses
-static const int MEM_DEBUG       = 0; // Memory 
+static const int MEM_DEBUG       = 0; // Memory
 static const int FAS_DEBUG       = 0; // Fast RAM
 
 // Agnus

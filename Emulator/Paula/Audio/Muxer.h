@@ -35,30 +35,6 @@
  *           -----------------------------------------------------
  */
 
-struct Volume {
-
-    // Maximum volume
-    const static i32 maxVolume = 100000;
-
-    // Current volume (will eventually reach the target volume)
-    i32 current = maxVolume;
-
-    // Target volume
-    i32 target = maxVolume;
-
-    // Delta steps (added to volume until the target volume is reached)
-    i32 delta = 0;
-
-    // Shifts the current volume towards the target volume
-    void shift() {
-        if (current < target) {
-            current += MIN(delta, target - current);
-        } else {
-            current -= MIN(delta, current - target);
-        }
-    }
-};
-
 class Muxer : public AmigaComponent {
 
     // Current configuration
@@ -101,7 +77,7 @@ public:
     Sampler *sampler[4];
 
     // Output
-    AudioStream stream;
+    AudioStream<AUDIO_SAMPLE_TYPE> stream;
     
     // Audio filters
     AudioFilter filterL = AudioFilter(amiga);
@@ -184,12 +160,6 @@ private:
     template <class T>
     void applyToHardResetItems(T& worker)
     {
-        /*
-        worker
-        
-        & sampler
-        & stream;
-        */
     }
     
     template <class T>
@@ -246,12 +216,21 @@ public:
 
 
     //
-    // Copying data
+    // Reading audio samples
     //
     
 public:
     
-    void copyMono(float *buffer, isize n);
-    void copyStereo(float *left, float *right, isize n);
-    void copyInterleaved(float *buffer, isize n);
+    // Copies a certain amout of audio samples into a buffer
+    void copy(void *buffer, isize n);
+    void copy(void *buffer1, void *buffer2, isize n);
+    
+    /* Returns a pointer to a buffer holding a certain amount of audio samples
+     * without copying data. This function has been implemented for speedup.
+     * Instead of copying ring buffer data into the target buffer, it returns
+     * a pointer into the ringbuffer itself. The caller has to make sure that
+     * the ring buffer buffer read pointer is not closer than n elements to the
+     * buffer end.
+     */
+    void *nocopy(isize n);
 };

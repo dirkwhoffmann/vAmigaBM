@@ -15,7 +15,6 @@ class AmigaMusicStream : public sf::SoundStream
 {
     class Application &app;
     
-    float fbuffer[2048];
     short buffer[2048];
     
 public :

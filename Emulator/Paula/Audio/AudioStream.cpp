@@ -9,124 +9,88 @@
 
 #include "Amiga.h"
 
-void
-AudioStream::copyMono(float *buffer, isize n,
-                      i32 &volume, i32 targetVolume, i32 volumeDelta)
+template <class T> void
+AudioStream<T>::copy(void *buffer, isize n, Volume &vol)
 {
+    static int tmp = 0;
+    
     // The caller has to ensure that no buffer underflows occurs
-    assert(count() >= n);
+    assert(this->count() >= n);
 
-    if (volume == targetVolume) {
-        
-        float scale = volume / 10000.0f;
-        
-        for (isize i = 0; i < n; i++) {
-            
-            SamplePair pair = read();
-            *buffer++ = (pair.left + pair.right) * scale;
-        }
+    // Quick path: Volume is stable at 0 or 1
+    if (!vol.fading()) {
 
-    } else {
-        
-        for (isize i = 0; i < n; i++) {
-                            
-            if (volume < targetVolume) {
-                volume += MIN(volumeDelta, targetVolume - volume);
-            } else {
-                volume -= MIN(volumeDelta, volume - targetVolume);
+        if (vol.current == 0) {
+
+            for (isize i = 0; i < n; i++) {
+                T zero;
+                for (isize i = 0; i < n; i++) {
+                    zero.copy(buffer, i);
+                }
             }
-
-            float scale = volume / 10000.0f;
-
-            SamplePair pair = read();
-            *buffer++ = (pair.left + pair.right) * scale;
+            return;
         }
+        if (vol.current == 1.0) {
+
+            for (isize i = 0; i < n; i++) {
+                T sample = this->read();
+                if (tmp++ % 307 == 0) { printf("%d: Copying %d %d\n", tmp, sample.l, sample.r); }
+                sample.copy(buffer, i);
+            }
+            return;
+        }
+    }
+    
+    // Generic path: Modulate the volume
+    for (isize i = 0; i < n; i++) {
+        vol.shift();
+        T sample = this->read();
+        sample.modulate(vol.current);
+        sample.copy(buffer, i);
     }
 }
 
-void
-AudioStream::copy(float *left, float *right, isize n,
-                  i32 &volume, i32 targetVolume, i32 volumeDelta)
+template <class T> void
+AudioStream<T>::copy(void *buffer1, void *buffer2, isize n, Volume &vol)
 {
     // The caller has to ensure that no buffer underflows occurs
-    if (count() < n) {
-        printf("count() = \(count()) n = \(n)");
-        assert(false);
-    }
-    assert(count() >= n);
+    assert(this->count() >= n);
 
-    if (volume == targetVolume) {
-        
-        float scale = volume / 10000.0f;
-        
-        for (isize i = 0; i < n; i++) {
-            
-            SamplePair pair = read();
-            *left++ = pair.left * scale;
-            *right++ = pair.right * scale;
-        }
+    // Quick path: Volume is stable at 0 or 1
+    if (!vol.fading()) {
 
-    } else {
-        
-        for (isize i = 0; i < n; i++) {
-                            
-            if (volume < targetVolume) {
-                volume += MIN(volumeDelta, targetVolume - volume);
-            } else {
-                volume -= MIN(volumeDelta, volume - targetVolume);
+        if (vol.current == 0) {
+
+            T zero;
+            for (isize i = 0; i < n; i++) {
+                zero.copy(buffer1, buffer2, i);
             }
-
-            float scale = volume / 10000.0f;
-
-            SamplePair pair = read();
-            *left++ = pair.left * scale;
-            *right++ = pair.right * scale;
+            return;
         }
+        if (vol.current == 1.0) {
+
+            for (isize i = 0; i < n; i++) {
+                T sample = this->read();
+                sample.copy(buffer1, buffer2, i);
+            }
+            return;
+        }
+    }
+    
+    // Generic path: Modulate the volume
+    for (isize i = 0; i < n; i++) {
+        vol.shift();
+        T sample = this->read();
+        sample.modulate(vol.current);
+        sample.copy(buffer1, buffer2, i);
     }
 }
 
-void
-AudioStream::copyInterleaved(float *buffer, isize n,
-                             i32 &volume, i32 targetVolume, i32 volumeDelta)
+template <class T> float
+AudioStream<T>::draw(u32 *buffer, isize width, isize height,
+                     bool left, float highestAmplitude, u32 color)
 {
-    // The caller has to ensure that no buffer underflows occurs
-    assert(count() >= n);
-
-    if (volume == targetVolume) {
-        
-        float scale = volume / 10000.0f;
-        
-        for (isize i = 0; i < n; i++) {
-            
-            SamplePair pair = read();
-            *buffer++ = pair.left * scale;
-            *buffer++ = pair.right * scale;
-        }
-
-    } else {
-        
-        for (isize i = 0; i < n; i++) {
-                            
-            if (volume < targetVolume) {
-                volume += MIN(volumeDelta, targetVolume - volume);
-            } else {
-                volume -= MIN(volumeDelta, volume - targetVolume);
-            }
-
-            float scale = volume / 10000.0f;
-
-            SamplePair pair = read();
-            *buffer++ = pair.left * scale;
-            *buffer++ = pair.right * scale;
-        }
-    }
-}
-
-float
-AudioStream::draw(u32 *buffer, isize width, isize height,
-                  bool left, float highestAmplitude, u32 color)
-{
-    isize dw = cap() / width;
+    isize dw = this->cap() / width;
     float newHighestAmplitude = 0.001;
     
     // Clear buffer
@@ -138,8 +102,8 @@ AudioStream::draw(u32 *buffer, isize width, isize height,
     for (isize w = 0; w < width; w++) {
         
         // Read samples from ringbuffer
-        SamplePair pair = current(w * dw);
-        float sample = left ? abs(pair.left) : abs(pair.right);
+        T pair = this->current(w * dw);
+        float sample = left ? abs(pair.l) : abs(pair.r);
         
         if (sample == 0) {
             
@@ -165,3 +129,11 @@ AudioStream::draw(u32 *buffer, isize width, isize height,
     }
     return newHighestAmplitude;
 }
+
+//
+// Instantiate template functions
+//
+
+template void AudioStream<AUDIO_SAMPLE_TYPE>::copy(void *, isize, Volume &);
+template void AudioStream<AUDIO_SAMPLE_TYPE>::copy(void *, void *, isize, Volume &);
+template float AudioStream<AUDIO_SAMPLE_TYPE>::draw(u32 *, isize, isize, bool, float, u32);

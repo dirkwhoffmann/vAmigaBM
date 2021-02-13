@@ -12,7 +12,7 @@
 void
 AmigaMusicStream::init() {
         
-    unsigned int channelCnt = 1;
+    unsigned int channelCnt = 2;
     unsigned int sampleRate = 44100;
     
     initialize(channelCnt, sampleRate);
@@ -20,17 +20,9 @@ AmigaMusicStream::init() {
 
 bool
 AmigaMusicStream::onGetData(sf::SoundStream::Chunk &data)
-{
-    printf("onGetData: %zu\n", data.sampleCount);
-        
-    app.amiga.paula.muxer.copyMono(fbuffer, 512);
-    
-    for (isize i = 0; i < 512; i++) {
-        buffer[i] = fbuffer[i] * 100000;
-    }
-    
-    data.sampleCount = 512;
-    data.samples = buffer;
+{    
+    data.samples = (i16 *)app.amiga.paula.muxer.nocopy(512);
+    data.sampleCount = 1024;
     
     return true;
 }

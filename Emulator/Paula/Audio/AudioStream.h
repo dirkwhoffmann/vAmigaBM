@@ -9,31 +9,115 @@
 
 #pragma once
 
-#include "HardwareComponent.h"
 #include "Concurrency.h"
+#include "Buffers.h"
 
-typedef struct
-{
-    float left;
-    float right;
+/* About the AudioStream
+ *
+ * The audio stream is the last element in the audio pipeline. It is a temporary
+ * stores for the final audio samples, waiting to be handed over to the audio
+ * unit of the host machine.
+ *
+ * The audio stream is designes as a ring buffer, because samples are written
+ * and read asynchroneously. Since reading and writing is carried out in
+ * different threads, accesses to the audio stream need to a preceded by a call
+ * lock() and followed by a call to unlock().
+ *
+ * The audio stream is designed to hold elements of a generic type to make
+ * vAmiga compilable on different target platforms. E.g., the Mac version holds
+ * elements of type FloatStereo, because the audio backend in macOS expects
+ * sound samples in form of float values. In the SFML version, the audio stream
+ * is instantiated with elements of type U16Stereo, because the frameworks
+ * expects audio samples to be provided as an (interleaved) stream of short
+ * integers.
+ */
+
+//
+// Volume
+//
+
+struct Volume {
+
+    // Maximum volume
+    // constexpr const static float maxVolume = 1.0;
+
+    // Current volume (will eventually reach the target volume)
+    float current = 1.0;
+
+    // Target volume
+    float target = 1.0;
+
+    // Delta steps (added to volume until the target volume is reached)
+    float delta = 0;
+
+    bool fading() { return current != target; }
+    bool silent() { return current == 0.0; }
     
-    /*
-    template <class T>
-    void applyToItems(T& worker)
-    {
-        worker
-
-        & left
-        & right;
+    // Shifts the current volume towards the target volume
+    void shift() {
+        if (current < target) {
+            current += MIN(delta, target - current);
+        } else {
+            current -= MIN(delta, current - target);
+        }
     }
-    */
+};
 
-}
-SamplePair;
 
-class AudioStream : public RingBuffer <SamplePair, 16384> {
+//
+// Sample types
+//
 
-    // Mutex for synchronizing read / write accesses 
+struct FloatStereo
+{
+    float l;
+    float r;
+    
+    FloatStereo() { l = 0; r = 0; }
+    FloatStereo(float l, float r) { this->l = l * 0.0000025; this->r = r * 0.0000025; }
+    
+    void modulate(float vol) { l *= vol; r *= vol; }
+    
+    void copy(void *buffer, isize offset) {
+        ((FloatStereo *)buffer)[offset] = *this;
+    }
+    
+    void copy(void *left, void *right, isize offset)
+    {
+        ((float *)left)[offset] = l;
+        ((float *)right)[offset] = r;
+    }
+};
+
+struct U16Stereo
+{
+    i16 l;
+    i16 r;
+    
+    U16Stereo() { l = 0; r = 0; }
+    U16Stereo(float l, float r) { this->l = (i16)l; this->r = (i16)r; }
+    
+    void modulate(float vol) { l = (i16)(l * vol); r = (i16)(r * vol); }
+    
+    void copy(void *buffer, isize offset) {
+        ((U16Stereo *)buffer)[offset] = *this;
+    }
+    
+    void copy(void *left, void *right, isize offset)
+    {
+        ((i16 *)left)[offset] = l;
+        ((i16 *)right)[offset] = r;
+    }
+};
+
+
+//
+// AudioStream
+//
+
+template <class T> class AudioStream : public RingBuffer <T, 16384> {
+
+    // Mutex for synchronizing read / write accesses
     Mutex mutex;
 
 public:
@@ -42,12 +126,18 @@ public:
     void lock() { mutex.lock(); }
     void unlock() { mutex.unlock(); }
 
+    // Initializes the ring buffer with zeroes
+    void wipeOut() { this->clear(T(0,0)); }
+    
+    // Adds a sample to the ring buffer
+    void add(float l, float r) { this->write(T(l,r)); }
+        
     /* Aligns the write pointer. This function puts the write pointer somewhat
      * ahead of the read pointer. With a standard sample rate of 44100 Hz,
      * 735 samples is 1/60 sec.
      */
-    static constexpr u32 samplesAhead() { return 8 * 735; }
-    void alignWritePtr() { align(samplesAhead()); }
+    static constexpr i64 samplesAhead() { return 8 * 735; }
+    void alignWritePtr() { this->align(samplesAhead()); }
     
     
     //
@@ -57,16 +147,11 @@ public:
     /* Copies n audio samples into a memory buffer. These functions mark the
      * final step in the audio pipeline. They are used to copy the generated
      * sound samples into the buffers of the native sound device. In additon
-     * to copying, the volume is modulated and audio filters can be applied.
+     * to copying, the volume is modulated if the music is supposed to fade
+     * in or fade out.
      */
-    void copyMono(float *buffer, isize n,
-                  i32 &volume, i32 targetVolume, i32 volumeDelta);
-    
-    void copy(float *left, float *right, isize n,
-                    i32 &volume, i32 targetVolume, i32 volumeDelta);
-    
-    void copyInterleaved(float *buffer, isize n,
-                         i32 &volume, i32 targetVolume, i32 volumeDelta);
+    void copy(void *buffer, isize n, Volume &vol);
+    void copy(void *buffer1, void *buffer2, isize n, Volume &vol);
     
     
     //

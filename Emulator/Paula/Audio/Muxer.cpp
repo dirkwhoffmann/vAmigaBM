@@ -10,7 +10,7 @@
 #include "Amiga.h"
 
 Muxer::Muxer(Amiga& ref) : AmigaComponent(ref)
-{    
+{
     subComponents = vector<HardwareComponent *> {
 
         &filterL,
@@ -51,7 +51,7 @@ Muxer::clear()
     trace(AUDBUF_DEBUG, "clear()\n");
     
     // Wipe out the ringbuffer
-    stream.clear(SamplePair {0, 0});
+    stream.wipeOut();
     stream.alignWritePtr();
     
     // Wipe out the filter buffers
@@ -177,7 +177,7 @@ Muxer::setConfigItem(Option option, long value)
 
 bool
 Muxer::setConfigItem(Option option, long id, long value)
-{    
+{
     switch (option) {
                         
         case OPT_AUDVOL:
@@ -187,7 +187,7 @@ Muxer::setConfigItem(Option option, long id, long value)
             if (value > 100) value = 100;
             
             config.vol[id] = value;
-            vol[id] = pow((double)value / 100, 1.4) * 0.0000025;
+            vol[id] = pow((double)value / 100, 1.4);
             
             return true;
             
@@ -264,7 +264,7 @@ Muxer::rampUp()
     // Only proceed if the emulator is not running in warp mode
     if (warpMode) return;
     
-    volume.target = Volume::maxVolume;
+    volume.target = 1.0;
     volume.delta = 3;
     ignoreNextUnderOrOverflow();
 }
@@ -272,14 +272,14 @@ Muxer::rampUp()
 void
 Muxer::rampUpFromZero()
 {
-    volume.current = 0;
+    volume.current = 0.0;
     rampUp();
 }
  
 void
 Muxer::rampDown()
 {
-    volume.target = 0;
+    volume.target = 0.0;
     volume.delta = 50;
     ignoreNextUnderOrOverflow();
 }
@@ -360,7 +360,7 @@ Muxer::synthesize(Cycle clock, long count, double cyclesPerSample)
         r *= volR;
         
         // Write sample into ringbuffer
-        stream.write( SamplePair { l, r } );
+        stream.add(l, r);
         
         cycle += cyclesPerSample;
     }
@@ -437,7 +437,7 @@ Muxer::ignoreNextUnderOrOverflow()
 }
 
 void
-Muxer::copyMono(float *buffer, isize n)
+Muxer::copy(void *buffer, isize n)
 {
     stream.lock();
     
@@ -445,13 +445,13 @@ Muxer::copyMono(float *buffer, isize n)
     if (stream.count() < n) handleBufferUnderflow();
     
     // Copy sound samples
-    stream.copyMono(buffer, n, volume.current, volume.target, volume.delta);
+    stream.copy(buffer, n, volume);
     
     stream.unlock();
 }
 
 void
-Muxer::copyStereo(float *left, float *right, isize n)
+Muxer::copy(void *buffer1, void *buffer2, isize n)
 {
     stream.lock();
     
@@ -459,21 +459,21 @@ Muxer::copyStereo(float *left, float *right, isize n)
     if (stream.count() < n) handleBufferUnderflow();
     
     // Copy sound samples
-    stream.copy(left, right, n, volume.current, volume.target, volume.delta);
+    stream.copy(buffer1, buffer2, n, volume);
     
     stream.unlock();
 }
 
-void
-Muxer::copyInterleaved(float *buffer, isize n)
+void *
+Muxer::nocopy(isize n)
 {
+    void *result;
     stream.lock();
     
-    // Check for a buffer underflow
     if (stream.count() < n) handleBufferUnderflow();
-    
-    // Copy sound samples
-    stream.copyInterleaved(buffer, n, volume.current, volume.target, volume.delta);
-    
+    result = stream.currentAddr();
+    stream.skip(n);
+        
     stream.unlock();
+    return result;
 }
