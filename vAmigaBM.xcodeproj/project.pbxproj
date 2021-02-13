@@ -15,6 +15,9 @@
 		5002A27E25D00F3000665F89 /* SplashScreen.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5002A27C25D00F3000665F89 /* SplashScreen.cpp */; };
 		5002A28125D03B2300665F89 /* Canvas.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5002A27F25D03B2300665F89 /* Canvas.cpp */; };
 		5002A28425D0596300665F89 /* View.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5002A28225D0596300665F89 /* View.cpp */; };
+		503EB44E25D8294D00A6145B /* click.wav in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 503EB44D25D8294D00A6145B /* click.wav */; };
+		503EB45125D82A5900A6145B /* eject.wav in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 503EB44F25D82A5900A6145B /* eject.wav */; };
+		503EB45225D82A5900A6145B /* insert.wav in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 503EB45025D82A5900A6145B /* insert.wav */; };
 		505485E925C15C3B00892284 /* AssetManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 505485E725C15C3B00892284 /* AssetManager.cpp */; };
 		50658EE025C03EF800F7128D /* Console.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50658EDE25C03EF800F7128D /* Console.cpp */; };
 		5066F75425C55F75009199B6 /* ControllerCmds.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5066F75325C55F75009199B6 /* ControllerCmds.cpp */; };
@@ -187,6 +190,9 @@
 				5095D46425C021F4006AB819 /* sfml-graphics.framework in Embed Frameworks */,
 				5095D46C25C021FA006AB819 /* SFML.framework in Embed Frameworks */,
 				5095D46625C021F6006AB819 /* sfml-network.framework in Embed Frameworks */,
+				503EB44E25D8294D00A6145B /* click.wav in Embed Frameworks */,
+				503EB45125D82A5900A6145B /* eject.wav in Embed Frameworks */,
+				503EB45225D82A5900A6145B /* insert.wav in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -226,6 +232,9 @@
 		5002A28025D03B2300665F89 /* Canvas.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Canvas.h; sourceTree = "<group>"; };
 		5002A28225D0596300665F89 /* View.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = View.cpp; sourceTree = "<group>"; };
 		5002A28325D0596300665F89 /* View.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = View.h; sourceTree = "<group>"; };
+		503EB44D25D8294D00A6145B /* click.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = click.wav; sourceTree = "<group>"; };
+		503EB44F25D82A5900A6145B /* eject.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = eject.wav; sourceTree = "<group>"; };
+		503EB45025D82A5900A6145B /* insert.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = insert.wav; sourceTree = "<group>"; };
 		505485E725C15C3B00892284 /* AssetManager.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = AssetManager.cpp; sourceTree = "<group>"; };
 		505485E825C15C3B00892284 /* AssetManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AssetManager.h; sourceTree = "<group>"; };
 		50658EDE25C03EF800F7128D /* Console.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Console.cpp; sourceTree = "<group>"; };
@@ -575,9 +584,34 @@
 			path = Scripts;
 			sourceTree = "<group>";
 		};
+		503EB44B25D822D000A6145B /* Sounds */ = {
+			isa = PBXGroup;
+			children = (
+				503EB45025D82A5900A6145B /* insert.wav */,
+				503EB44F25D82A5900A6145B /* eject.wav */,
+				503EB44D25D8294D00A6145B /* click.wav */,
+			);
+			path = Sounds;
+			sourceTree = "<group>";
+		};
+		503EB44C25D8252400A6145B /* Console */ = {
+			isa = PBXGroup;
+			children = (
+				50658EDF25C03EF800F7128D /* Console.h */,
+				50658EDE25C03EF800F7128D /* Console.cpp */,
+				50E9337125C2188700F4958B /* Interpreter.h */,
+				50E9337025C2188700F4958B /* Interpreter.cpp */,
+				50E4DD5425C6B180001F6432 /* InterpreterCmds.cpp */,
+				50F712CC25C8838D00EC288B /* Command.h */,
+				50F712CB25C8838D00EC288B /* Command.cpp */,
+			);
+			path = Console;
+			sourceTree = "<group>";
+		};
 		5070133725C071A6003B3420 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				503EB44B25D822D000A6145B /* Sounds */,
 				509F49E625D53370005DA7CB /* Roms */,
 				507F613325C1B9ED003D695F /* Shaders */,
 				507F613125C1B9CF003D695F /* Fonts */,
@@ -1125,13 +1159,7 @@
 				5002A27C25D00F3000665F89 /* SplashScreen.cpp */,
 				5002A28025D03B2300665F89 /* Canvas.h */,
 				5002A27F25D03B2300665F89 /* Canvas.cpp */,
-				50658EDF25C03EF800F7128D /* Console.h */,
-				50658EDE25C03EF800F7128D /* Console.cpp */,
-				50E9337125C2188700F4958B /* Interpreter.h */,
-				50E9337025C2188700F4958B /* Interpreter.cpp */,
-				50E4DD5425C6B180001F6432 /* InterpreterCmds.cpp */,
-				50F712CC25C8838D00EC288B /* Command.h */,
-				50F712CB25C8838D00EC288B /* Command.cpp */,
+				503EB44C25D8252400A6145B /* Console */,
 				505485E825C15C3B00892284 /* AssetManager.h */,
 				505485E725C15C3B00892284 /* AssetManager.cpp */,
 				5002A28325D0596300665F89 /* View.h */,

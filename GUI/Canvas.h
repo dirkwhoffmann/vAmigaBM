@@ -25,6 +25,12 @@ class Canvas : public Layer {
     // Initial mouse position after releasing
     int baseX, baseY;
     
+public:
+    
+    // Sound effects
+    sf::Sound click;
+    
+    
     //
     // Initializing
     //

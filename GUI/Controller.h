@@ -18,7 +18,7 @@ class Controller
     class Application &app;
     class Amiga &amiga;
     class Console &console;
-
+    
 public:
     
         

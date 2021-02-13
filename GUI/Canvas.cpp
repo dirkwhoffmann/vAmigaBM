@@ -34,6 +34,8 @@ void Canvas::init()
     
     foreground.init(w, h, emuTex);
     foreground.setTextureRect(sf::IntRect(x1, y1, x2 - x1, y2 - y1));
+
+    click.setBuffer(Assets::get(SoundID::click));
 }
 
 void

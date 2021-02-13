@@ -70,6 +70,11 @@ Controller::processMessage(long id, long data)
         case MSG_RESET:
             break;
             
+        case MSG_DRIVE_HEAD:
+        {
+            app.canvas.click.play();
+            break;
+        }
         case MSG_SHAKING:
             OS::releaseMouse();
             break;

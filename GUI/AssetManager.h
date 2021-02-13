@@ -10,6 +10,7 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>
 #include <map>
 
 enum class TextureID
@@ -23,6 +24,13 @@ enum class FontID
     sans_l,
     sans_r,
     sans_sb
+};
+
+enum class SoundID
+{
+    insert,
+    eject,
+    click
 };
 
 enum class ShaderID
@@ -68,6 +76,10 @@ class FontManager : public AssetManager<sf::Font, FontID> {
     void load(FontID id) override;
 };
 
+class SoundManager : public AssetManager<sf::SoundBuffer, SoundID> {
+    void load(SoundID id) override;
+};
+
 class ShaderManager : public AssetManager<sf::Shader, ShaderID> {
     void load(ShaderID id) override;
 };
@@ -76,11 +88,13 @@ class Assets {
     
     static TextureManager textures;
     static FontManager fonts;
+    static SoundManager sounds;
     static ShaderManager shaders;
     
 public:
     
-    static sf::Texture& get(TextureID id) { return textures.get(id); }
-    static sf::Font& get(FontID id) { return fonts.get(id); }
-    static sf::Shader& get(ShaderID id) { return shaders.get(id); }
+    static sf::Texture &get(TextureID id) { return textures.get(id); }
+    static sf::Font &get(FontID id) { return fonts.get(id); }
+    static sf::SoundBuffer &get(SoundID id) { return sounds.get(id); }
+    static sf::Shader &get(ShaderID id) { return shaders.get(id); }
 };

@@ -11,6 +11,7 @@
 
 TextureManager Assets::textures;
 FontManager Assets::fonts;
+SoundManager Assets::sounds;
 ShaderManager Assets::shaders;
 
 void
@@ -53,6 +54,30 @@ FontManager::load(FontID id)
     }
     
     std::unique_ptr<sf::Font> asset(new sf::Font());
+    
+    if (asset->loadFromFile(path)) {
+        cache.insert(std::make_pair(id, std::move(asset)));
+    } else {
+        throw std::runtime_error("AssetManager::loadFont: Can't load " + path);
+    }
+}
+
+void
+SoundManager::load(SoundID id)
+{
+    std::string path = "";
+    
+    switch (id) {
+            
+        case SoundID::insert: path = "insert.aiff"; break;
+        case SoundID::eject:  path = "eject.aiff"; break;
+        case SoundID::click:  path = "click.wav"; break;
+
+        default:
+            assert(false);
+    }
+    
+    std::unique_ptr<sf::SoundBuffer> asset(new sf::SoundBuffer());
     
     if (asset->loadFromFile(path)) {
         cache.insert(std::make_pair(id, std::move(asset)));

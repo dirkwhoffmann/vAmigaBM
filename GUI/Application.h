@@ -9,6 +9,9 @@
 
 #pragma once
 
+#include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>
+
 #include "Utils.h"
 
 #include "OS.h"
@@ -22,8 +25,6 @@
 #include "AssetManager.h"
 #include "View.h"
 #include "AmigaMusicStream.h"
-
-#include <SFML/Graphics.hpp>
 
 class Application
 {
