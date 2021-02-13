@@ -64,6 +64,12 @@ struct OptionEnum : Reflection<OptionEnum, Option> {
                 
             case OPT_DRIVE_CONNECT:       return "DRIVE_CONNECT";
             case OPT_DRIVE_SPEED:         return "DRIVE_SPEED";
+            case OPT_DRIVE_NOISE_ENABLE:  return "DRIVE_NOISE_ENABLE";
+            case OPT_DRIVE_INSERT_NOISE:  return "DRIVE_NOISE_INSERT";
+            case OPT_DRIVE_EJECT_NOISE:   return "DRIVE_NOISE_EJECT";
+            case OPT_DRIVE_STEP_NOISE:    return "DRIVE_NOISE_STEP";
+            case OPT_DRIVE_POLL_NOISE:    return "DRIVE_NOISE_POLL";
+
             case OPT_LOCK_DSKSYNC:        return "LOCK_DSKSYNC";
             case OPT_AUTO_DSKSYNC:        return "AUTO_DSKSYNC";
 

@@ -69,12 +69,28 @@ Controller::processMessage(long id, long data)
 
         case MSG_RESET:
             break;
+                        
+        case MSG_DISK_INSERT_NOISE:
+            app.play(SoundID::insert);
+            [[fallthrough]];
+            
+        case MSG_DISK_INSERT:
+            break;
+
+        case MSG_DISK_EJECT_NOISE:
+            app.play(SoundID::eject);
+            [[fallthrough]];
+            
+        case MSG_DISK_EJECT:
+            break;
+
+        case MSG_DRIVE_HEAD_NOISE:
+            app.playClick();
+            [[fallthrough]];
             
         case MSG_DRIVE_HEAD:
-        {
-            app.playClick();
             break;
-        }
+
         case MSG_SHAKING:
             OS::releaseMouse();
             break;

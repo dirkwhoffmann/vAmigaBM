@@ -22,8 +22,8 @@ enum class Token
     memory, mouse, paula, serial, rtc,
 
     // Commands
-    about, autosync, clear, config, connect, disconnect, dsksync, easteregg,
-    eject, close, insert, inspect, list, load, lock, on, off, pause,
+    about, audiate, autosync, clear, config, connect, disconnect, dsksync,
+    easteregg, eject, close, insert, inspect, list, load, lock, on, off, pause,
     reset, run, set, source,
     
     // Categories
@@ -32,9 +32,9 @@ enum class Token
     // Keys
     accuracy, bankmap, borderblank, chip, clxsprspr, clxsprplf, clxplfplf,
     device, esync, extrom, extstart, fast, filter, mechanics, model,
-    palette, pan, pullup, raminitpattern, revision, rom, sampling, slow,
-    slowramdelay, slowrammirror, speed, tod, todbug, unmappingtype, velocity,
-    volume, wom
+    palette, pan, poll, pullup, raminitpattern, revision, rom, sampling, slow,
+    slowramdelay, slowrammirror, speed, step, tod, todbug, unmappingtype,
+    velocity, volume, wom
 };
 
 struct ParseBoolError : public ParseError {

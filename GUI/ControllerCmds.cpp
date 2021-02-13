@@ -633,23 +633,50 @@ Controller::exec <Token::dc, Token::dsksync, Token::lock> (Arguments& argv, long
 //
 
 template <> void
+Controller::exec <Token::dfn, Token::config> (Arguments& argv, long param)
+{
+    dump(*amiga.df[param], Dump::Config);
+}
+
+template <> void
+Controller::exec <Token::dfn, Token::audiate, Token::insert> (Arguments& argv, long param)
+{
+    amiga.configure(OPT_DRIVE_INSERT_NOISE, param, parseBool(argv.front()));
+}
+
+template <> void
+Controller::exec <Token::dfn, Token::audiate, Token::eject> (Arguments& argv, long param)
+{
+    amiga.configure(OPT_DRIVE_EJECT_NOISE, param, parseBool(argv.front()));
+}
+
+template <> void
+Controller::exec <Token::dfn, Token::audiate, Token::step> (Arguments& argv, long param)
+{
+    amiga.configure(OPT_DRIVE_STEP_NOISE, param, parseBool(argv.front()));
+}
+
+template <> void
+Controller::exec <Token::dfn, Token::audiate, Token::poll> (Arguments& argv, long param)
+{
+    amiga.configure(OPT_DRIVE_POLL_NOISE, param, parseBool(argv.front()));
+}
+
+template <> void
 Controller::exec <Token::dfn, Token::eject> (Arguments& argv, long param)
 {
-    printf("Df%ld::eject\n", param);
     amiga.df[param]->ejectDisk();
 }
 
 template <> void
 Controller::exec <Token::dfn, Token::connect> (Arguments& argv, long param)
 {
-    printf("Df%ld::connect\n", param);
     amiga.configure(OPT_DRIVE_CONNECT, param, true);
 }
 
 template <> void
 Controller::exec <Token::dfn, Token::disconnect> (Arguments& argv, long param)
 {
-    printf("Df%ld::disconnect\n", param);
     amiga.configure(OPT_DRIVE_CONNECT, param, false);
 }
 

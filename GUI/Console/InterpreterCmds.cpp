@@ -583,6 +583,10 @@ Interpreter::registerInstructions()
     root.add("dfn",
              "component", "Floppy drive");
 
+    root.add("dfn", "config",
+             "command", "Displays the current configuration",
+             &Controller::exec <Token::dfn, Token::config>, 0, 0);
+
     root.add("dfn", "connect",
              "command", "Connects the drive",
              &Controller::exec <Token::dfn, Token::connect>, 0, 0);
@@ -611,7 +615,27 @@ Interpreter::registerInstructions()
     root.add("dfn", "set", "mechanics",
              "key", "Enables or disables the emulation of mechanical delays",
              &Controller::exec <Token::dfn, Token::set, Token::mechanics>, 1, 0);
-    
+
+    root.add("dfn", "audiate",
+             "command", "Enables or disables drive sounds",
+             &Controller::exec <Token::dfn, Token::set, Token::mechanics>, 0, 0);
+
+    root.add("dfn", "audiate", "insert",
+             "command", "Makes disk insertions audible",
+             &Controller::exec <Token::dfn, Token::audiate, Token::insert>, 1, 0);
+
+    root.add("dfn", "audiate", "eject",
+             "command", "Makes disk ejections audible",
+             &Controller::exec <Token::dfn, Token::audiate, Token::eject>, 1, 0);
+
+    root.add("dfn", "audiate", "step",
+             "command", "Makes disk ejections audible",
+             &Controller::exec <Token::dfn, Token::audiate, Token::step>, 1, 0);
+
+    root.add("dfn", "audiate", "poll",
+             "command", "Makes polling clicks audible",
+             &Controller::exec <Token::dfn, Token::audiate, Token::poll>, 1, 0);
+
     root.add("dfn", "inspect",
              "command", "Displays the internal state",
              &Controller::exec <Token::dfn, Token::inspect>, 0, 0);
