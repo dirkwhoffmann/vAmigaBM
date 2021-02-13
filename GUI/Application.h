@@ -76,6 +76,9 @@ public:
     // The current window size
     int curw = W, curh = H;
         
+    // Sound object pools
+    sf::Sound sound[16];
+    
     
     //
     // Initializing
@@ -119,4 +122,21 @@ public:
     void processEvents();
     void update(sf::Time dt);
     void render();
+
+
+    //
+    // Working with the audio backend
+    //
+
+    /* This functions searches the object pool for a free sound object,
+     * attaches a sound buffer from the asset storage and plays the sound. The
+     * min and max parameters can be used to limit the search range. This
+     * feature is used for the clicking sounds to limit the number of sounds
+     * that are played simultaneously.
+     */
+    void play(SoundID, float volume = 25.0, isize min = 0, isize max = 15);
+
+    void playInsert() { play(SoundID::insert, 25.0); }
+    void playEject()  { play(SoundID::eject, 25.0); }
+    void playClick()  { play(SoundID::click, 25.0, 13, 15); }
 };

@@ -143,3 +143,23 @@ Application::render()
 
     window.display();
 }
+
+void
+Application::play(SoundID id, float volume, isize min, isize max)
+{
+    // Search the pool for a free sound object
+    for (isize i = min; i <= max; i++) {
+
+        if (sound[i].getStatus() == sf::SoundSource::Status::Stopped) {
+            
+            printf("Using sound object %zd from pool\n", i);
+            sound[i].setBuffer(Assets::get(id));
+            sound[i].setVolume(volume);
+            sound[i].play();
+            break;
+        } else {
+            
+        }
+        
+    }
+}

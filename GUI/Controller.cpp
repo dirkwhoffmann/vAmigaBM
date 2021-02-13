@@ -72,7 +72,7 @@ Controller::processMessage(long id, long data)
             
         case MSG_DRIVE_HEAD:
         {
-            app.canvas.click.play();
+            app.playClick();
             break;
         }
         case MSG_SHAKING:
