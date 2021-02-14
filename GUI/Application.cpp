@@ -152,14 +152,10 @@ Application::play(SoundID id, float volume, isize min, isize max)
 
         if (sound[i].getStatus() == sf::SoundSource::Status::Stopped) {
             
-            printf("Using sound object %zd from pool\n", i);
             sound[i].setBuffer(assets.get(id));
             sound[i].setVolume(volume);
             sound[i].play();
             break;
-        } else {
-            
         }
-        
     }
 }
