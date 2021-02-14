@@ -7,46 +7,44 @@ MYCC = g++ -std=c++17 -ferror-limit=5
 
 MYFLAGS = \
 -Wall \
--I $(PWD) \
--I $(PWD)/Agnus \
--I $(PWD)/Agnus/Blitter \
--I $(PWD)/Agnus/Copper \
--I $(PWD)/CIA \
--I $(PWD)/CPU \
--I $(PWD)/CPU/Moira \
--I $(PWD)/Denise \
--I $(PWD)/Drive \
--I $(PWD)/Files \
--I $(PWD)/Files/DiskFiles \
--I $(PWD)/Files/RomFiles \
--I $(PWD)/FileSystems \
--I $(PWD)/Foundation \
--I $(PWD)/LogicBoard \
--I $(PWD)/Memory \
--I $(PWD)/Paula \
--I $(PWD)/Paula/Audio \
--I $(PWD)/Paula/DiskController \
--I $(PWD)/Paula/UART \
--I $(PWD)/Peripherals \
--I $(PWD)/xdms
+-I $(CURDIR) \
+-I $(CURDIR)/Agnus \
+-I $(CURDIR)/Agnus/Blitter \
+-I $(CURDIR)/Agnus/Copper \
+-I $(CURDIR)/CIA \
+-I $(CURDIR)/CPU \
+-I $(CURDIR)/CPU/Moira \
+-I $(CURDIR)/Denise \
+-I $(CURDIR)/Drive \
+-I $(CURDIR)/Files \
+-I $(CURDIR)/Files/DiskFiles \
+-I $(CURDIR)/Files/RomFiles \
+-I $(CURDIR)/FileSystems \
+-I $(CURDIR)/Foundation \
+-I $(CURDIR)/LogicBoard \
+-I $(CURDIR)/Memory \
+-I $(CURDIR)/Paula \
+-I $(CURDIR)/Paula/Audio \
+-I $(CURDIR)/Paula/DiskController \
+-I $(CURDIR)/Paula/UART \
+-I $(CURDIR)/Peripherals \
+-I $(CURDIR)/xdms
 
 export MYCC MYFLAGS
 
 DEPS =
-OBJ = Amiga.o vAmiga.o
+OBJ = Amiga.o
 
 .PHONY: all prebuild subdirs clean bin
 
 all: prebuild $(OBJ) subdirs
-
+	@
+	
 prebuild:
-	@echo ""
-	@echo "Compiling vAmiga..."
-	@echo ""
 
 subdirs:
 	@for dir in $(SUBDIRS); do \
-		echo "\nEntering ${PWD}/$$dir"; \
+		echo "Entering ${CURDIR}/$$dir"; \
 		$(MAKE) -C $$dir; \
 	done
 

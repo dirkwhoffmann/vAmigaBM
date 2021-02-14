@@ -4,6 +4,7 @@ OBJ=$(SRC:.cpp=.o)
 .PHONY: all clean
 
 all: $(OBJ)
+	@echo > /dev/null
 	
 clean:
 	@echo "Cleaning up $(CURDIR)"

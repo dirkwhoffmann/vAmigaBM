@@ -6,10 +6,11 @@ OBJ=$(SRC:.cpp=.o)
 .PHONY: all clean subdirs
 
 all: $(OBJ) subdirs
-		
+	@echo > /dev/null
+	
 subdirs:
 	@for dir in $(SUBDIRS); do \
-		echo "\nEntering ${PWD}/$$dir"; \
+		echo "Entering ${CURDIR}/$$dir"; \
 		$(MAKE) -C $$dir; \
 	done
 
