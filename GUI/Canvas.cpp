@@ -50,7 +50,43 @@ void
 Canvas::handle(const sf::Event &event)
 {
     switch (event.type) {
-                    
+            
+        case sf::Event::JoystickButtonPressed:
+        {
+            printf("BUTTON\n");
+            app.amiga.controlPort2.joystick.trigger(PRESS_FIRE);
+            break;
+        }
+        case sf::Event::JoystickButtonReleased:
+        {
+            printf("BUTTON (RELEASED)\n");
+            app.amiga.controlPort2.joystick.trigger(RELEASE_FIRE);
+            break;
+        }
+        case sf::Event::JoystickMoved:
+        {
+            if (event.joystickMove.axis == sf::Joystick::X)
+            {
+                if (event.joystickMove.position > 10.0) {
+                    app.amiga.controlPort2.joystick.trigger(PULL_RIGHT);
+                } else if (event.joystickMove.position < -10.0) {
+                    app.amiga.controlPort2.joystick.trigger(PULL_LEFT);
+                } else {
+                    app.amiga.controlPort2.joystick.trigger(RELEASE_X);
+                }
+            }
+            if (event.joystickMove.axis == sf::Joystick::Y)
+            {
+                if (event.joystickMove.position > 10.0) {
+                    app.amiga.controlPort2.joystick.trigger(PULL_DOWN);
+                } else if (event.joystickMove.position < -10.0) {
+                    app.amiga.controlPort2.joystick.trigger(PULL_UP);
+                } else {
+                    app.amiga.controlPort2.joystick.trigger(RELEASE_Y);
+                }
+            }
+            break;
+        }
         case sf::Event::MouseButtonPressed:
         {
             if (!OS::gotMouse) { OS::retainMouse(); return; }

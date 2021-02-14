@@ -89,7 +89,7 @@ Controller::processMessage(long id, long data)
             [[fallthrough]];
             
         case MSG_DRIVE_HEAD:
-            break;
+            return;
 
         case MSG_SHAKING:
             OS::releaseMouse();
