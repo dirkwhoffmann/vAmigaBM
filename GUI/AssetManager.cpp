@@ -9,11 +9,6 @@
 
 #include "AssetManager.h"
 
-TextureManager Assets::textures;
-FontManager Assets::fonts;
-SoundManager Assets::sounds;
-ShaderManager Assets::shaders;
-
 void
 TextureManager::load(TextureID id)
 {
@@ -91,4 +86,3 @@ ShaderManager::load(ShaderID id)
 {
     assert(false);
 }
-

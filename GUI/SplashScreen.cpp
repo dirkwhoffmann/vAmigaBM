@@ -29,11 +29,11 @@ SplashScreen::init()
     configFile = extractName(configPath);
     
     // Messages
-    errMsg.setStyle(Assets::get(FontID::sans_r), 40, sf::Color(0xE0,0x50,0x50,0xFF));
-    runMsg.setStyle(Assets::get(FontID::sans_l), 46, sf::Color(0x50,0x50,0x50,0xFF));
-    info[0].setStyle(Assets::get(FontID::sans_l), 36, sf::Color(0x50,0x50,0x50,0xFF));
-    info[1].setStyle(Assets::get(FontID::sans_l), 36, sf::Color(0x50,0x50,0x50,0xFF));
-    info[2].setStyle(Assets::get(FontID::sans_l), 36, sf::Color(0x50,0x50,0x50,0xFF));
+    errMsg.setStyle(app.assets.get(FontID::sans_r), 40, sf::Color(0xE0,0x50,0x50,0xFF));
+    runMsg.setStyle(app.assets.get(FontID::sans_l), 46, sf::Color(0x50,0x50,0x50,0xFF));
+    info[0].setStyle(app.assets.get(FontID::sans_l), 36, sf::Color(0x50,0x50,0x50,0xFF));
+    info[1].setStyle(app.assets.get(FontID::sans_l), 36, sf::Color(0x50,0x50,0x50,0xFF));
+    info[2].setStyle(app.assets.get(FontID::sans_l), 36, sf::Color(0x50,0x50,0x50,0xFF));
 
     errMsg.setPosition(sf::Vector2f(w * 0.5, h * 0.685));
     runMsg.setPosition(sf::Vector2f(w * 0.5, h * 0.74));
@@ -50,7 +50,7 @@ SplashScreen::init()
                     sf::Color(0xF0,0xF0,0xF0), sf::Color(0xF0,0xF0,0xF0));
     
     // Setup vAmiga logo
-    logo.init(0.5 * w, 0.37 * h, 0.62 * w, Assets::get(TextureID::logo));
+    logo.init(0.5 * w, 0.37 * h, 0.62 * w, app.assets.get(TextureID::logo));
     
     // Launch the emulator
 }

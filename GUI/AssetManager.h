@@ -86,15 +86,15 @@ class ShaderManager : public AssetManager<sf::Shader, ShaderID> {
 
 class Assets {
     
-    static TextureManager textures;
-    static FontManager fonts;
-    static SoundManager sounds;
-    static ShaderManager shaders;
+    TextureManager textures;
+    FontManager fonts;
+    SoundManager sounds;
+    ShaderManager shaders;
     
 public:
     
-    static sf::Texture &get(TextureID id) { return textures.get(id); }
-    static sf::Font &get(FontID id) { return fonts.get(id); }
-    static sf::SoundBuffer &get(SoundID id) { return sounds.get(id); }
-    static sf::Shader &get(ShaderID id) { return shaders.get(id); }
+    sf::Texture &get(TextureID id) { return textures.get(id); }
+    sf::Font &get(FontID id) { return fonts.get(id); }
+    sf::SoundBuffer &get(SoundID id) { return sounds.get(id); }
+    sf::Shader &get(ShaderID id) { return shaders.get(id); }
 };

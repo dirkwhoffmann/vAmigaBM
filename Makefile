@@ -2,15 +2,22 @@ SUBDIRS = Emulator GUI
 
 DEPS =
 OBJ = Amiga.o vAmiga.o
+
+UNAME := $(shell uname)
+ifeq ($(UNAME), Darwin)
+OPT = -framework ApplicationServices
+else
+OPT =
+endif
+
 FRAMEWORKS=sfml-graphics sfml-audio
 
 .PHONY: all prebuild install a.out clean
 
 all: prebuild install
-	@
+	@echo > /dev/null
 		
 prebuild:
-	@echo "Makefile for vAmiga Bare Metal, Dirk W. Hoffmann, 2021"
 	@echo "Building vAmiga Bare Metal..."
 
 install: a.out
@@ -23,12 +30,11 @@ a.out:
 	@$(MAKE) -C Emulator
 	@$(MAKE) -C GUI
 	@echo "Linking object files"
-	@g++ -pthread */*.o */*/*.o */*/*/*.o -F SFML \
+	@g++ -pthread */*.o */*/*.o */*/*/*.o $(OPT) -F SFML \
 	-framework sfml-graphics \
 	-framework sfml-audio \
 	-framework sfml-window \
-	-framework sfml-system \
-	-framework ApplicationServices
+	-framework sfml-system
 
 clean:
 	@$(MAKE) -C Emulator clean

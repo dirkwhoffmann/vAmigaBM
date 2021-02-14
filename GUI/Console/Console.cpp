@@ -39,7 +39,7 @@ Console::init()
     view.init(w, h, texture.getTexture());
     
     // Initialize font parameters
-    sf::Font& font = Assets::get(FontID::console);
+    sf::Font& font = app.assets.get(FontID::console);
     glyphWidth = font.getGlyph(32, fontSize, false).advance;
             
     // Initialize cursor

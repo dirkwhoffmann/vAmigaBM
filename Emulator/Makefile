@@ -37,7 +37,7 @@ OBJ = Amiga.o
 .PHONY: all prebuild subdirs clean bin
 
 all: prebuild $(OBJ) subdirs
-	@
+	@echo > /dev/null
 	
 prebuild:
 

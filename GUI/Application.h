@@ -75,7 +75,10 @@ public:
     
     // The current window size
     int curw = W, curh = H;
-        
+    
+    // Asset managers
+    Assets assets;
+    
     // Sound object pools
     sf::Sound sound[16];
     
