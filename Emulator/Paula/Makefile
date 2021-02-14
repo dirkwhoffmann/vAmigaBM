@@ -1,4 +1,4 @@
-SUBDIRS = Moira
+SUBDIRS = DiskController Audio UART
 
 SRC=$(wildcard *.cpp)
 OBJ=$(SRC:.cpp=.o)
@@ -23,3 +23,4 @@ clean:
 %.o: %.cpp
 	@echo "Compiling $<"
 	@$(MYCC) $(MYFLAGS) -c -o $@ $< $(CFLAGS)
+

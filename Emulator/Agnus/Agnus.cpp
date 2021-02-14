@@ -789,7 +789,7 @@ Agnus::inSyncWithEClock()
     Cycle eClk = (clock >> 2) % 10;
     
     // Unsure if this condition is accurate
-    return eClk >= 2 || eClk <= 6;
+    return eClk >= 2 && eClk <= 6;
 }
 
 void
