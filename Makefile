@@ -11,11 +11,10 @@ all: prebuild install
 		
 prebuild:
 	@echo "Makefile for vAmiga Bare Metal, Dirk W. Hoffmann, 2021"
-	@echo ""
-	@echo "Compiling..."
+	@echo "Building vAmiga Bare Metal..."
 
 install: a.out
-	@echo "Installing..."
+	@echo "Installing application in folder vAmiga"
 	@mkdir -p vAmiga
 	@cp a.out vAmiga/vAmiga
 	@cp Resources/*/* vAmiga
@@ -23,7 +22,7 @@ install: a.out
 a.out:
 	@$(MAKE) -C Emulator
 	@$(MAKE) -C GUI
-	@echo "Linking..."
+	@echo "Linking object files"
 	@g++ -pthread */*.o */*/*.o */*/*/*.o -F SFML \
 	-framework sfml-graphics \
 	-framework sfml-audio \
@@ -36,7 +35,6 @@ clean:
 	@$(MAKE) -C GUI clean
 	@echo "Cleaning up $(CURDIR)"
 	@rm -rf vAmiga a.out *.o
-	@rmdir vAmiga
 
 %.o: %.cpp $(DEPS)
 	@echo "Compiling $<"

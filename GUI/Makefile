@@ -1,7 +1,6 @@
 SUBDIRS = Arch Foundation Console
 
-MYCC = g++ -std=c++17 -ferror-limit=5
-# MYCC = g++ -fmax-errors=5
+MYCC = g++ -std=c++17 -Wfatal-errors
 
 EMU = $(CURDIR)/../Emulator
 GUI = $(CURDIR)
