@@ -5,9 +5,17 @@ OBJ = Amiga.o vAmiga.o
 
 UNAME := $(shell uname)
 ifeq ($(UNAME), Darwin)
-OPT = -framework ApplicationServices
+OPT = -F SFML \
+	-framework sfml-graphics \
+	-framework sfml-audio \
+	-framework sfml-window \
+	-framework sfml-system
+	-framework ApplicationServices
 else
-OPT =
+OPT = -lsfml-graphics \
+	-lsfml-audio \
+	-lsfml-window \
+	-lsfml-system
 endif
 
 FRAMEWORKS=sfml-graphics sfml-audio

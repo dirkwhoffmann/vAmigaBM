@@ -9,7 +9,9 @@
 
 #include "OS.h"
 
+#ifdef __MACH__
 #include <ApplicationServices/ApplicationServices.h>
+#endif
 
 bool OS::gotMouse = false;
 int OS::mouseDX = 0;
@@ -18,6 +20,8 @@ int OS::mouseDY = 0;
 void
 OS::retainMouse()
 {
+#ifdef __MACH__
+    
     if (!gotMouse) {
     
         CGDisplayHideCursor(kCGNullDirectDisplay);
@@ -27,23 +31,29 @@ OS::retainMouse()
         }
         gotMouse = true;
     }
+#endif
 }
 
 void
 OS::releaseMouse()
 {
+#ifdef __MACH__
+    
     if (gotMouse) {
         
         CGDisplayShowCursor(kCGNullDirectDisplay);
         CGAssociateMouseAndMouseCursorPosition(true);
         gotMouse = false;
     }
+#endif
 }
 
 bool
 OS::mouseMoved()
 {
+#ifdef __MACH__
     CGAssociateMouseAndMouseCursorPosition(false);
     CGGetLastMouseDelta(&mouseDX, &mouseDY);
     return mouseDX != 0 || mouseDY != 0;
+#endif
 }
