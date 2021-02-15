@@ -7,7 +7,7 @@
 // See https://www.gnu.org for license information
 // -----------------------------------------------------------------------------
 
-#include "AssetManager.h"
+#include "Application.h"
 
 void
 TextureManager::load(TextureID id)

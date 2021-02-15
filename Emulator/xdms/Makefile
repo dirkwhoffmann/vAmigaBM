@@ -14,4 +14,4 @@ clean:
 
 %.o: %.c $(DEPS)
 	@echo "Compiling $<"
-	@$(CC) $(MYFLAGS) -c -o $@ $<
+	@$(CC) -O2 -c -o $@ $<
