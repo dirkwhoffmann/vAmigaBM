@@ -133,14 +133,22 @@ Application::processEvents()
                 float w = static_cast<float>(event.size.width);
                 float h = static_cast<float>(event.size.height);
                 
-                float aspectX = w / curw;
-                float aspectY = h / curh;
+                sf::FloatRect rect;
+                if (h / w < aspectRatio) {
+                    
+                    w = h / aspectRatio / w;
+                    rect = sf::FloatRect((1.0 - w) * 0.5, 0.0, w, 1.0);
 
-                if (aspectX > aspectY) {
-                    window.setSize(sf::Vector2u(h / aspectRatio, h));
                 } else {
-                    window.setSize(sf::Vector2u(w, w * aspectRatio));
+                    
+                    h = w * aspectRatio / h;
+                    rect = sf::FloatRect(0.0, (1.0 - h) * 0.5, 1.0, h);
                 }
+                
+                auto view = window.getDefaultView();
+                view.setViewport(rect);
+                window.setView(view);
+                
                 splashScreen.resize(w, h);
                 canvas.resize(w, h);
                 console.resize(w, h);
