@@ -26,6 +26,26 @@ Application::~Application()
 {
 }
 
+sf::VideoMode
+Application::proposedVideoMode()
+{
+    auto print = [](sf::VideoMode &mode)
+    {
+        std::cout << mode.width << "x" << mode.height
+        << " - " << mode.bitsPerPixel << " bpp" << std::endl;
+    };
+    
+    // List all video modes
+    std::vector<sf::VideoMode> modes = sf::VideoMode::getFullscreenModes();
+    for (auto &mode : modes) {
+        std::cout << "Fullscreen: "; print(mode);
+    }
+    auto mode = sf::VideoMode::getDesktopMode();
+    std::cout << "Desktop: "; print(mode);
+
+    return mode;
+}
+
 void
 Application::check()
 {
@@ -38,8 +58,14 @@ Application::check()
 void
 Application::init()
 {
-    // Create window
-    window.create(sf::VideoMode(W,H), "vAmiga Bare Metal");
+    // Select a suitable video mode
+    videoMode = proposedVideoMode();
+
+    // Create render window
+    curw = videoMode.width / 2;
+    curh = curw * aspectRatio;
+    window.create(sf::VideoMode(curw, curh), "vAmiga Bare Metal");
+
     window.setFramerateLimit(60);
 
     if (!window.isOpen()) {
@@ -107,9 +133,14 @@ Application::processEvents()
                 float w = static_cast<float>(event.size.width);
                 float h = static_cast<float>(event.size.height);
                 
-                curw = (int)w;
-                curh = (int)h;
-                
+                float aspectX = w / curw;
+                float aspectY = h / curh;
+
+                if (aspectX > aspectY) {
+                    window.setSize(sf::Vector2u(h / aspectRatio, h));
+                } else {
+                    window.setSize(sf::Vector2u(w, w * aspectRatio));
+                }
                 splashScreen.resize(w, h);
                 canvas.resize(w, h);
                 console.resize(w, h);

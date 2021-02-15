@@ -35,9 +35,12 @@ public:
     // Constants
     //
     
+    // Aspect ration of the render window
+    static constexpr float aspectRatio = 0.7525;
+    
     // Initial window size
-    static const int W = 1536;
-    static const int H = W * 0.7525;
+    // static const int W = 1536;
+    // static const int H = W * 0.7525;
     
     
     //
@@ -64,9 +67,12 @@ public:
     // The music stream
     AmigaMusicStream musicStream;
     
+    // Video mode of the host machine
+    sf::VideoMode videoMode;
+    
     // The render window
     sf::RenderWindow window;
-
+    
     // The event loop timer
     sf::Clock clock;
 
@@ -74,13 +80,19 @@ public:
     std::vector<string> argv;
     
     // The current window size
-    int curw = W, curh = H;
+    int curw, curh;
     
     // Asset managers
     Assets assets;
     
     // Sound object pools
     sf::Sound sound[16];
+    
+    
+    //
+    // Querying system properties
+    //
+
     
     
     //
@@ -91,6 +103,8 @@ public:
     
     Application(int argc, const char *argv[]);
     ~Application();
+    
+    sf::VideoMode proposedVideoMode();
     
     
     //
@@ -125,8 +139,8 @@ public:
     void processEvents();
     void update(sf::Time dt);
     void render();
-
-
+    
+    
     //
     // Working with the audio backend
     //
