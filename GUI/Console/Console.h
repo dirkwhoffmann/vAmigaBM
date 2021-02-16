@@ -61,7 +61,7 @@ class Console : public Layer {
     sf::RenderTexture texture;
     
     // The image view holding the texture
-    ImageView view = ImageView(view::flipy);
+    ImageView view = ImageView(Align::UpperLeft | Align::FlippedY);
 
     // The rendered text rows
     sf::Text text[numRows];

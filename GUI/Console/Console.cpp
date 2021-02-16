@@ -111,7 +111,7 @@ Console::handle(const sf::Event &event)
 void
 Console::render()
 {
-    view.setFillColor(sf::Color(0xFF,0xFF,0xFF,alpha));
+    view.rectangle.setFillColor(sf::Color(0xFF,0xFF,0xFF,alpha));
     
     if (isVisible()) {
         

@@ -9,87 +9,92 @@
 
 #include "Application.h"
 
+
 //
-// ImageView
+// View
 //
 
-ImageView::ImageView(usize flags)
+View::View(usize flags)
 {
     this->flags = flags;
 }
 
 void
-ImageView::init(const sf::Vector2f &origin, const sf::Vector2f &size, const sf::Texture &tex)
+View::init(float x, float y, float w, float h)
 {
-    setTexture(&tex);
-    setSize(size);
-    setPosition(origin);
+    this->x = x;
+    this->y = y;
+    this->w = w;
+    this->h = h;
+    update();
+}
+
+float
+View::x1()
+{
+    return (flags & Align::Left) ? x : (flags & Align::Right) ? x - w : x - w / 2;
+}
+
+float
+View::x2()
+{
+    return (flags & Align::Left) ? x + w : (flags & Align::Right) ? x : x + w / 2;
+}
+
+float
+View::y1()
+{
+    return (flags & Align::Top) ? y : (flags & Align::Bottom) ? y - h : y - h / 2;
+}
+
+float
+View::y2()
+{
+    return (flags & Align::Top) ? y + h : (flags & Align::Bottom) ? y : y + h / 2;
+}
+
+
+//
+// ImageView
+//
+
+void
+ImageView::init(float x, float y, const sf::Texture &tex)
+{
+    View::init(x, y, tex.getSize().x, tex.getSize().y);
+    rectangle.setTexture(&tex);
     
-    if (flags & view::flipx) {
+    if (flags & Align::FlippedX) {
         
-        auto rect = getTextureRect();
+        auto rect = rectangle.getTextureRect();
         auto size = tex.getSize();
-        setTextureRect(sf::IntRect(size.x, rect.top, -size.x, rect.height));
+        rectangle.setTextureRect(sf::IntRect(size.x, rect.top, -size.x, rect.height));
     }
-    if (flags & view::flipy) {
+    if (flags & Align::FlippedY) {
         
-        auto rect = getTextureRect();
+        auto rect = rectangle.getTextureRect();
         auto size = tex.getSize();
-        setTextureRect(sf::IntRect(rect.left, size.y, rect.width, -size.y));
+        rectangle.setTextureRect(sf::IntRect(rect.left, size.y, rect.width, -size.y));
     }
 }
 
 void
-ImageView::init(const sf::Vector2f &size, const sf::Texture &tex)
+ImageView::init(const sf::Texture &tex)
 {
-    init(sf::Vector2f{0,0}, size, tex);
+    View::init(0, 0, tex.getSize().x, tex.getSize().y);
 }
 
 void
-ImageView::init(float x, float y, float w, float h, const sf::Texture &tex)
+ImageView::update()
 {
-    init(sf::Vector2f{x,y}, sf::Vector2f{w,h}, tex);
-}
-
-void
-ImageView::init(float x, float y, float w, const sf::Texture &tex)
-{
-    init(x, y, w, w * (float)tex.getSize().y / (float)tex.getSize().x, tex);
-}
-
-void
-ImageView::init(float w, float h, const sf::Texture &tex)
-{
-    init(0, 0, w, h, tex);
-}
-
-void
-ImageView::init(float w, const sf::Texture &tex)
-{
-    init(0, 0, w, w * (float)tex.getSize().y / (float)tex.getSize().x, tex);
-}
-
-void
-ImageView::setPosition(const sf::Vector2f &position)
-{
-    setPosition(position.x, position.y);
-}
-
-void
-ImageView::setPosition(float x, float y)
-{
-    if (flags & view::center) {
-        
-        x -= getSize().x / 2;
-        y -= getSize().y / 2;
-    }
-    RectangleShape::setPosition(x, y);
+    rectangle.setPosition(sf::Vector2f{x1(),y1()});
+    rectangle.setSize(sf::Vector2f{w,h});
 }
 
 void
 ImageView::draw(sf::RenderWindow &window)
 {
-    window.draw(*this);
+    window.draw(rectangle);
 }
 
 
@@ -97,23 +102,12 @@ ImageView::draw(sf::RenderWindow &window)
 // GradientView
 //
 
-GradientView::GradientView(usize flags)
-{
-    this->flags = flags;
-}
-
 void
 GradientView::init(float x, float y, float w, float h,
                    sf::Color ul, sf::Color ur, sf::Color ll, sf::Color lr)
 {
-    this->w = w;
-    this->h = h;
-    
-    setPosition(x, y);
-    rectangle[0].color = ul;
-    rectangle[1].color = ur;
-    rectangle[2].color = ll;
-    rectangle[3].color = lr;
+    View::init(x, y, w, h);
+    setColors(ul, ur, ll, lr);
 }
 
 void
@@ -124,30 +118,21 @@ GradientView::init(float w, float h,
 }
 
 void
-GradientView::setPosition(const sf::Vector2f &position)
-{
-    setPosition(position.x, position.y);
-}
-
-void
-GradientView::setPosition(float x, float y)
-{
-    float xx = x + (flags & view::center) ? w / 2 : 0;
-    float yy = y + (flags & view::center) ? h / 2 : 0;
-
-    rectangle[0].position = sf::Vector2f(xx + 0, yy + 0);
-    rectangle[1].position = sf::Vector2f(xx + w, yy + 0);
-    rectangle[2].position = sf::Vector2f(xx + w, yy + h);
-    rectangle[3].position = sf::Vector2f(xx + 0, yy + h);
-}
-
-void
 GradientView::setColors(sf::Color ul, sf::Color ur, sf::Color ll, sf::Color lr)
 {
     rectangle[0].color = ul;
     rectangle[1].color = ur;
     rectangle[2].color = ll;
     rectangle[3].color = lr;
+}
+
+void
+GradientView::update()
+{
+    rectangle[0].position = sf::Vector2f(x1(), y1());
+    rectangle[1].position = sf::Vector2f(x2(), y1());
+    rectangle[2].position = sf::Vector2f(x2(), y2());
+    rectangle[3].position = sf::Vector2f(x1(), y2());
 }
 
 void
@@ -161,34 +146,30 @@ GradientView::draw(sf::RenderWindow &window)
 // TextView
 //
 
-TextView::TextView(usize flags)
+void
+TextView::update()
 {
-    this->flags = flags;
+    text.setPosition(x1(), y1());
 }
 
 void
 TextView::setString(const string &str)
 {
-    sf::Text::setString(str);
-    
-    if (flags & view::center) {
-        
-        sf::FloatRect textRect = getLocalBounds();
-        setOrigin(textRect.left + textRect.width / 2,
-                  textRect.top + textRect.height / 2);
-    }
+    text.setString(str);
+    setW(text.getLocalBounds().width);
+    setH(text.getLocalBounds().height);
 }
 
 void
 TextView::setStyle(const sf::Font &font, unsigned int size, const sf::Color &color)
 {
-    setFont(font);
-    setCharacterSize(size);
-    setFillColor(color);
+    text.setFont(font);
+    text.setCharacterSize(size);
+    text.setFillColor(color);
 }
 
 void
 TextView::draw(sf::RenderWindow &window)
 {
-    window.draw(*this);
+    window.draw(text);
 }

@@ -33,7 +33,7 @@ void Canvas::init()
     int y2 = VPOS_CNT - 1;
     
     foreground.init(w, h, emuTex);
-    foreground.setTextureRect(sf::IntRect(x1, y1, x2 - x1, y2 - y1));
+    foreground.rectangle.setTextureRect(sf::IntRect(x1, y1, x2 - x1, y2 - y1));
 
     click.setBuffer(app.assets.get(SoundID::click));
 }
@@ -146,9 +146,8 @@ Canvas::update(sf::Time dt)
 void
 Canvas::render()
 {
-    foreground.setFillColor(sf::Color(0xFF,0xFF,0xFF,alpha));
-    
-    app.window.draw(foreground);
+    foreground.rectangle.setFillColor(sf::Color(0xFF,0xFF,0xFF,alpha));
+    foreground.draw(app.window);
 }
 
 void

@@ -9,7 +9,6 @@
 
 #pragma once
 
-// #include "Application.h"
 #include "View.h"
 
 class SplashScreen : public Layer {
@@ -18,13 +17,15 @@ class SplashScreen : public Layer {
     GradientView background;
   
     // vAmiga logo
-    ImageView logo = ImageView(view::center);
+    ImageView logo = ImageView(Align::Centered);
     
     // Text messages
-    TextView errMsg = TextView(view::center);
-    TextView runMsg = TextView(view::center);
+    TextView errMsg = TextView(Align::Centered);
+    TextView runMsg = TextView(Align::Centered);
     TextView info[3] = {
-        TextView(view::center), TextView(view::center), TextView(view::center)
+        TextView(Align::Centered),
+        TextView(Align::Centered),
+        TextView(Align::Centered)
     };
 
     // Name of the config file

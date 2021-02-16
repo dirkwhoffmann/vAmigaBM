@@ -16,6 +16,8 @@ Layer::init()
     
     w = app.window.getView().getSize().x;
     h = app.window.getView().getSize().y;
+    
+    printf("w = %f h = %f\n", w, h);
 }
 
 void

@@ -130,9 +130,12 @@ Application::processEvents()
             }
             case sf::Event::Resized:
             {
-                float w = static_cast<float>(event.size.width);
-                float h = static_cast<float>(event.size.height);
+                float w = event.size.width;
+                float h = event.size.height;
                 
+                window.setView(sf::View(sf::FloatRect(0, 0, w, h)));
+                
+                /*
                 sf::FloatRect rect;
                 if (h / w < aspectRatio) {
                     
@@ -148,6 +151,7 @@ Application::processEvents()
                 auto view = window.getDefaultView();
                 view.setViewport(rect);
                 window.setView(view);
+                */
                 
                 splashScreen.resize(w, h);
                 canvas.resize(w, h);

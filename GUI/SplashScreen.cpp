@@ -34,23 +34,22 @@ SplashScreen::init()
     info[0].setStyle(app.assets.get(FontID::sans_l), 36, sf::Color(0x50,0x50,0x50,0xFF));
     info[1].setStyle(app.assets.get(FontID::sans_l), 36, sf::Color(0x50,0x50,0x50,0xFF));
     info[2].setStyle(app.assets.get(FontID::sans_l), 36, sf::Color(0x50,0x50,0x50,0xFF));
-
-    errMsg.setPosition(sf::Vector2f(w * 0.5, h * 0.685));
-    runMsg.setPosition(sf::Vector2f(w * 0.5, h * 0.74));
-    info[0].setPosition(sf::Vector2f(w * 0.5, h * 0.80));
-    info[1].setPosition(sf::Vector2f(w * 0.5, h * 0.85));
-    info[2].setPosition(sf::Vector2f(w * 0.5, h * 0.90));
-
+    
+    errMsg.setPosition(w * 0.5, h * 0.685);
+    runMsg.setPosition(w * 0.5, h * 0.74);
+    info[0].setPosition(w * 0.5, h * 0.80);
+    info[1].setPosition(w * 0.5, h * 0.85);
+    info[2].setPosition(w * 0.5, h * 0.90);
     info[1].setString("Press F11 to open the debug console");
     info[2].setString("Press F12 to open the menu");
 
-    // Setup background
+    // Background
     background.init(w, h,
                     sf::Color(0x89,0x89,0x89), sf::Color(0x89,0x89,0x89),
                     sf::Color(0xF0,0xF0,0xF0), sf::Color(0xF0,0xF0,0xF0));
     
-    // Setup vAmiga logo
-    logo.init(0.5 * w, 0.37 * h, 0.62 * w, app.assets.get(TextureID::logo));
+    // Logo
+    logo.init(0.5 * w, 0.37 * h, app.assets.get(TextureID::logo));
     
     // Launch the emulator
 }
@@ -193,5 +192,14 @@ SplashScreen::render()
 void
 SplashScreen::resize(float width, float height)
 {
-    printf("(%f,%f)\n", width, height); 
+    printf("(%f,%f)\n", width, height);
+    
+    background.setW(width);
+    background.setH(height);
+    
+    errMsg.setPosition(w * 0.5, height - 40);
+    runMsg.setPosition(w * 0.5, height - 80);
+    info[0].setPosition(w * 0.5, height - 120);
+    info[1].setPosition(w * 0.5, height - 160);
+    info[2].setPosition(w * 0.5, height - 200);
 }

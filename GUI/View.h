@@ -11,15 +11,69 @@
 
 #include <SFML/Graphics.hpp>
 
-namespace view {
-static const usize center = 0b0001;
-static const usize flipx  = 0b0010;
-static const usize flipy  = 0b0100;
-}
+struct Align {
 
-struct View {
+    static const usize Centered     = 0b0000000;
+    static const usize Left         = 0b0000001;
+    static const usize Right        = 0b0000010;
+    static const usize Top          = 0b0000100;
+    static const usize Bottom       = 0b0001000;
+    
+    static const usize UpperLeft    = 0b0000101;
+    static const usize LowerLeft    = 0b0001001;
+    static const usize UpperRight   = 0b0000110;
+    static const usize LowerRight   = 0b0001010;
 
+    static const usize Proportional = 0b0010000;
+    static const usize FlippedX     = 0b0100000;
+    static const usize FlippedY     = 0b1000000;
+};
+
+class View {
+ 
+public:
+ 
+    //
+    // Members
+    //
+    
+protected:
+    
+    // Position and size
+    float x = 0;
+    float y = 0;
+    float w = 0;
+    float h = 0;
+
+    // Alignment flags
     usize flags = 0;
+    
+    //
+    // Methods
+    //
+    
+public:
+    
+    View(usize flags);
+    
+    // Initializers
+    void init(float x, float y, float w, float h);
+    virtual void update() = 0;
+
+    // Getters
+    float x1();
+    float x2();
+    float y1();
+    float y2();
+    
+    // Modifiers
+    void setX(float x) { this->x = x; update(); }
+    void setY(float y) { this->y = y; update(); }
+    void setW(float w) { this->w = w; update(); }
+    void setH(float h) { this->h = h; update(); }
+    
+    void setPosition(float x, float y) { this->x = x; this->y = y; update(); }
+    void setSize(float w, float h) { this->w = w; this->h = h; update(); }
 };
 
 
@@ -27,21 +81,23 @@ struct View {
 // Image view
 //
 
-struct ImageView : View, sf::RectangleShape {
-        
-    ImageView(usize _flags = 0);
+class ImageView : public View {
     
-    // Initializers
-    void init(float x, float y, float w, float h, const sf::Texture &tex);
-    void init(float x, float y, float w, const sf::Texture &tex);
-    void init(float w, float h, const sf::Texture &tex);
-    void init(float w, const sf::Texture &tex);
-    void init(const sf::Vector2f &origin, const sf::Vector2f &size, const sf::Texture &tex);
-    void init(const sf::Vector2f &size, const sf::Texture &tex);
+public:
+    
+    sf::RectangleShape rectangle;
+    
+    ImageView() : View(Align::UpperLeft | Align::Proportional) { };
+    ImageView(usize flags) : View(flags) { };
 
+    // Initializers
+    void init(float x, float y, const sf::Texture &tex);
+    void init(const sf::Texture &tex);
+        
+    // Delegation methods
+    void update();
+    
     // Wrappers
-    void setPosition(const sf::Vector2f &position);
-    void setPosition(float x, float y);
     void draw(sf::RenderWindow &window);
 };
 
@@ -50,22 +106,28 @@ struct ImageView : View, sf::RectangleShape {
 // Gradient view
 //
 
-struct GradientView : View {
+class GradientView : public View {
     
-    float w, h;
+public:
+    
     sf::Vertex rectangle[4];
     
-    GradientView(usize flags = 0);
+    GradientView() : View(Align::UpperLeft) { };
+    GradientView(usize flags) : View(flags) { };
 
+    // Initializers
     void init(float x, float y, float w, float h,
               sf::Color ul, sf::Color ur, sf::Color ll, sf::Color lr);
     void init(float w, float h,
               sf::Color ul, sf::Color ur, sf::Color ll, sf::Color lr);
 
-    // Wrappers
-    void setPosition(const sf::Vector2f &position);
-    void setPosition(float x, float y);
+    // Setters
     void setColors(sf::Color ul, sf::Color ur, sf::Color ll, sf::Color lr);
+
+    // Delegation methods
+    void update();
+    
+    // Wrappers
     void draw(sf::RenderWindow &window);
 };
 
@@ -74,10 +136,18 @@ struct GradientView : View {
 // Text view
 //
 
-struct TextView : View, sf::Text {
+class TextView : public View {
 
-    TextView(usize flags = 0);
+public:
+    
+    sf::Text text;
+    
+    TextView() : View(Align::UpperLeft) { };
+    TextView(usize flags) : View(flags) { };
 
+    // Delegation methods
+    void update();
+    
     // Wrappers
     void setString(const string &str);
     void setStyle(const sf::Font &font, unsigned int size, const sf::Color &color);
