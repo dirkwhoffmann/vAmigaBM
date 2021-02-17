@@ -27,10 +27,9 @@ void Canvas::init()
         throw Exception("Can't create emulator texture");
     }
         
-    foreground.init(emuTex);
-    foreground.rectangle.setTextureRect(sf::IntRect(texX1, texY1, texW, texH));
-
-    click.setBuffer(app.assets.get(SoundID::click));
+    view.init(emuTex);
+    // view.rectangle.setTextureRect(sf::IntRect(texX1, texY1, texW, texH));
+    view.rectangle.setTextureRect(sf::IntRect(texX1, texY1, texW, texH));
 }
 
 void
@@ -141,14 +140,30 @@ Canvas::update(sf::Time dt)
 void
 Canvas::render()
 {
-    foreground.rectangle.setFillColor(sf::Color(0xFF,0xFF,0xFF,alpha));
-    foreground.draw(app.window);
+    view.rectangle.setFillColor(sf::Color(0xFF,0xFF,0xFF,alpha));
+    view.draw(app.window);
 }
 
 void
 Canvas::resize(float width, float height)
 {
+    float newWidth;
+    float newHeight;
     
+    if (letterbox) {
+ 
+        float ratio = (float)texW / (float)(2 * texH);
+        newWidth  = width / height > ratio ? height * ratio : width;
+        newHeight = width / height > ratio ? height : width / ratio;
+
+    } else {
+
+        newWidth  = width;
+        newHeight = height;
+    }
+    
+    view.setSize(newWidth, newHeight);
+    view.setPosition((width - newWidth) / 2, (height - newHeight) / 2);
 }
 
 void

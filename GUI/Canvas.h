@@ -32,17 +32,16 @@ private:
     sf::Texture emuTex;
  
     // Render object
-    ImageView foreground;
+    ImageView view = ImageView(Align::UpperLeft);
+    
+    // Indicates if the aspect ratio should be kept constant
+    bool letterbox = true;
     
     // Initial mouse position after releasing
     int baseX, baseY;
     
 public:
-    
-    // Sound effects
-    sf::Sound click;
-    
-    
+        
     //
     // Initializing
     //

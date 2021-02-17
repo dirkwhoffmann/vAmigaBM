@@ -195,10 +195,8 @@ SplashScreen::resize(float width, float height)
 {
     printf("(%f,%f)\n", width, height);
     
-    background.setW(width);
-    background.setH(height);
-    
-    
+    background.setSize(width, height);
+        
     logo.setPosition(width * 0.5, height * 0.08);
     logo.setH(height * 0.46);
     
