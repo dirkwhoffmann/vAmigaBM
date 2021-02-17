@@ -19,6 +19,9 @@ public:
     static int mouseDX;
     static int mouseDY;
     
+    // Translates a logical coordinate or size to a physical coordinate or size
+    static float scale(float value); 
+    
     // Retains or releases the mouse
     static void retainMouse();
     static void releaseMouse();

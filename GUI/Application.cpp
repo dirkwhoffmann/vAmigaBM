@@ -46,9 +46,8 @@ Application::init()
     printf("Emulator dimensions: %d x %d\n", x2 - x1, y2 - y1);
     
     // Create render window
-    int w = Canvas::texW * 2;
-    int h = Canvas::texH * 4;
-    window.create(sf::VideoMode(w, h), "vAmiga Bare Metal");
+    auto videoMode = sf::VideoMode(winXinit, winYinit);
+    window.create(videoMode, "vAmiga Bare Metal");
 
     window.setFramerateLimit(60);
 
@@ -132,9 +131,11 @@ void
 Application::resize(float w, float h)
 {
     // Restore the minimal window size if the proposed size is smaller
-    if (w < Canvas::texW || h < Canvas::texH * 2) {
-        w = Canvas::texW;
-        h = Canvas::texH * 2;
+    if (w < winXmin || h < winYmin) {
+        
+        w = winXmin;
+        h = winYmin;
+        
         window.setSize(sf::Vector2u{(unsigned)w,(unsigned)h});
     }
     

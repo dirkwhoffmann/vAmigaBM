@@ -36,6 +36,12 @@ public:
     // Constants
     //
     
+    int winXmin = OS::scale(Canvas::texW);
+    int winYmin = OS::scale(Canvas::texH * 2);
+    int winXinit = winXmin;
+    int winYinit = winYmin;
+
+    
     // Aspect ration of the render window
     static constexpr float aspectRatio = 0.7525;
     

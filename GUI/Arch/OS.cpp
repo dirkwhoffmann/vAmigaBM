@@ -17,6 +17,16 @@ bool OS::gotMouse = false;
 int OS::mouseDX = 0;
 int OS::mouseDY = 0;
 
+float
+OS::scale(float value)
+{
+#ifdef __MACH__
+    return value * 2.0;
+#else
+    return value;
+#endif
+}
+
 void
 OS::retainMouse()
 {

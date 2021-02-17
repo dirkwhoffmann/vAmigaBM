@@ -30,10 +30,10 @@ class Console : public Layer {
     static const int maxRows = 40;
         
     // Layout properties
-    static const int padx     = 10;
-    static const int pady     = 5;
-    static const int fontSize = 28;
-    static const int lineSkip = 10;
+    int padx     = OS::scale(5);
+    int pady     = OS::scale(2);
+    int fontSize = OS::scale(14);
+    int lineSkip = OS::scale(5);
     
     // Input prompt
     static const std::string& prompt;
