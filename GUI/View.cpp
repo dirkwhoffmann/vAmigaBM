@@ -134,6 +134,12 @@ GradientView::init(float w, float h,
 }
 
 void
+GradientView::init(sf::Color ul, sf::Color ur, sf::Color ll, sf::Color lr)
+{
+    init(0, 0, 0, 0, ul, ur, ll, lr);
+}
+
+void
 GradientView::setColors(sf::Color ul, sf::Color ur, sf::Color ll, sf::Color lr)
 {
     rectangle[0].color = ul;

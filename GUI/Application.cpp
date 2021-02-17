@@ -26,26 +26,6 @@ Application::~Application()
 {
 }
 
-sf::VideoMode
-Application::proposedVideoMode()
-{
-    auto print = [](sf::VideoMode &mode)
-    {
-        std::cout << mode.width << "x" << mode.height
-        << " - " << mode.bitsPerPixel << " bpp" << std::endl;
-    };
-    
-    // List all video modes
-    std::vector<sf::VideoMode> modes = sf::VideoMode::getFullscreenModes();
-    for (auto &mode : modes) {
-        std::cout << "Fullscreen: "; print(mode);
-    }
-    auto mode = sf::VideoMode::getDesktopMode();
-    std::cout << "Desktop: "; print(mode);
-
-    return mode;
-}
-
 void
 Application::check()
 {
@@ -65,14 +45,10 @@ Application::init()
     int y2 = VPOS_CNT - 1;
     printf("Emulator dimensions: %d x %d\n", x2 - x1, y2 - y1);
     
-    
-    // Select a suitable video mode
-    videoMode = proposedVideoMode();
-
     // Create render window
-    curw = Canvas::texW * 2;
-    curh = Canvas::texH * 4;
-    window.create(sf::VideoMode(curw, curh), "vAmiga Bare Metal");
+    int w = Canvas::texW * 2;
+    int h = Canvas::texH * 4;
+    window.create(sf::VideoMode(w, h), "vAmiga Bare Metal");
 
     window.setFramerateLimit(60);
 

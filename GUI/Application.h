@@ -70,10 +70,7 @@ public:
 
     // The music stream
     AmigaMusicStream musicStream;
-    
-    // Video mode of the host machine
-    sf::VideoMode videoMode;
-    
+        
     // The render window
     sf::RenderWindow window;
     
@@ -82,9 +79,6 @@ public:
 
     // The command line parameters
     std::vector<string> argv;
-    
-    // The current window size
-    int curw, curh;
     
     // Asset managers
     Assets assets;
@@ -107,8 +101,6 @@ public:
     
     Application(int argc, const char *argv[]);
     ~Application();
-    
-    sf::VideoMode proposedVideoMode();
     
     
     //

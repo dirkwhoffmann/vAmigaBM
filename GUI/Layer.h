@@ -20,10 +20,7 @@ public:
         
     // The render texture
     sf::RenderTexture texture;
-    
-    // Drawing dimensions
-    float w, h;
-    
+        
     // Alpha channel parameters
     isize alpha = 0, targetAlpha = 0;
     

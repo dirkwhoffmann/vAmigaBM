@@ -121,6 +121,7 @@ public:
               sf::Color ul, sf::Color ur, sf::Color ll, sf::Color lr);
     void init(float w, float h,
               sf::Color ul, sf::Color ur, sf::Color ll, sf::Color lr);
+    void init(sf::Color ul, sf::Color ur, sf::Color ll, sf::Color lr);
 
     // Setters
     void setColors(sf::Color ul, sf::Color ur, sf::Color ll, sf::Color lr);

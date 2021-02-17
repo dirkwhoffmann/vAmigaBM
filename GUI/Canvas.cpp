@@ -27,7 +27,7 @@ void Canvas::init()
         throw Exception("Can't create emulator texture");
     }
         
-    foreground.init(w, h, emuTex);
+    foreground.init(emuTex);
     foreground.rectangle.setTextureRect(sf::IntRect(texX1, texY1, texW, texH));
 
     click.setBuffer(app.assets.get(SoundID::click));

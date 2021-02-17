@@ -36,24 +36,17 @@ SplashScreen::init()
     info[0].setStyle(app.assets.get(FontID::sans_l), 36, sf::Color(0x50,0x50,0x50,0xFF));
     info[1].setStyle(app.assets.get(FontID::sans_l), 36, sf::Color(0x50,0x50,0x50,0xFF));
     info[2].setStyle(app.assets.get(FontID::sans_l), 36, sf::Color(0x50,0x50,0x50,0xFF));
-    
     title1.setString("vAmiga");
     title2.setString("Bare Metal");
-    errMsg.setPosition(w * 0.5, h * 0.685);
-    runMsg.setPosition(w * 0.5, h * 0.74);
-    info[0].setPosition(w * 0.5, h * 0.80);
-    info[1].setPosition(w * 0.5, h * 0.85);
-    info[2].setPosition(w * 0.5, h * 0.90);
     info[1].setString("Press F11 to open the debug console");
     info[2].setString("Press F12 to open the menu");
 
     // Background
-    background.init(w, h,
-                    sf::Color(0x89,0x89,0x89), sf::Color(0x89,0x89,0x89),
+    background.init(sf::Color(0x89,0x89,0x89), sf::Color(0x89,0x89,0x89),
                     sf::Color(0xF0,0xF0,0xF0), sf::Color(0xF0,0xF0,0xF0));
     
     // Logo
-    logo.init(0.5 * w, 0.37 * h, app.assets.get(TextureID::logo));
+    logo.init(app.assets.get(TextureID::logo));
     title.init(app.assets.get(TextureID::title));
     printf("Title: %f %f\n", title.w, title.h); 
 }
