@@ -37,7 +37,8 @@ public:
     // Members
     //
     
-protected:
+// protected:
+public:
     
     // Position and size
     float x = 0;
@@ -69,11 +70,11 @@ public:
     // Modifiers
     void setX(float x) { this->x = x; update(); }
     void setY(float y) { this->y = y; update(); }
-    void setW(float w) { this->w = w; update(); }
-    void setH(float h) { this->h = h; update(); }
+    void setW(float w);
+    void setH(float h);
     
-    void setPosition(float x, float y) { this->x = x; this->y = y; update(); }
-    void setSize(float w, float h) { this->w = w; this->h = h; update(); }
+    void setPosition(float x, float y) { setX(x); setY(y); update(); }
+    void setSize(float w, float h) { setW(w); setH(h); update(); }
 };
 
 
@@ -150,6 +151,7 @@ public:
     
     // Wrappers
     void setString(const string &str);
+    void setFontSize(unsigned size);
     void setStyle(const sf::Font &font, unsigned int size, const sf::Color &color);
     void draw(sf::RenderWindow &window);
 };

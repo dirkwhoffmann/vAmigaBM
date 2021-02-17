@@ -17,9 +17,12 @@ class SplashScreen : public Layer {
     GradientView background;
   
     // vAmiga logo
-    ImageView logo = ImageView(Align::Centered);
+    ImageView logo = ImageView(Align::Top | Align::Proportional);
+    ImageView title = ImageView(Align::Centered);
     
     // Text messages
+    TextView title1 = TextView(Align::Right | Align::Top);
+    TextView title2 = TextView(Align::Left | Align::Top);
     TextView errMsg = TextView(Align::Centered);
     TextView runMsg = TextView(Align::Centered);
     TextView info[3] = {

@@ -9,20 +9,22 @@
 /* Begin PBXBuildFile section */
 		5000932525C0C3CE00F01BEF /* SourceSansPro-Light.ttf in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5000932325C0C3AD00F01BEF /* SourceSansPro-Light.ttf */; };
 		5000932625C0C3D000F01BEF /* SourceSansPro-SemiBold.ttf in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5000932425C0C3C200F01BEF /* SourceSansPro-SemiBold.ttf */; };
-		5000933125C0CB4A00F01BEF /* logo.png in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5000932F25C0CB4500F01BEF /* logo.png */; };
 		5002A27725CFCB0400665F89 /* startup.ini in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5002A27625CFCB0400665F89 /* startup.ini */; };
 		5002A27B25CFF35000665F89 /* Layer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5002A27925CFF35000665F89 /* Layer.cpp */; };
 		5002A27E25D00F3000665F89 /* SplashScreen.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5002A27C25D00F3000665F89 /* SplashScreen.cpp */; };
 		5002A28125D03B2300665F89 /* Canvas.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5002A27F25D03B2300665F89 /* Canvas.cpp */; };
 		5002A28425D0596300665F89 /* View.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5002A28225D0596300665F89 /* View.cpp */; };
-		503EB44E25D8294D00A6145B /* click.wav in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 503EB44D25D8294D00A6145B /* click.wav */; };
-		503EB45125D82A5900A6145B /* eject.wav in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 503EB44F25D82A5900A6145B /* eject.wav */; };
-		503EB45225D82A5900A6145B /* insert.wav in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 503EB45025D82A5900A6145B /* insert.wav */; };
+		502D8EB225DC678D00007C2C /* title.png in CopyFiles */ = {isa = PBXBuildFile; fileRef = 502D8EB125DC678D00007C2C /* title.png */; };
+		502D8EB725DCE40F00007C2C /* SourceSansPro-Bold.ttf in CopyFiles */ = {isa = PBXBuildFile; fileRef = 502D8EB525DCE3C500007C2C /* SourceSansPro-Bold.ttf */; };
+		502D8EB825DCE41100007C2C /* SourceSansPro-Black.ttf in CopyFiles */ = {isa = PBXBuildFile; fileRef = 502D8EB625DCE3CE00007C2C /* SourceSansPro-Black.ttf */; };
+		502D8EBA25DCE82200007C2C /* logo.png in CopyFiles */ = {isa = PBXBuildFile; fileRef = 502D8EB925DCE82200007C2C /* logo.png */; };
+		503EB44E25D8294D00A6145B /* click.wav in CopyFiles */ = {isa = PBXBuildFile; fileRef = 503EB44D25D8294D00A6145B /* click.wav */; };
+		503EB45125D82A5900A6145B /* eject.wav in CopyFiles */ = {isa = PBXBuildFile; fileRef = 503EB44F25D82A5900A6145B /* eject.wav */; };
+		503EB45225D82A5900A6145B /* insert.wav in CopyFiles */ = {isa = PBXBuildFile; fileRef = 503EB45025D82A5900A6145B /* insert.wav */; };
 		505485E925C15C3B00892284 /* AssetManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 505485E725C15C3B00892284 /* AssetManager.cpp */; };
 		50658EE025C03EF800F7128D /* Console.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50658EDE25C03EF800F7128D /* Console.cpp */; };
 		5066F75425C55F75009199B6 /* ControllerCmds.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5066F75325C55F75009199B6 /* ControllerCmds.cpp */; };
 		5070133A25C0745D003B3420 /* DroidSansMono.ttf in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5070133625C0719B003B3420 /* DroidSansMono.ttf */; };
-		507F613025C1B3E0003D695F /* concrete.png in CopyFiles */ = {isa = PBXBuildFile; fileRef = 507F612F25C1B3A1003D695F /* concrete.png */; };
 		507F613525C1BE42003D695F /* blur.frag in CopyFiles */ = {isa = PBXBuildFile; fileRef = 507F613425C1BA52003D695F /* blur.frag */; };
 		5095D45925C021ED006AB819 /* FLAC.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5095D43F25C021E8006AB819 /* FLAC.framework */; };
 		5095D45A25C021ED006AB819 /* FLAC.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5095D43F25C021E8006AB819 /* FLAC.framework */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
@@ -190,9 +192,6 @@
 				5095D46425C021F4006AB819 /* sfml-graphics.framework in Embed Frameworks */,
 				5095D46C25C021FA006AB819 /* SFML.framework in Embed Frameworks */,
 				5095D46625C021F6006AB819 /* sfml-network.framework in Embed Frameworks */,
-				503EB44E25D8294D00A6145B /* click.wav in Embed Frameworks */,
-				503EB45125D82A5900A6145B /* eject.wav in Embed Frameworks */,
-				503EB45225D82A5900A6145B /* insert.wav in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -203,17 +202,22 @@
 			dstPath = "";
 			dstSubfolderSpec = 7;
 			files = (
+				503EB44E25D8294D00A6145B /* click.wav in CopyFiles */,
+				503EB45125D82A5900A6145B /* eject.wav in CopyFiles */,
+				503EB45225D82A5900A6145B /* insert.wav in CopyFiles */,
+				502D8EB825DCE41100007C2C /* SourceSansPro-Black.ttf in CopyFiles */,
+				502D8EB725DCE40F00007C2C /* SourceSansPro-Bold.ttf in CopyFiles */,
 				5000932525C0C3CE00F01BEF /* SourceSansPro-Light.ttf in CopyFiles */,
 				50C4C27225D16C4D00849A01 /* SourceSansPro-Regular.ttf in CopyFiles */,
 				5000932625C0C3D000F01BEF /* SourceSansPro-SemiBold.ttf in CopyFiles */,
 				50E08E1D25C3102200B82E96 /* IBMPlexMono-Medium.ttf in CopyFiles */,
 				507F613525C1BE42003D695F /* blur.frag in CopyFiles */,
 				5070133A25C0745D003B3420 /* DroidSansMono.ttf in CopyFiles */,
-				507F613025C1B3E0003D695F /* concrete.png in CopyFiles */,
-				5000933125C0CB4A00F01BEF /* logo.png in CopyFiles */,
 				5002A27725CFCB0400665F89 /* startup.ini in CopyFiles */,
 				509F49E525D53363005DA7CB /* aros-amiga-m68k-rom.bin in CopyFiles */,
 				509F49E325D5332F005DA7CB /* aros-amiga-m68k-ext.bin in CopyFiles */,
+				502D8EB225DC678D00007C2C /* title.png in CopyFiles */,
+				502D8EBA25DCE82200007C2C /* logo.png in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -222,7 +226,6 @@
 /* Begin PBXFileReference section */
 		5000932325C0C3AD00F01BEF /* SourceSansPro-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SourceSansPro-Light.ttf"; sourceTree = "<group>"; };
 		5000932425C0C3C200F01BEF /* SourceSansPro-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SourceSansPro-SemiBold.ttf"; sourceTree = "<group>"; };
-		5000932F25C0CB4500F01BEF /* logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo.png; sourceTree = "<group>"; };
 		5002A27625CFCB0400665F89 /* startup.ini */ = {isa = PBXFileReference; lastKnownFileType = text; path = startup.ini; sourceTree = "<group>"; };
 		5002A27925CFF35000665F89 /* Layer.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Layer.cpp; sourceTree = "<group>"; };
 		5002A27A25CFF35000665F89 /* Layer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Layer.h; sourceTree = "<group>"; };
@@ -232,6 +235,10 @@
 		5002A28025D03B2300665F89 /* Canvas.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Canvas.h; sourceTree = "<group>"; };
 		5002A28225D0596300665F89 /* View.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = View.cpp; sourceTree = "<group>"; };
 		5002A28325D0596300665F89 /* View.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = View.h; sourceTree = "<group>"; };
+		502D8EB125DC678D00007C2C /* title.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = title.png; sourceTree = "<group>"; };
+		502D8EB525DCE3C500007C2C /* SourceSansPro-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SourceSansPro-Bold.ttf"; sourceTree = "<group>"; };
+		502D8EB625DCE3CE00007C2C /* SourceSansPro-Black.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SourceSansPro-Black.ttf"; sourceTree = "<group>"; };
+		502D8EB925DCE82200007C2C /* logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo.png; sourceTree = "<group>"; };
 		50335C7A25D933D300510D0E /* Makefile */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
 		50335C7C25D933F000510D0E /* Makefile */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
 		50335C7E25D9340400510D0E /* Makefile */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
@@ -245,7 +252,6 @@
 		50658EDF25C03EF800F7128D /* Console.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Console.h; sourceTree = "<group>"; };
 		5066F75325C55F75009199B6 /* ControllerCmds.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ControllerCmds.cpp; sourceTree = "<group>"; };
 		5070133625C0719B003B3420 /* DroidSansMono.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = DroidSansMono.ttf; sourceTree = "<group>"; };
-		507F612F25C1B3A1003D695F /* concrete.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = concrete.png; sourceTree = "<group>"; };
 		507F613425C1BA52003D695F /* blur.frag */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = blur.frag; sourceTree = "<group>"; };
 		5095D43F25C021E8006AB819 /* FLAC.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FLAC.framework; path = SFML/FLAC.framework; sourceTree = "<group>"; };
 		5095D44025C021E8006AB819 /* vorbis.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = vorbis.framework; path = SFML/vorbis.framework; sourceTree = "<group>"; };
@@ -636,6 +642,8 @@
 		507F613125C1B9CF003D695F /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
+				502D8EB625DCE3CE00007C2C /* SourceSansPro-Black.ttf */,
+				502D8EB525DCE3C500007C2C /* SourceSansPro-Bold.ttf */,
 				5000932325C0C3AD00F01BEF /* SourceSansPro-Light.ttf */,
 				50C4C27125D16C2100849A01 /* SourceSansPro-Regular.ttf */,
 				5000932425C0C3C200F01BEF /* SourceSansPro-SemiBold.ttf */,
@@ -648,8 +656,8 @@
 		507F613225C1B9DF003D695F /* Textures */ = {
 			isa = PBXGroup;
 			children = (
-				5000932F25C0CB4500F01BEF /* logo.png */,
-				507F612F25C1B3A1003D695F /* concrete.png */,
+				502D8EB925DCE82200007C2C /* logo.png */,
+				502D8EB125DC678D00007C2C /* title.png */,
 			);
 			path = Textures;
 			sourceTree = "<group>";

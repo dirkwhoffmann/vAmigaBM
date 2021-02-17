@@ -58,11 +58,21 @@ Application::check()
 void
 Application::init()
 {
+    // REMOVE ASAP
+    int x1 = HBLANK_CNT * 4;
+    int x2 = HPOS_CNT * 4;
+    int y1 = VBLANK_CNT;
+    int y2 = VPOS_CNT - 1;
+    printf("Emulator dimensions: %d x %d\n", x2 - x1, y2 - y1);
+    
+    
     // Select a suitable video mode
     videoMode = proposedVideoMode();
 
     // Create render window
-    curw = videoMode.width / 2;
+    // curw = videoMode.width / 2;
+    // curh = curw * aspectRatio;
+    curw = 752 * 2;
     curh = curw * aspectRatio;
     window.create(sf::VideoMode(curw, curh), "vAmiga Bare Metal");
 
@@ -132,6 +142,12 @@ Application::processEvents()
             {
                 float w = event.size.width;
                 float h = event.size.height;
+                
+                if (w < 752 || h < 752 * aspectRatio) {
+                    w = 752;
+                    h = w * aspectRatio;
+                    window.setSize(sf::Vector2u{(unsigned)w,(unsigned)h});
+                }
                 
                 window.setView(sf::View(sf::FloatRect(0, 0, w, h)));
                 

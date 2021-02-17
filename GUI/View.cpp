@@ -53,6 +53,22 @@ View::y2()
     return (flags & Align::Top) ? y + h : (flags & Align::Bottom) ? y : y + h / 2;
 }
 
+void
+View::setW(float w)
+{
+    if (flags & Align::Proportional) { this->h = w * this->h / this->w; }
+    this->w = w;
+    update();
+}
+
+void
+View::setH(float h)
+{
+    if (flags & Align::Proportional) { this->w = h * this->w / this->h; }
+    this->h = h;
+    update();
+}
+
 
 //
 // ImageView
@@ -81,7 +97,7 @@ ImageView::init(float x, float y, const sf::Texture &tex)
 void
 ImageView::init(const sf::Texture &tex)
 {
-    View::init(0, 0, tex.getSize().x, tex.getSize().y);
+    init(0, 0, tex);
 }
 
 void
@@ -156,6 +172,14 @@ void
 TextView::setString(const string &str)
 {
     text.setString(str);
+    setW(text.getLocalBounds().width);
+    setH(text.getLocalBounds().height);
+}
+
+void
+TextView::setFontSize(unsigned size)
+{
+    text.setCharacterSize(size);
     setW(text.getLocalBounds().width);
     setH(text.getLocalBounds().height);
 }

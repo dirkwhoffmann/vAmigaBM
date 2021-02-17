@@ -15,7 +15,8 @@
 
 enum class TextureID
 {
-    logo
+    logo,
+    title
 };
 
 enum class FontID
@@ -23,7 +24,9 @@ enum class FontID
     console,
     sans_l,
     sans_r,
-    sans_sb
+    sans_sb,
+    sans_b,
+    sans_bk,
 };
 
 enum class SoundID

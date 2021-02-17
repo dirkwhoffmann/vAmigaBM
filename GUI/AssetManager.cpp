@@ -17,7 +17,8 @@ TextureManager::load(TextureID id)
     switch (id) {
             
         case TextureID::logo: path = "logo.png"; break;
-            
+        case TextureID::title: path = "title.png"; break;
+
         default:
             assert(false);
     }
@@ -43,6 +44,8 @@ FontManager::load(FontID id)
         case FontID::sans_l:  path = "SourceSansPro-Light.ttf"; break;
         case FontID::sans_r:  path = "SourceSansPro-Regular.ttf"; break;
         case FontID::sans_sb: path = "SourceSansPro-SemiBold.ttf"; break;
+        case FontID::sans_b:  path = "SourceSansPro-Bold.ttf"; break;
+        case FontID::sans_bk: path = "SourceSansPro-Black.ttf"; break;
 
         default:
             assert(false);
