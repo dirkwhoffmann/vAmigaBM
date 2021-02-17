@@ -38,11 +38,7 @@ a.out:
 	@$(MAKE) -C Emulator
 	@$(MAKE) -C GUI
 	@echo "Linking object files"
-	@g++ -pthread */*.o */*/*.o */*/*/*.o $(OPT) -F SFML \
-	-framework sfml-graphics \
-	-framework sfml-audio \
-	-framework sfml-window \
-	-framework sfml-system
+	@g++ -pthread */*.o */*/*.o */*/*/*.o $(OPT)
 
 clean:
 	@$(MAKE) -C Emulator clean

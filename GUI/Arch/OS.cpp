@@ -65,5 +65,7 @@ OS::mouseMoved()
     CGAssociateMouseAndMouseCursorPosition(false);
     CGGetLastMouseDelta(&mouseDX, &mouseDY);
     return mouseDX != 0 || mouseDY != 0;
+#else
+    return false;
 #endif
 }
