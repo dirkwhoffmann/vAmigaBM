@@ -49,17 +49,7 @@ Console::init()
     // Initialize cursor
     cursor.setSize(sf::Vector2f(glyphWidth + 2, fontSize + 3));
     cursor.setFillColor(sf::Color(0xFF,0xFF,0xFF,0x80));
-     
-    // Initialize render items
-    for (int i = 0; i < maxRows; i++) {
-        
-        text[i].setFont(font);
-        text[i].setString("");
-        text[i].setCharacterSize(fontSize);
-        text[i].setFillColor(sf::Color::White);
-        text[i].setPosition(hposForCol(0), vposForRow(i));
-    }
-    
+
     // Print intro message
     *this << "Retro shell 0.1, ";
     *this << "Dirk W. Hoffmann, ";
@@ -132,10 +122,26 @@ Console::resize(float width, float height)
 {
     printf("Console: resize(%f,%f)\n", width, height);
     
-    numRows = (height - 2 * pady) / (fontSize + lineSkip);
-    numCols = (width - 2 * padx) / glyphWidth;
+    setNumRows((height - 2 * pady) / (fontSize + lineSkip));
+    setNumCols((width - 2 * padx) / glyphWidth);
     
-    printf("Rows: %d, Columns: %d\n", numRows, numCols);
+    printf("Rows: %zd, Columns: %zd\n", numRows, numCols);
+}
+
+void
+Console::setNumRows(isize value)
+{
+    value = MIN(value, 255);
+
+    numRows = value;
+    isDirty = true;
+}
+
+void
+Console::setNumCols(isize value)
+{
+    numCols = value;
+    isDirty = true;
 }
 
 void
@@ -153,7 +159,7 @@ Console::printHelp()
 void
 Console::printPrompt()
 {
-    // Finish the current line (if necessary)
+    // Finish the current line (if neccessary)
     if (!lastLine().empty()) *this << '\n';
 
     // Print the prompt
@@ -550,8 +556,18 @@ Console::updateTexture()
 {
     texture.clear(sf::Color(0x21,0x21,0x21,0xD0));
     
-    for (int i = 0; i < numRows; i++) {
-        
+    // Instantiate missing text objects
+    for (isize i = text.size(); i < numRows; i++) {
+        text.push_back(sf::Text());
+        sf::Text &ref = text.back();
+        ref.setFont(app.assets.get(FontID::console));
+        ref.setCharacterSize(fontSize);
+        ref.setFillColor(sf::Color::White);
+        ref.setPosition(hposForCol(0), vposForRow(i));
+    }
+    
+    // Draw all text rows
+    for (isize i = 0; i < numRows; i++) {
         if (vpos + i < storage.size()) {
             text[i].setString(storage[vpos + i]);
         } else {

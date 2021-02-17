@@ -27,7 +27,7 @@ class Console : public Layer {
     //
   
     // The maximum number of rows
-    static const int maxRows = 40;
+    // static const int maxRows = 40;
         
     // Layout properties
     int padx     = OS::scale(5);
@@ -44,8 +44,8 @@ class Console : public Layer {
     //
     
     // Number of text rows and text columns
-    int numRows = 25;
-    int numCols = 80;
+    isize numRows = 25;
+    isize numCols = 80;
 
     
     //
@@ -74,7 +74,7 @@ class Console : public Layer {
     ImageView view = ImageView(Align::UpperLeft | Align::FlippedY);
 
     // The rendered text rows
-    sf::Text text[maxRows];
+    std::vector<sf::Text> text;
 
     // Indicates if the render texture needs to be redrawn
     bool isDirty = true;
@@ -121,6 +121,14 @@ public:
     void toggle() { printf("toggle\n"); isVisible() ? close() : open(); }
     
  
+    //
+    // Adjusting the layout
+    //
+    
+    void setNumRows(isize value);
+    void setNumCols(isize value);
+
+    
     //
     // Working with the text storage
     //
