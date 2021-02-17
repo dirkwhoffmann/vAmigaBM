@@ -18,6 +18,7 @@
 		502D8EB725DCE40F00007C2C /* SourceSansPro-Bold.ttf in CopyFiles */ = {isa = PBXBuildFile; fileRef = 502D8EB525DCE3C500007C2C /* SourceSansPro-Bold.ttf */; };
 		502D8EB825DCE41100007C2C /* SourceSansPro-Black.ttf in CopyFiles */ = {isa = PBXBuildFile; fileRef = 502D8EB625DCE3CE00007C2C /* SourceSansPro-Black.ttf */; };
 		502D8EBA25DCE82200007C2C /* logo.png in CopyFiles */ = {isa = PBXBuildFile; fileRef = 502D8EB925DCE82200007C2C /* logo.png */; };
+		502D8EBD25DD072F00007C2C /* Screen.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 502D8EBB25DD072F00007C2C /* Screen.cpp */; };
 		503EB44E25D8294D00A6145B /* click.wav in CopyFiles */ = {isa = PBXBuildFile; fileRef = 503EB44D25D8294D00A6145B /* click.wav */; };
 		503EB45125D82A5900A6145B /* eject.wav in CopyFiles */ = {isa = PBXBuildFile; fileRef = 503EB44F25D82A5900A6145B /* eject.wav */; };
 		503EB45225D82A5900A6145B /* insert.wav in CopyFiles */ = {isa = PBXBuildFile; fileRef = 503EB45025D82A5900A6145B /* insert.wav */; };
@@ -239,6 +240,8 @@
 		502D8EB525DCE3C500007C2C /* SourceSansPro-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SourceSansPro-Bold.ttf"; sourceTree = "<group>"; };
 		502D8EB625DCE3CE00007C2C /* SourceSansPro-Black.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SourceSansPro-Black.ttf"; sourceTree = "<group>"; };
 		502D8EB925DCE82200007C2C /* logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo.png; sourceTree = "<group>"; };
+		502D8EBB25DD072F00007C2C /* Screen.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Screen.cpp; sourceTree = "<group>"; };
+		502D8EBC25DD072F00007C2C /* Screen.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Screen.h; sourceTree = "<group>"; };
 		50335C7A25D933D300510D0E /* Makefile */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
 		50335C7C25D933F000510D0E /* Makefile */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
 		50335C7E25D9340400510D0E /* Makefile */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
@@ -1180,6 +1183,8 @@
 				50CF561925BFECA900B1AC0D /* main.cpp */,
 				50FD19B725C20102004E7388 /* Application.h */,
 				50FD19B625C20102004E7388 /* Application.cpp */,
+				502D8EBC25DD072F00007C2C /* Screen.h */,
+				502D8EBB25DD072F00007C2C /* Screen.cpp */,
 				50AE11C425C44AAC00AD13B7 /* Controller.h */,
 				50AE11C325C44AAC00AD13B7 /* Controller.cpp */,
 				5066F75325C55F75009199B6 /* ControllerCmds.cpp */,
@@ -1323,6 +1328,7 @@
 				50AE11B025C42D6700AD13B7 /* TOD.cpp in Sources */,
 				50AE11A125C42D6700AD13B7 /* DiskController.cpp in Sources */,
 				50AE117025C42D6700AD13B7 /* Oscillator.cpp in Sources */,
+				502D8EBD25DD072F00007C2C /* Screen.cpp in Sources */,
 				50AE11B325C42D6700AD13B7 /* CIA.cpp in Sources */,
 				50AE117825C42D6700AD13B7 /* FastBlitter.cpp in Sources */,
 				50AE119925C42D6700AD13B7 /* maketbl.c in Sources */,

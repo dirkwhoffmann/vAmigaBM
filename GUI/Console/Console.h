@@ -26,20 +26,30 @@ class Console : public Layer {
     // Constants
     //
   
-    // Text window size
-    static const int numRows = 25;
-    static const int numCols = 80;
-    
-    // Caligrahpic properties
-    static const int fontSize = 22;
-    static const int lineSkip = 9;
+    // The maximum number of rows
+    static const int maxRows = 40;
+        
+    // Layout properties
+    static const int padx     = 10;
+    static const int pady     = 5;
+    static const int fontSize = 28;
+    static const int lineSkip = 10;
     
     // Input prompt
     static const std::string& prompt;
 
     
     //
-    // Variables
+    // Dimensions
+    //
+    
+    // Number of text rows and text columns
+    int numRows = 25;
+    int numCols = 80;
+
+    
+    //
+    // Text storage
     //
     
     // The text storage
@@ -64,7 +74,7 @@ class Console : public Layer {
     ImageView view = ImageView(Align::UpperLeft | Align::FlippedY);
 
     // The rendered text rows
-    sf::Text text[numRows];
+    sf::Text text[maxRows];
 
     // Indicates if the render texture needs to be redrawn
     bool isDirty = true;
@@ -96,7 +106,8 @@ public:
     
     void handle(const sf::Event &event) override;
     void render() override;
-
+    void resize(float width, float height) override;
+    
     
     //
     // Opening and closing
@@ -194,8 +205,8 @@ public:
 private:
 
     // Translates rows and columns to drawing coordinates
-    isize hposForCol(isize i) { return 10 + i * glyphWidth; }
-    isize vposForRow(isize i) { return 5 + (fontSize + lineSkip) * i; }
+    isize hposForCol(isize i) { return padx + i * glyphWidth; }
+    isize vposForRow(isize i) { return pady + (fontSize + lineSkip) * i; }
 
     // Redraws the render texture
     void updateTexture();

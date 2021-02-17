@@ -13,6 +13,18 @@
 
 class Canvas : public Layer {
     
+public:
+    
+    // Texture constants
+    static const int texX1 = HBLANK_CNT * 4;
+    static const int texX2 = HPOS_CNT * 4;
+    static const int texY1 = VBLANK_CNT;
+    static const int texY2 = VPOS_CNT - 1;
+    static const int texW  = texX2 - texX1;
+    static const int texH  = texY2 - texY1;
+
+private:
+    
     // The current screen buffer
     ScreenBuffer screenBuffer = { nullptr, false };
     
@@ -52,6 +64,7 @@ public:
     void handle(const sf::Event &event) override;
     void update(sf::Time dt) override; 
     void render() override;
+    void resize(float width, float height) override;
     
     
     //

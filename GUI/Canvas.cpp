@@ -26,14 +26,9 @@ void Canvas::init()
     if (!emuTex.create(HPIXELS, VPIXELS)) {
         throw Exception("Can't create emulator texture");
     }
-    
-    int x1 = HBLANK_CNT * 4;
-    int x2 = HPOS_CNT * 4;
-    int y1 = VBLANK_CNT;
-    int y2 = VPOS_CNT - 1;
-    
+        
     foreground.init(w, h, emuTex);
-    foreground.rectangle.setTextureRect(sf::IntRect(x1, y1, x2 - x1, y2 - y1));
+    foreground.rectangle.setTextureRect(sf::IntRect(texX1, texY1, texW, texH));
 
     click.setBuffer(app.assets.get(SoundID::click));
 }
@@ -148,6 +143,12 @@ Canvas::render()
 {
     foreground.rectangle.setFillColor(sf::Color(0xFF,0xFF,0xFF,alpha));
     foreground.draw(app.window);
+}
+
+void
+Canvas::resize(float width, float height)
+{
+    
 }
 
 void

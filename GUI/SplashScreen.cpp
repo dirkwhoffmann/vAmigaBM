@@ -211,11 +211,11 @@ SplashScreen::resize(float width, float height)
     
     title1.setFontSize(height/13);
     title2.setFontSize(height/13);
-    errMsg.setFontSize(height/27);
+    errMsg.setFontSize(height/28);
     runMsg.setFontSize(height/20);
-    info[0].setFontSize(height/27);
-    info[1].setFontSize(height/27);
-    info[2].setFontSize(height/27);
+    info[0].setFontSize(height/28);
+    info[1].setFontSize(height/28);
+    info[2].setFontSize(height/28);
     
     // Determine centers for composed title text
     int text1w = title1.text.getLocalBounds().width;

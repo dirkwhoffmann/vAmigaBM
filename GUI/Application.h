@@ -17,6 +17,7 @@
 #include "OS.h"
 #include "Exception.h"
 #include "Controller.h"
+#include "Screen.h"
 #include "Layer.h"
 #include "SplashScreen.h"
 #include "Canvas.h"
@@ -54,6 +55,9 @@ public:
     
     // Gateway to the emulator
     Controller controller;
+    
+    // Vide mode manager
+    // Screen screen;
     
     // Splash screen layer
     SplashScreen splashScreen;
@@ -139,6 +143,13 @@ public:
     void processEvents();
     void update(sf::Time dt);
     void render();
+    
+    
+    //
+    // Responding to events
+    //
+    
+    void resize(float w, float h);
     
     
     //

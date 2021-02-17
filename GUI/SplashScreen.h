@@ -70,5 +70,5 @@ public:
     virtual bool isVisible() override;
     void handle(const sf::Event &event) override;
     void render() override;
-    void resize(float width, float height);
+    void resize(float width, float height) override;
 }; 

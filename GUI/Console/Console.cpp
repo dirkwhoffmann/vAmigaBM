@@ -30,13 +30,17 @@ Console::init()
 {
     Layer::init();
      
+    // Get texture dimensions
+    auto size = Screen::maxDimensions();
+    printf("Console: Allocating %d x %d texture\n", size.x, size.y);
+    
     // Create the render texture
-    if (!texture.create(1060, 785)) {
+    if (!texture.create (size.x, size.y)) {
         throw std::runtime_error("Console: Can't allocate render texture");
     }
     
     // Embed texture in an image view
-    view.init(w, h, texture.getTexture());
+    view.init(texture.getTexture());
     
     // Initialize font parameters
     sf::Font& font = app.assets.get(FontID::console);
@@ -47,7 +51,7 @@ Console::init()
     cursor.setFillColor(sf::Color(0xFF,0xFF,0xFF,0x80));
      
     // Initialize render items
-    for (int i = 0; i < numRows; i++) {
+    for (int i = 0; i < maxRows; i++) {
         
         text[i].setFont(font);
         text[i].setString("");
@@ -121,6 +125,17 @@ Console::render()
         }
         view.draw(app.window); 
     }
+}
+
+void
+Console::resize(float width, float height)
+{
+    printf("Console: resize(%f,%f)\n", width, height);
+    
+    numRows = (height - 2 * pady) / (fontSize + lineSkip);
+    numCols = (width - 2 * padx) / glyphWidth;
+    
+    printf("Rows: %d, Columns: %d\n", numRows, numCols);
 }
 
 void

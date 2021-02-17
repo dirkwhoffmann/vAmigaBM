@@ -57,6 +57,6 @@ public:
     virtual void render() { };
     
     // Delegation methods
-    void resize(float width, float height) { }; 
+    virtual void resize(float width, float height) = 0;
 };
 

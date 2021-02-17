@@ -70,10 +70,8 @@ Application::init()
     videoMode = proposedVideoMode();
 
     // Create render window
-    // curw = videoMode.width / 2;
-    // curh = curw * aspectRatio;
-    curw = 752 * 2;
-    curh = curw * aspectRatio;
+    curw = Canvas::texW * 2;
+    curh = Canvas::texH * 4;
     window.create(sf::VideoMode(curw, curh), "vAmiga Bare Metal");
 
     window.setFramerateLimit(60);
@@ -87,6 +85,9 @@ Application::init()
     canvas.init();
     console.init();
     musicStream.init();
+    
+    // Fire a resize event
+    resize(window.getSize().x, window.getSize().y);
 }
 
 void
@@ -126,54 +127,20 @@ Application::processEvents()
         switch (event.type) {
                 
             case sf::Event::Closed:
-            {
                 window.close();
                 break;
-            }
+
             case sf::Event::KeyPressed:
-            {
                 if (event.key.code == sf::Keyboard::F11) console.toggle();
                 break;
-            }
-            case sf::Event::MouseButtonPressed:
-            {
-            }
-            case sf::Event::Resized:
-            {
-                float w = event.size.width;
-                float h = event.size.height;
-                
-                if (w < 752 || h < 752 * aspectRatio) {
-                    w = 752;
-                    h = w * aspectRatio;
-                    window.setSize(sf::Vector2u{(unsigned)w,(unsigned)h});
-                }
-                
-                window.setView(sf::View(sf::FloatRect(0, 0, w, h)));
-                
-                /*
-                sf::FloatRect rect;
-                if (h / w < aspectRatio) {
-                    
-                    w = h / aspectRatio / w;
-                    rect = sf::FloatRect((1.0 - w) * 0.5, 0.0, w, 1.0);
 
-                } else {
-                    
-                    h = w * aspectRatio / h;
-                    rect = sf::FloatRect(0.0, (1.0 - h) * 0.5, 1.0, h);
-                }
-                
-                auto view = window.getDefaultView();
-                view.setViewport(rect);
-                window.setView(view);
-                */
-                
-                splashScreen.resize(w, h);
-                canvas.resize(w, h);
-                console.resize(w, h);
+            case sf::Event::MouseButtonPressed:
                 break;
-            }
+                
+            case sf::Event::Resized:
+                resize(event.size.width, event.size.height);
+                break;
+
             default:
                 break;
         }
@@ -183,6 +150,25 @@ Application::processEvents()
         else if (canvas.isVisible()) canvas.handle(event);
         else if (splashScreen.isVisible()) splashScreen.handle(event);
     }
+}
+
+void
+Application::resize(float w, float h)
+{
+    // Restore the minimal window size if the proposed size is smaller
+    if (w < Canvas::texW || h < Canvas::texH * 2) {
+        w = Canvas::texW;
+        h = Canvas::texH * 2;
+        window.setSize(sf::Vector2u{(unsigned)w,(unsigned)h});
+    }
+    
+    // Adjust the view to the new size
+    window.setView(sf::View(sf::FloatRect(0, 0, w, h)));
+
+    // Inform all layers
+    splashScreen.resize(w, h);
+    canvas.resize(w, h);
+    console.resize(w, h);
 }
 
 void
