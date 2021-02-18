@@ -127,32 +127,28 @@ FSTime::write(u8 *p)
 string
 FSTime::dateStr() const
 {
-    char tmp[11];
+    char tmp[32];
     
     time_t t = time();
     tm *local = localtime(&t);
+
+    snprintf(tmp, sizeof(tmp), "%04d-%02d-%02d",
+             1900 + local->tm_year, 1 + local->tm_mon, local->tm_mday);
     
-    int y = 1900 + local->tm_year;
-    int m = 1 + local->tm_mon;
-    int d = local->tm_mday;
-    
-    snprintf(tmp, sizeof(tmp), "%04d-%02d-%02d", y % 10000, m % 100, d % 100);
     return string(tmp);
 }
 
 string
 FSTime::timeStr() const
 {
-    char tmp[9];
+    char tmp[32];
     
     time_t t = time();
     tm *local = localtime(&t);
 
-    int h = local->tm_hour;
-    int m = local->tm_min;
-    int s = local->tm_sec;
-
-    snprintf(tmp, sizeof(tmp), "%02d:%02d:%02d", h % 100, m % 100, s % 100);
+    snprintf(tmp, sizeof(tmp), "%02d:%02d:%02d",
+             local->tm_hour, local->tm_min, local->tm_sec);
+    
     return string(tmp);
 }
 
