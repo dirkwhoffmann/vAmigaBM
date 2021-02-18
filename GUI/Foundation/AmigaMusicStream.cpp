@@ -22,9 +22,11 @@ AmigaMusicStream::init() {
 
 bool
 AmigaMusicStream::onGetData(sf::SoundStream::Chunk &data)
-{    
-    data.samples = (i16 *)app.amiga.paula.muxer.nocopy(512);
-    data.sampleCount = 1024;
+{
+    const isize numSamples = 1024;
+    
+    data.samples = (i16 *)app.amiga.paula.muxer.nocopy(numSamples);
+    data.sampleCount = sizeof(SampleType) / 2 * numSamples;
     
     return true;
 }
