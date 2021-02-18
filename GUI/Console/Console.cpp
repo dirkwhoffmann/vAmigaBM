@@ -251,7 +251,7 @@ void
 Console::list()
 {
     for (isize i = 0; i < input.size(); i++) {
-        printf("%ld: %s\n", i, input[i].c_str());
+        printf("%zd: %s\n", i, input[i].c_str());
     }
 }
 
