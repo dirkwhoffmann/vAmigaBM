@@ -9,7 +9,7 @@
 
 #include "FSDevice.h"
 
-FSFileHeaderBlock::FSFileHeaderBlock(FSPartition &p, u32 nr) : FSBlock(p, nr)
+FSFileHeaderBlock::FSFileHeaderBlock(FSPartition &p, Block nr) : FSBlock(p, nr)
 {
     data = new u8[p.dev.bsize]();
    
@@ -21,7 +21,7 @@ FSFileHeaderBlock::FSFileHeaderBlock(FSPartition &p, u32 nr) : FSBlock(p, nr)
     set32(-1, (u32)-3);              // Sub type
 }
 
-FSFileHeaderBlock::FSFileHeaderBlock(FSPartition &p, u32 nr, const char *name) :
+FSFileHeaderBlock::FSFileHeaderBlock(FSPartition &p, Block nr, const char *name) :
 FSFileHeaderBlock(p, nr)
 {
     setName(FSName(name));
@@ -143,9 +143,9 @@ FSFileHeaderBlock::exportBlock(const char *exportDir)
 isize
 FSFileHeaderBlock::writeData(FILE *file)
 {
-    long bytesRemaining = getFileSize();
-    long bytesTotal = 0;
-    long blocksTotal = 0;
+    isize bytesRemaining = getFileSize();
+    isize bytesTotal = 0;
+    isize blocksTotal = 0;
 
     // Start here and iterate through all connected file list blocks
     FSBlock *block = this;
@@ -158,10 +158,10 @@ FSFileHeaderBlock::writeData(FILE *file)
         isize num = MIN(block->getNumDataBlockRefs(), block->getMaxDataBlockRefs());
         for (isize i = 0; i < num; i++) {
             
-            u32 ref = getDataBlockRef(i);
+            Block ref = getDataBlockRef(i);
             if (FSDataBlock *dataBlock = partition.dev.dataBlockPtr(getDataBlockRef(i))) {
 
-                long bytesWritten = dataBlock->writeData(file, bytesRemaining);
+                isize bytesWritten = dataBlock->writeData(file, bytesRemaining);
                 bytesTotal += bytesWritten;
                 bytesRemaining -= bytesWritten;
                 
@@ -176,7 +176,7 @@ FSFileHeaderBlock::writeData(FILE *file)
     }
     
     if (bytesRemaining != 0) {
-        warn("%ld remaining bytes. Expected 0.\n", bytesRemaining);
+        warn("%zd remaining bytes. Expected 0.\n", bytesRemaining);
     }
     
     return bytesTotal;
@@ -200,13 +200,13 @@ FSFileHeaderBlock::addData(const u8 *buffer, isize size)
         return 0;
     }
     
-    for (u32 ref = nr, i = 0; i < numListBlocks; i++) {
+    for (Block ref = nr, i = 0; i < (Block)numListBlocks; i++) {
 
         // Add a new file list block
         ref = partition.addFileListBlock(nr, ref);
     }
     
-    for (u32 ref = nr, i = 1; i <= numDataBlocks; i++) {
+    for (Block ref = nr, i = 1; i <= (Block)numDataBlocks; i++) {
 
         // Add a new data block
         ref = partition.addDataBlock(i, nr, ref);
@@ -229,15 +229,15 @@ FSFileHeaderBlock::addData(const u8 *buffer, isize size)
 
 
 bool
-FSFileHeaderBlock::addDataBlockRef(u32 ref)
+FSFileHeaderBlock::addDataBlockRef(Block ref)
 {
     return addDataBlockRef(ref, ref);
 }
 
 bool
-FSFileHeaderBlock::addDataBlockRef(u32 first, u32 ref)
+FSFileHeaderBlock::addDataBlockRef(Block first, Block ref)
 {
-    std::set<u32> visited;
+    std::set<Block> visited;
     
     // If this block has space for more references, add it here
     if (getNumDataBlockRefs() < getMaxDataBlockRefs()) {

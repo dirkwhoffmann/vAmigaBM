@@ -23,11 +23,11 @@ FSPartition::makeWithFormat(FSDevice &dev, FSPartitionDescriptor &layout)
     p->bmBlocks    = layout.bmBlocks;
     p->bmExtBlocks = layout.bmExtBlocks;
     
-    p->firstBlock  = (u32)(p->lowCyl * dev.numHeads * dev.numSectors);
-    p->lastBlock   = (u32)((p->highCyl + 1) * dev.numHeads * dev.numSectors - 1);
+    p->firstBlock  = (Block)(p->lowCyl * dev.numHeads * dev.numSectors);
+    p->lastBlock   = (Block)((p->highCyl + 1) * dev.numHeads * dev.numSectors - 1);
     
     // Do some consistency checking
-    for (u32 i = p->firstBlock; i <= p->lastBlock; i++) assert(dev.blocks[i] == nullptr);
+    for (Block i = p->firstBlock; i <= p->lastBlock; i++) assert(dev.blocks[i] == nullptr);
     
     // Create boot blocks
     dev.blocks[p->firstBlock]     = new FSBootBlock(*p, p->firstBlock);
@@ -56,7 +56,7 @@ FSPartition::makeWithFormat(FSDevice &dev, FSPartitionDescriptor &layout)
     rb->addBitmapBlockRefs(layout.bmBlocks);
     
     // Add free blocks
-    for (u32 i = p->firstBlock; i <= p->lastBlock; i++) {
+    for (Block i = p->firstBlock; i <= p->lastBlock; i++) {
         
         if (dev.blocks[i] == nullptr) {
             dev.blocks[i] = new FSEmptyBlock(*p, i);
@@ -101,7 +101,7 @@ FSPartition::dump() const
 }
 
 FSBlockType
-FSPartition::predictBlockType(u32 nr, const u8 *buffer) const
+FSPartition::predictBlockType(Block nr, const u8 *buffer) const
 {
     assert(buffer != nullptr);
 
@@ -133,7 +133,7 @@ FSPartition::predictBlockType(u32 nr, const u8 *buffer) const
     if (isOFS()) {
         if (type == 8) return FS_DATA_BLOCK_OFS;
     } else {
-        for (u32 i = 0; i < bsize(); i++) if (buffer[i]) return FS_DATA_BLOCK_FFS;
+        for (isize i = 0; i < bsize(); i++) if (buffer[i]) return FS_DATA_BLOCK_FFS;
     }
     
     return FS_EMPTY_BLOCK;
@@ -142,14 +142,14 @@ FSPartition::predictBlockType(u32 nr, const u8 *buffer) const
 FSName
 FSPartition::getName() const
 {
-    FSRootBlock *rb = dev.rootBlockPtr((u32)rootBlock);
+    FSRootBlock *rb = dev.rootBlockPtr(rootBlock);
     return rb ? rb->getName() : FSName("");
 }
 
 void
 FSPartition::setName(FSName name)
 {
-    FSRootBlock *rb = dev.rootBlockPtr((u32)rootBlock);
+    FSRootBlock *rb = dev.rootBlockPtr(rootBlock);
     assert(rb != nullptr);
 
     rb->setName(name);
@@ -176,10 +176,10 @@ FSPartition::numBytes() const
 isize
 FSPartition::freeBlocks() const
 {
-    u32 result = 0;
+    isize result = 0;
     
-    for (isize i = firstBlock; i <= lastBlock; i++) {
-        if (isFree((u32)i)) result++;
+    for (isize i = (isize)firstBlock; i <= (isize)lastBlock; i++) {
+        if (isFree((Block)i)) result++;
     }
 
     return result;
@@ -246,92 +246,92 @@ FSPartition::requiredBlocks(isize fileSize) const
     return 1 + numDataBlocks + numFileListBlocks;
 }
  
-u32
+Block
 FSPartition::allocateBlock()
 {
-    if (u32 ref = allocateBlockAbove((u32)rootBlock)) return ref;
-    if (u32 ref = allocateBlockBelow((u32)rootBlock)) return ref;
+    if (Block nr = allocateBlockAbove(rootBlock)) return nr;
+    if (Block nr = allocateBlockBelow(rootBlock)) return nr;
 
     return 0;
 }
 
-u32
-FSPartition::allocateBlockAbove(u32 ref)
+Block
+FSPartition::allocateBlockAbove(Block nr)
 {
-    assert(ref >= firstBlock && ref <= lastBlock);
+    assert(nr >= firstBlock && nr <= lastBlock);
     
-    for (isize i = firstBlock + 1; i <= lastBlock; i++) {
+    for (i64 i = (i64)nr + 1; i <= lastBlock; i++) {
         if (dev.blocks[i]->type() == FS_EMPTY_BLOCK) {
-            markAsAllocated((u32)i);
-            return (u32)i;
+            markAsAllocated((Block)i);
+            return (Block)i;
         }
     }
     return 0;
 }
 
-u32
-FSPartition::allocateBlockBelow(u32 ref)
+Block
+FSPartition::allocateBlockBelow(Block nr)
 {
-    assert(ref >= firstBlock && ref <= lastBlock);
+    assert(nr >= firstBlock && nr <= lastBlock);
     
-    for (isize i = (isize)ref - 1; i >= firstBlock; i--) {
+    for (i64 i = (i64)nr - 1; i >= firstBlock; i--) {
         if (dev.blocks[i]->type() == FS_EMPTY_BLOCK) {
-            markAsAllocated((u32)i);
-            return (u32)i;
+            markAsAllocated((Block)i);
+            return (Block)i;
         }
     }
     return 0;
 }
 
 void
-FSPartition::deallocateBlock(u32 ref)
+FSPartition::deallocateBlock(Block nr)
 {
-    assert(ref >= firstBlock && ref <= lastBlock);
-    assert(dev.blocks[ref]);
+    assert(nr >= firstBlock && nr <= lastBlock);
+    assert(dev.blocks[nr]);
     
-    delete dev.blocks[ref];
-    dev.blocks[ref] = new FSEmptyBlock(*this, ref);
-    markAsFree(ref);
+    delete dev.blocks[nr];
+    dev.blocks[nr] = new FSEmptyBlock(*this, nr);
+    markAsFree(nr);
 }
 
-u32
-FSPartition::addFileListBlock(u32 head, u32 prev)
+Block
+FSPartition::addFileListBlock(Block head, Block prev)
 {
     FSBlock *prevBlock = dev.blockPtr(prev);
     if (!prevBlock) return 0;
     
-    u32 ref = allocateBlock();
-    if (!ref) return 0;
+    Block nr = allocateBlock();
+    if (!nr) return 0;
     
-    dev.blocks[ref] = new FSFileListBlock(*this, ref);
-    dev.blocks[ref]->setFileHeaderRef(head);
-    prevBlock->setNextListBlockRef(ref);
+    dev.blocks[nr] = new FSFileListBlock(*this, nr);
+    dev.blocks[nr]->setFileHeaderRef(head);
+    prevBlock->setNextListBlockRef(nr);
     
-    return ref;
+    return nr;
 }
 
-u32
-FSPartition::addDataBlock(u32 count, u32 head, u32 prev)
+Block
+FSPartition::addDataBlock(isize count, Block head, Block prev)
 {
     FSBlock *prevBlock = dev.blockPtr(prev);
     if (!prevBlock) return 0;
 
-    u32 ref = allocateBlock();
-    if (!ref) return 0;
+    Block nr = allocateBlock();
+    if (!nr) return 0;
 
     FSDataBlock *newBlock;
     if (isOFS()) {
-        newBlock = new OFSDataBlock(*this, ref);
+        newBlock = new OFSDataBlock(*this, nr);
     } else {
-        newBlock = new FFSDataBlock(*this, ref);
+        newBlock = new FFSDataBlock(*this, nr);
     }
     
-    dev.blocks[ref] = newBlock;
-    newBlock->setDataBlockNr(count);
+    dev.blocks[nr] = newBlock;
+    newBlock->setDataBlockNr((Block)count);
     newBlock->setFileHeaderRef(head);
-    prevBlock->setNextDataBlockRef(ref);
+    prevBlock->setNextDataBlockRef(nr);
     
-    return ref;
+    return nr;
 }
 
 
@@ -340,10 +340,10 @@ FSPartition::newUserDirBlock(const char *name)
 {
     FSUserDirBlock *block = nullptr;
     
-    if (u32 ref = allocateBlock()) {
+    if (Block nr = allocateBlock()) {
     
-        block = new FSUserDirBlock(*this, ref, name);
-        dev.blocks[ref] = block;
+        block = new FSUserDirBlock(*this, nr, name);
+        dev.blocks[nr] = block;
     }
     
     return block;
@@ -354,88 +354,88 @@ FSPartition::newFileHeaderBlock(const char *name)
 {
     FSFileHeaderBlock *block = nullptr;
     
-    if (u32 ref = allocateBlock()) {
+    if (Block nr = allocateBlock()) {
 
-        block = new FSFileHeaderBlock(*this, ref, name);
-        dev.blocks[ref] = block;
+        block = new FSFileHeaderBlock(*this, nr, name);
+        dev.blocks[nr] = block;
     }
     
     return block;
 }
 
 FSBitmapBlock *
-FSPartition::bmBlockForBlock(u32 relRef)
+FSPartition::bmBlockForBlock(Block nr)
 {
-    assert(relRef >= 2 && relRef < numBlocks());
+    assert(nr >= 2 && nr < numBlocks());
         
     // Locate the bitmap block
     isize bitsPerBlock = (bsize() - 4) * 8;
-    isize nr = (relRef - 2) / bitsPerBlock;
+    isize bmNr = (nr - 2) / bitsPerBlock;
 
-    if (nr >= (isize)bmBlocks.size()) {
-        warn("Allocation bit is located in non-existent bitmap block %zd\n", nr);
+    if (bmNr >= (isize)bmBlocks.size()) {
+        warn("Allocation bit is located in non-existent bitmap block %zd\n", bmNr);
         return nullptr;
     }
 
-    return dev.bitmapBlockPtr(bmBlocks[nr]);
+    return dev.bitmapBlockPtr(bmBlocks[bmNr]);
 }
 
 bool
-FSPartition::isFree(u32 ref) const
+FSPartition::isFree(Block nr) const
 {
-    assert(ref >= firstBlock && ref <= lastBlock);
+    assert(nr >= firstBlock && nr <= lastBlock);
     
     // Translate rel to a relative block index
-    ref -= lowCyl;
+    nr -= lowCyl;
     
     // The first two blocks are always allocated and not part of the bitmap
-    if (ref < 2) return false;
+    if (nr < 2) return false;
     
     // Locate the allocation bit in the bitmap block
-    u32 byte, bit;
-    FSBitmapBlock *bm = locateAllocationBit(ref, &byte, &bit);
+    isize byte, bit;
+    FSBitmapBlock *bm = locateAllocationBit(nr, &byte, &bit);
         
     // Read the bit
     return bm ? GET_BIT(bm->data[byte], bit) : false;
 }
 
 void
-FSPartition::setAllocationBit(u32 ref, bool value)
+FSPartition::setAllocationBit(Block nr, bool value)
 {
-    u32 byte, bit;
+    isize byte, bit;
     
-    if (FSBitmapBlock *bm = locateAllocationBit(ref, &byte, &bit)) {
+    if (FSBitmapBlock *bm = locateAllocationBit(nr, &byte, &bit)) {
         REPLACE_BIT(bm->data[byte], bit, value);
     }
 }
 
 FSBitmapBlock *
-FSPartition::locateAllocationBit(u32 ref, u32 *byte, u32 *bit) const
+FSPartition::locateAllocationBit(Block nr, isize *byte, isize *bit) const
 {
-    assert(ref >= firstBlock && ref <= lastBlock);
+    assert(nr >= firstBlock && nr <= lastBlock);
 
     // Make ref a relative offset
-    ref -= firstBlock;
+    nr -= firstBlock;
 
     // The first two blocks are always allocated and not part of the map
-    if (ref < 2) return nullptr;
-    ref -= 2;
+    if (nr < 2) return nullptr;
+    nr -= 2;
     
     // Locate the bitmap block which stores the allocation bit
     isize bitsPerBlock = (bsize() - 4) * 8;
-    isize nr = ref / bitsPerBlock;
-    ref = ref % bitsPerBlock;
+    isize bmNr = nr / bitsPerBlock;
+    nr = nr % bitsPerBlock;
 
     // Get the bitmap block
     FSBitmapBlock *bm;
-    bm = (nr < (isize)bmBlocks.size()) ? dev.bitmapBlockPtr(bmBlocks[nr]) : nullptr;
+    bm = (bmNr < (isize)bmBlocks.size()) ? dev.bitmapBlockPtr(bmBlocks[bmNr]) : nullptr;
     if (bm == nullptr) {
-        warn("Allocation bit is located in non-existent bitmap block %zd\n", nr);
+        warn("Allocation bit is located in non-existent bitmap block %zd\n", bmNr);
         return nullptr;
     }
     
     // Locate the byte position (note: the long word ordering will be reversed)
-    u32 rByte = ref / 8;
+    isize rByte = nr / 8;
     
     // Rectifiy the ordering
     switch (rByte % 4) {
@@ -450,7 +450,7 @@ FSPartition::locateAllocationBit(u32 ref, u32 *byte, u32 *bit) const
     assert(rByte >= 4 && rByte < bsize());
     
     *byte = rByte;
-    *bit = (ref - 2) % 8;
+    *bit = (nr - 2) % 8;
     
     // debug(FS_DEBUG, "Alloc bit for %d: block: %d byte: %d bit: %d\n",
     //       ref, bm->nr, *byte, *bit);
@@ -488,18 +488,20 @@ FSPartition::killVirus()
 bool
 FSPartition::check(bool strict, FSErrorReport &report) const
 {
+    assert(firstBlock <= lastBlock);
+    
     report.bitmapErrors = 0;
     
-    for (isize i = firstBlock; i <= lastBlock; i++) {
+    for (Block i = firstBlock; i <= lastBlock; i++) {
 
         FSBlock *block = dev.blocks[i];
-        if (block->type() == FS_EMPTY_BLOCK && !isFree((u32)i)) {
+        if (block->type() == FS_EMPTY_BLOCK && !isFree((Block)i)) {
             report.bitmapErrors++;
-            debug(FS_DEBUG, "Empty block %zd is marked as allocated\n", i);
+            debug(FS_DEBUG, "Empty block %d is marked as allocated\n", i);
         }
-        if (block->type() != FS_EMPTY_BLOCK && isFree((u32)i)) {
+        if (block->type() != FS_EMPTY_BLOCK && isFree((Block)i)) {
             report.bitmapErrors++;
-            debug(FS_DEBUG, "Non-empty block %zd is marked as free\n", i);
+            debug(FS_DEBUG, "Non-empty block %d is marked as free\n", i);
         }
     }
  

@@ -17,7 +17,7 @@ struct FSBlock : AmigaObject {
     struct FSPartition &partition;
     
     // The sector number of this block
-    u32 nr;
+    Block nr;
     
     // Outcome of the last integrity check (0 = OK, n = n-th corrupted block)
     isize corrupted = 0;
@@ -30,10 +30,10 @@ struct FSBlock : AmigaObject {
     // Constructing
     //
     
-    FSBlock(FSPartition &p, u32 nr) : partition(p) { this->nr = nr; }
+    FSBlock(FSPartition &p, Block nr) : partition(p) { this->nr = nr; }
     virtual ~FSBlock() { }
 
-    static FSBlock *makeWithType(FSPartition &p, u32 nr, FSBlockType type);
+    static FSBlock *makeWithType(FSPartition &p, Block nr, FSBlockType type);
     
     
     //
@@ -88,7 +88,7 @@ struct FSBlock : AmigaObject {
     void dec32(isize n) const { dec32(addr32(n)); }
 
     // Returns the location of the checksum inside this block
-    virtual u32 checksumLocation() const { return (u32)-1; }
+    virtual isize checksumLocation() const { return -1; }
     
     // Computes a checksum for this block
     virtual u32 checksum() const;
@@ -163,38 +163,38 @@ public:
     //
 
     // Link to the parent directory block
-    virtual u32 getParentDirRef() const { return 0; }
-    virtual void setParentDirRef(u32 ref) { }
+    virtual Block getParentDirRef() const { return 0; }
+    virtual void setParentDirRef(Block ref) { }
     struct FSBlock *getParentDirBlock();
     
     // Link to the file header block
-    virtual u32 getFileHeaderRef() const { return 0; }
-    virtual void setFileHeaderRef(u32 ref) { }
+    virtual Block getFileHeaderRef() const { return 0; }
+    virtual void setFileHeaderRef(Block ref) { }
     struct FSFileHeaderBlock *getFileHeaderBlock();
 
     // Link to the next block with the same hash
-    virtual u32 getNextHashRef() const { return 0; }
-    virtual void setNextHashRef(u32 ref) { }
+    virtual Block getNextHashRef() const { return 0; }
+    virtual void setNextHashRef(Block ref) { }
     struct FSBlock *getNextHashBlock();
 
     // Link to the next extension block
-    virtual u32 getNextListBlockRef() const { return 0; }
-    virtual void setNextListBlockRef(u32 ref) { }
+    virtual Block getNextListBlockRef() const { return 0; }
+    virtual void setNextListBlockRef(Block ref) { }
     struct FSFileListBlock *getNextListBlock();
 
     // Link to the next bitmap extension block
-    virtual u32 getNextBmExtBlockRef() const { return 0; }
-    virtual void setNextBmExtBlockRef(u32 ref) { }
+    virtual Block getNextBmExtBlockRef() const { return 0; }
+    virtual void setNextBmExtBlockRef(Block ref) { }
     struct FSBitmapExtBlock *getNextBmExtBlock();
     
     // Link to the first data block
-    virtual u32 getFirstDataBlockRef() const { return 0; }
-    virtual void setFirstDataBlockRef(u32 ref) { }
+    virtual Block getFirstDataBlockRef() const { return 0; }
+    virtual void setFirstDataBlockRef(Block ref) { }
     struct FSDataBlock *getFirstDataBlock();
 
     // Link to the next data block
-    virtual u32 getNextDataBlockRef() const { return 0; }
-    virtual void setNextDataBlockRef(u32 ref) { }
+    virtual Block getNextDataBlockRef() const { return 0; }
+    virtual void setNextDataBlockRef(Block ref) { }
     struct FSDataBlock *getNextDataBlock();
 
         
@@ -203,7 +203,7 @@ public:
     //
     
     // Returns the hash table size
-    virtual u32 hashTableSize() const { return 0; }
+    virtual isize hashTableSize() const { return 0; }
 
     // Returns a hash value for this block
     virtual u32 hashValue() const { return 0; }
@@ -264,7 +264,7 @@ if ((byte % 4) == 3 && BYTE0(value) != BYTE0((u32)exp)) \
 #define EXPECT_CHECKSUM EXPECT_LONGWORD(checksum())
 
 #define EXPECT_LESS_OR_EQUAL(exp) { \
-if (value > exp) \
+if (value > (u32)exp) \
 { *expected = (u8)(exp); return ERROR_FS_EXPECTED_SMALLER_VALUE; } }
 
 #define EXPECT_DOS_REVISION { \

@@ -9,7 +9,7 @@
 
 #include "FSDevice.h"
 
-FSBitmapBlock::FSBitmapBlock(FSPartition &p, u32 nr) : FSBlock(p, nr)
+FSBitmapBlock::FSBitmapBlock(FSPartition &p, Block nr) : FSBlock(p, nr)
 {
     data = new u8[p.dev.bsize]();
 }
@@ -39,13 +39,13 @@ FSBitmapBlock::check(isize byte, u8 *expected, bool strict) const
 void
 FSBitmapBlock::dump() const
 {
-    u32 count = 0;
-    for (u32 i = 1; i < bsize() / 4; i++) {
+    isize count = 0;
+    for (isize i = 1; i < bsize() / 4; i++) {
         if (u32 value = get32(i)) {
             for (isize j = 0; j < 32; j++) {
                 if (GET_BIT(value, j)) count++;
             }
         }
     }
-    printf("         Free : %d blocks\n", count);
+    printf("         Free : %zd blocks\n", count);
 }
