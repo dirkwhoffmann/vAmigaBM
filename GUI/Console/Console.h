@@ -157,8 +157,8 @@ public:
     // Prints a message
     Console &operator<<(char value);
     Console &operator<<(const string &value);
-    Console &operator<<(isize value);
     Console &operator<<(int value);
+    Console &operator<<(long value);
 
     // Shortens the text storage if it grows too large
     void shorten();

@@ -207,14 +207,14 @@ Console::operator<<(const std::string& text)
 }
 
 Console&
-Console::operator<<(isize value)
+Console::operator<<(int value)
 {
     *this << std::to_string(value);
     return *this;
 }
 
 Console&
-Console::operator<<(int value)
+Console::operator<<(long value)
 {
     *this << std::to_string(value);
     return *this;
