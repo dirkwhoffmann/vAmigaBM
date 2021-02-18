@@ -190,7 +190,7 @@ template <isize x, Accessor s> void
 Denise::pokeBPLxDAT(u16 value)
 {
     assert(x < 6);
-    trace(BPLREG_DEBUG, "pokeBPL%luDAT(%X)\n", x + 1, value);
+    trace(BPLREG_DEBUG, "pokeBPL%zuDAT(%X)\n", x + 1, value);
 
     if (s == ACCESSOR_AGNUS) {
         /*
@@ -205,7 +205,7 @@ template <isize x> void
 Denise::setBPLxDAT(u16 value)
 {
     assert(x < 6);
-    trace(BPLDAT_DEBUG, "setBPL%luDAT(%X)\n", x + 1, value);
+    trace(BPLDAT_DEBUG, "setBPL%zuDAT(%X)\n", x + 1, value);
         
     bpldat[x] = value;
 
@@ -224,7 +224,7 @@ template <isize x> void
 Denise::pokeSPRxPOS(u16 value)
 {
     assert(x < 8);
-    trace(SPRREG_DEBUG, "pokeSPR%luPOS(%X)\n", x, value);
+    trace(SPRREG_DEBUG, "pokeSPR%zuPOS(%X)\n", x, value);
 
     // 15 14 13 12 11 10  9  8  7  6  5  4  3  2  1  0  (Ex = VSTART)
     // E7 E6 E5 E4 E3 E2 E1 E0 H8 H7 H6 H5 H4 H3 H2 H1  (Hx = HSTART)
@@ -238,7 +238,7 @@ template <isize x> void
 Denise::pokeSPRxCTL(u16 value)
 {
     assert(x < 8);
-    trace(SPRREG_DEBUG, "pokeSPR%luCTL(%X)\n", x, value);
+    trace(SPRREG_DEBUG, "pokeSPR%zuCTL(%X)\n", x, value);
 
     // 15 14 13 12 11 10  9  8  7  6  5  4  3  2  1  0
     // L7 L6 L5 L4 L3 L2 L1 L0 AT  -  -  -  - E8 L8 H0  (Lx = VSTOP)
@@ -255,7 +255,7 @@ template <isize x> void
 Denise::pokeSPRxDATA(u16 value)
 {
     assert(x < 8);
-    trace(SPRREG_DEBUG, "pokeSPR%luDATA(%X)\n", x, value);
+    trace(SPRREG_DEBUG, "pokeSPR%zuDATA(%X)\n", x, value);
     
     // If requested, let this sprite disappear by making it transparent
     if (GET_BIT(config.hiddenSprites, x)) value = 0;
@@ -272,7 +272,7 @@ template <isize x> void
 Denise::pokeSPRxDATB(u16 value)
 {
     assert(x < 8);
-    trace(SPRREG_DEBUG, "pokeSPR%luDATB(%X)\n", x, value);
+    trace(SPRREG_DEBUG, "pokeSPR%zuDATB(%X)\n", x, value);
     
     // If requested, let this sprite disappear by making it transparent
     if (GET_BIT(config.hiddenSprites, x)) value = 0;
