@@ -131,10 +131,12 @@ FSTime::dateStr() const
     
     time_t t = time();
     tm *local = localtime(&t);
-
-    snprintf(tmp, sizeof(tmp), "%04d-%02d-%02d",
-             (1900 + local->tm_year) % 10000, 1 + local->tm_mon, local->tm_mday);
     
+    int y = 1900 + local->tm_year;
+    int m = 1 + local->tm_mon;
+    int d = local->tm_mday;
+    
+    snprintf(tmp, sizeof(tmp), "%04d-%02d-%02d", y % 10000, m % 100, d % 100);
     return string(tmp);
 }
 
@@ -146,9 +148,11 @@ FSTime::timeStr() const
     time_t t = time();
     tm *local = localtime(&t);
 
-    snprintf(tmp, sizeof(tmp), "%02d:%02d:%02d",
-             local->tm_hour, local->tm_min, local->tm_sec);
-    
+    int h = local->tm_hour;
+    int m = local->tm_min;
+    int s = local->tm_sec;
+
+    snprintf(tmp, sizeof(tmp), "%02d:%02d:%02d", h % 100, m % 100, s % 100);
     return string(tmp);
 }
 
