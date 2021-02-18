@@ -69,9 +69,11 @@ Drive::setConfigItem(Option option, long id, long value)
             if (config.type == value) {
                 return false;
             }
+
             if (value != DRIVE_DD_35 && value != DRIVE_HD_35) {
                 throw ConfigUnsupportedError();
             }
+
             config.type = (DriveType)value;
             return true;
 
@@ -80,6 +82,7 @@ Drive::setConfigItem(Option option, long id, long value)
             if (config.mechanicalDelays == value) {
                 return false;
             }
+                        
             config.mechanicalDelays = value;
             return true;
 

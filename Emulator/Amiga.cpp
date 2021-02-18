@@ -248,7 +248,7 @@ Amiga::getConfigItem(Option option) const
 
         case OPT_ACCURATE_KEYBOARD:
             return keyboard.getConfigItem(option);
-                        
+
         default: assert(false); return 0;
     }
 }

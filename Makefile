@@ -9,7 +9,7 @@ OPT = -F SFML \
 	-framework sfml-graphics \
 	-framework sfml-audio \
 	-framework sfml-window \
-	-framework sfml-system
+	-framework sfml-system \
 	-framework ApplicationServices
 else
 OPT = -lsfml-graphics \

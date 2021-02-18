@@ -53,7 +53,7 @@ Mouse::getConfigItem(Option option) const
 
 bool
 Mouse::setConfigItem(Option option, long id, long value)
-{    
+{
     if (port.nr != id) return false;
     
     switch (option) {
