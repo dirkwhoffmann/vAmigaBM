@@ -7,15 +7,12 @@
 // See https://www.gnu.org for license information
 // -----------------------------------------------------------------------------
 
-#include "OS.h"
+// #include "OS.h"
+#include "Application.h"
 
 #ifdef __MACH__
 #include <ApplicationServices/ApplicationServices.h>
 #endif
-
-bool OS::gotMouse = false;
-int OS::mouseDX = 0;
-int OS::mouseDY = 0;
 
 float
 OS::scale(float value)
@@ -30,6 +27,17 @@ OS::scale(float value)
 void
 OS::retainMouse()
 {
+    gotMouse = true;
+    
+    app.window.setMouseCursorGrabbed(true);
+    app.window.setMouseCursorVisible(false);
+    
+    mouseCenterX = app.window.getSize().x / 2;
+    mouseCenterY = app.window.getSize().y / 2;
+    auto center = sf::Vector2i(app.os.mouseCenterX,app.os.mouseCenterY);
+    sf::Mouse::setPosition(center, app.window);
+    
+/*
 #ifdef __MACH__
     
     if (!gotMouse) {
@@ -42,11 +50,19 @@ OS::retainMouse()
         gotMouse = true;
     }
 #endif
+*/
 }
 
 void
 OS::releaseMouse()
 {
+    if (gotMouse) {
+
+        app.window.setMouseCursorGrabbed(false);
+        app.window.setMouseCursorVisible(true);
+        gotMouse = false;
+    }
+    /*
 #ifdef __MACH__
     
     if (gotMouse) {
@@ -56,11 +72,29 @@ OS::releaseMouse()
         gotMouse = false;
     }
 #endif
+     */
 }
 
 bool
 OS::mouseMoved()
 {
+    sf::Vector2i current = sf::Mouse::getPosition(app.window);
+    
+    mouseDX = current.x - mouseCenterX;
+    mouseDY = current.y - mouseCenterY;
+    
+    if (mouseDX != 0 || mouseDY != 0) {
+
+        // printf("lockX: %d lockY: %d current: (%d,%d)\n",
+        //        mouseLockX, mouseLockY, current.x, current.y);
+        printf("dx: %d dy: %d\n", mouseDX, mouseDY);
+        
+        sf::Mouse::setPosition(sf::Vector2i(mouseCenterX, mouseCenterY), app.window);
+        return true;
+    }
+    return false;
+            
+        /*
 #ifdef __MACH__
     CGAssociateMouseAndMouseCursorPosition(false);
     CGGetLastMouseDelta(&mouseDX, &mouseDY);
@@ -68,4 +102,5 @@ OS::mouseMoved()
 #else
     return false;
 #endif
+         */
 }

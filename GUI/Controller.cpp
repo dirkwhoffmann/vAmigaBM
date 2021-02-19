@@ -92,7 +92,7 @@ Controller::processMessage(long id, long data)
             return;
 
         case MSG_SHAKING:
-            OS::releaseMouse();
+            app.os.releaseMouse();
             break;
             
         default:

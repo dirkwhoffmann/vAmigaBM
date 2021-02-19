@@ -62,6 +62,9 @@ public:
     // Gateway to the emulator
     Controller controller;
     
+    // Gateway to the host operating system
+    OS os;
+    
     // Vide mode manager
     // Screen screen;
     

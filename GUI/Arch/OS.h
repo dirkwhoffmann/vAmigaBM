@@ -13,19 +13,26 @@
 
 class OS {
     
+    class Application &app;
+    
 public:
 
-    static bool gotMouse;
-    static int mouseDX;
-    static int mouseDY;
+    OS(Application &ref) : app(ref) { };
+    
+    bool gotMouse;
+    int mouseDX;
+    int mouseDY;
+    
+    int mouseCenterX;
+    int mouseCenterY;
     
     // Translates a logical coordinate or size to a physical coordinate or size
-    static float scale(float value); 
+    static float scale(float value);
     
     // Retains or releases the mouse
-    static void retainMouse();
-    static void releaseMouse();
+    void retainMouse();
+    void releaseMouse();
     
     // Checks for a mouse movement and saves the delta steps
-    static bool mouseMoved();
+    bool mouseMoved();
 };

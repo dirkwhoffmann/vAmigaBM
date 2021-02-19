@@ -83,7 +83,10 @@ Canvas::handle(const sf::Event &event)
         }
         case sf::Event::MouseButtonPressed:
         {
-            if (!OS::gotMouse) { OS::retainMouse(); return; }
+            if (!app.os.gotMouse) {
+                app.os.retainMouse();
+                return;
+            }
             
             if (event.mouseButton.button == sf::Mouse::Left) {
                 printf("Pressed left\n");
@@ -96,7 +99,7 @@ Canvas::handle(const sf::Event &event)
         }
         case sf::Event::MouseButtonReleased:
         {
-            if (!OS::gotMouse) { return; }
+            if (!app.os.gotMouse) { return; }
             
             if (event.mouseButton.button == sf::Mouse::Left) {
                 printf("Released left\n");
@@ -118,8 +121,8 @@ Canvas::update(sf::Time dt)
     Layer::update(dt);
     
     // Update the mouse location
-    if (OS::gotMouse && OS::mouseMoved()) {
-        mouseMoved(OS::mouseDX, OS::mouseDY);
+    if (app.os.gotMouse && app.os.mouseMoved()) {
+        mouseMoved(app.os.mouseDX, app.os.mouseDY);
     }
     
     // Update the texture

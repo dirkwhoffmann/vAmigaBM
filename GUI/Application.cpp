@@ -11,10 +11,11 @@
 #include "Amiga.h"
 
 Application::Application(int argc, const char *argv[]) :
+controller(*this),
+os(*this),
 console(*this),
 splashScreen(*this),
 canvas(*this),
-controller(*this),
 musicStream(*this)
 {
     for (int i = 0; i < argc; i++) {
