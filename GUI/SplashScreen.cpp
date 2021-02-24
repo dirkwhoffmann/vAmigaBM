@@ -46,6 +46,7 @@ SplashScreen::init()
                     sf::Color(0xF0,0xF0,0xF0), sf::Color(0xF0,0xF0,0xF0));
     
     // Logo
+    krunch.init(app.assets.get(TextureID::krunch));
     logo.init(app.assets.get(TextureID::logo));
     title.init(app.assets.get(TextureID::title));
     printf("Title: %f %f\n", title.w, title.h); 
@@ -179,8 +180,13 @@ SplashScreen::handle(const sf::Event &event)
 void
 SplashScreen::render()
 {
+    sf::Shader &shader = app.assets.get(ShaderID::blur);
+    shader.setUniform("texture1", *krunch.rectangle.getTexture());
+    shader.setUniform("texture2", *logo.rectangle.getTexture());
+    // shader.setUniform("texture2", sf::Shader::CurrentTexture);
+        
     background.draw(app.window);
-    logo.draw(app.window);
+    logo.draw(app.window, &shader);
     title1.draw(app.window);
     title2.draw(app.window);
     errMsg.draw(app.window);

@@ -27,6 +27,9 @@
 		5066F75425C55F75009199B6 /* ControllerCmds.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5066F75325C55F75009199B6 /* ControllerCmds.cpp */; };
 		5070133A25C0745D003B3420 /* DroidSansMono.ttf in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5070133625C0719B003B3420 /* DroidSansMono.ttf */; };
 		507F613525C1BE42003D695F /* blur.frag in CopyFiles */ = {isa = PBXBuildFile; fileRef = 507F613425C1BA52003D695F /* blur.frag */; };
+		508A80B825E650E3007C4E46 /* krunch.png in CopyFiles */ = {isa = PBXBuildFile; fileRef = 508A80B725E650E3007C4E46 /* krunch.png */; };
+		508A80BA25E65148007C4E46 /* merge.frag in CopyFiles */ = {isa = PBXBuildFile; fileRef = 508A80B925E65148007C4E46 /* merge.frag */; };
+		508A80BC25E6A67A007C4E46 /* mergeBypass.frag in CopyFiles */ = {isa = PBXBuildFile; fileRef = 508A80BB25E6A67A007C4E46 /* mergeBypass.frag */; };
 		5095D45925C021ED006AB819 /* FLAC.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5095D43F25C021E8006AB819 /* FLAC.framework */; };
 		5095D45A25C021ED006AB819 /* FLAC.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5095D43F25C021E8006AB819 /* FLAC.framework */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		5095D45B25C021EE006AB819 /* freetype.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5095D44225C021E8006AB819 /* freetype.framework */; };
@@ -213,11 +216,14 @@
 				5000932625C0C3D000F01BEF /* SourceSansPro-SemiBold.ttf in CopyFiles */,
 				50E08E1D25C3102200B82E96 /* IBMPlexMono-Medium.ttf in CopyFiles */,
 				507F613525C1BE42003D695F /* blur.frag in CopyFiles */,
+				508A80BA25E65148007C4E46 /* merge.frag in CopyFiles */,
+				508A80BC25E6A67A007C4E46 /* mergeBypass.frag in CopyFiles */,
 				5070133A25C0745D003B3420 /* DroidSansMono.ttf in CopyFiles */,
 				5002A27725CFCB0400665F89 /* startup.ini in CopyFiles */,
 				509F49E525D53363005DA7CB /* aros-amiga-m68k-rom.bin in CopyFiles */,
 				509F49E325D5332F005DA7CB /* aros-amiga-m68k-ext.bin in CopyFiles */,
 				502D8EB225DC678D00007C2C /* title.png in CopyFiles */,
+				508A80B825E650E3007C4E46 /* krunch.png in CopyFiles */,
 				502D8EBA25DCE82200007C2C /* logo.png in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -256,6 +262,9 @@
 		5066F75325C55F75009199B6 /* ControllerCmds.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ControllerCmds.cpp; sourceTree = "<group>"; };
 		5070133625C0719B003B3420 /* DroidSansMono.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = DroidSansMono.ttf; sourceTree = "<group>"; };
 		507F613425C1BA52003D695F /* blur.frag */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = blur.frag; sourceTree = "<group>"; };
+		508A80B725E650E3007C4E46 /* krunch.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = krunch.png; sourceTree = "<group>"; };
+		508A80B925E65148007C4E46 /* merge.frag */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = merge.frag; sourceTree = "<group>"; };
+		508A80BB25E6A67A007C4E46 /* mergeBypass.frag */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = mergeBypass.frag; sourceTree = "<group>"; };
 		5095D43F25C021E8006AB819 /* FLAC.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FLAC.framework; path = SFML/FLAC.framework; sourceTree = "<group>"; };
 		5095D44025C021E8006AB819 /* vorbis.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = vorbis.framework; path = SFML/vorbis.framework; sourceTree = "<group>"; };
 		5095D44125C021E8006AB819 /* ogg.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ogg.framework; path = SFML/ogg.framework; sourceTree = "<group>"; };
@@ -659,6 +668,7 @@
 		507F613225C1B9DF003D695F /* Textures */ = {
 			isa = PBXGroup;
 			children = (
+				508A80B725E650E3007C4E46 /* krunch.png */,
 				502D8EB925DCE82200007C2C /* logo.png */,
 				502D8EB125DC678D00007C2C /* title.png */,
 			);
@@ -669,6 +679,8 @@
 			isa = PBXGroup;
 			children = (
 				507F613425C1BA52003D695F /* blur.frag */,
+				508A80B925E65148007C4E46 /* merge.frag */,
+				508A80BB25E6A67A007C4E46 /* mergeBypass.frag */,
 			);
 			path = Shaders;
 			sourceTree = "<group>";

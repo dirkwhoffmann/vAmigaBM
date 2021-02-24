@@ -37,7 +37,7 @@ public:
     //
     
     int winXmin = OS::scale(Canvas::texW);
-    int winYmin = OS::scale(Canvas::texH * 2);
+    int winYmin = OS::scale(Canvas::texH);
     int winXinit = winXmin;
     int winYinit = winYmin;
 

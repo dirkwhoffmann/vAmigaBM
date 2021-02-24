@@ -23,12 +23,20 @@ void Canvas::init()
 {
     Layer::init();
     
-    if (!emuTex.create(HPIXELS, VPIXELS)) {
-        throw Exception("Can't create emulator texture");
+    if (!longFrameTexture.create(HPIXELS, VPIXELS)) {
+        throw Exception("Can't create the long frame texture");
     }
-        
-    view.init(emuTex);
-    // view.rectangle.setTextureRect(sf::IntRect(texX1, texY1, texW, texH));
+    if (!shortFrameTexture.create(HPIXELS, VPIXELS)) {
+        throw Exception("Can't create the short frame texture");
+    }
+    if (!mergeTexture.create(HPIXELS, VPIXELS * 2)) {
+        throw Exception("Can't create the merge texture");
+    }
+
+    mergeShader = &app.assets.get(ShaderID::merge);
+    mergeBypassShader = &app.assets.get(ShaderID::mergeBypass);
+    
+    view.init(mergeTexture);
     view.rectangle.setTextureRect(sf::IntRect(texX1, texY1, texW, texH));
 }
 
@@ -128,14 +136,27 @@ Canvas::update(sf::Time dt)
     // Update the texture
     if (app.amiga.isPaused()) {
         
-        emuTex.update((u8 *)app.amiga.denise.pixelEngine.getNoise());
+        mergeTexture.update((u8 *)app.amiga.denise.pixelEngine.getNoise());
         
     } else if (app.amiga.isRunning()) {
             
-        ScreenBuffer current = app.amiga.denise.pixelEngine.getStableBuffer();
-        if (screenBuffer.data != current.data) {
-            screenBuffer = current;
-            emuTex.update((u8 *)(screenBuffer.data + 4 * HBLANK_MIN));
+        ScreenBuffer buffer = app.amiga.denise.pixelEngine.getStableBuffer();
+                
+        // Only proceed if the emulator delivers a new texture
+        if (prevBuffer.data == buffer.data) return;
+        prevBuffer = buffer;
+
+        // Determine if the new texture is a long frame or a short frame
+        prevLOF = currLOF;
+        currLOF = buffer.longFrame;
+        
+        // Update the GPU texture
+        if (currLOF) {
+            // printf("Updating long frame texture\n")
+            longFrameTexture.update((u8 *)(buffer.data + 4 * HBLANK_MIN));
+        } else {
+            // printf("Updating short frame texture\n")
+            shortFrameTexture.update((u8 *)(buffer.data + 4 * HBLANK_MIN));
         }
     }
 }
@@ -144,7 +165,29 @@ void
 Canvas::render()
 {
     view.rectangle.setFillColor(sf::Color(0xFF,0xFF,0xFF,alpha));
-    view.draw(app.window);
+    
+    auto size = longFrameTexture.getSize();
+    mergeShader->setUniform("textureSize", sf::Glsl::Vec2(size.x, size.y));
+
+    if (currLOF != prevLOF) {
+
+        // Case 1: Interlace drawing
+        mergeShader->setUniform("texture1", longFrameTexture);
+        mergeShader->setUniform("texture2", shortFrameTexture);
+        view.draw(app.window, mergeShader);
+
+    } else if (currLOF) {
+        
+        // Case 2: Non-interlace drawing (two long frames in a row)
+        mergeBypassShader->setUniform("texture", longFrameTexture);
+        view.draw(app.window, mergeBypassShader);
+
+    } else {
+        
+        // Case 3: Non-interlace drawing (two short frames in a row)
+        mergeBypassShader->setUniform("texture", shortFrameTexture);
+        view.draw(app.window, mergeBypassShader);
+    }    
 }
 
 void
@@ -155,7 +198,7 @@ Canvas::resize(float width, float height)
     
     if (letterbox) {
  
-        float ratio = (float)texW / (float)(2 * texH);
+        float ratio = (float)texW / (float)texH;
         newWidth  = width / height > ratio ? height * ratio : width;
         newHeight = width / height > ratio ? height : width / ratio;
 

@@ -15,6 +15,7 @@
 
 enum class TextureID
 {
+    krunch,
     logo,
     title
 };
@@ -38,7 +39,9 @@ enum class SoundID
 
 enum class ShaderID
 {
-    blur
+    blur, // DEPRECATED
+    merge,
+    mergeBypass
 };
 
 template <typename Asset, typename ID>

@@ -9,14 +9,19 @@
 
 uniform sampler2D texture1;
 uniform sampler2D texture2;
+uniform vec2 textureSize;
 
-uniform vec4 myColor;
 void main()
 {
-    // lookup the pixel in the texture
-    vec4 pixel1 = texture2D(texture1, gl_TexCoord[0].xy);
-    vec4 pixel2 = texture2D(texture2, gl_TexCoord[0].xy);
-
-    // multiply it by the color
-    gl_FragColor = gl_Color * pixel1 * pixel2;
+    vec2 unit = vec2(1.0, 1.0) / textureSize;
+    vec2 coord = gl_TexCoord[0].xy / unit;
+    
+    vec4 color;
+    if (mod(coord.y, 2.0) < 1.0) {
+        color = texture2D(texture1, gl_TexCoord[0].xy);
+    } else {
+        color = texture2D(texture2, gl_TexCoord[0].xy);
+    }
+    
+    gl_FragColor = gl_Color * color;
 }

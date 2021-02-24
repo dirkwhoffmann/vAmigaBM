@@ -99,7 +99,7 @@ public:
     void update();
     
     // Wrappers
-    void draw(sf::RenderWindow &window);
+    void draw(sf::RenderWindow &window, const sf::Shader *shader = nullptr);
 };
 
 
@@ -130,7 +130,7 @@ public:
     void update();
     
     // Wrappers
-    void draw(sf::RenderWindow &window);
+    void draw(sf::RenderWindow &window, const sf::Shader *shader = nullptr);
 };
 
 
@@ -154,5 +154,5 @@ public:
     void setString(const string &str);
     void setFontSize(unsigned size);
     void setStyle(const sf::Font &font, unsigned int size, const sf::Color &color);
-    void draw(sf::RenderWindow &window);
+    void draw(sf::RenderWindow &window, const sf::Shader *shader = nullptr);
 };

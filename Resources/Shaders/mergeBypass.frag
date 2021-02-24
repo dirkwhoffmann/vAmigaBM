@@ -7,16 +7,10 @@
 // See https://www.gnu.org for license information
 // -----------------------------------------------------------------------------
 
-uniform sampler2D texture1;
-uniform sampler2D texture2;
+uniform sampler2D texture;
 
-uniform vec4 myColor;
 void main()
 {
-    // lookup the pixel in the texture
-    vec4 pixel1 = texture2D(texture1, gl_TexCoord[0].xy);
-    vec4 pixel2 = texture2D(texture2, gl_TexCoord[0].xy);
-
-    // multiply it by the color
-    gl_FragColor = gl_Color * pixel1 * pixel2;
+    vec4 pixel = texture2D(texture, gl_TexCoord[0].xy);
+    gl_FragColor = gl_Color * pixel;
 }

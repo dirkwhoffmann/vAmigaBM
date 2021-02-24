@@ -18,8 +18,8 @@ public:
     // Texture constants
     static const int texX1 = HBLANK_CNT * 4;
     static const int texX2 = HPOS_CNT * 4;
-    static const int texY1 = VBLANK_CNT;
-    static const int texY2 = VPOS_CNT - 1;
+    static const int texY1 = VBLANK_CNT * 2;
+    static const int texY2 = (VPOS_CNT - 1) * 2;
     static const int texW  = texX2 - texX1;
     static const int texH  = texY2 - texY1;
 
@@ -27,10 +27,23 @@ private:
     
     // The current screen buffer
     ScreenBuffer screenBuffer = { nullptr, false };
+    ScreenBuffer prevBuffer = { nullptr, false };
+
+    // Indicates whether the recently drawn frames were long or short frames
+    bool currLOF = true;
+    bool prevLOF = true;
+
+    // The emulator textures
+    sf::Texture longFrameTexture;
+    sf::Texture shortFrameTexture;
+
+    // The merge texture
+    sf::Texture mergeTexture;
     
-    // The emulator texture
-    sf::Texture emuTex;
- 
+    // The merge shaders
+    sf::Shader *mergeShader = nullptr;
+    sf::Shader *mergeBypassShader = nullptr;
+
     // Render object
     ImageView view = ImageView(Align::UpperLeft);
     

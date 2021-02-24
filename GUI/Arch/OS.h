@@ -19,7 +19,7 @@ public:
 
     OS(Application &ref) : app(ref) { };
     
-    bool gotMouse;
+    bool gotMouse = false;
     int mouseDX;
     int mouseDY;
     

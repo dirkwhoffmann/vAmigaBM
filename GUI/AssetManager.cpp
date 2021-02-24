@@ -16,6 +16,7 @@ TextureManager::load(TextureID id)
     
     switch (id) {
             
+        case TextureID::krunch: path = "krunch.png"; break;
         case TextureID::logo: path = "logo.png"; break;
         case TextureID::title: path = "title.png"; break;
 
@@ -28,7 +29,7 @@ TextureManager::load(TextureID id)
     if (asset->loadFromFile(path)) {
         cache.insert(std::make_pair(id, std::move(asset)));
     } else {
-        throw std::runtime_error("AssetManager::loadTexture: Can't load " + path);
+        throw std::runtime_error("AssetManager: Can't load " + path);
     }
 }
 
@@ -56,7 +57,7 @@ FontManager::load(FontID id)
     if (asset->loadFromFile(path)) {
         cache.insert(std::make_pair(id, std::move(asset)));
     } else {
-        throw std::runtime_error("AssetManager::loadFont: Can't load " + path);
+        throw std::runtime_error("AssetManager: Can't load " + path);
     }
 }
 
@@ -80,12 +81,39 @@ SoundManager::load(SoundID id)
     if (asset->loadFromFile(path)) {
         cache.insert(std::make_pair(id, std::move(asset)));
     } else {
-        throw std::runtime_error("AssetManager::loadFont: Can't load " + path);
+        throw std::runtime_error("AssetManager: Can't load " + path);
     }
 }
 
 void
 ShaderManager::load(ShaderID id)
 {
-    assert(false);
+    std::string vert = "";
+    std::string frag = "";
+    
+    switch (id) {
+            
+        case ShaderID::blur: frag = "blur.frag"; break;
+        case ShaderID::merge: frag = "merge.frag"; break;
+        case ShaderID::mergeBypass: frag = "mergeBypass.frag"; break;
+            
+        default:
+            assert(false);
+    }
+    
+    std::unique_ptr<sf::Shader> asset(new sf::Shader());
+    
+    /*
+    if (vert != "") {
+        if (asset->loadFromFile(vert, sf::Shader::Vertex)) {
+        } else {
+            throw std::runtime_error("AssetManager: Can't load " + vert);
+        }
+    }
+    */
+    if (asset->loadFromFile(frag, sf::Shader::Fragment)) {
+        cache.insert(std::make_pair(id, std::move(asset)));
+    } else {
+        throw std::runtime_error("AssetManager: Can't load " + frag);
+    }
 }

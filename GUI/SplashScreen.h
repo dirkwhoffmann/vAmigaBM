@@ -40,6 +40,9 @@ class SplashScreen : public Layer {
     KeyAction spcAction = None;
     KeyAction f10Action = None;
 
+    // Experimental
+    ImageView krunch = ImageView(Align::Top | Align::Proportional);
+    
     
     //
     // Initializing
@@ -59,6 +62,9 @@ public:
         
     // Loads the Aros replacement Roms
     bool loadAros();
+    
+    // Experimental
+    float myfloat = .05f;
     
     
     //
