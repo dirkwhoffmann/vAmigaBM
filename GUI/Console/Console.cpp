@@ -102,16 +102,26 @@ Console::respond(const sf::Event &event)
 }
 
 void
+Console::update(u64 frame, sf::Time dt)
+{
+    Layer::update(frame, dt);
+    
+    if (frame % 32 == 0) {
+        cursor.setFillColor(sf::Color(0xFF,0xFF,0xFF,(frame % 64) ? 0x80 : 0));
+        isDirty = true;
+    }
+    
+    if (isDirty) {
+        
+        updateTexture();
+        isDirty = false;
+    }
+}
+
+void
 Console::render()
 {
-    if (isVisible()) {
-        
-        if (isDirty) {
-            updateTexture();
-            isDirty = false;
-        }
-        view.draw(app.window); 
-    }
+    view.draw(app.window);
 }
 
 void

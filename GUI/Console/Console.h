@@ -99,6 +99,7 @@ public:
     //
     
     void respond(const sf::Event &event) override;
+    void update(u64 frames, sf::Time dt) override;
     void render() override;
     void resize(float width, float height) override;
     void alphaDidChange() override;
