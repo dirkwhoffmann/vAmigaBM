@@ -70,7 +70,6 @@ public:
 
 public:
     
-    // virtual bool isVisible() override;
     void handle(const sf::Event &event) override;
     void update(sf::Time dt) override;
     void render() override;

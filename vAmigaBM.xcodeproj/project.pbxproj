@@ -22,6 +22,7 @@
 		503EB44E25D8294D00A6145B /* click.wav in CopyFiles */ = {isa = PBXBuildFile; fileRef = 503EB44D25D8294D00A6145B /* click.wav */; };
 		503EB45125D82A5900A6145B /* eject.wav in CopyFiles */ = {isa = PBXBuildFile; fileRef = 503EB44F25D82A5900A6145B /* eject.wav */; };
 		503EB45225D82A5900A6145B /* insert.wav in CopyFiles */ = {isa = PBXBuildFile; fileRef = 503EB45025D82A5900A6145B /* insert.wav */; };
+		5047761F25E7E6E8003DCED0 /* GUIComponent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5047761D25E7E6E8003DCED0 /* GUIComponent.cpp */; };
 		505485E925C15C3B00892284 /* AssetManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 505485E725C15C3B00892284 /* AssetManager.cpp */; };
 		50658EE025C03EF800F7128D /* Console.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50658EDE25C03EF800F7128D /* Console.cpp */; };
 		5066F75425C55F75009199B6 /* ControllerCmds.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5066F75325C55F75009199B6 /* ControllerCmds.cpp */; };
@@ -253,6 +254,8 @@
 		503EB44D25D8294D00A6145B /* click.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = click.wav; sourceTree = "<group>"; };
 		503EB44F25D82A5900A6145B /* eject.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = eject.wav; sourceTree = "<group>"; };
 		503EB45025D82A5900A6145B /* insert.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = insert.wav; sourceTree = "<group>"; };
+		5047761D25E7E6E8003DCED0 /* GUIComponent.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = GUIComponent.cpp; sourceTree = "<group>"; };
+		5047761E25E7E6E8003DCED0 /* GUIComponent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GUIComponent.h; sourceTree = "<group>"; };
 		505485E725C15C3B00892284 /* AssetManager.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = AssetManager.cpp; sourceTree = "<group>"; };
 		505485E825C15C3B00892284 /* AssetManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AssetManager.h; sourceTree = "<group>"; };
 		50658EDE25C03EF800F7128D /* Console.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Console.cpp; sourceTree = "<group>"; };
@@ -1189,6 +1192,8 @@
 				509F49EE25D68411005DA7CB /* Arch */,
 				50C4C27025D127AE00849A01 /* Foundation */,
 				50CF561925BFECA900B1AC0D /* main.cpp */,
+				5047761E25E7E6E8003DCED0 /* GUIComponent.h */,
+				5047761D25E7E6E8003DCED0 /* GUIComponent.cpp */,
 				50FD19B725C20102004E7388 /* Application.h */,
 				50FD19B625C20102004E7388 /* Application.cpp */,
 				502D8EBC25DD072F00007C2C /* Screen.h */,
@@ -1361,6 +1366,7 @@
 				50AE116E25C42D6700AD13B7 /* RTC.cpp in Sources */,
 				50AE118825C42D6700AD13B7 /* BootBlockImage.cpp in Sources */,
 				50AE119A25C42D6700AD13B7 /* crc_csum.c in Sources */,
+				5047761F25E7E6E8003DCED0 /* GUIComponent.cpp in Sources */,
 				50A7E05B25D6AFDF00113BF8 /* AmigaMusicStream.cpp in Sources */,
 				50AE118625C42D6700AD13B7 /* ADFFile.cpp in Sources */,
 				50AE116725C42D6700AD13B7 /* MsgQueue.cpp in Sources */,

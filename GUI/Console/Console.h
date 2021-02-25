@@ -16,9 +16,6 @@
 
 class Console : public Layer {
     
-    // References to other components
-    class Controller &controller;
-
     // Interpreter for commands typed into the debug console
     Interpreter interpreter = Interpreter(app);
 

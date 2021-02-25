@@ -16,8 +16,7 @@ void process(const void *ref, long id, long data)
 }
 }
 
-Controller::Controller(Application &ref) :
-app(ref), amiga(ref.amiga), console(ref.console)
+Controller::Controller(Application &ref) : GUIComponent(ref)
 {
     printf("Creating controller\n");
 }

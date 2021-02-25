@@ -12,17 +12,8 @@
 #include "Amiga.h"
 #include "Interpreter.h"
 
-class Controller
+class Controller : public GUIComponent
 {
-    // Reference to other components
-    class Application &app;
-    class Amiga &amiga;
-    class Console &console;
-    
-public:
-    
-        
-    
     //
     // Initializing
     //

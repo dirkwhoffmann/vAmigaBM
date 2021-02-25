@@ -14,6 +14,7 @@
 
 #include "Utils.h"
 
+#include "GUIComponent.h"
 #include "OS.h"
 #include "Exception.h"
 #include "Controller.h"
@@ -27,7 +28,7 @@
 #include "View.h"
 #include "AmigaMusicStream.h"
 
-class Application
+class Application : public GUIComponent
 {
 
 public:
@@ -40,20 +41,9 @@ public:
     int winYmin = 0;
     int winXinit = 0;
     int winYinit = 0;
-    
-    /*
-    int winXmin = OS::scale(Canvas::texW);
-    int winYmin = OS::scale(Canvas::texH);
-    int winXinit = winXmin;
-    int winYinit = winYmin;
-    */
-    
+        
     // Aspect ration of the render window
     static constexpr float aspectRatio = 0.7525;
-    
-    // Initial window size
-    // static const int W = 1536;
-    // static const int H = W * 0.7525;
     
     
     //
@@ -70,10 +60,7 @@ public:
     
     // Gateway to the host operating system
     OS os;
-    
-    // Vide mode manager
-    // Screen screen;
-    
+        
     // Splash screen layer
     SplashScreen splashScreen;
 

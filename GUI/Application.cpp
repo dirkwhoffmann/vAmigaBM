@@ -11,6 +11,7 @@
 #include "Amiga.h"
 
 Application::Application(int argc, const char *argv[]) :
+GUIComponent(*this),
 controller(*this),
 os(*this),
 console(*this),

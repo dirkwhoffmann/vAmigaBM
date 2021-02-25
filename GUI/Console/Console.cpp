@@ -11,8 +11,7 @@
 
 const std::string& Console::prompt = string("vAmiga\% ");
 
-Console::Console(Application &ref) :
-Layer(ref), controller(ref.controller)
+Console::Console(Application &ref) : Layer(ref)
 {
     // Initialize the text storage
     storage.push_back("");

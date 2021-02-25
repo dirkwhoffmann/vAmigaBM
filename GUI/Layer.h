@@ -9,14 +9,13 @@
 
 #pragma once
 
+#include "GUIComponent.h"
 #include <SFML/Graphics.hpp>
 
-class Layer {
+class Layer : public GUIComponent
+{
     
 public:
-
-    // Reference to the parent object
-    class Application &app;
         
     // The render texture
     sf::RenderTexture texture;
@@ -31,7 +30,7 @@ public:
     // Initializing
     //
     
-    Layer(Application &ref) : app(ref) { }
+    Layer(Application &ref) : GUIComponent(ref) { }
     void init();
 
     
