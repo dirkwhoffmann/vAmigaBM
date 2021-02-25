@@ -78,7 +78,7 @@ public:
     
     // Delegation methods
     void init();
-    void configure();
+    void awake();
     
 
     //
@@ -87,8 +87,8 @@ public:
     
 public:
     
-    void handle(const sf::Event &event) override;
-    void update(sf::Time dt) override; 
+    void respond(const sf::Event &event) override;
+    void update(u64 frames, sf::Time dt) override; 
     void render() override;
     void resize(float width, float height) override;
     

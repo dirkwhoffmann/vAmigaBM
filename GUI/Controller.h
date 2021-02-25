@@ -25,7 +25,7 @@ public:
 
     // Delegation methods
     void init();
-    void configure();
+    void awake();
 
     void deinit();
 

@@ -60,7 +60,7 @@ void Canvas::init()
 }
 
 void
-Canvas::configure()
+Canvas::awake()
 {
     auto size = app.window.getSize();
     baseX = size.x / 2;
@@ -68,7 +68,7 @@ Canvas::configure()
 }
 
 void
-Canvas::handle(const sf::Event &event)
+Canvas::respond(const sf::Event &event)
 {
     switch (event.type) {
             
@@ -143,9 +143,9 @@ Canvas::handle(const sf::Event &event)
 }
 
 void
-Canvas::update(sf::Time dt)
+Canvas::update(u64 frames, sf::Time dt)
 {
-    Layer::update(dt);
+    Layer::update(frames, dt);
     
     // Update the mouse location
     if (app.os.gotMouse && app.os.mouseMoved()) {

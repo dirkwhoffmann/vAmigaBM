@@ -28,7 +28,7 @@ Layer::setTargetAlpha(isize target, float seconds)
 }
 
 void
-Layer::update(sf::Time dt)
+Layer::update(u64 frames, sf::Time dt)
 {
     if (alpha != targetAlpha) {
 

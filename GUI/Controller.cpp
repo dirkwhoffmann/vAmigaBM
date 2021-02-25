@@ -32,7 +32,7 @@ Controller::init()
 }
 
 void
-Controller::configure()
+Controller::awake()
 {
     // Register to the message queue
     amiga.queue.addListener(this, process);

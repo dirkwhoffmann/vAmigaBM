@@ -77,7 +77,7 @@ public:
     sf::RenderWindow window;
     
     // The event loop timer
-    sf::Clock clock;
+    // sf::Clock clock;
 
     // The command line parameters
     std::vector<string> argv;
@@ -111,38 +111,43 @@ public:
     
     /* On start, the application executes the following launch sequence:
      *
-     * 1. check     : The applications performs several system checks to see if
-     *                it can run in the given environment. E.g., it is checked
-     *                the underlying graphics system offers shader support.
+     * 1. check     : Several system checks are performed to see if the
+     *                application can run in the given environment. E.g., it is
+     *                checked the underlying graphics system offers shader
+     *                support.
      *
-     * 2. init      : All sub components enter their initial state.
+     * 2. init      : All sub components enter their initial state. At this
+     *                stage, those initializations are performed that do not
+     *                rely on the state of other components as these components
+     *                might still be uninitialized.
      *
-     * 3. configure : All components configure themself. Beside other things,
-     *                a configuration file is read which configures the
-     *                virtual Amiga.
+     * 3. awake     : This is the second initialization phase. At this point,
+     *                a component can assume that all components have finished
+     *                the first initialization phase.
      *
      * 4. run       : The application enters the main event loop. It remains
      *                in this loop until the user quits the application.
      */
     void check();
     void init();
-    void configure();
+    void awake();
     void run();
 
     
     //
-    // Running the app
+    // Performing continuous tasks
     //
     
-    void processEvents();
-    void update(sf::Time dt);
+    void update(u64 frames, sf::Time dt);
     void render();
-    
+    void fps(float fps);
     
     //
     // Responding to events
     //
-    
+
+    void respond(sf::Event &event);
+    // void processEvents();
     void resize(float w, float h);
     
     

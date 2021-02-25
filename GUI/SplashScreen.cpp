@@ -143,7 +143,7 @@ SplashScreen::isVisible()
 */
 
 void
-SplashScreen::handle(const sf::Event &event)
+SplashScreen::respond(const sf::Event &event)
 {
     switch (event.type) {
             
@@ -179,9 +179,9 @@ SplashScreen::handle(const sf::Event &event)
 }
 
 void
-SplashScreen::update(sf::Time dt)
+SplashScreen::update(u64 frames, sf::Time dt)
 {
-    Layer::update(dt);
+    Layer::update(frames, dt);
 }
 
 void

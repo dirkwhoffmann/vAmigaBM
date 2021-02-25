@@ -62,13 +62,13 @@ Console::init()
 }
 
 void
-Console::configure()
+Console::awake()
 {
     
 }
 
 void
-Console::handle(const sf::Event &event)
+Console::respond(const sf::Event &event)
 {
     switch (event.type) {
             

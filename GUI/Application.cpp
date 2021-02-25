@@ -57,8 +57,6 @@ Application::init()
     auto videoMode = sf::VideoMode(winXinit, winYinit);
     window.create(videoMode, "vAmiga Bare Metal");
 
-    window.setFramerateLimit(60);
-
     if (!window.isOpen()) {
         throw Exception("Unable to create window");
     }
@@ -74,17 +72,27 @@ Application::init()
 }
 
 void
-Application::configure()
+Application::awake()
 {
-    controller.configure();
-    splashScreen.configure();
-    canvas.configure();
-    console.configure();
+    controller.awake();
+    splashScreen.awake();
+    canvas.awake();
+    console.awake();
 }
 
 void
 Application::run()
 {
+    sf::Clock clock;
+    sf::Clock fpsClock;
+    sf::Event event;
+    u64 frames = 0;
+    
+    // Render at 60 Hz
+    // window.setFramerateLimit(60);
+    window.setVerticalSyncEnabled(true);
+    
+    // Start music stream
     musicStream.setVolume(50.0); 
     musicStream.play();
     
@@ -92,47 +100,45 @@ Application::run()
         
         sf::Time dt = clock.restart();
 
-        processEvents();
-        update(dt);
+        while (window.pollEvent(event)) respond(event);
+        update(frames, dt);
         render();
+        
+        // Compute the frames per second once in a while
+        if (++frames % 128 == 0) fps(128.0 / fpsClock.restart().asSeconds());
     }
     
     controller.deinit();
 }
 
 void
-Application::processEvents()
+Application::respond(sf::Event &event)
 {
-    sf::Event event;
-
-    while (window.pollEvent(event)) {
-        
-        switch (event.type) {
-                
-            case sf::Event::Closed:
-                window.close();
-                break;
-
-            case sf::Event::KeyPressed:
-                if (event.key.code == sf::Keyboard::F11) console.toggle();
-                break;
-
-            case sf::Event::MouseButtonPressed:
-                break;
-                
-            case sf::Event::Resized:
-                resize(event.size.width, event.size.height);
-                break;
-
-            default:
-                break;
-        }
-        
-        // Distribute the event to the uppermost visible layer
-        if (console.isVisible()) console.handle(event);
-        else if (canvas.isVisible()) canvas.handle(event);
-        else if (splashScreen.isVisible()) splashScreen.handle(event);
+    switch (event.type) {
+            
+        case sf::Event::Closed:
+            window.close();
+            break;
+            
+        case sf::Event::KeyPressed:
+            if (event.key.code == sf::Keyboard::F11) console.toggle();
+            break;
+            
+        case sf::Event::MouseButtonPressed:
+            break;
+            
+        case sf::Event::Resized:
+            resize(event.size.width, event.size.height);
+            break;
+            
+        default:
+            break;
     }
+    
+    // Distribute the event to the uppermost visible layer
+    if (console.isVisible()) console.respond(event);
+    else if (canvas.isVisible()) canvas.respond(event);
+    else if (splashScreen.isVisible()) splashScreen.respond(event);
 }
 
 void
@@ -157,11 +163,11 @@ Application::resize(float w, float h)
 }
 
 void
-Application::update(sf::Time dt)
+Application::update(u64 frames, sf::Time dt)
 {
-    splashScreen.update(dt);
-    canvas.update(dt);
-    console.update(dt);
+    splashScreen.update(frames, dt);
+    canvas.update(frames, dt);
+    console.update(frames, dt);
 }
 
 void
@@ -174,6 +180,12 @@ Application::render()
     if (console.isVisible()) console.render();
 
     window.display();
+}
+
+void
+Application::fps(float fps)
+{
+    printf("fps: %.2f\n", fps);
 }
 
 void

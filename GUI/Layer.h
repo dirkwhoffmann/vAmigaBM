@@ -49,8 +49,8 @@ public:
     virtual bool isFadingOut() { return targetAlpha < alpha; }
     
     // Event loop handlers
-    virtual void handle(const sf::Event &event) = 0;
-    virtual void update(sf::Time dt);
+    virtual void respond(const sf::Event &event) = 0;
+    virtual void update(u64 frames, sf::Time dt);
     virtual void render() { };
     
     // Delegation methods

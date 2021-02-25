@@ -94,14 +94,14 @@ public:
     
     // Delegation methods
     void init();
-    void configure();
+    void awake();
 
 
     //
     // Methods from Layer class
     //
     
-    void handle(const sf::Event &event) override;
+    void respond(const sf::Event &event) override;
     void render() override;
     void resize(float width, float height) override;
     

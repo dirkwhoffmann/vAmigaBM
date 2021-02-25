@@ -52,7 +52,7 @@ public:
     
     // Delegation methods
     void init();
-    void configure() { launchPhase(1); }
+    void awake() { launchPhase(1); }
     
     // Runs a certain launch phase
     void launchPhase(isize phase);
@@ -70,8 +70,8 @@ public:
 
 public:
     
-    void handle(const sf::Event &event) override;
-    void update(sf::Time dt) override;
+    void respond(const sf::Event &event) override;
+    void update(u64 frames, sf::Time dt) override;
     void render() override;
     void resize(float width, float height) override;
     
