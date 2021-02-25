@@ -97,6 +97,8 @@ public:
     // Methods from Layer class
     //
     
+public:
+    
     void handle(const sf::Event &event) override;
     void update(sf::Time dt) override; 
     void render() override;
@@ -118,6 +120,8 @@ public:
     //
     // Working with the mouse
     //
+    
+public:
     
     void mouseMoved(int dx, int dy);
 };

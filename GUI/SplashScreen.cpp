@@ -134,11 +134,13 @@ SplashScreen::loadAros()
     }
 }
 
+/*
 bool
 SplashScreen::isVisible()
 {
     return app.amiga.isPoweredOff() || app.canvas.isAnimating();
 }
+*/
 
 void
 SplashScreen::handle(const sf::Event &event)
@@ -177,8 +179,14 @@ SplashScreen::handle(const sf::Event &event)
 }
 
 void
+SplashScreen::update(sf::Time dt)
+{
+    Layer::update(dt);
+}
+
+void
 SplashScreen::render()
-{        
+{
     background.draw(app.window);
     logo.draw(app.window);
     title1.draw(app.window);

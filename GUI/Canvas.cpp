@@ -158,9 +158,9 @@ Canvas::update(sf::Time dt)
     if (app.os.gotMouse && app.os.mouseMoved()) {
         mouseMoved(app.os.mouseDX, app.os.mouseDY);
     }
-    
+            
     // Update the texture
-    if (app.amiga.isPaused()) {
+    if (app.amiga.isPoweredOff()) {
         
         noiseTexture.update((u8 *)app.amiga.denise.pixelEngine.getNoise());
         
@@ -192,14 +192,19 @@ Canvas::render()
 {
     // view.rectangle.setFillColor(sf::Color(0xFF,0xFF,0xFF,alpha));
     
-    mergeTextureRect.setFillColor(sf::Color(0xFF,0xFF,0xFF,alpha));
-    
-    if (app.amiga.isPaused()) {
+    if (app.amiga.isPoweredOff()) {
         
+        printf("draw Noise\n");
         app.window.draw(noiseTextureRect);
         return;
     }
-    
+
+    if (app.amiga.isPaused()) {
+        mergeTextureRect.setFillColor(sf::Color(0xA0,0xA0,0xA0,alpha));
+    } else {
+        mergeTextureRect.setFillColor(sf::Color(0xFF,0xFF,0xFF,alpha));
+    }
+
     if (currLOF != prevLOF) {
 
         // Case 1: Interlace drawing

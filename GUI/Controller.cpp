@@ -58,7 +58,7 @@ Controller::processMessage(long id, long data)
             break;
             
         case MSG_POWER_OFF:
-            app.canvas.close();
+            // app.canvas.close();
             break;
 
         case MSG_RUN:

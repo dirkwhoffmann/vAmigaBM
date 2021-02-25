@@ -44,6 +44,7 @@ public:
     
     // Informs about the visual state of this layer
     virtual bool isVisible() { return alpha > 0; }
+    virtual bool isOpaque() { return alpha == 0xFF; }
     virtual bool isAnimating() { return alpha != targetAlpha; }
     virtual bool isFadingIn() { return targetAlpha > alpha; }
     virtual bool isFadingOut() { return targetAlpha < alpha; }

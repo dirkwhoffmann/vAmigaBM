@@ -166,7 +166,9 @@ Application::update(sf::Time dt)
 void
 Application::render()
 {
-    if (splashScreen.isVisible()) splashScreen.render();
+    window.clear();
+    
+    if (!canvas.isOpaque()) splashScreen.render();
     if (canvas.isVisible()) canvas.render();
     if (console.isVisible()) console.render();
 

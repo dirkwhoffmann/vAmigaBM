@@ -70,8 +70,21 @@ public:
 
 public:
     
-    virtual bool isVisible() override;
+    // virtual bool isVisible() override;
     void handle(const sf::Event &event) override;
+    void update(sf::Time dt) override;
     void render() override;
     void resize(float width, float height) override;
+    
+    
+    //
+    // Opening and closing
+    //
+    
+public:
+    
+    // Shows or hides the canvas window
+    void open() { setTargetAlpha(0xFF, 0.5); }
+    void close() { setTargetAlpha(0x00, 0.5); }
+    void toggle() { isVisible() ? close() : open(); }
 }; 
