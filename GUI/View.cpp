@@ -29,44 +29,78 @@ View::init(float w, float h)
     update();
 }
 
-float
-View::x1()
+void
+View::setX(float x)
 {
-    return (flags & Align::Left) ? x : (flags & Align::Right) ? x - w : x - w / 2;
+    if (this->x == x) return;
+    
+    this->x = x;
+    update();
 }
 
-float
-View::x2()
+void
+View::setY(float y)
 {
-    return (flags & Align::Left) ? x + w : (flags & Align::Right) ? x : x + w / 2;
+    if (this->y == y) return;
+    
+    this->y = y;
+    update();
 }
 
-float
-View::y1()
+void
+View::setPosition(float x, float y)
 {
-    return (flags & Align::Top) ? y : (flags & Align::Bottom) ? y - h : y - h / 2;
-}
-
-float
-View::y2()
-{
-    return (flags & Align::Top) ? y + h : (flags & Align::Bottom) ? y : y + h / 2;
+    if (this->x != x || this->y != y) {
+        
+        this->x = x;
+        this->y = y;
+        update();
+    }
 }
 
 void
 View::setW(float w)
 {
     if (flags & Align::Proportional) { this->h = w * this->h / this->w; }
-    this->w = w;
-    update();
+
+    if (this->w != w) {
+        this->w = w;
+        update();
+    }
 }
 
 void
 View::setH(float h)
 {
     if (flags & Align::Proportional) { this->w = h * this->w / this->h; }
-    this->h = h;
-    update();
+
+    if (this->h != h) {
+        this->h = h;
+        update();
+    }
+}
+
+void
+View::setSize(float w, float h)
+{
+    assert((flags & Align::Proportional) == 0);
+    
+    if (this->w != w || this->h != h) {
+        
+        this->w = w;
+        this->h = h;
+        update();
+    }
+}
+
+void
+View::update()
+{
+    rx = x;
+    ry = y;
+    
+    rx -= (flags & Align::Left) ? 0 : (flags & Align::Right) ? w : w / 2;
+    ry -= (flags & Align::Top) ? 0 : (flags & Align::Bottom) ? h : h / 2;
 }
 
 
@@ -97,7 +131,9 @@ ImageView::init(const sf::Texture &tex)
 void
 ImageView::update()
 {
-    rectangle.setPosition(sf::Vector2f{x1(),y1()});
+    View::update();
+    
+    rectangle.setPosition(sf::Vector2f { rx,ry } );
     rectangle.setSize(sf::Vector2f{w,h});
 }
 
@@ -120,14 +156,6 @@ GradientView::init(float w, float h,
     setColors(ul, ur, ll, lr);
 }
 
-/*
-void
-GradientView::init(sf::Color ul, sf::Color ur, sf::Color ll, sf::Color lr)
-{
-    init(0, 0, ul, ur, ll, lr);
-}
-*/
-
 void
 GradientView::setColors(sf::Color ul, sf::Color ur, sf::Color ll, sf::Color lr)
 {
@@ -140,10 +168,12 @@ GradientView::setColors(sf::Color ul, sf::Color ur, sf::Color ll, sf::Color lr)
 void
 GradientView::update()
 {
-    rectangle[0].position = sf::Vector2f(x1(), y1());
-    rectangle[1].position = sf::Vector2f(x2(), y1());
-    rectangle[2].position = sf::Vector2f(x2(), y2());
-    rectangle[3].position = sf::Vector2f(x1(), y2());
+    View::update();
+
+    rectangle[0].position = sf::Vector2f( rx, ry );
+    rectangle[1].position = sf::Vector2f( rx + w, ry );
+    rectangle[2].position = sf::Vector2f( rx + w, ry + h );
+    rectangle[3].position = sf::Vector2f( rx, ry + h );
 }
 
 void
@@ -160,7 +190,9 @@ GradientView::draw(sf::RenderWindow &window, const sf::Shader *shader)
 void
 TextView::update()
 {
-    text.setPosition(x1(), y1());
+    View::update();
+
+    text.setPosition(rx, ry);
 }
 
 void

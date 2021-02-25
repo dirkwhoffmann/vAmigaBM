@@ -39,16 +39,7 @@ public:
     
 // protected:
 public:
-    /*
-    // Object position (normalized coordinate + pixel offset)
-    float x = 0; int dx = 0;
-    float y = 0; int dy = 0;
-    
-    // Object size;
-    int w = 0;
-    int h = 0;
-    */
-    
+ 
     // Position and size
     float x = 0;
     float y = 0;
@@ -57,6 +48,11 @@ public:
 
     // Alignment flags
     usize flags = 0;
+    
+    // Render position (final object position)
+    float rx = 0;
+    float ry = 0;
+
     
     //
     // Methods
@@ -68,22 +64,19 @@ public:
     
     // Initializers
     void init(float w, float h);
-    virtual void update() = 0;
 
-    // Getters
-    float x1();
-    float x2();
-    float y1();
-    float y2();
-    
-    // Modifiers
-    void setX(float x) { this->x = x; update(); }
-    void setY(float y) { this->y = y; update(); }
+    // Adjusts the view position
+    void setX(float x);
+    void setY(float y);
+    void setPosition(float x, float y);
+
+    // Adjusts the view position
     void setW(float w);
     void setH(float h);
+    void setSize(float w, float h);
     
-    void setPosition(float x, float y) { setX(x); setY(y); update(); }
-    void setSize(float w, float h) { setW(w); setH(h); update(); }
+    // Computes the render position and updates the texture
+    virtual void update();
 };
 
 
