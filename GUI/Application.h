@@ -51,7 +51,13 @@ public:
     //
 
 public:
+    
+    // The command line parameters
+    std::vector<string> argv;
         
+    // The application window
+    sf::RenderWindow window;
+
     // The emulator instance
     Amiga amiga;
     
@@ -61,7 +67,7 @@ public:
     // Gateway to the host operating system
     OS os;
         
-    // Splash screen layer
+    // The splash screen layer
     SplashScreen splashScreen;
 
     // The emulator layer
@@ -72,29 +78,14 @@ public:
 
     // The music stream
     AmigaMusicStream musicStream;
-        
-    // The render window
-    sf::RenderWindow window;
-    
-    // The event loop timer
-    // sf::Clock clock;
-
-    // The command line parameters
-    std::vector<string> argv;
-    
+                
     // Asset managers
     Assets assets;
     
-    // Sound object pools
+    // The sound object pool
     sf::Sound sound[16];
     
-    
-    //
-    // Querying system properties
-    //
 
-    
-    
     //
     // Initializing
     //
@@ -122,7 +113,7 @@ public:
      *                might still be uninitialized.
      *
      * 3. awake     : This is the second initialization phase. At this point,
-     *                a component can assume that all components have finished
+     *                a component can assume that all components have completed
      *                the first initialization phase.
      *
      * 4. run       : The application enters the main event loop. It remains
@@ -147,7 +138,6 @@ public:
     //
 
     void respond(sf::Event &event);
-    // void processEvents();
     void resize(float w, float h);
     
     

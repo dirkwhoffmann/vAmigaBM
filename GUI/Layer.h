@@ -20,6 +20,9 @@ public:
     // The render texture
     sf::RenderTexture texture;
         
+    // Indicates whether the layer needs to update it's render objects
+    bool isDirty = true;
+
     // Alpha channel parameters
     isize alpha = 0, targetAlpha = 0;
     
@@ -44,6 +47,7 @@ public:
     // Informs about the visual state of this layer
     virtual bool isVisible() { return alpha > 0; }
     virtual bool isOpaque() { return alpha == 0xFF; }
+    virtual bool isTransparent() { return alpha < 0xFF; }
     virtual bool isAnimating() { return alpha != targetAlpha; }
     virtual bool isFadingIn() { return targetAlpha > alpha; }
     virtual bool isFadingOut() { return targetAlpha < alpha; }
@@ -53,7 +57,8 @@ public:
     virtual void update(u64 frames, sf::Time dt);
     virtual void render() { };
     
-    // Delegation methods
+    // Notifications
     virtual void resize(float width, float height) = 0;
+    virtual void alphaDidChange() { }
 };
 

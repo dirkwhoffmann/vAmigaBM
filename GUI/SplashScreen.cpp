@@ -33,13 +33,13 @@ SplashScreen::init()
     title2.setStyle(app.assets.get(FontID::sans_l), 40, sf::Color(0x40,0x40,0x40,0xFF));
     errMsg.setStyle(app.assets.get(FontID::sans_r), 40, sf::Color(0xE0,0x50,0x50,0xFF));
     runMsg.setStyle(app.assets.get(FontID::sans_l), 46, sf::Color(0x50,0x50,0x50,0xFF));
-    info[0].setStyle(app.assets.get(FontID::sans_l), 36, sf::Color(0x50,0x50,0x50,0xFF));
-    info[1].setStyle(app.assets.get(FontID::sans_l), 36, sf::Color(0x50,0x50,0x50,0xFF));
-    info[2].setStyle(app.assets.get(FontID::sans_l), 36, sf::Color(0x50,0x50,0x50,0xFF));
+    info1.setStyle(app.assets.get(FontID::sans_l), 36, sf::Color(0x50,0x50,0x50,0xFF));
+    info2.setStyle(app.assets.get(FontID::sans_l), 36, sf::Color(0x50,0x50,0x50,0xFF));
+    info3.setStyle(app.assets.get(FontID::sans_l), 36, sf::Color(0x50,0x50,0x50,0xFF));
     title1.setString("vAmiga");
     title2.setString("Bare Metal");
-    info[1].setString("Press F11 to open the debug console");
-    info[2].setString("Press F12 to open the menu");
+    info2.setString("Press F11 to open the debug console");
+    info3.setString("Press F12 to open the menu");
 
     // Background
     background.init(sf::Color(0x89,0x89,0x89), sf::Color(0x89,0x89,0x89),
@@ -75,7 +75,7 @@ SplashScreen::launchPhase(isize phase)
                 errMsg.setString(configFile + ": Error in line " + std::to_string(e.data));
                 // runMsg.setString("Press SPACE to quit");
                 runMsg.setString("");
-                info[0].setString("Press SPACE to quit");
+                info1.setString("Press SPACE to quit");
                 spcAction = Quit;
                 f10Action = None;
                 return;
@@ -88,7 +88,7 @@ SplashScreen::launchPhase(isize phase)
             if (!app.amiga.mem.hasKickRom()) {
                 errMsg.setString("No Kickstart Rom");
                 runMsg.setString("");
-                info[0].setString("Press F10 to install the Aros Kickstart replacement");
+                info1.setString("Press F10 to install the Aros Kickstart replacement");
                 spcAction = None;
                 f10Action = Aros;
                 return;
@@ -112,7 +112,7 @@ SplashScreen::launchPhase(isize phase)
             
             errMsg.setString("");
             runMsg.setString("Press SPACE to start");
-            info[0].setString("");
+            info1.setString("");
             spcAction = Launch;
             f10Action = None;
             return;
@@ -193,9 +193,9 @@ SplashScreen::render()
     title2.draw(app.window);
     errMsg.draw(app.window);
     runMsg.draw(app.window);
-    info[0].draw(app.window);
-    info[1].draw(app.window);
-    info[2].draw(app.window);
+    info1.draw(app.window);
+    info2.draw(app.window);
+    info3.draw(app.window);
 }
 
 void
@@ -212,9 +212,9 @@ SplashScreen::resize(float width, float height)
     title2.setFontSize(height/13);
     errMsg.setFontSize(height/28);
     runMsg.setFontSize(height/20);
-    info[0].setFontSize(height/28);
-    info[1].setFontSize(height/28);
-    info[2].setFontSize(height/28);
+    info1.setFontSize(height/28);
+    info2.setFontSize(height/28);
+    info3.setFontSize(height/28);
     
     // Determine centers for composed title text
     int text1w = title1.text.getLocalBounds().width;
@@ -225,7 +225,7 @@ SplashScreen::resize(float width, float height)
     title2.setPosition(width * 0.51 + offset, height * 0.57);
     errMsg.setPosition(width * 0.5, height * 0.685);
     runMsg.setPosition(width * 0.5, height * 0.74);
-    info[0].setPosition(width * 0.5, height * 0.80);
-    info[1].setPosition(width * 0.5, height * 0.85);
-    info[2].setPosition(width * 0.5, height * 0.90);
+    info1.setPosition(width * 0.5, height * 0.80);
+    info2.setPosition(width * 0.5, height * 0.85);
+    info3.setPosition(width * 0.5, height * 0.90);
 }

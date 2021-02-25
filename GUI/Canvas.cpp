@@ -182,9 +182,7 @@ Canvas::update(u64 frames, sf::Time dt)
 
 void
 Canvas::render()
-{
-    // view.rectangle.setFillColor(sf::Color(0xFF,0xFF,0xFF,alpha));
-    
+{    
     if (app.amiga.isPoweredOff()) {
         
         printf("draw Noise\n");
@@ -229,7 +227,11 @@ Canvas::resize(float width, float height)
 {
     float newWidth;
     float newHeight;
-    
+
+    // Resize the noise texture rect
+    noiseTextureRect.setSize(sf::Vector2f(width, height));
+
+    // Resize the emulator texture rect
     if (letterbox) {
  
         float ratio = (float)textureRect.width / (float)textureRect.height;
@@ -242,7 +244,6 @@ Canvas::resize(float width, float height)
         newHeight = height;
     }
     
-    noiseTextureRect.setSize(sf::Vector2f(newWidth, newHeight));
     mergeTextureRect.setSize(sf::Vector2f(newWidth, newHeight));
     mergeTextureRect.setPosition((width - newWidth) / 2, (height - newHeight) / 2);
 }

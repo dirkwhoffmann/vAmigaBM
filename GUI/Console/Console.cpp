@@ -104,8 +104,6 @@ Console::respond(const sf::Event &event)
 void
 Console::render()
 {
-    view.rectangle.setFillColor(sf::Color(0xFF,0xFF,0xFF,alpha));
-    
     if (isVisible()) {
         
         if (isDirty) {
@@ -125,6 +123,12 @@ Console::resize(float width, float height)
     setNumCols((width - 2 * padx) / glyphWidth);
     
     printf("Rows: %zd, Columns: %zd\n", numRows, numCols);
+}
+
+void
+Console::alphaDidChange()
+{
+    view.rectangle.setFillColor(sf::Color(0xFF,0xFF,0xFF,alpha));
 }
 
 void

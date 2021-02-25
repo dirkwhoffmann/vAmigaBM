@@ -72,9 +72,6 @@ class Console : public Layer {
 
     // The rendered text rows
     std::vector<sf::Text> text;
-
-    // Indicates if the render texture needs to be redrawn
-    bool isDirty = true;
     
     // Font properties
     int glyphWidth = 0;
@@ -104,7 +101,8 @@ public:
     void respond(const sf::Event &event) override;
     void render() override;
     void resize(float width, float height) override;
-    
+    void alphaDidChange() override;
+
     
     //
     // Opening and closing

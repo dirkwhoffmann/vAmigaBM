@@ -39,5 +39,7 @@ Layer::update(u64 frames, sf::Time dt)
             alpha += (targetAlpha - alpha) * delta / delay;
             delay -= delta;
         }
+        
+        alphaDidChange();
     }
 }

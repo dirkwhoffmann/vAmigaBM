@@ -25,11 +25,9 @@ class SplashScreen : public Layer {
     TextView title2 = TextView(Align::Left | Align::Top);
     TextView errMsg = TextView(Align::Centered);
     TextView runMsg = TextView(Align::Centered);
-    TextView info[3] = {
-        TextView(Align::Centered),
-        TextView(Align::Centered),
-        TextView(Align::Centered)
-    };
+    TextView info1  = TextView(Align::Centered);
+    TextView info2  = TextView(Align::Centered);
+    TextView info3  = TextView(Align::Centered);
 
     // Name of the config file
     string configPath;

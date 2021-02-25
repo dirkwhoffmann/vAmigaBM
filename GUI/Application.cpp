@@ -8,6 +8,7 @@
 // -----------------------------------------------------------------------------
 
 #include "Application.h"
+#include "Controller.h"
 #include "Amiga.h"
 
 Application::Application(int argc, const char *argv[]) :
@@ -40,13 +41,6 @@ Application::check()
 void
 Application::init()
 {
-    // REMOVE ASAP
-    int x1 = HBLANK_CNT * 4;
-    int x2 = HPOS_CNT * 4;
-    int y1 = VBLANK_CNT;
-    int y2 = VPOS_CNT - 1;
-    printf("Emulator dimensions: %d x %d\n", x2 - x1, y2 - y1);
-    
     // Setup window dimensions
     winXmin = OS::scale(canvas.textureRect.width);
     winYmin = OS::scale(canvas.textureRect.height);
@@ -83,10 +77,10 @@ Application::awake()
 void
 Application::run()
 {
-    sf::Clock clock;
-    sf::Clock fpsClock;
     sf::Event event;
-    u64 frames = 0;
+    sf::Clock clock;
+    u64 frames = 0, latchedFrames = 0;
+    float elapsedTime = 0;
     
     // Render at 60 Hz
     // window.setFramerateLimit(60);
@@ -99,13 +93,18 @@ Application::run()
     while (window.isOpen()) {
         
         sf::Time dt = clock.restart();
+        elapsedTime += dt.asSeconds();
 
         while (window.pollEvent(event)) respond(event);
-        update(frames, dt);
+        update(frames++, dt);
         render();
         
         // Compute the frames per second once in a while
-        if (++frames % 128 == 0) fps(128.0 / fpsClock.restart().asSeconds());
+        if (elapsedTime > 1.0) {
+            fps((frames -latchedFrames) / elapsedTime);
+            latchedFrames = frames;
+            elapsedTime = 0;
+        }
     }
     
     controller.deinit();
@@ -175,7 +174,7 @@ Application::render()
 {
     window.clear();
     
-    if (!canvas.isOpaque()) splashScreen.render();
+    if (canvas.isTransparent()) splashScreen.render();
     if (canvas.isVisible()) canvas.render();
     if (console.isVisible()) console.render();
 
