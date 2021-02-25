@@ -42,20 +42,19 @@ SplashScreen::init()
     info3.setString("Press F12 to open the menu");
 
     // Background
-    background.init(sf::Color(0x89,0x89,0x89), sf::Color(0x89,0x89,0x89),
+    background.init(0, 0,
+                    sf::Color(0x89,0x89,0x89), sf::Color(0x89,0x89,0x89),
                     sf::Color(0xF0,0xF0,0xF0), sf::Color(0xF0,0xF0,0xF0));
     
     // Logo
     logo.init(app.assets.get(TextureID::logo));
     title.init(app.assets.get(TextureID::title));
-    printf("Title: %f %f\n", title.w, title.h); 
 }
 
 void
 SplashScreen::launchPhase(isize phase)
 {
     std::ifstream stream;
-    // auto warn = sf::Color(0xE0,0x50,0x50,0xFF);
     
     switch (phase) {
             
@@ -133,14 +132,6 @@ SplashScreen::loadAros()
         return false;
     }
 }
-
-/*
-bool
-SplashScreen::isVisible()
-{
-    return app.amiga.isPoweredOff() || app.canvas.isAnimating();
-}
-*/
 
 void
 SplashScreen::respond(const sf::Event &event)

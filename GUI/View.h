@@ -39,6 +39,15 @@ public:
     
 // protected:
 public:
+    /*
+    // Object position (normalized coordinate + pixel offset)
+    float x = 0; int dx = 0;
+    float y = 0; int dy = 0;
+    
+    // Object size;
+    int w = 0;
+    int h = 0;
+    */
     
     // Position and size
     float x = 0;
@@ -58,7 +67,7 @@ public:
     View(usize flags);
     
     // Initializers
-    void init(float x, float y, float w, float h);
+    void init(float w, float h);
     virtual void update() = 0;
 
     // Getters
@@ -92,7 +101,6 @@ public:
     ImageView(usize flags) : View(flags) { };
 
     // Initializers
-    void init(float x, float y, const sf::Texture &tex);
     void init(const sf::Texture &tex);
         
     // Delegation methods
@@ -117,11 +125,9 @@ public:
     GradientView(usize flags) : View(flags) { };
 
     // Initializers
-    void init(float x, float y, float w, float h,
-              sf::Color ul, sf::Color ur, sf::Color ll, sf::Color lr);
     void init(float w, float h,
               sf::Color ul, sf::Color ur, sf::Color ll, sf::Color lr);
-    void init(sf::Color ul, sf::Color ur, sf::Color ll, sf::Color lr);
+    // void init(sf::Color ul, sf::Color ur, sf::Color ll, sf::Color lr);
 
     // Setters
     void setColors(sf::Color ul, sf::Color ur, sf::Color ll, sf::Color lr);

@@ -20,10 +20,10 @@ View::View(usize flags)
 }
 
 void
-View::init(float x, float y, float w, float h)
+View::init(float w, float h)
 {
-    this->x = x;
-    this->y = y;
+    this->x = 0;
+    this->y = 0;
     this->w = w;
     this->h = h;
     update();
@@ -75,9 +75,9 @@ View::setH(float h)
 //
 
 void
-ImageView::init(float x, float y, const sf::Texture &tex)
+ImageView::init(const sf::Texture &tex)
 {
-    View::init(x, y, tex.getSize().x, tex.getSize().y);
+    View::init(tex.getSize().x, tex.getSize().y);
     rectangle.setTexture(&tex);
     
     if (flags & Align::FlippedX) {
@@ -92,12 +92,6 @@ ImageView::init(float x, float y, const sf::Texture &tex)
         auto size = tex.getSize();
         rectangle.setTextureRect(sf::IntRect(rect.left, size.y, rect.width, -size.y));
     }
-}
-
-void
-ImageView::init(const sf::Texture &tex)
-{
-    init(0, 0, tex);
 }
 
 void
@@ -119,25 +113,20 @@ ImageView::draw(sf::RenderWindow &window, const sf::Shader *shader)
 //
 
 void
-GradientView::init(float x, float y, float w, float h,
-                   sf::Color ul, sf::Color ur, sf::Color ll, sf::Color lr)
-{
-    View::init(x, y, w, h);
-    setColors(ul, ur, ll, lr);
-}
-
-void
 GradientView::init(float w, float h,
                    sf::Color ul, sf::Color ur, sf::Color ll, sf::Color lr)
 {
-    init(0, 0, w, h, ul, ur, ll, lr);
+    View::init(w, h);
+    setColors(ul, ur, ll, lr);
 }
 
+/*
 void
 GradientView::init(sf::Color ul, sf::Color ur, sf::Color ll, sf::Color lr)
 {
-    init(0, 0, 0, 0, ul, ur, ll, lr);
+    init(0, 0, ul, ur, ll, lr);
 }
+*/
 
 void
 GradientView::setColors(sf::Color ul, sf::Color ur, sf::Color ll, sf::Color lr)
