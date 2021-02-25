@@ -46,6 +46,12 @@ Application::init()
     int y2 = VPOS_CNT - 1;
     printf("Emulator dimensions: %d x %d\n", x2 - x1, y2 - y1);
     
+    // Setup window dimensions
+    winXmin = OS::scale(canvas.textureRect.width);
+    winYmin = OS::scale(canvas.textureRect.height);
+    int winXinit = winXmin;
+    int winYinit = winYmin;
+    
     // Create render window
     auto videoMode = sf::VideoMode(winXinit, winYinit);
     window.create(videoMode, "vAmiga Bare Metal");

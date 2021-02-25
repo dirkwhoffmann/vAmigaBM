@@ -14,14 +14,31 @@
 class Canvas : public Layer {
     
 public:
+
+    // Dimensions of both emulator textures (short and long frames)
+    static const int TEX_EMU_W = HPIXELS;
+    static const int TEX_EMU_H = VPIXELS;
     
-    // Texture constants
+    // Dimensions of the merge texture
+    static const int TEX_MRG_W = HPIXELS;
+    static const int TEX_MRG_H = VPIXELS * 2;
+
+    // The displayed part of the final texture
+    sf::IntRect textureRect = {
+        HBLANK_CNT * 4,
+        VBLANK_CNT * 2,
+        (HPOS_CNT - HBLANK_CNT) * 4,
+        (VPOS_CNT - VBLANK_CNT) * 2
+    };
+
+    /*
     static const int texX1 = HBLANK_CNT * 4;
     static const int texX2 = HPOS_CNT * 4;
     static const int texY1 = VBLANK_CNT * 2;
     static const int texY2 = (VPOS_CNT - 1) * 2;
     static const int texW  = texX2 - texX1;
     static const int texH  = texY2 - texY1;
+    */
 
 private:
     
@@ -33,13 +50,20 @@ private:
     bool currLOF = true;
     bool prevLOF = true;
 
+    // The noise texture
+    sf::Texture noiseTexture;
+    sf::RectangleShape noiseTextureRect;
+    
     // The emulator textures
     sf::Texture longFrameTexture;
     sf::Texture shortFrameTexture;
+    sf::RectangleShape longFrameRect;
+    sf::RectangleShape shortFrameRect;
 
     // The merge texture
-    sf::Texture mergeTexture;
-    
+    sf::RenderTexture mergeTexture;
+    sf::RectangleShape mergeTextureRect;
+        
     // The merge shaders
     sf::Shader *mergeShader = nullptr;
     sf::Shader *mergeBypassShader = nullptr;

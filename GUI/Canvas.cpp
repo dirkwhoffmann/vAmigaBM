@@ -22,7 +22,10 @@ Canvas::~Canvas()
 void Canvas::init()
 {
     Layer::init();
-    
+
+    if (!noiseTexture.create(HPIXELS, VPIXELS)) {
+        throw Exception("Can't create the noise texture");
+    }
     if (!longFrameTexture.create(HPIXELS, VPIXELS)) {
         throw Exception("Can't create the long frame texture");
     }
@@ -32,12 +35,35 @@ void Canvas::init()
     if (!mergeTexture.create(HPIXELS, VPIXELS * 2)) {
         throw Exception("Can't create the merge texture");
     }
-
-    mergeShader = &app.assets.get(ShaderID::merge);
-    mergeBypassShader = &app.assets.get(ShaderID::mergeBypass);
     
-    view.init(mergeTexture);
-    view.rectangle.setTextureRect(sf::IntRect(texX1, texY1, texW, texH));
+    noiseTextureRect.setSize(sf::Vector2f(HPIXELS, VPIXELS * 2));
+    noiseTextureRect.setTexture(&noiseTexture);
+    
+    longFrameRect.setSize(sf::Vector2f(HPIXELS, VPIXELS * 2));
+    longFrameRect.setTexture(&longFrameTexture);
+    
+    shortFrameRect.setSize(sf::Vector2f(HPIXELS, VPIXELS * 2));
+    shortFrameRect.setTexture(&shortFrameTexture);
+
+    mergeTextureRect.setSize(sf::Vector2f(textureRect.width, textureRect.height));
+    mergeTextureRect.setTexture(&mergeTexture.getTexture());
+        
+    mergeBypassShader = &app.assets.get(ShaderID::mergeBypass);
+    mergeShader = &app.assets.get(ShaderID::merge);
+    mergeShader->setUniform("textureSize", sf::Glsl::Vec2(HPIXELS, VPIXELS));
+
+    // mergeTarget.create(HPIXELS, VPIXELS * 2);
+    
+    // view.init(mergeTexture);
+    
+    sf::IntRect flippedRect = textureRect;
+    flippedRect.top = TEX_MRG_H - flippedRect.top;
+    flippedRect.height = - flippedRect.height;
+    
+    mergeTextureRect.setTextureRect(flippedRect);
+    //  sf::IntRect(0, VPIXELS * 2, HPIXELS, -VPIXELS * 2));
+
+    //mergeTextureRect.setTextureRect(sf::IntRect(texX1, VPIXELS * 2 - texY1, texW, -texH));
 }
 
 void
@@ -136,7 +162,7 @@ Canvas::update(sf::Time dt)
     // Update the texture
     if (app.amiga.isPaused()) {
         
-        mergeTexture.update((u8 *)app.amiga.denise.pixelEngine.getNoise());
+        noiseTexture.update((u8 *)app.amiga.denise.pixelEngine.getNoise());
         
     } else if (app.amiga.isRunning()) {
             
@@ -166,28 +192,33 @@ Canvas::render()
 {
     view.rectangle.setFillColor(sf::Color(0xFF,0xFF,0xFF,alpha));
     
-    auto size = longFrameTexture.getSize();
-    mergeShader->setUniform("textureSize", sf::Glsl::Vec2(size.x, size.y));
-
+    if (app.amiga.isPaused()) {
+        
+        app.window.draw(noiseTextureRect);
+        return;
+    }
+    
     if (currLOF != prevLOF) {
 
         // Case 1: Interlace drawing
         mergeShader->setUniform("texture1", longFrameTexture);
         mergeShader->setUniform("texture2", shortFrameTexture);
-        view.draw(app.window, mergeShader);
+        mergeTexture.draw(shortFrameRect, mergeShader);
 
     } else if (currLOF) {
         
         // Case 2: Non-interlace drawing (two long frames in a row)
         mergeBypassShader->setUniform("texture", longFrameTexture);
-        view.draw(app.window, mergeBypassShader);
+        mergeTexture.draw(longFrameRect, mergeBypassShader);
 
     } else {
         
         // Case 3: Non-interlace drawing (two short frames in a row)
         mergeBypassShader->setUniform("texture", shortFrameTexture);
-        view.draw(app.window, mergeBypassShader);
-    }    
+        mergeTexture.draw(shortFrameRect, mergeBypassShader);
+    }
+    
+    app.window.draw(mergeTextureRect);
 }
 
 void
@@ -198,7 +229,7 @@ Canvas::resize(float width, float height)
     
     if (letterbox) {
  
-        float ratio = (float)texW / (float)texH;
+        float ratio = (float)textureRect.width / (float)textureRect.height;
         newWidth  = width / height > ratio ? height * ratio : width;
         newHeight = width / height > ratio ? height : width / ratio;
 
