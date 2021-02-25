@@ -190,7 +190,9 @@ Canvas::update(sf::Time dt)
 void
 Canvas::render()
 {
-    view.rectangle.setFillColor(sf::Color(0xFF,0xFF,0xFF,alpha));
+    // view.rectangle.setFillColor(sf::Color(0xFF,0xFF,0xFF,alpha));
+    
+    mergeTextureRect.setFillColor(sf::Color(0xFF,0xFF,0xFF,alpha));
     
     if (app.amiga.isPaused()) {
         
@@ -239,8 +241,8 @@ Canvas::resize(float width, float height)
         newHeight = height;
     }
     
-    view.setSize(newWidth, newHeight);
-    view.setPosition((width - newWidth) / 2, (height - newHeight) / 2);
+    mergeTextureRect.setSize(sf::Vector2f(newWidth, newHeight));
+    mergeTextureRect.setPosition((width - newWidth) / 2, (height - newHeight) / 2);
 }
 
 void

@@ -69,7 +69,7 @@ private:
     sf::Shader *mergeBypassShader = nullptr;
 
     // Render object
-    ImageView view = ImageView(Align::UpperLeft);
+    // ImageView view = ImageView(Align::UpperLeft);
     
     // Indicates if the aspect ratio should be kept constant
     bool letterbox = true;
