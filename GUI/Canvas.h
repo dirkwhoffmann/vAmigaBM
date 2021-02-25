@@ -28,17 +28,8 @@ public:
         HBLANK_CNT * 4,
         VBLANK_CNT * 2,
         (HPOS_CNT - HBLANK_CNT) * 4,
-        (VPOS_CNT - VBLANK_CNT) * 2
+        (VPOS_CNT - VBLANK_CNT - 2) * 2
     };
-
-    /*
-    static const int texX1 = HBLANK_CNT * 4;
-    static const int texX2 = HPOS_CNT * 4;
-    static const int texY1 = VBLANK_CNT * 2;
-    static const int texY2 = (VPOS_CNT - 1) * 2;
-    static const int texW  = texX2 - texX1;
-    static const int texH  = texY2 - texY1;
-    */
 
 private:
     
@@ -67,9 +58,6 @@ private:
     // The merge shaders
     sf::Shader *mergeShader = nullptr;
     sf::Shader *mergeBypassShader = nullptr;
-
-    // Render object
-    // ImageView view = ImageView(Align::UpperLeft);
     
     // Indicates if the aspect ratio should be kept constant
     bool letterbox = true;
@@ -112,8 +100,8 @@ public:
 public:
     
     // Shows or hides the canvas window
-    void open() { setTargetAlpha(0xFF, 0.5); }
-    void close() { setTargetAlpha(0x00, 0.5); }
+    void open();
+    void close();
     void toggle() { isVisible() ? close() : open(); }
     
     

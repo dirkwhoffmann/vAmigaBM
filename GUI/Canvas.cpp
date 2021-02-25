@@ -51,19 +51,12 @@ void Canvas::init()
     mergeBypassShader = &app.assets.get(ShaderID::mergeBypass);
     mergeShader = &app.assets.get(ShaderID::merge);
     mergeShader->setUniform("textureSize", sf::Glsl::Vec2(HPIXELS, VPIXELS));
-
-    // mergeTarget.create(HPIXELS, VPIXELS * 2);
-    
-    // view.init(mergeTexture);
     
     sf::IntRect flippedRect = textureRect;
     flippedRect.top = TEX_MRG_H - flippedRect.top;
     flippedRect.height = - flippedRect.height;
     
     mergeTextureRect.setTextureRect(flippedRect);
-    //  sf::IntRect(0, VPIXELS * 2, HPIXELS, -VPIXELS * 2));
-
-    //mergeTextureRect.setTextureRect(sf::IntRect(texX1, VPIXELS * 2 - texY1, texW, -texH));
 }
 
 void
@@ -198,31 +191,34 @@ Canvas::render()
         app.window.draw(noiseTextureRect);
         return;
     }
-
+    
     if (app.amiga.isPaused()) {
+
         mergeTextureRect.setFillColor(sf::Color(0xA0,0xA0,0xA0,alpha));
+
     } else {
+
         mergeTextureRect.setFillColor(sf::Color(0xFF,0xFF,0xFF,alpha));
-    }
-
-    if (currLOF != prevLOF) {
-
-        // Case 1: Interlace drawing
-        mergeShader->setUniform("texture1", longFrameTexture);
-        mergeShader->setUniform("texture2", shortFrameTexture);
-        mergeTexture.draw(shortFrameRect, mergeShader);
-
-    } else if (currLOF) {
         
-        // Case 2: Non-interlace drawing (two long frames in a row)
-        mergeBypassShader->setUniform("texture", longFrameTexture);
-        mergeTexture.draw(longFrameRect, mergeBypassShader);
-
-    } else {
-        
-        // Case 3: Non-interlace drawing (two short frames in a row)
-        mergeBypassShader->setUniform("texture", shortFrameTexture);
-        mergeTexture.draw(shortFrameRect, mergeBypassShader);
+        if (currLOF != prevLOF) {
+            
+            // Case 1: Interlace drawing
+            mergeShader->setUniform("texture1", longFrameTexture);
+            mergeShader->setUniform("texture2", shortFrameTexture);
+            mergeTexture.draw(shortFrameRect, mergeShader);
+            
+        } else if (currLOF) {
+            
+            // Case 2: Non-interlace drawing (two long frames in a row)
+            mergeBypassShader->setUniform("texture", longFrameTexture);
+            mergeTexture.draw(longFrameRect, mergeBypassShader);
+            
+        } else {
+            
+            // Case 3: Non-interlace drawing (two short frames in a row)
+            mergeBypassShader->setUniform("texture", shortFrameTexture);
+            mergeTexture.draw(shortFrameRect, mergeBypassShader);
+        }
     }
     
     app.window.draw(mergeTextureRect);
@@ -246,8 +242,22 @@ Canvas::resize(float width, float height)
         newHeight = height;
     }
     
+    noiseTextureRect.setSize(sf::Vector2f(newWidth, newHeight));
     mergeTextureRect.setSize(sf::Vector2f(newWidth, newHeight));
     mergeTextureRect.setPosition((width - newWidth) / 2, (height - newHeight) / 2);
+}
+
+void
+Canvas::open()
+{
+    mergeTexture.clear();
+    setTargetAlpha(0xFF, 0.5);
+}
+
+void
+Canvas::close()
+{
+    setTargetAlpha(0x00, 0.5);
 }
 
 void
