@@ -26,7 +26,6 @@
 		50658EE025C03EF800F7128D /* Console.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50658EDE25C03EF800F7128D /* Console.cpp */; };
 		5066F75425C55F75009199B6 /* ControllerCmds.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5066F75325C55F75009199B6 /* ControllerCmds.cpp */; };
 		5070133A25C0745D003B3420 /* DroidSansMono.ttf in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5070133625C0719B003B3420 /* DroidSansMono.ttf */; };
-		507F613525C1BE42003D695F /* blur.frag in CopyFiles */ = {isa = PBXBuildFile; fileRef = 507F613425C1BA52003D695F /* blur.frag */; };
 		508A80B825E650E3007C4E46 /* krunch.png in CopyFiles */ = {isa = PBXBuildFile; fileRef = 508A80B725E650E3007C4E46 /* krunch.png */; };
 		508A80BA25E65148007C4E46 /* merge.frag in CopyFiles */ = {isa = PBXBuildFile; fileRef = 508A80B925E65148007C4E46 /* merge.frag */; };
 		508A80BC25E6A67A007C4E46 /* mergeBypass.frag in CopyFiles */ = {isa = PBXBuildFile; fileRef = 508A80BB25E6A67A007C4E46 /* mergeBypass.frag */; };
@@ -215,7 +214,6 @@
 				50C4C27225D16C4D00849A01 /* SourceSansPro-Regular.ttf in CopyFiles */,
 				5000932625C0C3D000F01BEF /* SourceSansPro-SemiBold.ttf in CopyFiles */,
 				50E08E1D25C3102200B82E96 /* IBMPlexMono-Medium.ttf in CopyFiles */,
-				507F613525C1BE42003D695F /* blur.frag in CopyFiles */,
 				508A80BA25E65148007C4E46 /* merge.frag in CopyFiles */,
 				508A80BC25E6A67A007C4E46 /* mergeBypass.frag in CopyFiles */,
 				5070133A25C0745D003B3420 /* DroidSansMono.ttf in CopyFiles */,
@@ -261,7 +259,6 @@
 		50658EDF25C03EF800F7128D /* Console.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Console.h; sourceTree = "<group>"; };
 		5066F75325C55F75009199B6 /* ControllerCmds.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ControllerCmds.cpp; sourceTree = "<group>"; };
 		5070133625C0719B003B3420 /* DroidSansMono.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = DroidSansMono.ttf; sourceTree = "<group>"; };
-		507F613425C1BA52003D695F /* blur.frag */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = blur.frag; sourceTree = "<group>"; };
 		508A80B725E650E3007C4E46 /* krunch.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = krunch.png; sourceTree = "<group>"; };
 		508A80B925E65148007C4E46 /* merge.frag */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = merge.frag; sourceTree = "<group>"; };
 		508A80BB25E6A67A007C4E46 /* mergeBypass.frag */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = mergeBypass.frag; sourceTree = "<group>"; };
@@ -678,7 +675,6 @@
 		507F613325C1B9ED003D695F /* Shaders */ = {
 			isa = PBXGroup;
 			children = (
-				507F613425C1BA52003D695F /* blur.frag */,
 				508A80B925E65148007C4E46 /* merge.frag */,
 				508A80BB25E6A67A007C4E46 /* mergeBypass.frag */,
 			);

@@ -40,10 +40,7 @@ class SplashScreen : public Layer {
     KeyAction spcAction = None;
     KeyAction f10Action = None;
 
-    // Experimental
-    ImageView krunch = ImageView(Align::Top | Align::Proportional);
-    
-    
+        
     //
     // Initializing
     //

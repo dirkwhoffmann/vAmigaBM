@@ -16,7 +16,6 @@ TextureManager::load(TextureID id)
     
     switch (id) {
             
-        case TextureID::krunch: path = "krunch.png"; break;
         case TextureID::logo: path = "logo.png"; break;
         case TextureID::title: path = "title.png"; break;
 
@@ -93,7 +92,6 @@ ShaderManager::load(ShaderID id)
     
     switch (id) {
             
-        case ShaderID::blur: frag = "blur.frag"; break;
         case ShaderID::merge: frag = "merge.frag"; break;
         case ShaderID::mergeBypass: frag = "mergeBypass.frag"; break;
             
