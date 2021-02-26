@@ -33,11 +33,14 @@ Layer::update(u64 frames, sf::Time dt)
     if (alpha != targetAlpha) {
 
         float delta = dt.asSeconds();
-        if (delta >= delay) {
-            alpha = targetAlpha;
-        } else {
-            alpha += (targetAlpha - alpha) * delta / delay;
-            delay -= delta;
+        
+        if (alpha < targetAlpha) {
+            alpha += 0xFF * delta / delay;
+            if (alpha > targetAlpha) alpha = targetAlpha;
+        }
+        if (alpha > targetAlpha) {
+            alpha -= 0xFF * delta / delay;
+            if (alpha < targetAlpha) alpha = targetAlpha;
         }
         
         alphaDidChange();

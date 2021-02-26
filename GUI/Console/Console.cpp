@@ -112,7 +112,6 @@ Console::update(u64 frame, sf::Time dt)
     }
     
     if (isDirty) {
-        
         updateTexture();
         isDirty = false;
     }

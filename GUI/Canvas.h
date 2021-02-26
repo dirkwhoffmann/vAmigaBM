@@ -15,13 +15,17 @@ class Canvas : public Layer {
     
 public:
 
-    // Dimensions of both emulator textures (short and long frames)
-    static const int TEX_EMU_W = HPIXELS;
-    static const int TEX_EMU_H = VPIXELS;
+    // Dimensions of the noise texture
+    static const int TEX_NOISE_W = HPIXELS;
+    static const int TEX_NOISE_H = VPIXELS;
+
+    // Dimensions of a long frame or short frame textures
+    static const int TEX_FRAME_W = HPIXELS;
+    static const int TEX_FRAME_H = VPIXELS;
     
     // Dimensions of the merge texture
-    static const int TEX_MRG_W = HPIXELS;
-    static const int TEX_MRG_H = VPIXELS * 2;
+    static const int TEX_MERGE_W = HPIXELS;
+    static const int TEX_MERGE_H = VPIXELS * 2;
 
     // The displayed part of the final texture
     sf::IntRect textureRect = {
@@ -65,7 +69,6 @@ private:
     // Initial mouse position after releasing
     int baseX, baseY;
     
-public:
         
     //
     // Initializing
@@ -82,34 +85,24 @@ public:
     
 
     //
-    // Methods from Layer class
+    // Performing continuous tasks
+    //
+    
+public:
+    
+    void update(u64 frames, sf::Time dt) override;
+    void render() override;
+
+    
+    //
+    // Responding to events
     //
     
 public:
     
     void respond(const sf::Event &event) override;
-    void update(u64 frames, sf::Time dt) override; 
-    void render() override;
     void resize(float width, float height) override;
-    
-    
-    //
-    // Opening and closing
-    //
-    
-public:
-    
-    // Shows or hides the canvas window
-    void open();
-    void close();
-    void toggle() { isVisible() ? close() : open(); }
-    
-    
-    //
-    // Working with the mouse
-    //
-    
-public:
-    
     void mouseMoved(int dx, int dy);
+    void powerOn();
+    void powerOff();
 };

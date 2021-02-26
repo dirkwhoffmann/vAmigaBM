@@ -59,29 +59,25 @@ public:
     bool loadAros();
     
     // Experimental
-    float myfloat = .05f;
+    // float myfloat = .05f;
     
     
     //
-    // Methods from Layer class
+    // Performing continuous tasks
     //
-
+    
 public:
     
-    void respond(const sf::Event &event) override;
     void update(u64 frames, sf::Time dt) override;
     void render() override;
-    void resize(float width, float height) override;
     
     
     //
-    // Opening and closing
+    // Responding to events
     //
     
 public:
-    
-    // Shows or hides the canvas window
-    void open() { setTargetAlpha(0xFF, 0.5); }
-    void close() { setTargetAlpha(0x00, 0.5); }
-    void toggle() { isVisible() ? close() : open(); }
+        
+    void respond(const sf::Event &event) override;
+    void resize(float width, float height) override;
 }; 

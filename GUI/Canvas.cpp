@@ -23,37 +23,44 @@ void Canvas::init()
 {
     Layer::init();
 
-    if (!noiseTexture.create(HPIXELS, VPIXELS)) {
+    // Configure the animation speed
+    delay = 0.5;
+    
+    // Create the noise texture
+    if (!noiseTexture.create(TEX_NOISE_W, TEX_NOISE_H)) {
         throw Exception("Can't create the noise texture");
     }
-    if (!longFrameTexture.create(HPIXELS, VPIXELS)) {
+    noiseTextureRect.setSize(sf::Vector2f(TEX_MERGE_W, TEX_MERGE_H));
+    noiseTextureRect.setTexture(&noiseTexture);
+
+    // Create the long frame texture
+    if (!longFrameTexture.create(TEX_FRAME_W, TEX_FRAME_H)) {
         throw Exception("Can't create the long frame texture");
     }
-    if (!shortFrameTexture.create(HPIXELS, VPIXELS)) {
+    longFrameRect.setSize(sf::Vector2f(TEX_MERGE_W, TEX_MERGE_H));
+    longFrameRect.setTexture(&longFrameTexture);
+
+    // Create the short frame texture
+    if (!shortFrameTexture.create(TEX_FRAME_W, TEX_FRAME_H)) {
         throw Exception("Can't create the short frame texture");
     }
-    if (!mergeTexture.create(HPIXELS, VPIXELS * 2)) {
-        throw Exception("Can't create the merge texture");
-    }
-    
-    noiseTextureRect.setSize(sf::Vector2f(HPIXELS, VPIXELS * 2));
-    noiseTextureRect.setTexture(&noiseTexture);
-    
-    longFrameRect.setSize(sf::Vector2f(HPIXELS, VPIXELS * 2));
-    longFrameRect.setTexture(&longFrameTexture);
-    
-    shortFrameRect.setSize(sf::Vector2f(HPIXELS, VPIXELS * 2));
+    shortFrameRect.setSize(sf::Vector2f(TEX_MERGE_W, TEX_MERGE_H));
     shortFrameRect.setTexture(&shortFrameTexture);
 
+    // Create the merge texture (combining two frame textures)
+    if (!mergeTexture.create(TEX_MERGE_W, TEX_MERGE_H)) {
+        throw Exception("Can't create the merge texture");
+    }
     mergeTextureRect.setSize(sf::Vector2f(textureRect.width, textureRect.height));
     mergeTextureRect.setTexture(&mergeTexture.getTexture());
         
+    // Creates the merge shader and the bypass shader
     mergeBypassShader = &app.assets.get(ShaderID::mergeBypass);
     mergeShader = &app.assets.get(ShaderID::merge);
-    mergeShader->setUniform("textureSize", sf::Glsl::Vec2(HPIXELS, VPIXELS));
+    mergeShader->setUniform("textureSize", sf::Glsl::Vec2(TEX_FRAME_W, TEX_FRAME_H));
     
     sf::IntRect flippedRect = textureRect;
-    flippedRect.top = TEX_MRG_H - flippedRect.top;
+    flippedRect.top = TEX_MERGE_H - flippedRect.top;
     flippedRect.height = - flippedRect.height;
     
     mergeTextureRect.setTextureRect(flippedRect);
@@ -249,20 +256,20 @@ Canvas::resize(float width, float height)
 }
 
 void
-Canvas::open()
-{
-    mergeTexture.clear();
-    setTargetAlpha(0xFF, 0.5);
-}
-
-void
-Canvas::close()
-{
-    setTargetAlpha(0x00, 0.5);
-}
-
-void
 Canvas::mouseMoved(int dx, int dy)
 {
     app.amiga.controlPort1.mouse.setDeltaXY(dx, dy);
+}
+
+void
+Canvas::powerOn()
+{
+    mergeTexture.clear();
+    open();
+}
+
+void
+Canvas::powerOff()
+{
+
 }

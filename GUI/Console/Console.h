@@ -95,31 +95,31 @@ public:
 
 
     //
-    // Methods from Layer class
+    // Performing continuous tasks
     //
     
-    void respond(const sf::Event &event) override;
+public:
+    
     void update(u64 frames, sf::Time dt) override;
     void render() override;
+    
+    
+    //
+    // Responding to events
+    //
+    
+public:
+    
+    void respond(const sf::Event &event) override;
     void resize(float width, float height) override;
     void alphaDidChange() override;
 
     
     //
-    // Opening and closing
-    //
-    
-public:
-    
-    // Opens or closes the console
-    void open() { setTargetAlpha(0xFF, 0.2); }
-    void close() { setTargetAlpha(0x00, 0.2); }
-    void toggle() { printf("toggle\n"); isVisible() ? close() : open(); }
-    
- 
-    //
     // Adjusting the layout
     //
+    
+private:
     
     void setNumRows(isize value);
     void setNumCols(isize value);

@@ -53,11 +53,11 @@ Controller::processMessage(long id, long data)
     switch (msg) {
             
         case MSG_POWER_ON:
-            app.canvas.open();
+            app.canvas.powerOn();
             break;
             
         case MSG_POWER_OFF:
-            // app.canvas.close();
+            app.canvas.powerOff();
             break;
 
         case MSG_RUN:

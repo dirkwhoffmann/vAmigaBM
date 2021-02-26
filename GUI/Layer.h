@@ -27,7 +27,8 @@ public:
     isize alpha = 0, targetAlpha = 0;
     
     // Time until alpha is supposed to reach targetAlpha in seconds
-    float delay;
+    float delay = 0.2;
+    
     
     //
     // Initializing
@@ -42,7 +43,7 @@ public:
     //
     
     // Triggers an alpha animation
-    void setTargetAlpha(isize target, float seconds);
+    [[deprecated]] void setTargetAlpha(isize target, float seconds);
     
     // Informs about the visual state of this layer
     virtual bool isVisible() { return alpha > 0; }
@@ -52,12 +53,35 @@ public:
     virtual bool isFadingIn() { return targetAlpha > alpha; }
     virtual bool isFadingOut() { return targetAlpha < alpha; }
     
-    // Event loop handlers
-    virtual void respond(const sf::Event &event) = 0;
+    
+    //
+    // Opening and closing
+    //
+    
+public:
+    
+    void open() { targetAlpha = 0xFF; }
+    void close() { targetAlpha = 0x00; }
+    void toggle() { isVisible() ? close() : open(); }
+    
+    
+    //
+    // Performing continuous tasks
+    //
+    
+public:
+    
     virtual void update(u64 frames, sf::Time dt);
     virtual void render() { };
     
-    // Notifications
+    
+    //
+    // Responding to events
+    //
+    
+public:
+
+    virtual void respond(const sf::Event &event) = 0;
     virtual void resize(float width, float height) = 0;
     virtual void alphaDidChange() { }
 };
