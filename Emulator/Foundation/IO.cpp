@@ -9,6 +9,7 @@
 
 #include "config.h"
 #include "IO.h"
+#include "string.h"
 
 namespace util {
 
