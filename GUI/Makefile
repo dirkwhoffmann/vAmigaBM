@@ -8,10 +8,12 @@ SFML = $(CURDIR)/../SFML
 
 # -Wall
 MYFLAGS = \
+-I $(CURDIR)/.. \
 -I $(EMU) \
 -I $(EMU)/Agnus \
 -I $(EMU)/Agnus/Blitter \
 -I $(EMU)/Agnus/Copper \
+-I $(EMU)/Base \
 -I $(EMU)/CIA \
 -I $(EMU)/CPU \
 -I $(EMU)/CPU/Moira \

@@ -550,6 +550,10 @@
 		50AFF9C025EFC3EF0052269B /* Beam.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Beam.h; sourceTree = "<group>"; };
 		50AFF9C125EFC4300052269B /* IO.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = IO.cpp; sourceTree = "<group>"; };
 		50AFF9C225EFC4300052269B /* IO.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IO.h; sourceTree = "<group>"; };
+		50AFF9C425EFCBC40052269B /* Makefile */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
+		50AFF9C525EFD0340052269B /* DiskControllerTypes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DiskControllerTypes.h; sourceTree = "<group>"; };
+		50AFF9C625EFD0710052269B /* Event.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Event.h; sourceTree = "<group>"; };
+		50AFF9C725EFD07C0052269B /* Frame.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Frame.h; sourceTree = "<group>"; };
 		50B6305F25D8FFA100A860A7 /* Makefile */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
 		50B6306225D926EF00A860A7 /* Makefile */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
 		50B6306425D92E8000A860A7 /* Makefile */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
@@ -842,6 +846,8 @@
 				50AE10B625C42D6600AD13B7 /* EventHandlerPublicTypes.h */,
 				50AE10B725C42D6600AD13B7 /* DmaDebuggerTypes.h */,
 				50AFF9C025EFC3EF0052269B /* Beam.h */,
+				50AFF9C625EFD0710052269B /* Event.h */,
+				50AFF9C725EFD07C0052269B /* Frame.h */,
 				50AE10B825C42D6600AD13B7 /* DDF.cpp */,
 				50AE10B925C42D6600AD13B7 /* AgnusRegisters.cpp */,
 				50AE10BA25C42D6600AD13B7 /* DmaDebugger.cpp */,
@@ -1015,8 +1021,9 @@
 			isa = PBXGroup;
 			children = (
 				50B6306825D92EE200A860A7 /* Makefile */,
-				50AE110C25C42D6600AD13B7 /* DiskControllerEvents.cpp */,
+				50AFF9C525EFD0340052269B /* DiskControllerTypes.h */,
 				50AE110D25C42D6600AD13B7 /* DiskControllerPublicTypes.h */,
+				50AE110C25C42D6600AD13B7 /* DiskControllerEvents.cpp */,
 				50AE110E25C42D6600AD13B7 /* DiskControllerRegisters.cpp */,
 				50AE110F25C42D6600AD13B7 /* DiskController.cpp */,
 				50AE111025C42D6600AD13B7 /* DiskController.h */,
@@ -1130,6 +1137,7 @@
 		50AFF98A25EFC1B60052269B /* Base */ = {
 			isa = PBXGroup;
 			children = (
+				50AFF9C425EFCBC40052269B /* Makefile */,
 				50AFF98B25EFC1B60052269B /* MsgQueue.cpp */,
 				50AFF98C25EFC1B60052269B /* HardwareComponent.h */,
 				50AFF98D25EFC1B60052269B /* AmigaObject.h */,
