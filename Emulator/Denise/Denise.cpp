@@ -7,12 +7,17 @@
 // See https://www.gnu.org for license information
 // -----------------------------------------------------------------------------
 
+#include "config.h"
+#include "Denise.h"
+
+#include "Agnus.h"
 #include "Amiga.h"
+#include "ControlPort.h"
 #include "SSEUtils.h"
 
 Denise::Denise(Amiga& ref) : AmigaComponent(ref)
 {    
-    subComponents = vector<HardwareComponent *> {
+    subComponents = std::vector<HardwareComponent *> {
         
         &pixelEngine,
         &screenRecorder
@@ -46,7 +51,6 @@ Denise::getConfigItem(Option option) const
     switch (option) {
             
         case OPT_DENISE_REVISION:     return config.revision;
-        case OPT_BRDRBLNK:            return config.borderblank;
         case OPT_HIDDEN_SPRITES:      return config.hiddenSprites;
         case OPT_HIDDEN_LAYERS:       return config.hiddenLayers;
         case OPT_HIDDEN_LAYER_ALPHA:  return config.hiddenLayerAlpha;
@@ -76,16 +80,7 @@ Denise::setConfigItem(Option option, long value)
             
             config.revision = (DeniseRevision)value;
             return true;
-            
-        case OPT_BRDRBLNK:
-
-            if (config.borderblank == value) {
-                return false;
-            }
-            
-            config.borderblank = value;
-            return true;
-            
+                        
         case OPT_HIDDEN_SPRITES:
             
             if (config.hiddenSprites == value) {
@@ -162,8 +157,8 @@ Denise::_inspect()
         info.diwVstrt = agnus.diwVstrt;
         info.diwVstop = agnus.diwVstop;
         
-        info.joydat[0] = amiga.controlPort1.joydat();
-        info.joydat[1] = amiga.controlPort2.joydat();
+        info.joydat[0] = controlPort1.joydat();
+        info.joydat[1] = controlPort2.joydat();
         info.clxdat = 0;
         
         for (isize i = 0; i < 6; i++) {
@@ -184,8 +179,6 @@ Denise::_dump(Dump::Category category, std::ostream& os) const
         printf("_dump(Config)\n");
         os << DUMP("Chip revision");
         os << DeniseRevisionEnum::key(config.revision) << std::endl;
-        os << DUMP("Borderblank");
-        os << YESNO(config.borderblank) << std::endl;
         os << DUMP("Hidden sprites");
         os << HEX8 << (int)config.hiddenSprites << std::endl;
         os << DUMP("Hidden layers");
@@ -266,7 +259,7 @@ Denise::fillShiftRegisters(bool odd, bool even)
     if (odd) armedOdd = true;
     if (even) armedEven = true;
     
-    spriteClipBegin = MIN(spriteClipBegin, agnus.ppos() + 2);
+    spriteClipBegin = std::min(spriteClipBegin, (Pixel)(agnus.ppos() + 2));
     
     switch (bpu()) {
         case 6: shiftReg[5] = bpldat[5];
@@ -914,7 +907,7 @@ Denise::drawAttachedSpritePixelPair(Pixel hpos)
 void
 Denise::updateBorderColor()
 {
-    if (config.borderblank && ecsena() && BRDRBLNK()) {
+    if (config.revision != DENISE_OCS && ecsena() && BRDRBLNK()) {
         borderColor = 64; // Pure black
     } else {
         borderColor = 0;  // Background color

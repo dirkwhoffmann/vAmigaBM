@@ -7,7 +7,20 @@
 // See https://www.gnu.org for license information
 // -----------------------------------------------------------------------------
 
+#include "config.h"
 #include "Amiga.h"
+#include "Snapshot.h"
+
+// Perform some consistency checks
+static_assert(sizeof(i8) == 1,  "i8 size mismatch");
+static_assert(sizeof(i16) == 2, "i16 size mismatch");
+static_assert(sizeof(i32) == 4, "i32 size mismatch");
+static_assert(sizeof(i64) == 8, "i64 size mismatch");
+static_assert(sizeof(u8) == 1,  "u8 size mismatch");
+static_assert(sizeof(u16) == 2, "u16 size mismatch");
+static_assert(sizeof(u32) == 4, "u32 size mismatch");
+static_assert(sizeof(u64) == 8, "u64 size mismatch");
+
 
 //
 // Emulator thread
@@ -65,7 +78,7 @@ Amiga::Amiga()
      * - Memory mus preceed the CPU, because it contains the CPU reset vector.
      */
 
-    subComponents = vector<HardwareComponent *> {
+    subComponents = std::vector<HardwareComponent *> {
 
         &oscillator,
         &agnus,
@@ -201,7 +214,6 @@ Amiga::getConfigItem(Option option) const
             return agnus.getConfigItem(option);
             
         case OPT_DENISE_REVISION:
-        case OPT_BRDRBLNK:
         case OPT_HIDDEN_SPRITES:
         case OPT_HIDDEN_LAYERS:
         case OPT_HIDDEN_LAYER_ALPHA:
@@ -267,12 +279,15 @@ Amiga::getConfigItem(Option option, long id) const
             
         case OPT_DRIVE_TYPE:
         case OPT_EMULATE_MECHANICS:
-        case OPT_DRIVE_NOISE_ENABLE:
-        case OPT_DRIVE_EJECT_NOISE:
-        case OPT_DRIVE_INSERT_NOISE:
-        case OPT_DRIVE_STEP_NOISE:
-        case OPT_DRIVE_POLL_NOISE:
-
+        case OPT_DRIVE_PAN:
+        case OPT_STEP_VOLUME:
+        case OPT_POLL_VOLUME:
+        case OPT_INSERT_VOLUME:
+        case OPT_EJECT_VOLUME:
+            return df[id]->getConfigItem(option);
+            
+        case OPT_DEFAULT_FILESYSTEM:
+        case OPT_DEFAULT_BOOTBLOCK:
             return df[id]->getConfigItem(option);
             
         case OPT_PULLUP_RESISTORS:
@@ -296,7 +311,7 @@ Amiga::configure(Option option, long value)
     // Inform the GUI if the configuration has changed
     if (changed) queue.put(MSG_CONFIG);
     
-    // Dump the current configuration in debugging mode
+    // Dump the current configuration in debug mode
     if (changed && CNF_DEBUG) dump(Dump::Config);
 
     return changed;
@@ -310,8 +325,8 @@ Amiga::configure(Option option, long id, long value)
     
     // Inform the GUI if the configuration has changed
     if (changed) queue.put(MSG_CONFIG);
-    
-    // Dump the current configuration in debugging mode
+
+    // Dump the current configuration in debug mode
     if (changed && CNF_DEBUG) dump(Dump::Config);
         
     return changed;
@@ -352,14 +367,22 @@ void
 Amiga::_dump(Dump::Category category, std::ostream& os) const
 {
     if (category & Dump::Config) {
-        
+    
+        if (CNF_DEBUG) {
+            
+            df0.dump(Dump::Config);
+            paula.dump(Dump::Config);
+            paula.muxer.dump(Dump::Config);
+            ciaA.dump(Dump::Config);
+            denise.dump(Dump::Config);
+        }
     }
     
     if (category & Dump::State) {
         
-        os << DUMP("Power") << ONOFF(isPoweredOn()) << endl;
-        os << DUMP("Running") << YESNO(isRunning()) << endl;
-        os << DUMP("Warp") << ONOFF(warpMode) << endl;
+        os << DUMP("Power") << ONOFF(isPoweredOn()) << std::endl;
+        os << DUMP("Running") << YESNO(isRunning()) << std::endl;
+        os << DUMP("Warp") << ONOFF(warpMode) << std::endl;
     }
 }
 
@@ -759,52 +782,6 @@ Amiga::runLoop()
         }
     }
 }
-
-/*
-void
-Amiga::restartTimer()
-{
-    timeBase = time_in_nanos();
-    clockBase = agnus.clock;
-}
-*/
-/*
-void
-Amiga::synchronizeTiming()
-{
-    u64 now          = time_in_nanos();
-    Cycle clockDelta = agnus.clock - clockBase;
-    u64 elapsedTime  = (u64)(clockDelta * 1000 / masterClockFrequency);
-    u64 targetTime   = timeBase + elapsedTime;
-        
-    // Check if we're running too slow ...
-    if (now > targetTime) {
-        
-        // Check if we're completely out of sync ...
-        if (now - targetTime > 200000000) {
-            
-            // warn("The emulator is way too slow (%lld).\n", now - targetTime);
-            restartTimer();
-            return;
-        }
-    }
-    
-    // Check if we're running too fast ...
-    if (now < targetTime) {
-        
-        // Check if we're completely out of sync ...
-        if (targetTime - now > 200000000) {
-            
-            warn("The emulator is way too fast (%lld).\n", targetTime - now);
-            restartTimer();
-            return;
-        }
-        
-        // See you soon...
-        mach_wait_until(targetTime);
-    }
-}
-*/
 
 void
 Amiga::requestAutoSnapshot()

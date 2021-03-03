@@ -9,10 +9,12 @@
 
 #pragma once
 
+#include "CPUTypes.h"
 #include "AmigaComponent.h"
 #include "Moira.h"
+#include "Macros.h"
 
-class CPU : public AmigaComponent, public moira::Moira {
+class CPU : public moira::Moira {
 
     // Result of the latest inspection
     CPUInfo info;
@@ -62,30 +64,30 @@ private:
     {
         worker
 
-        & flags
-        & clock
+        << flags
+        << clock
 
-        & reg.pc
-        & reg.pc0
-        & reg.sr.t
-        & reg.sr.s
-        & reg.sr.x
-        & reg.sr.n
-        & reg.sr.z
-        & reg.sr.v
-        & reg.sr.c
-        & reg.sr.ipl
-        & reg.r
-        & reg.usp
-        & reg.ssp
-        & reg.ipl
+        << reg.pc
+        << reg.pc0
+        << reg.sr.t
+        << reg.sr.s
+        << reg.sr.x
+        << reg.sr.n
+        << reg.sr.z
+        << reg.sr.v
+        << reg.sr.c
+        << reg.sr.ipl
+        << reg.r
+        << reg.usp
+        << reg.ssp
+        << reg.ipl
 
-        & queue.irc
-        & queue.ird
+        << queue.irc
+        << queue.ird
 
-        & ipl
-        & fcl
-        & exception;
+        << ipl
+        << fcl
+        << exception;
     }
 
     template <class T>
@@ -114,6 +116,7 @@ private:
 
 private:
 
+    /*
     void sync(int cycles) override;
     u8 read8(u32 addr) override;
     u16 read16(u32 addr) override;
@@ -142,7 +145,7 @@ private:
     
     void breakpointReached(u32 addr) override;
     void watchpointReached(u32 addr) override;
-
+    */
     
     //
     // Working with the clock

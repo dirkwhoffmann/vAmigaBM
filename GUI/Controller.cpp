@@ -7,6 +7,7 @@
 // See https://www.gnu.org for license information
 // -----------------------------------------------------------------------------
 
+#include "config.h"
 #include "Application.h"
 
 extern "C" {
@@ -69,25 +70,20 @@ Controller::processMessage(long id, long data)
         case MSG_RESET:
             break;
                         
-        case MSG_DISK_INSERT_NOISE:
-            app.play(SoundID::insert);
-            [[fallthrough]];
-            
         case MSG_DISK_INSERT:
+            app.play(SoundID::insert);
             break;
 
-        case MSG_DISK_EJECT_NOISE:
-            app.play(SoundID::eject);
-            [[fallthrough]];
-            
         case MSG_DISK_EJECT:
+            app.play(SoundID::eject);
             break;
 
-        case MSG_DRIVE_HEAD_NOISE:
+        case MSG_DRIVE_STEP:
             app.playClick();
-            [[fallthrough]];
+            break;
             
-        case MSG_DRIVE_HEAD:
+        case MSG_DRIVE_POLL:
+            app.playClick();
             return;
 
         case MSG_SHAKING:

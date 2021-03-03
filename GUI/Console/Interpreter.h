@@ -30,7 +30,7 @@ enum class Token
     state, registers, events, checksums,
     
     // Keys
-    accuracy, bankmap, borderblank, chip, clxsprspr, clxsprplf, clxplfplf,
+    accuracy, bankmap, chip, clxsprspr, clxsprplf, clxplfplf,
     device, esync, extrom, extstart, fast, filter, mechanics, model,
     palette, pan, poll, pullup, raminitpattern, revision, rom, sampling, slow,
     slowramdelay, slowrammirror, speed, step, tod, todbug, unmappingtype,

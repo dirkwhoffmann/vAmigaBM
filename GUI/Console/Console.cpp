@@ -7,6 +7,7 @@
 // See https://www.gnu.org for license information
 // -----------------------------------------------------------------------------
 
+#include "config.h"
 #include "Application.h"
 
 const std::string& Console::prompt = string("vAmiga\% ");
@@ -143,7 +144,7 @@ Console::alphaDidChange()
 void
 Console::setNumRows(isize value)
 {
-    value = MIN(value, 255);
+    value = std::min(value, (isize)255);
 
     numRows = value;
     isDirty = true;

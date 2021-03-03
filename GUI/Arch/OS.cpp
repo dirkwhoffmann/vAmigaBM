@@ -7,7 +7,7 @@
 // See https://www.gnu.org for license information
 // -----------------------------------------------------------------------------
 
-// #include "OS.h"
+#include "config.h"
 #include "Application.h"
 
 #ifdef __MACH__

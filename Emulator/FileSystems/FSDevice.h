@@ -26,6 +26,8 @@
 #include "HDFFile.h"
 
 #include <dirent.h>
+#include <stack>
+#include <set>
 
 /* This class provides the basic functionality of the Amiga File Systems OFS
  * and FFS. Starting from an empty volume, files can be added or removed,
@@ -164,7 +166,7 @@ public:
     
 public:
     // Installs a boot block
-    void makeBootable(long bootBlockID) { partitions[cp]->makeBootable(bootBlockID); }
+    void makeBootable(BootBlockId id) { partitions[cp]->makeBootable(id); }
 
     // Removes a boot block virus from the current partition (if any)
     void killVirus() { partitions[cp]->killVirus(); }

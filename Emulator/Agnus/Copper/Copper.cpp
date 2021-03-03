@@ -7,7 +7,12 @@
 // See https://www.gnu.org for license information
 // -----------------------------------------------------------------------------
 
-#include "Amiga.h"
+#include "config.h"
+#include "Copper.h"
+
+#include "Agnus.h"
+#include "Checksum.h"
+#include "PixelEngine.h"
 
 Copper::Copper(Amiga& ref) : AmigaComponent(ref)
 {
@@ -129,7 +134,7 @@ Copper::findVerticalMatch(i16 vStrt, i16 vComp, i16 vMask, i16 &result) const
     i16 vStop = agnus.frame.numLines();
 
     // Iterate through all vertical positions
-    for (int v = vStrt; v < vStop; v++) {
+    for (isize v = vStrt; v < vStop; v++) {
 
         // Check if the comparator triggers at this position
         if ((v & vMask) >= (vComp & vMask)) {
@@ -146,7 +151,7 @@ Copper::findHorizontalMatch(i16 hStrt, i16 hComp, i16 hMask, i16 &result) const
     i16 hStop = HPOS_CNT;
 
     // Iterate through all horizontal positions
-    for (int h = hStrt; h < hStop; h++) {
+    for (isize h = hStrt; h < hStop; h++) {
 
         // Check if the comparator triggers at this position
         if ((h & hMask) >= (hComp & hMask)) {
@@ -528,7 +533,7 @@ Copper::instrCount(isize nr) const
     int strt = (nr == 1) ? cop1lc  : cop2lc;
     int stop = (nr == 1) ? cop1end : cop2end;
 
-    return MAX(0, 1 + (stop - strt) / 4);
+    return std::max(0, 1 + (stop - strt) / 4);
 }
 
 void

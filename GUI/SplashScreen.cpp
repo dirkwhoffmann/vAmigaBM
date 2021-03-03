@@ -7,7 +7,11 @@
 // See https://www.gnu.org for license information
 // -----------------------------------------------------------------------------
 
+#include "config.h"
 #include "Application.h"
+#include "IO.h"
+
+#include <fstream>
 
 SplashScreen::SplashScreen(Application &ref) : Layer(ref)
 {
@@ -26,7 +30,7 @@ SplashScreen::init()
     
     // Config file
     configPath = app.argv.size() <= 1 ? "startup.ini" : app.argv[1];
-    configFile = extractName(configPath);
+    configFile = util::extractName(configPath);
     
     // Messages
     title1.setStyle(app.assets.get(FontID::sans_b), 40, sf::Color(0x40,0x40,0x40,0xFF));

@@ -7,11 +7,18 @@
 // See https://www.gnu.org for license information
 // -----------------------------------------------------------------------------
 
-#include "Amiga.h"
+#include "config.h"
+#include "Mouse.h"
+
+#include "Chrono.h"
+#include "ControlPort.h"
+#include "MsgQueue.h"
+#include "Oscillator.h"
 
 Mouse::Mouse(Amiga& ref, ControlPort& pref) : AmigaComponent(ref), port(pref)
 {
     config.pullUpResistors = true;
+    config.shakeDetection = true;
     config.velocity = 100;
 
     updateScalingFactors();
@@ -43,6 +50,7 @@ Mouse::getConfigItem(Option option) const
     switch (option) {
 
         case OPT_PULLUP_RESISTORS:  return config.pullUpResistors;
+        case OPT_SHAKE_DETECTION:   return config.shakeDetection;
         case OPT_MOUSE_VELOCITY:    return config.velocity;
 
         default:
@@ -65,7 +73,15 @@ Mouse::setConfigItem(Option option, long id, long value)
             }
             config.pullUpResistors = value;
             return true;
-  
+ 
+        case OPT_SHAKE_DETECTION:
+            
+            if (config.shakeDetection == value) {
+                return false;
+            }
+            config.shakeDetection = value;
+            return true;
+            
         case OPT_MOUSE_VELOCITY:
             
             printf("config: OPT_MOUSE_VELOCITY\n");
@@ -98,6 +114,7 @@ Mouse::_dump(Dump::Category category, std::ostream& os) const
     if (category & Dump::Config) {
 
         os << DUMP("Pull-up resistors") << YESNO(config.pullUpResistors) << std::endl;
+        os << DUMP("Shake detection") << YESNO(config.shakeDetection) << std::endl;
         os << DUMP("Velocity") << config.velocity << std::endl;
     }
     
@@ -176,7 +193,7 @@ void
 Mouse::setXY(double x, double y)
 {
     // Check for a shaking mouse
-    if (shakeDetector.isShakingAbs(x)) amiga.queue.put(MSG_SHAKING);
+    if (shakeDetector.isShakingAbs(x)) messageQueue.put(MSG_SHAKING);
 
     targetX = x * scaleX;
     targetY = y * scaleY;
@@ -188,7 +205,7 @@ void
 Mouse::setDeltaXY(double dx, double dy)
 {
     // Check for a shaking mouse
-    if (shakeDetector.isShakingRel(dx)) amiga.queue.put(MSG_SHAKING);
+    if (shakeDetector.isShakingRel(dx)) messageQueue.put(MSG_SHAKING);
 
     targetX += dx * scaleX;
     targetY += dy * scaleY;
@@ -254,7 +271,7 @@ ShakeDetector::isShakingRel(double dx) {
     // Check for a direction reversal
     if (dx * dxsign < 0) {
     
-        u64 dt = Oscillator::nanos() - lastTurn;
+        u64 dt = Time::now().asNanoseconds() - lastTurn;
         dxsign = -dxsign;
 
         // A direction reversal is considered part of a shake, if the
@@ -272,7 +289,7 @@ ShakeDetector::isShakingRel(double dx) {
                 if (dxturns > 3) {
                     
                     // printf("Mouse shake detected\n");
-                    lastShake = Oscillator::nanos();
+                    lastShake = Time::now().asNanoseconds();
                     dxturns = 0;
                     return true;
                 }
@@ -286,7 +303,7 @@ ShakeDetector::isShakingRel(double dx) {
             dxsum = 0;
         }
         
-        lastTurn = Oscillator::nanos();
+        lastTurn = Time::now().asNanoseconds();
     }
     
     return false;

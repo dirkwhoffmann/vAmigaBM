@@ -7,7 +7,10 @@
 // See https://www.gnu.org for license information
 // -----------------------------------------------------------------------------
 
+#include "config.h"
 #include "Application.h"
+#include "ADFFile.h"
+#include <fstream>
 
 //
 // Top-level commands
@@ -401,12 +404,6 @@ Controller::exec <Token::denise, Token::set, Token::clxplfplf> (Arguments &argv,
 }
 
 template <> void
-Controller::exec <Token::denise, Token::set, Token::borderblank> (Arguments &argv, long param)
-{
-    amiga.configure(OPT_BRDRBLNK, parseBool(argv.front()));
-}
-
-template <> void
 Controller::exec <Token::denise, Token::inspect, Token::state> (Arguments& argv, long param)
 {
     dump(amiga.denise, Dump::State);
@@ -641,25 +638,25 @@ Controller::exec <Token::dfn, Token::config> (Arguments& argv, long param)
 template <> void
 Controller::exec <Token::dfn, Token::audiate, Token::insert> (Arguments& argv, long param)
 {
-    amiga.configure(OPT_DRIVE_INSERT_NOISE, param, parseBool(argv.front()));
+    amiga.configure(OPT_INSERT_VOLUME, param, parseDec(argv.front()));
 }
 
 template <> void
 Controller::exec <Token::dfn, Token::audiate, Token::eject> (Arguments& argv, long param)
 {
-    amiga.configure(OPT_DRIVE_EJECT_NOISE, param, parseBool(argv.front()));
+    amiga.configure(OPT_EJECT_VOLUME, param, parseDec(argv.front()));
 }
 
 template <> void
 Controller::exec <Token::dfn, Token::audiate, Token::step> (Arguments& argv, long param)
 {
-    amiga.configure(OPT_DRIVE_STEP_NOISE, param, parseBool(argv.front()));
+    amiga.configure(OPT_STEP_VOLUME, param, parseDec(argv.front()));
 }
 
 template <> void
 Controller::exec <Token::dfn, Token::audiate, Token::poll> (Arguments& argv, long param)
 {
-    amiga.configure(OPT_DRIVE_POLL_NOISE, param, parseBool(argv.front()));
+    amiga.configure(OPT_POLL_VOLUME, param, parseDec(argv.front()));
 }
 
 template <> void

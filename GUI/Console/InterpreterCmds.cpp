@@ -7,6 +7,7 @@
 // See https://www.gnu.org for license information
 // -----------------------------------------------------------------------------
 
+#include "config.h"
 #include "Application.h"
 
 void
@@ -331,10 +332,6 @@ Interpreter::registerInstructions()
              "key", "Enables or disables playfield-playfield collision detection",
              &Controller::exec <Token::denise, Token::set, Token::clxplfplf>, 1, 0);
     
-    root.add("denise", "set", "borderblank" ,
-             "key", "Enables the ECS borderblank feature",
-             &Controller::exec <Token::denise, Token::set, Token::borderblank>, 1, 0);
-
     root.add("denise", "inspect",
              "command", "Displays the internal state");
 

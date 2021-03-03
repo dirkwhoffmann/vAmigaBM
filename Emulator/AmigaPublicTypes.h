@@ -9,34 +9,9 @@
 // THIS FILE MUST CONFORM TO ANSI-C TO BE COMPATIBLE WITH SWIFT
 // -----------------------------------------------------------------------------
 
-/* This file defines all constants and data types that are exposed to the GUI.
- * All definitions comply to standard ANSI-C to make the file accessible by
- * Swift. Note that the Swift GUI does not interact directly with any of the
- * public API methods of the emulator. Since Swift cannot deal with C++ code
- * directly yet, all API accesses are routed through the proxy layer written in
- * Objective-C.
- */
-
 #pragma once
 
 #include "Aliases.h"
-
-#include "AgnusPublicTypes.h"
-#include "CPUPublicTypes.h"
-#include "CIAPublicTypes.h"
-#include "DenisePublicTypes.h"
-#include "DiskPublicTypes.h"
-#include "DmaDebuggerPublicTypes.h"
-#include "DrivePublicTypes.h"
-#include "EventHandlerPublicTypes.h"
-#include "FilePublicTypes.h"
-#include "FSPublicTypes.h"
-#include "KeyboardPublicTypes.h"
-#include "MemoryPublicTypes.h"
-#include "MsgQueuePublicTypes.h"
-#include "PaulaPublicTypes.h"
-#include "PortPublicTypes.h"
-#include "RTCPublicTypes.h"
 
 //
 // Enumerations
@@ -50,7 +25,6 @@ enum_long(OPT)
     
     // Denise
     OPT_DENISE_REVISION,
-    OPT_BRDRBLNK,
     
     // Real-time clock
     OPT_RTC_MODEL,
@@ -68,17 +42,19 @@ enum_long(OPT)
     // Disk controller
     OPT_DRIVE_CONNECT,
     OPT_DRIVE_SPEED,
-    OPT_DRIVE_NOISE_ENABLE,
-    OPT_DRIVE_EJECT_NOISE,
-    OPT_DRIVE_INSERT_NOISE,
-    OPT_DRIVE_STEP_NOISE,
-    OPT_DRIVE_POLL_NOISE,
     OPT_LOCK_DSKSYNC,
     OPT_AUTO_DSKSYNC,
 
     // Drives
     OPT_DRIVE_TYPE,
     OPT_EMULATE_MECHANICS,
+    OPT_DRIVE_PAN,
+    OPT_STEP_VOLUME,
+    OPT_POLL_VOLUME,
+    OPT_INSERT_VOLUME,
+    OPT_EJECT_VOLUME,
+    OPT_DEFAULT_FILESYSTEM,
+    OPT_DEFAULT_BOOTBLOCK,
     
     // Ports
     OPT_SERIAL_DEVICE,
@@ -104,6 +80,7 @@ enum_long(OPT)
     
     // Mouse
     OPT_PULLUP_RESISTORS,
+    OPT_SHAKE_DETECTION,
     OPT_MOUSE_VELOCITY,
     
     // Paula audio

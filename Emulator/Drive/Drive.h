@@ -9,6 +9,7 @@
 
 #pragma once
 
+#include "DriveTypes.h"
 #include "AmigaComponent.h"
 #include "Disk.h"
 
@@ -97,6 +98,7 @@ public:
     const DriveConfig &getConfig() const { return config; }
     
     long getConfigItem(Option option) const;
+    bool setConfigItem(Option option, long value) override;
     bool setConfigItem(Option option, long id, long value) override;
     
     
@@ -125,10 +127,10 @@ private:
     {
         worker
 
-        & config.type
-        & config.startDelay
-        & config.stopDelay
-        & config.stepDelay;
+        << config.type
+        << config.startDelay
+        << config.stopDelay
+        << config.stepDelay;
     }
 
     template <class T>
@@ -136,19 +138,19 @@ private:
     {
         worker
 
-        & motor
-        & switchCycle
-        & switchSpeed
-        & idCount
-        & idBit
-        & stepCycle
-        & dskchange
-        & dsklen
-        & prb
-        & head.side
-        & head.cylinder
-        & head.offset
-        & cylinderHistory;
+        << motor
+        << switchCycle
+        << switchSpeed
+        << idCount
+        << idBit
+        << stepCycle
+        << dskchange
+        << dsklen
+        << prb
+        << head.side
+        << head.cylinder
+        << head.offset
+        << cylinderHistory;
     }
 
     template <class T>
@@ -264,7 +266,8 @@ public:
 
     void ejectDisk();
     bool insertDisk(Disk *disk);
-    
+    bool insertBlankDisk();
+
     u64 fnv() const;
     
     //

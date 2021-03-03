@@ -12,7 +12,7 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
 
-#include "Utils.h"
+#include "Aliases.h"
 
 #include "GUIComponent.h"
 #include "OS.h"

@@ -9,7 +9,9 @@
 
 #pragma once
 
+#include "PortTypes.h"
 #include "AmigaComponent.h"
+#include "Chrono.h"
 
 class ShakeDetector {
     
@@ -27,7 +29,7 @@ class ShakeDetector {
     
     // Time stamps
     u64 lastTurn = 0;
-    u64 lastShake = 0;
+    Time lastShake;
     
 public:
     
@@ -127,7 +129,7 @@ private:
     template <class T>
     void applyToPersistentItems(T& worker)
     {
-        worker & config.pullUpResistors;
+        worker << config.pullUpResistors;
     }
 
     template <class T>
