@@ -834,7 +834,10 @@
 			isa = PBXGroup;
 			children = (
 				50CAD06E25CEAC3A00DD55A5 /* Makefile */,
+				50AE10B625C42D6600AD13B7 /* EventHandlerPublicTypes.h */,
+				50AE10BE25C42D6600AD13B7 /* EventHandlerTypes.h */,
 				50AE109F25C42D6600AD13B7 /* EventHandler.h */,
+				50AE10BF25C42D6600AD13B7 /* EventHandler.cpp */,
 				50AE10A025C42D6600AD13B7 /* Copper */,
 				50AE10A725C42D6600AD13B7 /* Blitter */,
 				50AE10B025C42D6600AD13B7 /* AgnusTypes.h */,
@@ -843,7 +846,6 @@
 				50AE10B325C42D6600AD13B7 /* AgnusDma.cpp */,
 				50AE10B425C42D6600AD13B7 /* DmaDebugger.h */,
 				50AE10B525C42D6600AD13B7 /* DmaDebuggerPublicTypes.h */,
-				50AE10B625C42D6600AD13B7 /* EventHandlerPublicTypes.h */,
 				50AE10B725C42D6600AD13B7 /* DmaDebuggerTypes.h */,
 				50AFF9C025EFC3EF0052269B /* Beam.h */,
 				50AFF9C625EFD0710052269B /* Event.h */,
@@ -854,8 +856,6 @@
 				50AE10BB25C42D6600AD13B7 /* DDF.h */,
 				50AE10BC25C42D6600AD13B7 /* AgnusPublicTypes.h */,
 				50AE10BD25C42D6600AD13B7 /* Agnus.h */,
-				50AE10BE25C42D6600AD13B7 /* EventHandlerTypes.h */,
-				50AE10BF25C42D6600AD13B7 /* EventHandler.cpp */,
 			);
 			path = Agnus;
 			sourceTree = "<group>";

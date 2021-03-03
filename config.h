@@ -21,13 +21,6 @@
 // Uncomment these settings in a release build
 // #define RELEASEBUILD
 
-#ifdef RELEASEBUILD
-static const int releaseBuild = 1;
-#define NDEBUG
-#else
-static const int releaseBuild = 0;
-#endif
-
 
 //
 // Build settings
@@ -35,8 +28,8 @@ static const int releaseBuild = 0;
 
 // Type alias for the datatype used by the host machine's audio backend
 // struct U16Mono; typedef U16Mono SampleType;
-// struct U16Stereo; typedef U16Stereo SampleType;
-struct FloatStereo; typedef FloatStereo SampleType;
+struct U16Stereo; typedef U16Stereo SampleType;
+// struct FloatStereo; typedef FloatStereo SampleType;
 
 
 //
@@ -167,3 +160,13 @@ static const int HOLD_MOUSE_R    = 0; // Hold down the right mouse button
 static const int RTC_DEBUG       = 0; // Real-time clock
 static const int KBD_DEBUG       = 0; // Keyboard
 static const int REC_DEBUG       = 0; // Screen recorder
+
+
+#ifdef RELEASEBUILD
+static const int releaseBuild = 1;
+#define NDEBUG
+#else
+static const int releaseBuild = 0;
+#endif
+
+#include <assert.h>
