@@ -122,6 +122,9 @@ public:
     // Disconnects a device
     void disconnect(PortNr port) { connect(nullptr, port); }
 
+    // Returns the name of the connected device
+    string getName(PortNr port);
+    
     // Polls the currently connected devices
     void poll();
     

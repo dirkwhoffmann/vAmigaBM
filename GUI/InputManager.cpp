@@ -117,6 +117,7 @@ InputManager::InputManager(Application &ref) : GUIComponent(ref)
     //
 
     keyset[0].isPresent = true;
+    keyset[0].name = "Joystick keyset 1";
     keyset[0].left = sf::Keyboard::Key::Left;
     keyset[0].right = sf::Keyboard::Key::Right;
     keyset[0].up = sf::Keyboard::Key::Up;
@@ -184,6 +185,16 @@ InputManager::connectKeyset(isize nr, PortNr port)
 {
     assert((usize)nr < numKeysetSlots);
     connect(&keyset[nr], port);
+}
+
+string
+InputManager::getName(PortNr port)
+{
+    if (port == PORT_1) return port1 ? port1->name : "None";
+    if (port == PORT_2) return port2 ? port2->name : "None";
+
+    assert(false);
+    return "";
 }
 
 void

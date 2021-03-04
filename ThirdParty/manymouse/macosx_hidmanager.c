@@ -266,9 +266,7 @@ static int config_hidmanager(CFMutableDictionaryRef dict)
 
     /* now put all those discovered devices into the runloop instead... */
     for (i = 0; i < physical_mice; i++)
-    {
-        printf("Config mouse %d\n", i);
-        
+    {        
         MouseStruct *mouse = &mice[i];
         IOHIDDeviceRef dev = mouse->device;
         if (IOHIDDeviceOpen(dev, HIDOPS) != kIOReturnSuccess)
@@ -283,21 +281,17 @@ static int config_hidmanager(CFMutableDictionaryRef dict)
             if (!is_trackpad(mouse))
             {
                 mouse->logical = logical_mice++;
-                printf("Mouse++\n");
             }
             else
             {
                 if (trackpad < 0)
                     trackpad = logical_mice++;
                 mouse->logical = trackpad;
-                printf("Trackpad++ (%d)\n", trackpad);
             } /* else */
 
             IOHIDDeviceRegisterRemovalCallback(dev, unplugged_callback, ctx);
             IOHIDDeviceRegisterInputValueCallback(dev, input_callback, ctx);
             IOHIDDeviceScheduleWithRunLoop(dev, runloop, RUNLOOPMODE);
-            
-            printf("Device %d configured\n", i);
         } /* else */
     } /* for */
 

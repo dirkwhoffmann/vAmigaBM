@@ -515,6 +515,29 @@ Controller::exec <Token::rtc, Token::set, Token::revision> (Arguments &argv, lon
 
 
 //
+// Control port
+//
+
+template <> void
+Controller::exec <Token::controlport, Token::config> (Arguments& argv, long param)
+{
+    std::stringstream ss; string line;
+    
+    ss << DUMP("Connected device");
+    ss << app.inputManager.getName(param);
+
+    while(std::getline(ss, line)) console << line << '\n';
+}
+
+template <> void
+Controller::exec <Token::controlport, Token::inspect> (Arguments& argv, long param)
+{
+    if (param == 1) dump(amiga.controlPort1, Dump::State);
+    if (param == 2) dump(amiga.controlPort2, Dump::State);
+}
+
+
+//
 // Keyboard
 //
 

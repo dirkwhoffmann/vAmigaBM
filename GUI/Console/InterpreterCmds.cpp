@@ -467,6 +467,22 @@ Interpreter::registerInstructions()
 
     
     //
+    // Control port
+    //
+
+    root.add("controlport",
+             "component", "Control port");
+
+    root.add("controlport", "config",
+             "command", "Displays the current configuration",
+             &Controller::exec <Token::controlport, Token::config>, 0, 0);
+    
+    root.add("controlport", "inspect",
+             "command", "Displays the internal state",
+             &Controller::exec <Token::controlport, Token::inspect>, 0, 0);
+    
+
+    //
     // Keyboard
     //
 

@@ -21,6 +21,11 @@ Command::add(const string &token,
     assert(seek(token) == nullptr);
 
     // Expand template tokens
+    if (token == "controlport") {
+        add("controlport1", a1, help, func, num, 1);
+        add("controlport2", a1, help, func, num, 2);
+        return nullptr;
+    }
     if (token == "cia") {
         add("ciaa", a1, help, func, num, 0);
         add("ciab", a1, help, func, num, 1);
@@ -49,6 +54,11 @@ Command::add(const string &t1, const string &t2,
              isize num, long param)
 {
     // Expand template tokens
+    if (t1 == "controlport") {
+        add("controlport1", t2, a1, help, func, num, 1);
+        add("controlport2", t2, a1, help, func, num, 2);
+        return nullptr;
+    }
     if (t1 == "cia") {
         add("ciaa", t2, a1, help, func, num, 0);
         add("ciab", t2, a1, help, func, num, 1);
@@ -73,6 +83,11 @@ Command::add(const string &t1, const string &t2, const string &t3,
              isize num, long param)
 {
     // Expand template tokens
+    if (t1 == "controlport") {
+        add("controlport1", t2, t3, a1, help, func, num, 1);
+        add("controlport2", t2, t3, a1, help, func, num, 2);
+        return nullptr;
+    }
     if (t1 == "cia") {
         add("ciaa", t2, t3, a1, help, func, num, 0);
         add("ciab", t2, t3, a1, help, func, num, 1);
@@ -96,8 +111,9 @@ Command::add(const string &t1, const string &t2, const string &t3, const string 
              void (Controller::*func)(Arguments&, long),
              isize num, long param)
 {
+    assert(t1 != "controlport");
     assert(t1 != "cia");
-    assert(t2 != "dfn");
+    assert(t1 != "dfn");
     
     return seek(t1)->add(t2, t3, t4, a1, help, func, num, param);
 }
