@@ -14,11 +14,12 @@ MouseDevice::poll(ControlPort &port)
 {
     if (!manyMouse) {
         
-        sf::Vector2i current = sf::Mouse::getPosition(app.window);
-        mouseDX = current.x - mouseCenterX;
-        mouseDY = current.y - mouseCenterY;
+        auto current = sf::Mouse::getPosition(app.window);
+        auto center = app.inputManager.mouseCenter;
+
+        mouseDX = current.x - center.x;
+        mouseDY = current.y - center.y;
         
-        auto center = sf::Vector2i(mouseCenterX, mouseCenterY);
         sf::Mouse::setPosition(center, app.window);
     }
     
@@ -188,30 +189,83 @@ InputManager::getName(PortNr port)
 void
 InputManager::poll()
 {
-    ManyMouseEvent mmevent;
-    while (ManyMouse_PollEvent(&mmevent)) {
-        if (mmevent.type == MANYMOUSE_EVENT_RELMOTION) {
-            printf("Mouse #%u relative motion %s %d\n", mmevent.device, mmevent.item == 0 ? "X" : "Y", mmevent.value);
-            
-            if (mmevent.device < numMouseSlots) {
-                if (mmevent.item == 0) {
-                    mouse[mmevent.device].mouseDX = mmevent.value;
-                } else {
-                    mouse[mmevent.device].mouseDY = mmevent.value;
+    if (manyMouse) {
+        ManyMouseEvent mmevent;
+        while (ManyMouse_PollEvent(&mmevent)) {
+            if (mmevent.type == MANYMOUSE_EVENT_RELMOTION) {
+                printf("Mouse #%u relative motion %s %d\n", mmevent.device, mmevent.item == 0 ? "X" : "Y", mmevent.value);
+                
+                if (mmevent.device < numMouseSlots) {
+                    if (mmevent.item == 0) {
+                        mouse[mmevent.device].mouseDX = mmevent.value;
+                    } else {
+                        mouse[mmevent.device].mouseDY = mmevent.value;
+                    }
                 }
+                
+            } else if (mmevent.type == MANYMOUSE_EVENT_ABSMOTION) { // I have never witnessed this event
+                printf("Mouse #%u absolute motion %s %d\n", mmevent.device, mmevent.item == 0 ? "X" : "Y", mmevent.value);
+            } else if (mmevent.type == MANYMOUSE_EVENT_BUTTON) {
+                printf("Mouse #%u button %u %s\n", mmevent.device, mmevent.item, mmevent.value ? "down" : "up");
+            } else if (mmevent.type == MANYMOUSE_EVENT_DISCONNECT) {
+                printf("Mouse #%u disconnect\n", mmevent.device);
+            } else {
+                printf("Mouse #%u unhandled event type %d\n", mmevent.device, mmevent.type);
             }
-            
-        } else if (mmevent.type == MANYMOUSE_EVENT_ABSMOTION) { // I have never witnessed this event
-            printf("Mouse #%u absolute motion %s %d\n", mmevent.device, mmevent.item == 0 ? "X" : "Y", mmevent.value);
-        } else if (mmevent.type == MANYMOUSE_EVENT_BUTTON) {
-            printf("Mouse #%u button %u %s\n", mmevent.device, mmevent.item, mmevent.value ? "down" : "up");
-        } else if (mmevent.type == MANYMOUSE_EVENT_DISCONNECT) {
-            printf("Mouse #%u disconnect\n", mmevent.device);
-        } else {
-            printf("Mouse #%u unhandled event type %d\n", mmevent.device, mmevent.type);
         }
     }
     
     if (port1) port1->poll(amiga.controlPort1);
     if (port2) port2->poll(amiga.controlPort2);
+}
+
+void
+InputManager::retainMouse()
+{
+    gotMouse = true;
+    
+    app.window.setMouseCursorGrabbed(true);
+    app.window.setMouseCursorVisible(false);
+    
+    mouseCenter = sf::Vector2i(app.window.getSize().x / 2,
+                               app.window.getSize().y / 2);
+    
+    printf("mouseCenter: x = %d y = %d\n", mouseCenter.x, mouseCenter.y);
+    sf::Mouse::setPosition(mouseCenter, app.window);
+    
+    /*
+#ifdef __MACH__
+    if (!gotMouse) {
+    
+        CGDisplayHideCursor(kCGNullDirectDisplay);
+        CGEventErr err = CGAssociateMouseAndMouseCursorPosition(false);
+        if (err != CGEventNoErr) {
+            printf("CGAssociateMouseAndMouseCursorPosition returned %d\n", err);
+        }
+        gotMouse = true;
+    }
+#endif
+     */
+}
+
+void
+InputManager::releaseMouse()
+{
+    if (gotMouse) {
+
+        app.window.setMouseCursorGrabbed(false);
+        app.window.setMouseCursorVisible(true);
+        gotMouse = false;
+    }
+    /*
+#ifdef __MACH__
+    
+    if (gotMouse) {
+        
+        CGDisplayShowCursor(kCGNullDirectDisplay);
+        CGAssociateMouseAndMouseCursorPosition(true);
+        gotMouse = false;
+    }
+#endif
+     */
 }

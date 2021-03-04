@@ -24,56 +24,6 @@ OS::scale(float value)
 #endif
 }
 
-void
-OS::retainMouse()
-{
-    gotMouse = true;
-    
-    app.window.setMouseCursorGrabbed(true);
-    app.window.setMouseCursorVisible(false);
-    
-    mouseCenterX = app.window.getSize().x / 2;
-    mouseCenterY = app.window.getSize().y / 2;
-    auto center = sf::Vector2i(app.os.mouseCenterX,app.os.mouseCenterY);
-    sf::Mouse::setPosition(center, app.window);
-    
-    /*
-#ifdef __MACH__
-    if (!gotMouse) {
-    
-        CGDisplayHideCursor(kCGNullDirectDisplay);
-        CGEventErr err = CGAssociateMouseAndMouseCursorPosition(false);
-        if (err != CGEventNoErr) {
-            printf("CGAssociateMouseAndMouseCursorPosition returned %d\n", err);
-        }
-        gotMouse = true;
-    }
-#endif
-     */
-}
-
-void
-OS::releaseMouse()
-{
-    if (gotMouse) {
-
-        app.window.setMouseCursorGrabbed(false);
-        app.window.setMouseCursorVisible(true);
-        gotMouse = false;
-    }
-    /*
-#ifdef __MACH__
-    
-    if (gotMouse) {
-        
-        CGDisplayShowCursor(kCGNullDirectDisplay);
-        CGAssociateMouseAndMouseCursorPosition(true);
-        gotMouse = false;
-    }
-#endif
-     */
-}
-
 bool
 OS::mouseMoved()
 {

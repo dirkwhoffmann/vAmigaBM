@@ -32,7 +32,7 @@ struct U16Stereo; typedef U16Stereo SampleType;
 // struct FloatStereo; typedef FloatStereo SampleType;
 
 // Indicates whether we should use the ManyMouse library
-static const bool manyMouse = true;
+static const bool manyMouse = false;
 
 
 //

@@ -28,11 +28,7 @@ public:
     
     // Translates a logical coordinate or size to a physical coordinate or size
     static float scale(float value);
-    
-    // Retains or releases the mouse
-    void retainMouse();
-    void releaseMouse();
-    
+        
     // Checks for a mouse movement and saves the delta steps
     bool mouseMoved();
 };

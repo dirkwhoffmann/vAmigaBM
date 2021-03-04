@@ -87,7 +87,8 @@ Controller::processMessage(long id, long data)
             return;
 
         case MSG_SHAKING:
-            app.os.releaseMouse();
+            printf("SHAKING\n");
+            app.inputManager.releaseMouse();
             break;
             
         default:

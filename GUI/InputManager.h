@@ -21,7 +21,7 @@ class InputDevice : public GUIComponent {
 protected:
     
     isize nr;
-    
+
 public:
     
     string name;
@@ -38,10 +38,7 @@ public:
 class MouseDevice : public InputDevice {
         
 public:
-    
-    int mouseCenterX = 200;
-    int mouseCenterY = 200;
-    
+        
     int mouseDX = 0;
     int mouseDY = 0;
     
@@ -104,6 +101,12 @@ class InputManager : public GUIComponent {
     InputDevice *port1 = nullptr;
     InputDevice *port2 = nullptr;
 
+    bool gotMouse = false;
+
+public:
+
+    sf::Vector2i mouseCenter;
+
 public:
     
     InputManager(Application &ref);
@@ -128,4 +131,7 @@ public:
     // Polls the currently connected devices
     void poll();
     
+    // Retains or releases the mouse
+    void retainMouse();
+    void releaseMouse();    
 };

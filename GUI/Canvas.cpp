@@ -119,7 +119,7 @@ Canvas::respond(const sf::Event &event)
         case sf::Event::MouseButtonPressed:
         {
             if (!app.os.gotMouse) {
-                app.os.retainMouse();
+                app.inputManager.retainMouse();
                 return;
             }
             
