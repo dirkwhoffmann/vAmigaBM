@@ -12,61 +12,49 @@
 void
 MouseDevice::poll(ControlPort &port)
 {
-    /*
-    sf::Vector2i current = sf::Mouse::getPosition(app.window);
-    
-    mouseDX = current.x - mouseCenterX;
-    mouseDY = current.y - mouseCenterY;
-    */
+    if (!manyMouse) {
+        
+        sf::Vector2i current = sf::Mouse::getPosition(app.window);
+        mouseDX = current.x - mouseCenterX;
+        mouseDY = current.y - mouseCenterY;
+        
+        auto center = sf::Vector2i(mouseCenterX, mouseCenterY);
+        sf::Mouse::setPosition(center, app.window);
+    }
     
     if (mouseDX != 0 || mouseDY != 0) {
-            
-        printf("dx: %d dy: %d\n", mouseDX, mouseDY);
         
-        sf::Mouse::setPosition(sf::Vector2i(mouseCenterX, mouseCenterY), app.window);
+        printf("dx: %d dy: %d\n", mouseDX, mouseDY);
+        port.mouse.setDeltaXY(mouseDX, mouseDY);
     }
 }
 
 void
 JoystickDevice::poll(ControlPort &port)
 {
-    if (sf::Joystick::isConnected((int)nr)) {
-        if (sf::Joystick::isButtonPressed((int)nr, 0) ||
-            sf::Joystick::isButtonPressed((int)nr, 1)) {
-            printf("BUTTON %zd\n", nr);
-        }
-    }
-    auto x = sf::Joystick::getAxisPosition((int)nr, sf::Joystick::Axis::X);
-    auto y = sf::Joystick::getAxisPosition((int)nr, sf::Joystick::Axis::Y);
+    if (!sf::Joystick::isConnected((int)nr)) return;
     
-    if (abs(x) > 10) {
-        if (x < 0) printf("LEFT\n");
-        if (x > 0) printf("RIGHT\n");
-    }
-    if (abs(y) > 10) {
-        if (y < 0) printf("UP\n");
-        if (y > 0) printf("DOWN\n");
-    }
+    auto x =
+    sf::Joystick::getAxisPosition((int)nr, sf::Joystick::Axis::X);
+    auto y =
+    sf::Joystick::getAxisPosition((int)nr, sf::Joystick::Axis::Y);
+    bool fire =
+    sf::Joystick::isButtonPressed((int)nr, 0) ||
+    sf::Joystick::isButtonPressed((int)nr, 1);
+    
+    port.joystick.trigger(fire ? PRESS_FIRE : RELEASE_FIRE);
+    port.joystick.trigger(x < -10 ? PULL_LEFT : x > 10 ? PULL_RIGHT : RELEASE_X);
+    port.joystick.trigger(y < -10 ? PULL_UP : y > 10 ? PULL_DOWN : RELEASE_Y);
 }
 
 void
 KeysetDevice::poll(ControlPort &port)
 {
-    if (sf::Keyboard::isKeyPressed(left)) {
-        printf("KEY LEFT\n");
-    }
-    if (sf::Keyboard::isKeyPressed(right)) {
-        printf("KEY RIGHT\n");
-    }
-    if (sf::Keyboard::isKeyPressed(up)) {
-        printf("KEY UP\n");
-    }
-    if (sf::Keyboard::isKeyPressed(down)) {
-        printf("KEY DOWN\n");
-    }
-    if (sf::Keyboard::isKeyPressed(fire)) {
-        printf("KEY FIRE\n");
-    }
+    port.joystick.trigger(sf::Keyboard::isKeyPressed(left) ? PULL_LEFT :
+                          sf::Keyboard::isKeyPressed(right) ? PULL_RIGHT : RELEASE_X);
+    port.joystick.trigger(sf::Keyboard::isKeyPressed(up) ? PULL_UP :
+                          sf::Keyboard::isKeyPressed(down) ? PULL_DOWN : RELEASE_Y);
+    port.joystick.trigger(sf::Keyboard::isKeyPressed(fire) ? PRESS_FIRE : RELEASE_FIRE);
 }
 
 InputManager::InputManager(Application &ref) : GUIComponent(ref)

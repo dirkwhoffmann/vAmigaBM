@@ -68,8 +68,8 @@ SoundManager::load(SoundID id)
     
     switch (id) {
             
-        case SoundID::insert: path = "insert.aiff"; break;
-        case SoundID::eject:  path = "eject.aiff"; break;
+        case SoundID::insert: path = "insert.wav"; break;
+        case SoundID::eject:  path = "eject.wav"; break;
         case SoundID::click:  path = "click.wav"; break;
 
         default:

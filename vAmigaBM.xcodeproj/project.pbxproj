@@ -986,21 +986,21 @@
 			isa = PBXGroup;
 			children = (
 				50CAD07E25CEB38B00DD55A5 /* Makefile */,
-				50AE10E125C42D6600AD13B7 /* KeyboardEvents.cpp */,
+				50AE10EB25C42D6600AD13B7 /* PortPublicTypes.h */,
 				50AE10E225C42D6600AD13B7 /* PortTypes.h */,
 				50AE10E725C42D6600AD13B7 /* ControlPort.h */,
 				50AE10E325C42D6600AD13B7 /* ControlPort.cpp */,
+				50AE10E925C42D6600AD13B7 /* SerialPort.h */,
 				50AE10E425C42D6600AD13B7 /* SerialPort.cpp */,
 				50AE10E525C42D6600AD13B7 /* Joystick.h */,
+				50AE10EE25C42D6600AD13B7 /* Joystick.cpp */,
 				50AE10EA25C42D6600AD13B7 /* Mouse.h */,
 				50AE10E625C42D6600AD13B7 /* Mouse.cpp */,
 				50AE10E825C42D6600AD13B7 /* KeyboardPublicTypes.h */,
-				50AE10E925C42D6600AD13B7 /* SerialPort.h */,
-				50AE10EB25C42D6600AD13B7 /* PortPublicTypes.h */,
+				50AE10EF25C42D6600AD13B7 /* KeyboardTypes.h */,
 				50AE10EC25C42D6600AD13B7 /* Keyboard.h */,
 				50AE10ED25C42D6600AD13B7 /* Keyboard.cpp */,
-				50AE10EE25C42D6600AD13B7 /* Joystick.cpp */,
-				50AE10EF25C42D6600AD13B7 /* KeyboardTypes.h */,
+				50AE10E125C42D6600AD13B7 /* KeyboardEvents.cpp */,
 			);
 			path = Peripherals;
 			sourceTree = "<group>";
