@@ -66,7 +66,7 @@ Application::check()
         printf("#%d: %s\n", i, ManyMouse_DeviceName(i));
     }
     printf("\n");
-
+    
     // Check for shader support
     if (!sf::Shader::isAvailable()) {
         throw Exception("No shader support");
@@ -138,44 +138,7 @@ Application::run()
         update(frames++, dt);
         render();
         
-        // EXPERIMENTAL
-        /*
-        ManyMouseEvent mmevent;
-        while (ManyMouse_PollEvent(&mmevent)) {
-             if (mmevent.type == MANYMOUSE_EVENT_RELMOTION) {
-                 printf("Mouse #%u relative motion %s %d\n", mmevent.device, mmevent.item == 0 ? "X" : "Y", mmevent.value);
-
-                 sf::Vector2f vec;
-                 if (mmevent.item == 0) {
-                     vec.x += mmevent.value;
-                 } else {
-                     vec.y += mmevent.value;
-                 }
-
-             } else if (mmevent.type == MANYMOUSE_EVENT_ABSMOTION) { // I have never witnessed this event
-                 printf("Mouse #%u absolute motion %s %d\n", mmevent.device, mmevent.item == 0 ? "X" : "Y", mmevent.value);
-             } else if (mmevent.type == MANYMOUSE_EVENT_BUTTON) {
-                 printf("Mouse #%u button %u %s\n", mmevent.device, mmevent.item, mmevent.value ? "down" : "up");
-             } else if (mmevent.type == MANYMOUSE_EVENT_SCROLL) {
-                 const char *wheel;
-                 const char *direction;
-                 if (mmevent.item == 0) {
-                     wheel = "vertical";
-                     direction = ((mmevent.value > 0) ? "up" : "down");
-                 } else {
-                     wheel = "horizontal";
-                     direction = ((mmevent.value > 0) ? "right" : "left");
-                 }
-                 printf("Mouse #%u wheel %s %s\n", mmevent.device, wheel, direction);
-             } else if (mmevent.type == MANYMOUSE_EVENT_DISCONNECT) {
-                 printf("Mouse #%u disconnect\n", mmevent.device);
-             } else {
-                 printf("Mouse #%u unhandled event type %d\n", mmevent.device, mmevent.type);
-             }
-         }
-        */
-        
-        // Compute the frames per second once in a while
+        // Compute frames per second once in a while
         if (elapsedTime > 1.0) {
             fps((frames -latchedFrames) / elapsedTime);
             latchedFrames = frames;

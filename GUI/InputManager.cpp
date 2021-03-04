@@ -12,15 +12,15 @@
 void
 MouseDevice::poll(ControlPort &port)
 {
+    /*
     sf::Vector2i current = sf::Mouse::getPosition(app.window);
     
     mouseDX = current.x - mouseCenterX;
     mouseDY = current.y - mouseCenterY;
+    */
     
     if (mouseDX != 0 || mouseDY != 0) {
-
-        // printf("lockX: %d lockY: %d current: (%d,%d)\n",
-        //        mouseLockX, mouseLockY, current.x, current.y);
+            
         printf("dx: %d dy: %d\n", mouseDX, mouseDY);
         
         sf::Mouse::setPosition(sf::Vector2i(mouseCenterX, mouseCenterY), app.window);
@@ -71,6 +71,52 @@ KeysetDevice::poll(ControlPort &port)
 
 InputManager::InputManager(Application &ref) : GUIComponent(ref)
 {
+    //
+    // Initialize mice
+    //
+    
+    if (manyMouse) {
+        
+        int numMice = ManyMouse_Init();
+
+        if (numMice < 0) {
+            throw std::runtime_error("Unable to initialize manymouse library");
+        }
+
+        for (int i = 0; i < numMice && i < numMouseSlots; i++) {
+
+            mouse[i].isPresent = true;
+            mouse[i].name = ManyMouse_DeviceName(i);
+        }
+
+        printf("ManyMouse driver: %s\n", ManyMouse_DriverName());
+
+    } else {
+        
+        mouse[0].isPresent = true;
+        mouse[0].name = "Mouse";
+    }
+
+    //
+    // Initialize joysticks
+    //
+
+    for (int i = 0; i < numJoystickSlots; i++) {
+        
+        if (sf::Joystick::isConnected(i)) {
+
+            auto properties = sf::Joystick::getIdentification(i);
+
+            joystick[i].isPresent = true;
+            joystick[i].name = properties.name;
+        }
+    }
+    
+    //
+    // Initialize keysets
+    //
+
+    keyset[0].isPresent = true;
     keyset[0].left = sf::Keyboard::Key::Left;
     keyset[0].right = sf::Keyboard::Key::Right;
     keyset[0].up = sf::Keyboard::Key::Up;
@@ -143,6 +189,30 @@ InputManager::connectKeyset(isize nr, PortNr port)
 void
 InputManager::poll()
 {
+    ManyMouseEvent mmevent;
+    while (ManyMouse_PollEvent(&mmevent)) {
+        if (mmevent.type == MANYMOUSE_EVENT_RELMOTION) {
+            printf("Mouse #%u relative motion %s %d\n", mmevent.device, mmevent.item == 0 ? "X" : "Y", mmevent.value);
+            
+            if (mmevent.device < numMouseSlots) {
+                if (mmevent.item == 0) {
+                    mouse[mmevent.device].mouseDX = mmevent.value;
+                } else {
+                    mouse[mmevent.device].mouseDY = mmevent.value;
+                }
+            }
+            
+        } else if (mmevent.type == MANYMOUSE_EVENT_ABSMOTION) { // I have never witnessed this event
+            printf("Mouse #%u absolute motion %s %d\n", mmevent.device, mmevent.item == 0 ? "X" : "Y", mmevent.value);
+        } else if (mmevent.type == MANYMOUSE_EVENT_BUTTON) {
+            printf("Mouse #%u button %u %s\n", mmevent.device, mmevent.item, mmevent.value ? "down" : "up");
+        } else if (mmevent.type == MANYMOUSE_EVENT_DISCONNECT) {
+            printf("Mouse #%u disconnect\n", mmevent.device);
+        } else {
+            printf("Mouse #%u unhandled event type %d\n", mmevent.device, mmevent.type);
+        }
+    }
+    
     if (port1) port1->poll(amiga.controlPort1);
     if (port2) port2->poll(amiga.controlPort2);
 }

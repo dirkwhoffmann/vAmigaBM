@@ -24,16 +24,21 @@ protected:
     
 public:
     
+    string name;
     bool isPresent = false;
 
 public:
     
     InputDevice(class Application &ref, isize n) : GUIComponent(ref), nr(n) { }
+    
+    // Polls a device and updates the Amiga control port accordingly
     virtual void poll(ControlPort &port) = 0;
 };
 
 class MouseDevice : public InputDevice {
         
+public:
+    
     int mouseCenterX = 200;
     int mouseCenterY = 200;
     
@@ -43,6 +48,7 @@ class MouseDevice : public InputDevice {
 public:
     
     using InputDevice::InputDevice;
+    
     void poll(ControlPort &port) override;
 };
 
@@ -51,6 +57,7 @@ class JoystickDevice : public InputDevice {
 public:
     
     using InputDevice::InputDevice;
+    
     void poll(ControlPort &port) override;
 };
 
@@ -61,6 +68,7 @@ public:
     sf::Keyboard::Key left, right, up, down, fire;
 
     using InputDevice::InputDevice;
+    
     void poll(ControlPort &port) override;
 };
 
