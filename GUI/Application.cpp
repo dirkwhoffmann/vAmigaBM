@@ -33,6 +33,17 @@ Application::~Application()
 void
 Application::check()
 {
+    printf("Application::check()\n");
+    
+    sf::Joystick::update();
+    for (int i = 0; sf::Joystick::isConnected(i); i++) {
+        printf("Joystick %d: ", i);
+        printf("%d buttons ",  sf::Joystick::getButtonCount(i));
+        printf("%s ", sf::Joystick::hasAxis(0, sf::Joystick::Axis::X) ? "X" : "x");
+        printf("%s ", sf::Joystick::hasAxis(0, sf::Joystick::Axis::Y) ? "Y" : "y");
+        printf("\n");
+    }
+        
     // Check for shader support
     if (!sf::Shader::isAvailable()) {
         throw Exception("No shader support");

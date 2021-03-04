@@ -41,7 +41,7 @@ public:
     // Executing commands
     //
     
-    void exec(const std::string& command) throws;
+    void exec(const string& command) throws;
     
     template <Token t1> void exec(Arguments& argv, long param) throws;
     template <Token t1, Token t2> void exec(Arguments& argv, long param) throws;

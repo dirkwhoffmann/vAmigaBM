@@ -131,10 +131,10 @@ Command::seek(Arguments argv)
     return result;
 }
 
-std::vector<std::string>
+std::vector<string>
 Command::types()
 {
-    std::vector<std::string> result;
+    std::vector<string> result;
     
     for (auto &it : args) {
         

@@ -24,7 +24,7 @@ Interpreter::split(const string& userInput)
     std::stringstream ss(userInput);
     Arguments result;
 
-    std::string token;
+    string token;
     bool str = false;
     
     for (isize i = 0; i < userInput.size(); i++) {
@@ -55,7 +55,7 @@ void
 Interpreter::autoComplete(Arguments &argv)
 {
     Command *current = &root;
-    std::string prefix, token;
+    string prefix, token;
 
     for (auto it = argv.begin(); current && it != argv.end(); it++) {
         
@@ -102,7 +102,7 @@ void
 Interpreter::exec(Arguments &argv, bool verbose)
 {
     Command *current = &root;
-    std::string token;
+    string token;
 
     // In 'verbose' mode, print the token list
     if (verbose) {
@@ -167,7 +167,7 @@ void
 Interpreter::help(Arguments &argv)
 {
     Command *current = &root;
-    std::string prefix, token;
+    string prefix, token;
     
     while (1) {
                 

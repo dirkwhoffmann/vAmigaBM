@@ -13,7 +13,7 @@
 void
 TextureManager::load(TextureID id)
 {
-    std::string path = "";
+    string path = "";
     
     switch (id) {
             
@@ -36,7 +36,7 @@ TextureManager::load(TextureID id)
 void
 FontManager::load(FontID id)
 {
-    std::string path = "";
+    string path = "";
     
     switch (id) {
             
@@ -64,7 +64,7 @@ FontManager::load(FontID id)
 void
 SoundManager::load(SoundID id)
 {
-    std::string path = "";
+    string path = "";
     
     switch (id) {
             
@@ -88,8 +88,8 @@ SoundManager::load(SoundID id)
 void
 ShaderManager::load(ShaderID id)
 {
-    std::string vert = "";
-    std::string frag = "";
+    string vert = "";
+    string frag = "";
     
     switch (id) {
             

@@ -10,8 +10,6 @@
 #include "config.h"
 #include "Application.h"
 
-const std::string& Console::prompt = string("vAmiga\% ");
-
 Console::Console(Application &ref) : Layer(ref)
 {
     // Initialize the text storage
@@ -204,7 +202,7 @@ Console::operator<<(char value)
 }
 
 Console&
-Console::operator<<(const std::string& text)
+Console::operator<<(const string& text)
 {
     size_t remaining = numCols - storage.back().length();
     
@@ -256,7 +254,6 @@ Console::tab(int hpos)
 void
 Console::replace(const string& text, const string& prefix)
 {
-    
     storage.back() = prefix + text.substr(0, numCols);
 }
 

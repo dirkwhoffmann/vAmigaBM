@@ -78,7 +78,7 @@ struct Command {
     Command *seek(Arguments argv);
     
     // Collects the type descriptions in the args vector
-    std::vector<std::string> types();
+    std::vector<string> types();
     
     // Filters the argument list
     std::vector<Command *> filterType(const string& type);

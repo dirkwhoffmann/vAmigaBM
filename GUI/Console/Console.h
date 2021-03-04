@@ -15,26 +15,25 @@
 #include <sstream>
 
 class Console : public Layer {
+
+    //
+    // Sub components
+    //
     
     // Interpreter for commands typed into the debug console
     Interpreter interpreter = Interpreter(app);
 
+    
     //
     // Constants
     //
-  
-    // The maximum number of rows
-    // static const int maxRows = 40;
-        
+          
     // Layout properties
     int padx     = OS::scale(5);
     int pady     = OS::scale(2);
     int fontSize = OS::scale(14);
     int lineSkip = OS::scale(5);
     
-    // Input prompt
-    static const std::string& prompt;
-
     
     //
     // Dimensions
@@ -50,10 +49,13 @@ class Console : public Layer {
     //
     
     // The text storage
-    std::vector<std::string> storage;
+    std::vector<string> storage;
     
     // The input history buffer
-    std::vector<std::string> input;
+    std::vector<string> input;
+
+    // Input prompt
+    string prompt = "vAmiga\% ";
 
     // The number of the first displayed line
     isize vpos = 0;
@@ -166,9 +168,9 @@ public:
     void tab(int hpos);
 
     // Replaces the last line
-    void replace(const string &text,
-                 const string &prefix = string(prompt));
-
+    void replace(const string &text, const string &prefix);
+    void replace(const string &text) { replace(text, prompt); }
+    
     // Prints some debug output
     void list();
 
