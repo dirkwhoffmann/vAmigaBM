@@ -15,6 +15,7 @@
 Application::Application(int argc, const char *argv[]) :
 GUIComponent(*this),
 controller(*this),
+inputManager(*this),
 os(*this),
 console(*this),
 splashScreen(*this),
@@ -44,6 +45,28 @@ Application::check()
         printf("\n");
     }
         
+    // Initialize ManyMouse
+    const int available_mice = ManyMouse_Init();
+    int i;
+
+    if (available_mice < 0) {
+        printf("Error initializing ManyMouse!\n");
+        ManyMouse_Quit();
+        return;
+    }
+    printf("ManyMouse driver: %s\n", ManyMouse_DriverName());
+
+    if (available_mice == 0) {
+        printf("No mice detected!\n");
+        ManyMouse_Quit();
+        return;
+    }
+
+    for (i = 0; i < available_mice; i++) {
+        printf("#%d: %s\n", i, ManyMouse_DeviceName(i));
+    }
+    printf("\n");
+
     // Check for shader support
     if (!sf::Shader::isAvailable()) {
         throw Exception("No shader support");
@@ -102,6 +125,10 @@ Application::run()
     musicStream.setVolume(50.0); 
     musicStream.play();
     
+    inputManager.connectMouse(0, PORT_1);
+    inputManager.connectJoystick(0, PORT_2);
+    inputManager.connectKeyset (0, PORT_2);
+
     while (window.isOpen()) {
         
         sf::Time dt = clock.restart();
@@ -110,6 +137,43 @@ Application::run()
         while (window.pollEvent(event)) respond(event);
         update(frames++, dt);
         render();
+        
+        // EXPERIMENTAL
+        /*
+        ManyMouseEvent mmevent;
+        while (ManyMouse_PollEvent(&mmevent)) {
+             if (mmevent.type == MANYMOUSE_EVENT_RELMOTION) {
+                 printf("Mouse #%u relative motion %s %d\n", mmevent.device, mmevent.item == 0 ? "X" : "Y", mmevent.value);
+
+                 sf::Vector2f vec;
+                 if (mmevent.item == 0) {
+                     vec.x += mmevent.value;
+                 } else {
+                     vec.y += mmevent.value;
+                 }
+
+             } else if (mmevent.type == MANYMOUSE_EVENT_ABSMOTION) { // I have never witnessed this event
+                 printf("Mouse #%u absolute motion %s %d\n", mmevent.device, mmevent.item == 0 ? "X" : "Y", mmevent.value);
+             } else if (mmevent.type == MANYMOUSE_EVENT_BUTTON) {
+                 printf("Mouse #%u button %u %s\n", mmevent.device, mmevent.item, mmevent.value ? "down" : "up");
+             } else if (mmevent.type == MANYMOUSE_EVENT_SCROLL) {
+                 const char *wheel;
+                 const char *direction;
+                 if (mmevent.item == 0) {
+                     wheel = "vertical";
+                     direction = ((mmevent.value > 0) ? "up" : "down");
+                 } else {
+                     wheel = "horizontal";
+                     direction = ((mmevent.value > 0) ? "right" : "left");
+                 }
+                 printf("Mouse #%u wheel %s %s\n", mmevent.device, wheel, direction);
+             } else if (mmevent.type == MANYMOUSE_EVENT_DISCONNECT) {
+                 printf("Mouse #%u disconnect\n", mmevent.device);
+             } else {
+                 printf("Mouse #%u unhandled event type %d\n", mmevent.device, mmevent.type);
+             }
+         }
+        */
         
         // Compute the frames per second once in a while
         if (elapsedTime > 1.0) {
@@ -176,6 +240,8 @@ Application::resize(float w, float h)
 void
 Application::update(u64 frames, sf::Time dt)
 {
+    inputManager.poll();
+
     splashScreen.update(frames, dt);
     canvas.update(frames, dt);
     console.update(frames, dt);

@@ -13,10 +13,11 @@
 
 class Amiga;
 class Application;
-class Controller;
-class SplashScreen;
 class Canvas;
 class Console;
+class Controller;
+class InputManager;
+class SplashScreen;
 
 // Base class for all GUI components
 class GUIComponent {

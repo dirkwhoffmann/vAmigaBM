@@ -12,6 +12,7 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
 
+#include "manymouse.h"
 #include "Aliases.h"
 
 #include "GUIComponent.h"
@@ -19,6 +20,7 @@
 #include "Exception.h"
 #include "Controller.h"
 #include "Screen.h"
+#include "InputManager.h"
 #include "Layer.h"
 #include "SplashScreen.h"
 #include "Canvas.h"
@@ -63,6 +65,9 @@ public:
     
     // Gateway to the emulator
     Controller controller;
+    
+    // The input device manager
+    InputManager inputManager;
     
     // Gateway to the host operating system
     OS os;

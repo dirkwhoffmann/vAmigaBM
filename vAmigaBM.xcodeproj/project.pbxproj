@@ -22,6 +22,7 @@
 		503EB44E25D8294D00A6145B /* click.wav in CopyFiles */ = {isa = PBXBuildFile; fileRef = 503EB44D25D8294D00A6145B /* click.wav */; };
 		503EB45125D82A5900A6145B /* eject.wav in CopyFiles */ = {isa = PBXBuildFile; fileRef = 503EB44F25D82A5900A6145B /* eject.wav */; };
 		503EB45225D82A5900A6145B /* insert.wav in CopyFiles */ = {isa = PBXBuildFile; fileRef = 503EB45025D82A5900A6145B /* insert.wav */; };
+		503EB6F925F102C000C6042E /* InputManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 503EB6F725F102C000C6042E /* InputManager.cpp */; };
 		5047761F25E7E6E8003DCED0 /* GUIComponent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5047761D25E7E6E8003DCED0 /* GUIComponent.cpp */; };
 		505485E925C15C3B00892284 /* AssetManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 505485E725C15C3B00892284 /* AssetManager.cpp */; };
 		50658EE025C03EF800F7128D /* Console.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50658EDE25C03EF800F7128D /* Console.cpp */; };
@@ -56,6 +57,12 @@
 		5095D47025C021FD006AB819 /* vorbisenc.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5095D44825C021E8006AB819 /* vorbisenc.framework */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		5095D47125C02201006AB819 /* vorbisfile.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5095D44B25C021E8006AB819 /* vorbisfile.framework */; };
 		5095D47225C02201006AB819 /* vorbisfile.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5095D44B25C021E8006AB819 /* vorbisfile.framework */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		509F110425F0BC5E0038C3FF /* windows_wminput.c in Sources */ = {isa = PBXBuildFile; fileRef = 509F10FC25F0BA160038C3FF /* windows_wminput.c */; };
+		509F110525F0BC650038C3FF /* macosx_hidutilities.c in Sources */ = {isa = PBXBuildFile; fileRef = 509F10FD25F0BA160038C3FF /* macosx_hidutilities.c */; };
+		509F110625F0BC670038C3FF /* macosx_hidmanager.c in Sources */ = {isa = PBXBuildFile; fileRef = 509F10FE25F0BA160038C3FF /* macosx_hidmanager.c */; };
+		509F110725F0BC6B0038C3FF /* manymouse.c in Sources */ = {isa = PBXBuildFile; fileRef = 509F10FF25F0BA160038C3FF /* manymouse.c */; };
+		509F110825F0BC6E0038C3FF /* x11_xinput2.c in Sources */ = {isa = PBXBuildFile; fileRef = 509F110025F0BA160038C3FF /* x11_xinput2.c */; };
+		509F110925F0BC700038C3FF /* linux_evdev.c in Sources */ = {isa = PBXBuildFile; fileRef = 509F110125F0BA160038C3FF /* linux_evdev.c */; };
 		509F49E325D5332F005DA7CB /* aros-amiga-m68k-ext.bin in CopyFiles */ = {isa = PBXBuildFile; fileRef = 509F49E225D5332F005DA7CB /* aros-amiga-m68k-ext.bin */; };
 		509F49E525D53363005DA7CB /* aros-amiga-m68k-rom.bin in CopyFiles */ = {isa = PBXBuildFile; fileRef = 509F49E425D53363005DA7CB /* aros-amiga-m68k-rom.bin */; };
 		509F49EA25D66302005DA7CB /* ApplicationServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 509F49E925D66302005DA7CB /* ApplicationServices.framework */; };
@@ -257,6 +264,8 @@
 		503EB44D25D8294D00A6145B /* click.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = click.wav; sourceTree = "<group>"; };
 		503EB44F25D82A5900A6145B /* eject.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = eject.wav; sourceTree = "<group>"; };
 		503EB45025D82A5900A6145B /* insert.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = insert.wav; sourceTree = "<group>"; };
+		503EB6F725F102C000C6042E /* InputManager.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = InputManager.cpp; sourceTree = "<group>"; };
+		503EB6F825F102C000C6042E /* InputManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = InputManager.h; sourceTree = "<group>"; };
 		5047761D25E7E6E8003DCED0 /* GUIComponent.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = GUIComponent.cpp; sourceTree = "<group>"; };
 		5047761E25E7E6E8003DCED0 /* GUIComponent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GUIComponent.h; sourceTree = "<group>"; };
 		505485E725C15C3B00892284 /* AssetManager.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = AssetManager.cpp; sourceTree = "<group>"; };
@@ -281,6 +290,13 @@
 		5095D44925C021E8006AB819 /* sfml-network.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = "sfml-network.framework"; path = "SFML/sfml-network.framework"; sourceTree = "<group>"; };
 		5095D44A25C021E8006AB819 /* sfml-audio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = "sfml-audio.framework"; path = "SFML/sfml-audio.framework"; sourceTree = "<group>"; };
 		5095D44B25C021E8006AB819 /* vorbisfile.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = vorbisfile.framework; path = SFML/vorbisfile.framework; sourceTree = "<group>"; };
+		509F10FC25F0BA160038C3FF /* windows_wminput.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = windows_wminput.c; sourceTree = "<group>"; };
+		509F10FD25F0BA160038C3FF /* macosx_hidutilities.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = macosx_hidutilities.c; sourceTree = "<group>"; };
+		509F10FE25F0BA160038C3FF /* macosx_hidmanager.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = macosx_hidmanager.c; sourceTree = "<group>"; };
+		509F10FF25F0BA160038C3FF /* manymouse.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = manymouse.c; sourceTree = "<group>"; };
+		509F110025F0BA160038C3FF /* x11_xinput2.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = x11_xinput2.c; sourceTree = "<group>"; };
+		509F110125F0BA160038C3FF /* linux_evdev.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = linux_evdev.c; sourceTree = "<group>"; };
+		509F110325F0BAA70038C3FF /* manymouse.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = manymouse.h; sourceTree = "<group>"; };
 		509F49E225D5332F005DA7CB /* aros-amiga-m68k-ext.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = "aros-amiga-m68k-ext.bin"; sourceTree = "<group>"; };
 		509F49E425D53363005DA7CB /* aros-amiga-m68k-rom.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = "aros-amiga-m68k-rom.bin"; sourceTree = "<group>"; };
 		509F49E925D66302005DA7CB /* ApplicationServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ApplicationServices.framework; path = System/Library/Frameworks/ApplicationServices.framework; sourceTree = SDKROOT; };
@@ -695,6 +711,28 @@
 				508A80BB25E6A67A007C4E46 /* mergeBypass.frag */,
 			);
 			path = Shaders;
+			sourceTree = "<group>";
+		};
+		509F10FB25F0BA160038C3FF /* ThirdParty */ = {
+			isa = PBXGroup;
+			children = (
+				509F110225F0BA330038C3FF /* manymouse */,
+			);
+			path = ThirdParty;
+			sourceTree = "<group>";
+		};
+		509F110225F0BA330038C3FF /* manymouse */ = {
+			isa = PBXGroup;
+			children = (
+				509F110325F0BAA70038C3FF /* manymouse.h */,
+				509F10FC25F0BA160038C3FF /* windows_wminput.c */,
+				509F10FD25F0BA160038C3FF /* macosx_hidutilities.c */,
+				509F10FE25F0BA160038C3FF /* macosx_hidmanager.c */,
+				509F10FF25F0BA160038C3FF /* manymouse.c */,
+				509F110025F0BA160038C3FF /* x11_xinput2.c */,
+				509F110125F0BA160038C3FF /* linux_evdev.c */,
+			);
+			path = manymouse;
 			sourceTree = "<group>";
 		};
 		509F49E625D53370005DA7CB /* Roms */ = {
@@ -1203,6 +1241,7 @@
 				50B6305F25D8FFA100A860A7 /* Makefile */,
 				50AE104925C42D6500AD13B7 /* Emulator */,
 				50CF561825BFECA900B1AC0D /* GUI */,
+				509F10FB25F0BA160038C3FF /* ThirdParty */,
 				5070133725C071A6003B3420 /* Resources */,
 				50CF561725BFECA900B1AC0D /* Products */,
 				50CF562125BFEFDD00B1AC0D /* Frameworks */,
@@ -1244,6 +1283,8 @@
 				505485E725C15C3B00892284 /* AssetManager.cpp */,
 				5002A28325D0596300665F89 /* View.h */,
 				5002A28225D0596300665F89 /* View.cpp */,
+				503EB6F825F102C000C6042E /* InputManager.h */,
+				503EB6F725F102C000C6042E /* InputManager.cpp */,
 			);
 			path = GUI;
 			sourceTree = "<group>";
@@ -1427,6 +1468,7 @@
 				50AE11AB25C42D6700AD13B7 /* PaulaRegisters.cpp in Sources */,
 				50AE115D25C42D6700AD13B7 /* DeniseRegisters.cpp in Sources */,
 				50AE119625C42D6700AD13B7 /* u_medium.c in Sources */,
+				503EB6F925F102C000C6042E /* InputManager.cpp in Sources */,
 				50AE119B25C42D6700AD13B7 /* pfile.c in Sources */,
 				50AE11A425C42D6700AD13B7 /* StateMachine.cpp in Sources */,
 				50AE11B925C42D6700AD13B7 /* FSEmptyBlock.cpp in Sources */,
@@ -1462,6 +1504,12 @@
 				50AE11AA25C42D6700AD13B7 /* AudioFilter.cpp in Sources */,
 				50AE11BC25C42D6700AD13B7 /* FSPartition.cpp in Sources */,
 				50AFF9B525EFC2910052269B /* Checksum.cpp in Sources */,
+				509F110425F0BC5E0038C3FF /* windows_wminput.c in Sources */,
+				509F110525F0BC650038C3FF /* macosx_hidutilities.c in Sources */,
+				509F110625F0BC670038C3FF /* macosx_hidmanager.c in Sources */,
+				509F110725F0BC6B0038C3FF /* manymouse.c in Sources */,
+				509F110825F0BC6E0038C3FF /* x11_xinput2.c in Sources */,
+				509F110925F0BC700038C3FF /* linux_evdev.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

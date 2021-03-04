@@ -37,9 +37,8 @@ OS::retainMouse()
     auto center = sf::Vector2i(app.os.mouseCenterX,app.os.mouseCenterY);
     sf::Mouse::setPosition(center, app.window);
     
-/*
+    /*
 #ifdef __MACH__
-    
     if (!gotMouse) {
     
         CGDisplayHideCursor(kCGNullDirectDisplay);
@@ -50,7 +49,7 @@ OS::retainMouse()
         gotMouse = true;
     }
 #endif
-*/
+     */
 }
 
 void
