@@ -39,6 +39,8 @@ class MouseDevice : public InputDevice {
         
 public:
         
+    bool leftButton = false;
+    bool rightButton = false;
     int mouseDX = 0;
     int mouseDY = 0;
     

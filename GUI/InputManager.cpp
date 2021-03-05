@@ -9,6 +9,10 @@
 
 #include "Application.h"
 
+#ifdef __MACH__
+#include <ApplicationServices/ApplicationServices.h>
+#endif
+
 void
 MouseDevice::poll(ControlPort &port)
 {
@@ -19,6 +23,8 @@ MouseDevice::poll(ControlPort &port)
 
         mouseDX = current.x - center.x;
         mouseDY = current.y - center.y;
+        leftButton = sf::Mouse::isButtonPressed(sf::Mouse::Button::Left);
+        rightButton = sf::Mouse::isButtonPressed(sf::Mouse::Button::Right);
         
         sf::Mouse::setPosition(center, app.window);
     }
@@ -28,6 +34,8 @@ MouseDevice::poll(ControlPort &port)
         printf("dx: %d dy: %d\n", mouseDX, mouseDY);
         port.mouse.setDeltaXY(mouseDX, mouseDY);
     }
+    port.mouse.setLeftButton(leftButton);
+    port.mouse.setRightButton(rightButton);
 }
 
 void
@@ -189,30 +197,52 @@ InputManager::getName(PortNr port)
 void
 InputManager::poll()
 {
+    // Only proceed if own the mouse
+    if (!gotMouse) return;
+    
     if (manyMouse) {
-        ManyMouseEvent mmevent;
-        while (ManyMouse_PollEvent(&mmevent)) {
-            if (mmevent.type == MANYMOUSE_EVENT_RELMOTION) {
-                printf("Mouse #%u relative motion %s %d\n", mmevent.device, mmevent.item == 0 ? "X" : "Y", mmevent.value);
-                
-                if (mmevent.device < numMouseSlots) {
-                    if (mmevent.item == 0) {
-                        mouse[mmevent.device].mouseDX = mmevent.value;
-                    } else {
-                        mouse[mmevent.device].mouseDY = mmevent.value;
+        
+        ManyMouseEvent event;
+        while (ManyMouse_PollEvent(&event)) {
+            
+            switch (event.type) {
+                    
+                case MANYMOUSE_EVENT_RELMOTION:
+                    
+                    if (event.device < numMouseSlots) {
+                        if (event.item == 0) {
+                            printf("MM: dx(%u) = %d\n", event.device, event.value);
+                            mouse[event.device].mouseDX = event.value;
+                        } else {
+                            printf("MM: dy(%u) = %d\n", event.device, event.value);
+                            mouse[event.device].mouseDY = event.value;
+                        }
                     }
-                }
-                
-            } else if (mmevent.type == MANYMOUSE_EVENT_ABSMOTION) { // I have never witnessed this event
-                printf("Mouse #%u absolute motion %s %d\n", mmevent.device, mmevent.item == 0 ? "X" : "Y", mmevent.value);
-            } else if (mmevent.type == MANYMOUSE_EVENT_BUTTON) {
-                printf("Mouse #%u button %u %s\n", mmevent.device, mmevent.item, mmevent.value ? "down" : "up");
-            } else if (mmevent.type == MANYMOUSE_EVENT_DISCONNECT) {
-                printf("Mouse #%u disconnect\n", mmevent.device);
-            } else {
-                printf("Mouse #%u unhandled event type %d\n", mmevent.device, mmevent.type);
+                    break;
+                    
+                case MANYMOUSE_EVENT_BUTTON:
+    
+                    if (event.item == 0) {
+                        printf("MM: Left button = %d\n", event.item);
+                        mouse[event.device].leftButton = event.value;
+                    } else {
+                        printf("MM: Right button = %d\n", event.item);
+                        mouse[event.device].rightButton = event.value;
+                    }
+                    break;
+                    
+                default:
+                    
+                    break;
             }
         }
+    } else {
+        
+#ifdef __MACH__
+        // CGAssociateMouseAndMouseCursorPosition(false);
+        CGGetLastMouseDelta(&mouse[0].mouseDX, &mouse[0].mouseDY);
+        printf("x: %d y: %d\n", mouse[0].mouseDX, mouse[0].mouseDY);
+#endif
     }
     
     if (port1) port1->poll(amiga.controlPort1);
@@ -222,50 +252,48 @@ InputManager::poll()
 void
 InputManager::retainMouse()
 {
-    gotMouse = true;
-    
-    app.window.setMouseCursorGrabbed(true);
-    app.window.setMouseCursorVisible(false);
-    
+    // Only proceed if we haven't gotten the mouse yet
+    if (gotMouse) return;
+            
+    // Place the cursor in the middle of the screen
     mouseCenter = sf::Vector2i(app.window.getSize().x / 2,
                                app.window.getSize().y / 2);
-    
-    printf("mouseCenter: x = %d y = %d\n", mouseCenter.x, mouseCenter.y);
     sf::Mouse::setPosition(mouseCenter, app.window);
+    printf("mouseCenter: x = %d y = %d\n", mouseCenter.x, mouseCenter.y);
     
-    /*
+    // Hide the mouse cursor
+    // app.window.setMouseCursorVisible(false);
+
+    // Disconnect the mouse cursor
 #ifdef __MACH__
-    if (!gotMouse) {
-    
-        CGDisplayHideCursor(kCGNullDirectDisplay);
-        CGEventErr err = CGAssociateMouseAndMouseCursorPosition(false);
-        if (err != CGEventNoErr) {
-            printf("CGAssociateMouseAndMouseCursorPosition returned %d\n", err);
-        }
-        gotMouse = true;
+    // CGDisplayHideCursor(kCGNullDirectDisplay);
+    CGEventErr err = CGAssociateMouseAndMouseCursorPosition(false);
+    if (err != CGEventNoErr) {
+        printf("CGAssociateMouseAndMouseCursorPosition returned %d\n", err);
     }
+#else
+    app.window.setMouseCursorGrabbed(true);
 #endif
-     */
+
+    gotMouse = true;
 }
 
 void
 InputManager::releaseMouse()
 {
-    if (gotMouse) {
+    // Only proceed if we've got the mouse
+    if (!gotMouse) return;
 
-        app.window.setMouseCursorGrabbed(false);
-        app.window.setMouseCursorVisible(true);
-        gotMouse = false;
-    }
-    /*
-#ifdef __MACH__
+    // Show the mouse cursor
+    // app.window.setMouseCursorVisible(true);
     
-    if (gotMouse) {
-        
-        CGDisplayShowCursor(kCGNullDirectDisplay);
-        CGAssociateMouseAndMouseCursorPosition(true);
-        gotMouse = false;
-    }
+    // Reconnect the mouse cursor
+#ifdef __MACH__
+    // CGDisplayShowCursor(kCGNullDirectDisplay);
+    CGAssociateMouseAndMouseCursorPosition(true);
+#else
+    app.window.setMouseCursorGrabbed(false);
 #endif
-     */
+
+    gotMouse = false;
 }
