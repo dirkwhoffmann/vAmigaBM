@@ -118,11 +118,9 @@ Canvas::respond(const sf::Event &event)
         }
         case sf::Event::MouseButtonPressed:
         {
-            if (!app.os.gotMouse) {
-                app.inputManager.retainMouse();
-                return;
-            }
+            app.inputManager.retainMouse();
             
+            /*
             if (event.mouseButton.button == sf::Mouse::Left) {
                 printf("Pressed left\n");
                 app.amiga.controlPort1.mouse.setLeftButton(true);
@@ -130,8 +128,10 @@ Canvas::respond(const sf::Event &event)
                 printf("Pressed right\n");
                 app.amiga.controlPort1.mouse.setRightButton(true);
             }
+            */
             break;
         }
+        /*
         case sf::Event::MouseButtonReleased:
         {
             if (!app.os.gotMouse) { return; }
@@ -145,6 +145,7 @@ Canvas::respond(const sf::Event &event)
             }
             break;
         }
+        */
         default:
             break;
     }

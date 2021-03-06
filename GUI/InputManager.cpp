@@ -16,22 +16,9 @@
 void
 MouseDevice::poll(ControlPort &port)
 {
-    if (!manyMouse) {
-        
-        auto current = sf::Mouse::getPosition(app.window);
-        auto center = app.inputManager.mouseCenter;
-
-        mouseDX = current.x - center.x;
-        mouseDY = current.y - center.y;
-        leftButton = sf::Mouse::isButtonPressed(sf::Mouse::Button::Left);
-        rightButton = sf::Mouse::isButtonPressed(sf::Mouse::Button::Right);
-        
-        sf::Mouse::setPosition(center, app.window);
-    }
-    
     if (mouseDX != 0 || mouseDY != 0) {
         
-        printf("dx: %d dy: %d\n", mouseDX, mouseDY);
+        printf("dx: %d dy: %d b: %d %d\n", mouseDX, mouseDY, leftButton, rightButton);
         port.mouse.setDeltaXY(mouseDX, mouseDY);
     }
     port.mouse.setLeftButton(leftButton);
@@ -72,26 +59,38 @@ InputManager::InputManager(Application &ref) : GUIComponent(ref)
     // Initialize mice
     //
     
-    if (manyMouse) {
-        
-        int numMice = ManyMouse_Init();
+    switch (mouseEmulation) {
+            
+        case MouseEmulation::MANY:
+        {
+            int numMice = ManyMouse_Init();
+            
+            if (numMice < 0) {
+                throw std::runtime_error("Unable to initialize manymouse library");
+            }
+            
+            printf("ManyMouse driver: %s\n", ManyMouse_DriverName());
+            for (int i = 0; i < numMice && i < numMouseSlots; i++) {
 
-        if (numMice < 0) {
-            throw std::runtime_error("Unable to initialize manymouse library");
+                mouse[i].isPresent = true;
+                mouse[i].name = ManyMouse_DeviceName(i);
+                printf("%d: %s\n", i, mouse[i].name.c_str());
+            }
+            
+            break;
         }
-
-        for (int i = 0; i < numMice && i < numMouseSlots; i++) {
-
-            mouse[i].isPresent = true;
-            mouse[i].name = ManyMouse_DeviceName(i);
+        case MouseEmulation::MACH:
+        {
+            mouse[0].isPresent = true;
+            mouse[0].name = "Mac Mouse";
+            break;
         }
-
-        printf("ManyMouse driver: %s\n", ManyMouse_DriverName());
-
-    } else {
-        
-        mouse[0].isPresent = true;
-        mouse[0].name = "Mouse";
+        case MouseEmulation::SFML:
+        {
+            mouse[0].isPresent = true;
+            mouse[0].name = "Mouse";
+            break;
+        }
     }
 
     //
@@ -200,51 +199,75 @@ InputManager::poll()
     // Only proceed if own the mouse
     if (!gotMouse) return;
     
-    if (manyMouse) {
-        
-        ManyMouseEvent event;
-        while (ManyMouse_PollEvent(&event)) {
+    switch (mouseEmulation) {
             
-            switch (event.type) {
-                    
-                case MANYMOUSE_EVENT_RELMOTION:
-                    
-                    if (event.device < numMouseSlots) {
-                        if (event.item == 0) {
-                            printf("MM: dx(%u) = %d\n", event.device, event.value);
-                            mouse[event.device].mouseDX = event.value;
-                        } else {
-                            printf("MM: dy(%u) = %d\n", event.device, event.value);
-                            mouse[event.device].mouseDY = event.value;
+        case MouseEmulation::MANY:
+        {
+            ManyMouseEvent event;
+            while (ManyMouse_PollEvent(&event)) {
+                
+                switch (event.type) {
+                        
+                    case MANYMOUSE_EVENT_RELMOTION:
+                        
+                        if (event.device < numMouseSlots) {
+                            if (event.item == 0) {
+                                printf("MM: dx(%u) = %d\n", event.device, event.value);
+                                mouse[event.device].mouseDX = event.value;
+                            } else {
+                                printf("MM: dy(%u) = %d\n", event.device, event.value);
+                                mouse[event.device].mouseDY = event.value;
+                            }
                         }
-                    }
-                    break;
-                    
-                case MANYMOUSE_EVENT_BUTTON:
-    
-                    if (event.item == 0) {
-                        printf("MM: Left button = %d\n", event.item);
-                        mouse[event.device].leftButton = event.value;
-                    } else {
-                        printf("MM: Right button = %d\n", event.item);
-                        mouse[event.device].rightButton = event.value;
-                    }
-                    break;
-                    
-                default:
-                    
-                    break;
+                        break;
+                        
+                    case MANYMOUSE_EVENT_BUTTON:
+                        
+                        if (event.item == 0) {
+                            printf("MM: Left button = %d\n", event.item);
+                            mouse[event.device].leftButton = event.value;
+                        } else {
+                            printf("MM: Right button = %d\n", event.item);
+                            mouse[event.device].rightButton = event.value;
+                        }
+                        break;
+                        
+                    default:
+                        break;
+                }
             }
+            break;
         }
-    } else {
-        
+        case MouseEmulation::MACH:
+        {
 #ifdef __MACH__
-        // CGAssociateMouseAndMouseCursorPosition(false);
-        CGGetLastMouseDelta(&mouse[0].mouseDX, &mouse[0].mouseDY);
-        printf("x: %d y: %d\n", mouse[0].mouseDX, mouse[0].mouseDY);
+            auto state = kCGEventSourceStateCombinedSessionState;
+            CGGetLastMouseDelta(&mouse[0].mouseDX, &mouse[0].mouseDY);
+            mouse[0].leftButton = CGEventSourceButtonState(state, kCGMouseButtonLeft);
+            mouse[0].rightButton = CGEventSourceButtonState(state, kCGMouseButtonRight);
+            mouse[0].leftButton = sf::Mouse::isButtonPressed(sf::Mouse::Button::Left);
+            mouse[0].rightButton = sf::Mouse::isButtonPressed(sf::Mouse::Button::Right);
 #endif
+            break;
+        }
+        case MouseEmulation::SFML:
+        {
+            auto current = sf::Mouse::getPosition(app.window);
+            auto center = app.inputManager.mouseCenter;
+            
+            mouse[0].mouseDX = current.x - center.x;
+            mouse[0].mouseDY = current.y - center.y;
+            mouse[0].leftButton = sf::Mouse::isButtonPressed(sf::Mouse::Button::Left);
+            mouse[0].rightButton = sf::Mouse::isButtonPressed(sf::Mouse::Button::Right);
+            
+            if (mouse[0].mouseDX || mouse[0].mouseDY) {
+                printf("SFML: %d %d\n", mouse[0].mouseDX, mouse[0].mouseDY);
+                sf::Mouse::setPosition(center, app.window);
+            }
+            break;
+        }
     }
-    
+            
     if (port1) port1->poll(amiga.controlPort1);
     if (port2) port2->poll(amiga.controlPort2);
 }
@@ -259,22 +282,11 @@ InputManager::retainMouse()
     mouseCenter = sf::Vector2i(app.window.getSize().x / 2,
                                app.window.getSize().y / 2);
     sf::Mouse::setPosition(mouseCenter, app.window);
-    printf("mouseCenter: x = %d y = %d\n", mouseCenter.x, mouseCenter.y);
     
-    // Hide the mouse cursor
-    // app.window.setMouseCursorVisible(false);
-
-    // Disconnect the mouse cursor
-#ifdef __MACH__
-    // CGDisplayHideCursor(kCGNullDirectDisplay);
-    CGEventErr err = CGAssociateMouseAndMouseCursorPosition(false);
-    if (err != CGEventNoErr) {
-        printf("CGAssociateMouseAndMouseCursorPosition returned %d\n", err);
-    }
-#else
-    app.window.setMouseCursorGrabbed(true);
-#endif
-
+    // Hide and disconnect the mouse cursor
+    hideMouse(true);
+    lockMouse(true);
+    
     gotMouse = true;
 }
 
@@ -283,17 +295,42 @@ InputManager::releaseMouse()
 {
     // Only proceed if we've got the mouse
     if (!gotMouse) return;
-
-    // Show the mouse cursor
-    // app.window.setMouseCursorVisible(true);
     
-    // Reconnect the mouse cursor
-#ifdef __MACH__
-    // CGDisplayShowCursor(kCGNullDirectDisplay);
-    CGAssociateMouseAndMouseCursorPosition(true);
-#else
-    app.window.setMouseCursorGrabbed(false);
-#endif
+    // Show and reconnect the mouse cursor
+    hideMouse(false);
+    lockMouse(false);
 
     gotMouse = false;
+}
+
+void
+InputManager::lockMouse(bool value)
+{
+    if (mouseEmulation != MouseEmulation::MACH) {
+        
+        app.window.setMouseCursorGrabbed(value);
+        return;
+    }
+    
+#ifdef __MACH__
+    CGAssociateMouseAndMouseCursorPosition(!value);
+#endif
+}
+
+void
+InputManager::hideMouse(bool value)
+{
+    if (mouseEmulation != MouseEmulation::MACH) {
+        
+        app.window.setMouseCursorVisible(!value);
+        return;
+    }
+    
+#ifdef __MACH__
+    if (value) {
+        CGDisplayHideCursor(kCGNullDirectDisplay);
+    } else {
+        CGDisplayShowCursor(kCGNullDirectDisplay);
+    }
+#endif
 }

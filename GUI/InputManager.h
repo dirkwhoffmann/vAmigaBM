@@ -135,5 +135,11 @@ public:
     
     // Retains or releases the mouse
     void retainMouse();
-    void releaseMouse();    
+    void releaseMouse();
+    
+private:
+    
+    // Locks or hides the mouse
+    void lockMouse(bool value);
+    void hideMouse(bool value);
 };

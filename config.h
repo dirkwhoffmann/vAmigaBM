@@ -32,7 +32,9 @@ struct U16Stereo; typedef U16Stereo SampleType;
 // struct FloatStereo; typedef FloatStereo SampleType;
 
 // Indicates whether we should use the ManyMouse library
-static const bool manyMouse = false;
+// [[deprecated]] static const bool manyMouse = false;
+enum class MouseEmulation { MANY, MACH, SFML };
+static const MouseEmulation mouseEmulation = MouseEmulation::SFML;
 
 
 //

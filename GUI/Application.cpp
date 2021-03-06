@@ -44,29 +44,7 @@ Application::check()
         printf("%s ", sf::Joystick::hasAxis(0, sf::Joystick::Axis::Y) ? "Y" : "y");
         printf("\n");
     }
-        
-    // Initialize ManyMouse
-    const int available_mice = ManyMouse_Init();
-    int i;
-
-    if (available_mice < 0) {
-        printf("Error initializing ManyMouse!\n");
-        ManyMouse_Quit();
-        return;
-    }
-    printf("ManyMouse driver: %s\n", ManyMouse_DriverName());
-
-    if (available_mice == 0) {
-        printf("No mice detected!\n");
-        ManyMouse_Quit();
-        return;
-    }
-
-    for (i = 0; i < available_mice; i++) {
-        printf("#%d: %s\n", i, ManyMouse_DeviceName(i));
-    }
-    printf("\n");
-    
+            
     // Check for shader support
     if (!sf::Shader::isAvailable()) {
         throw Exception("No shader support");
@@ -163,8 +141,13 @@ Application::respond(sf::Event &event)
             break;
             
         case sf::Event::MouseButtonPressed:
+            printf("Pressed %d\n", event.mouseButton.button);
             break;
-            
+
+        case sf::Event::MouseButtonReleased:
+            printf("Released %d\n", event.mouseButton.button);
+            break;
+
         case sf::Event::Resized:
             resize(event.size.width, event.size.height);
             break;
