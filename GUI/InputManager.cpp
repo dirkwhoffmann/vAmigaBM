@@ -63,32 +63,34 @@ InputManager::InputManager(Application &ref) : GUIComponent(ref)
             
         case MouseEmulation::MANY:
         {
-            int numMice = ManyMouse_Init();
+            int count = ManyMouse_Init();
             
-            if (numMice < 0) {
+            if (count < 0) {
                 throw std::runtime_error("Unable to initialize manymouse library");
             }
             
             printf("ManyMouse driver: %s\n", ManyMouse_DriverName());
-            for (int i = 0; i < numMice && i < numMouseSlots; i++) {
+            for (int i = 0; i < numMouseSlots; i++) {
 
-                mouse[i].isPresent = true;
-                mouse[i].name = ManyMouse_DeviceName(i);
-                printf("%d: %s\n", i, mouse[i].name.c_str());
+                if (i >= count) break;
+                
+                numMice++;
+                
+                mouse[numMice].name = ManyMouse_DeviceName((int)numMice);
+                printf("%zu: %s\n", numMice, mouse[numMice].name.c_str());
             }
-            
             break;
         }
         case MouseEmulation::MACH:
         {
-            mouse[0].isPresent = true;
             mouse[0].name = "Mac Mouse";
+            numMice = 1;
             break;
         }
         case MouseEmulation::SFML:
         {
-            mouse[0].isPresent = true;
             mouse[0].name = "Mouse";
+            numMice = 1;
             break;
         }
     }
@@ -96,53 +98,36 @@ InputManager::InputManager(Application &ref) : GUIComponent(ref)
     //
     // Initialize joysticks
     //
-
+    
     for (int i = 0; i < numJoystickSlots; i++) {
         
-        if (sf::Joystick::isConnected(i)) {
-
-            auto properties = sf::Joystick::getIdentification(i);
-
-            joystick[i].isPresent = true;
-            joystick[i].name = properties.name;
-        }
+        if (!sf::Joystick::isConnected(i)) break;
+        
+        numJoysticks++;
+        auto properties = sf::Joystick::getIdentification(i);
+        
+        joystick[i].name = properties.name;
     }
     
     //
     // Initialize keysets
     //
 
-    keyset[0].isPresent = true;
     keyset[0].name = "Joystick keyset 1";
     keyset[0].left = sf::Keyboard::Key::Left;
     keyset[0].right = sf::Keyboard::Key::Right;
     keyset[0].up = sf::Keyboard::Key::Up;
     keyset[0].down = sf::Keyboard::Key::Down;
     keyset[0].fire = sf::Keyboard::Key::Space;
-}
+    numKeysets++;
 
-isize
-InputManager::mouseCount()
-{
-    isize count;
-    for (count = 0; count < numMouseSlots && mouse[count].isPresent; count++);
-    return count;
-}
-
-isize
-InputManager::joystickCount()
-{
-    isize count;
-    for (count = 0; count < numJoystickSlots && joystick[count].isPresent; count++);
-    return count;
-}
-
-isize
-InputManager::keysetCount()
-{
-    isize count;
-    for (count = 0; count < numKeysetSlots && keyset[count].isPresent; count++);
-    return count;
+    keyset[1].name = "Joystick keyset 2";
+    keyset[1].left = sf::Keyboard::Key::A;
+    keyset[1].right = sf::Keyboard::Key::S;
+    keyset[1].up = sf::Keyboard::Key::W;
+    keyset[1].down = sf::Keyboard::Key::Y;
+    keyset[1].fire = sf::Keyboard::Key::X;
+    numKeysets++;
 }
 
 void
@@ -165,22 +150,49 @@ InputManager::connect(InputDevice *device, PortNr port)
 void
 InputManager::connectMouse(isize nr, PortNr port)
 {
-    assert((usize)nr < numMouseSlots);
-    connect(&mouse[nr], port);
+    if (nr >= 1 && nr <= numMice) {
+
+        connect(&mouse[nr - 1], port);
+        return;
+    }
+    
+    if (numMice == 1) {
+        throw ConfigArgError("1");
+    } else {
+        throw ConfigArgError("1.." + std::to_string(numMice));
+    }
 }
 
 void
 InputManager::connectJoystick(isize nr, PortNr port)
 {
-    assert((usize)nr < numJoystickSlots);
-    connect(&joystick[nr], port);
+    if (nr >= 0 && nr <= numJoysticks) {
+
+        connect(&joystick[nr], port);
+        return;
+    }
+    
+    if (numJoysticks == 1) {
+        throw ConfigArgError("1");
+    } else {
+        throw ConfigArgError("1.." + std::to_string(numJoysticks));
+    }
 }
 
 void
 InputManager::connectKeyset(isize nr, PortNr port)
 {
-    assert((usize)nr < numKeysetSlots);
-    connect(&keyset[nr], port);
+    if (nr >= 1 && nr < numKeysets) {
+        
+        connect(&keyset[nr], port);
+        return;
+    }
+        
+    if (numKeysets == 1) {
+        throw ConfigArgError("1");
+    } else {
+        throw ConfigArgError("1.." + std::to_string(numKeysets));
+    }
 }
 
 string

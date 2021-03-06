@@ -530,6 +530,24 @@ Controller::exec <Token::controlport, Token::config> (Arguments& argv, long para
 }
 
 template <> void
+Controller::exec <Token::controlport, Token::connect, Token::mouse> (Arguments& argv, long param)
+{
+    app.inputManager.connectMouse(parseDec(argv.front()), param);
+}
+
+template <> void
+Controller::exec <Token::controlport, Token::connect, Token::joystick> (Arguments& argv, long param)
+{
+    app.inputManager.connectJoystick(parseDec(argv.front()), param);
+}
+
+template <> void
+Controller::exec <Token::controlport, Token::connect, Token::keyset> (Arguments& argv, long param)
+{
+    app.inputManager.connectKeyset(parseDec(argv.front()), param);
+}
+
+template <> void
 Controller::exec <Token::controlport, Token::inspect> (Arguments& argv, long param)
 {
     if (param == 1) dump(amiga.controlPort1, Dump::State);

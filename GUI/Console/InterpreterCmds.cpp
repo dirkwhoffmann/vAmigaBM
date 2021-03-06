@@ -477,6 +477,21 @@ Interpreter::registerInstructions()
              "command", "Displays the current configuration",
              &Controller::exec <Token::controlport, Token::config>, 0, 0);
     
+    root.add("controlport", "connect",
+             "command", "Connects a device");
+
+    root.add("controlport", "connect", "joystick",
+             "device", "Connects a joystick",
+             &Controller::exec <Token::controlport, Token::connect, Token::joystick>, 1, 0);
+
+    root.add("controlport", "connect", "keyset",
+             "device", "Connects a joystick keyset",
+             &Controller::exec <Token::controlport, Token::connect, Token::keyset>, 1, 0);
+
+    root.add("controlport", "connect", "mouse",
+             "device", "Connects a mouse",
+             &Controller::exec <Token::controlport, Token::connect, Token::mouse>, 1, 0);
+    
     root.add("controlport", "inspect",
              "command", "Displays the internal state",
              &Controller::exec <Token::controlport, Token::inspect>, 0, 0);

@@ -22,8 +22,8 @@ Command::add(const string &token,
 
     // Expand template tokens
     if (token == "controlport") {
-        add("controlport1", a1, help, func, num, 1);
-        add("controlport2", a1, help, func, num, 2);
+        add("controlport1", a1, help, func, num, PORT_1);
+        add("controlport2", a1, help, func, num, PORT_2);
         return nullptr;
     }
     if (token == "cia") {
@@ -55,8 +55,8 @@ Command::add(const string &t1, const string &t2,
 {
     // Expand template tokens
     if (t1 == "controlport") {
-        add("controlport1", t2, a1, help, func, num, 1);
-        add("controlport2", t2, a1, help, func, num, 2);
+        add("controlport1", t2, a1, help, func, num, PORT_1);
+        add("controlport2", t2, a1, help, func, num, PORT_2);
         return nullptr;
     }
     if (t1 == "cia") {
@@ -84,8 +84,8 @@ Command::add(const string &t1, const string &t2, const string &t3,
 {
     // Expand template tokens
     if (t1 == "controlport") {
-        add("controlport1", t2, t3, a1, help, func, num, 1);
-        add("controlport2", t2, t3, a1, help, func, num, 2);
+        add("controlport1", t2, t3, a1, help, func, num, PORT_1);
+        add("controlport2", t2, t3, a1, help, func, num, PORT_2);
         return nullptr;
     }
     if (t1 == "cia") {

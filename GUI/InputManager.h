@@ -17,7 +17,7 @@
 //
 
 class InputDevice : public GUIComponent {
-
+    
 protected:
     
     isize nr;
@@ -25,7 +25,6 @@ protected:
 public:
     
     string name;
-    bool isPresent = false;
 
 public:
     
@@ -99,6 +98,11 @@ class InputManager : public GUIComponent {
         KeysetDevice(app, 1)
     };
 
+    // Number of available devices
+    isize numMice = 0;
+    isize numJoysticks = 0;
+    isize numKeysets = 0;
+
     // Connected devices
     InputDevice *port1 = nullptr;
     InputDevice *port2 = nullptr;
@@ -114,15 +118,15 @@ public:
     InputManager(Application &ref);
     
     // Returns the number of available devices
-    isize mouseCount();
-    isize joystickCount();
-    isize keysetCount();
+    isize getNumMice() { return numMice; }
+    isize getNumJoysticks() { return numJoysticks; }
+    isize getNumKeysets() { return numKeysets; }
     
     // Connects a device
     void connect(InputDevice *device, PortNr port);
-    void connectMouse(isize nr, PortNr port);
-    void connectJoystick(isize nr, PortNr port);
-    void connectKeyset(isize nr, PortNr port);
+    void connectMouse(isize nr, PortNr port) throws;
+    void connectJoystick(isize nr, PortNr port) throws;
+    void connectKeyset(isize nr, PortNr port) throws;
     
     // Disconnects a device
     void disconnect(PortNr port) { connect(nullptr, port); }

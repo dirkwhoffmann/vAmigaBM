@@ -103,9 +103,8 @@ Application::run()
     musicStream.setVolume(50.0); 
     musicStream.play();
     
-    inputManager.connectMouse(0, PORT_1);
-    inputManager.connectJoystick(0, PORT_2);
-    inputManager.connectKeyset (0, PORT_2);
+    inputManager.connectMouse(1, PORT_1);
+    inputManager.connectKeyset (1, PORT_2);
 
     while (window.isOpen()) {
         

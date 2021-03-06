@@ -31,9 +31,23 @@
 struct U16Stereo; typedef U16Stereo SampleType;
 // struct FloatStereo; typedef FloatStereo SampleType;
 
-// Indicates whether we should use the ManyMouse library
-// [[deprecated]] static const bool manyMouse = false;
-enum class MouseEmulation { MANY, MACH, SFML };
+/* vAmiga supports three mouse driver backends:
+ *
+ *     SFML: The mouse state is read via the SFML API. This method utilizes a
+ *           workaround because SFML does not allow to disconnect the mouse
+ *           pointer. As a workaround the (invisible) mouse pointer of the host
+ *           machine is manually recentered the middle of the window whenever
+ *           a delta position has been read.
+ *
+ *     MANY: The mouse state is read via the many mouse library. It is the only
+ *           mode that is capable of supporting multiple mice. This mode is not
+ *           working reliably on macOS. On some machines, the HID library does
+ *           not report mouse events for device #0 on some machines.
+ *
+ *     MACH: This mode utilizes the native macOS API for reading the current
+ *           mouse state. It is the recommended mode for macOS.
+ */
+enum class MouseEmulation { SFML, MANY, MACH };
 static const MouseEmulation mouseEmulation = MouseEmulation::SFML;
 
 

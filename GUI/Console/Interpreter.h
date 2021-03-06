@@ -31,9 +31,9 @@ enum class Token
     
     // Keys
     accuracy, bankmap, chip, clxsprspr, clxsprplf, clxplfplf,
-    device, esync, extrom, extstart, fast, filter, mechanics, model,
-    palette, pan, poll, pullup, raminitpattern, revision, rom, sampling, slow,
-    slowramdelay, slowrammirror, speed, step, tod, todbug, unmappingtype,
+    device, esync, extrom, extstart, fast, filter, joystick, keyset, mechanics,
+    model, palette, pan, poll, pullup, raminitpattern, revision, rom, sampling,
+    slow, slowramdelay, slowrammirror, speed, step, tod, todbug, unmappingtype,
     velocity, volume, wom
 };
 
