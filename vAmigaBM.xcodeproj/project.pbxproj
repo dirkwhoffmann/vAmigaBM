@@ -184,6 +184,8 @@
 		50E9337225C2188700F4958B /* Interpreter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50E9337025C2188700F4958B /* Interpreter.cpp */; };
 		50F712CD25C8838D00EC288B /* Command.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50F712CB25C8838D00EC288B /* Command.cpp */; };
 		50FD19B825C20102004E7388 /* Application.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50FD19B625C20102004E7388 /* Application.cpp */; };
+		50FFC12D25F3E5AB00D7595A /* disk.png in Resources */ = {isa = PBXBuildFile; fileRef = 50FFC12C25F3E5AB00D7595A /* disk.png */; };
+		50FFC13125F3E5FC00D7595A /* StatusBar.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50FFC12F25F3E5FC00D7595A /* StatusBar.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -606,6 +608,9 @@
 		50F712CC25C8838D00EC288B /* Command.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Command.h; sourceTree = "<group>"; };
 		50FD19B625C20102004E7388 /* Application.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Application.cpp; sourceTree = "<group>"; };
 		50FD19B725C20102004E7388 /* Application.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Application.h; sourceTree = "<group>"; };
+		50FFC12C25F3E5AB00D7595A /* disk.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = disk.png; sourceTree = "<group>"; };
+		50FFC12F25F3E5FC00D7595A /* StatusBar.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = StatusBar.cpp; sourceTree = "<group>"; };
+		50FFC13025F3E5FC00D7595A /* StatusBar.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = StatusBar.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -670,6 +675,7 @@
 		5070133725C071A6003B3420 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				50FFC12E25F3E5B100D7595A /* Icons */,
 				503EB44B25D822D000A6145B /* Sounds */,
 				509F49E625D53370005DA7CB /* Roms */,
 				507F613325C1B9ED003D695F /* Shaders */,
@@ -1278,6 +1284,8 @@
 				5002A27C25D00F3000665F89 /* SplashScreen.cpp */,
 				5002A28025D03B2300665F89 /* Canvas.h */,
 				5002A27F25D03B2300665F89 /* Canvas.cpp */,
+				50FFC13025F3E5FC00D7595A /* StatusBar.h */,
+				50FFC12F25F3E5FC00D7595A /* StatusBar.cpp */,
 				503EB44C25D8252400A6145B /* Console */,
 				505485E825C15C3B00892284 /* AssetManager.h */,
 				505485E725C15C3B00892284 /* AssetManager.cpp */,
@@ -1308,6 +1316,14 @@
 				5095D44B25C021E8006AB819 /* vorbisfile.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		50FFC12E25F3E5B100D7595A /* Icons */ = {
+			isa = PBXGroup;
+			children = (
+				50FFC12C25F3E5AB00D7595A /* disk.png */,
+			);
+			path = Icons;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1368,6 +1384,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				50FFC12D25F3E5AB00D7595A /* disk.png in Resources */,
 				50C4C27425D1D40C00849A01 /* startup_german.ini in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1486,6 +1503,7 @@
 				50AE11A025C42D6700AD13B7 /* DiskControllerRegisters.cpp in Sources */,
 				50AE117725C42D6700AD13B7 /* SlowBlitter.cpp in Sources */,
 				50AE117225C42D6700AD13B7 /* CopperEvents.cpp in Sources */,
+				50FFC13125F3E5FC00D7595A /* StatusBar.cpp in Sources */,
 				50AE11C525C44AAC00AD13B7 /* Controller.cpp in Sources */,
 				50AE11A925C42D6700AD13B7 /* StateMachineRegisters.cpp in Sources */,
 				50AE11BA25C42D6700AD13B7 /* FSUserDirBlock.cpp in Sources */,

@@ -24,6 +24,7 @@
 #include "Layer.h"
 #include "SplashScreen.h"
 #include "Canvas.h"
+#include "StatusBar.h"
 #include "Console.h"
 #include "Interpreter.h"
 #include "AssetManager.h"
@@ -78,6 +79,9 @@ public:
     // The emulator layer
     Canvas canvas;
 
+    // The status bar
+    StatusBar statusBar;
+    
     // The debug console layer
     Console console;
 

@@ -18,6 +18,7 @@ class Console;
 class Controller;
 class InputManager;
 class SplashScreen;
+class StatusBar;
 
 // Base class for all GUI components
 class GUIComponent {
