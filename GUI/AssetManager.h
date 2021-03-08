@@ -24,7 +24,13 @@ enum class TextureID
     ledBlack,
     ledGrey,
     ledGreen,
-    ledRed
+    ledRed,
+    mute,
+    halt,
+    sync,
+    warp,
+    syncLock,
+    warpLock
 };
 
 enum class FontID

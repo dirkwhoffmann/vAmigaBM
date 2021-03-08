@@ -26,6 +26,12 @@ TextureManager::load(TextureID id)
         case TextureID::ledGrey: path = "led_grey.png"; break;
         case TextureID::ledGreen: path = "led_green.png"; break;
         case TextureID::ledRed: path = "led_red.png"; break;
+        case TextureID::mute: path = "mute.png"; break;
+        case TextureID::halt: path = "halt.png"; break;
+        case TextureID::sync: path = "sync.png"; break;
+        case TextureID::warp: path = "warp.png"; break;
+        case TextureID::syncLock: path = "sync_lock.png"; break;
+        case TextureID::warpLock: path = "warp_lock.png"; break;
             
         default:
             assert(false);

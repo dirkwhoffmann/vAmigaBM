@@ -30,6 +30,9 @@ void StatusBar::init()
     
     bar.setColors(greyD, greyD, greyF, greyF);
 
+    powerLed.init(app.assets.get(TextureID::ledRed));
+    powerLed.setW(2 * 24);
+
     for (int i = 0; i < 4; i++) {
         
         driveLed[i].init(app.assets.get(TextureID::ledGreen));
@@ -42,20 +45,23 @@ void StatusBar::init()
         disk[i].rectangle.setFillColor(grey6);
         spin[i].init(app.assets);
         spin[i].setW(2 * 18);
+        spin[i].rectangle.setFillColor(grey6);
     }
-    powerLed.init(app.assets.get(TextureID::ledRed));
-    powerLed.setW(2 * 24);
     port[0].init(app.assets.get(TextureID::spin));
     port[0].setW(2 * 18);
+    port[0].rectangle.setFillColor(grey6);
     port[1].init(app.assets.get(TextureID::spin));
     port[1].setW(2 * 18);
-    mute.init(app.assets.get(TextureID::spin));
+    port[1].rectangle.setFillColor(grey6);
+    mute.init(app.assets.get(TextureID::mute));
     mute.setW(2 * 18);
-    mhz.setStyle(app.assets.get(FontID::sans_r), 28, grey6);
-    mhz.setString("00");
+    mute.rectangle.setFillColor(grey6);
+    mhz.setStyle(app.assets.get(FontID::sans_r), 24, grey6);
+    mhz.setString("999.99 MHz");
     mhz.setW(2 * 18);
-    state.init(app.assets.get(TextureID::spin));
+    state.init(app.assets.get(TextureID::sync));
     state.setW(2 * 18);
+    state.rectangle.setFillColor(grey6);
 }
 
 void
@@ -85,8 +91,8 @@ StatusBar::render()
         spin[i].draw(app.window);
     }
     powerLed.draw(app.window);
-    port[0].draw(app.window);
-    port[1].draw(app.window);
+    // port[0].draw(app.window);
+    // port[1].draw(app.window);
     mute.draw(app.window);
     mhz.draw(app.window);
     state.draw(app.window);
@@ -114,12 +120,12 @@ StatusBar::resize(float width, float height)
     // Left aligned items
     //
         
-    powerLed.setPosition(pos, y);  pos += powerLed.w + pad;
+    powerLed.setPosition(pos, y + 14);  pos += powerLed.w + pad;
     
     for (int i = 0; i < 4; i++) {
         
-        driveLed[i].setPosition(pos, y + 2); pos += driveLed[i].w + pad;
-        cylinder[i].setPosition(pos, y + 8); pos += cylinder[i].w + pad;
+        driveLed[i].setPosition(pos, y + 14); pos += driveLed[i].w + pad;
+        cylinder[i].setPosition(pos, y + 6); pos += cylinder[i].w + pad;
         disk[i].setPosition(pos, y + 8); pos += disk[i].w + pad;
         spin[i].setPosition(pos, y + 8); pos += spin[i].w + pad;
     }
@@ -128,11 +134,11 @@ StatusBar::resize(float width, float height)
     // Right aligned items
     //
     
-    pos = app.window.getSize().x - port[0].w - pad;
+    pos = app.window.getSize().x - state.w - pad;
     
-    port[0].setPosition(pos, y); pos -= port[0].w + pad;
-    port[1].setPosition(pos, y); pos -= port[1].w + pad;
-    mute.setPosition(pos, y); pos -= mute.w + pad;
-    mhz.setPosition(pos, y); pos -= mhz.w + pad;
-    state.setPosition(pos, y); pos -= state.w + pad;
+    // port[0].setPosition(pos, y + 8); pos -= port[0].w + pad;
+    // port[1].setPosition(pos, y + 8); pos -= port[1].w + pad;
+    state.setPosition(pos, y + 8); pos -= 2 * 64 + pad;
+    mhz.setPosition(pos, y + 10); pos -= mute.w + pad;
+    mute.setPosition(pos, y + 8);
 }
