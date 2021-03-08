@@ -16,7 +16,15 @@
 enum class TextureID
 {
     logo,
-    title
+    title,
+
+    disk,
+    diskProtected,
+    spin,
+    ledBlack,
+    ledGrey,
+    ledGreen,
+    ledRed
 };
 
 enum class FontID

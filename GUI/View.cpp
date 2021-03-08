@@ -60,6 +60,14 @@ View::setPosition(float x, float y)
 }
 
 void
+View::move(float x, float y)
+{
+    this->x += x;
+    this->y += y;
+    update();
+}
+
+void
 View::setW(float w)
 {
     if (flags & Align::Proportional) { this->h = w * this->h / this->w; }
@@ -225,3 +233,26 @@ TextView::draw(sf::RenderWindow &window, const sf::Shader *shader)
 {
     window.draw(text, shader);
 }
+
+//
+// Progress view
+//
+
+void
+ProgressView::init(Assets &assets)
+{
+    ImageView::init(assets.get(TextureID::spin));
+        
+    printf("init %f %f\n", rectangle.getSize().x, rectangle.getSize().y);
+    
+//     rectangle.setOrigin(32,32); // rectangle.getSize().x * 0.f, rectangle.getSize().y * 0.f);
+//     move(32,32);
+    
+    //     rectangle.setOrigin(16, 16);
+}
+
+void
+ProgressView::step(Assets &assets)
+{
+    if (++counter == 6) counter = 0;
+};

@@ -69,7 +69,8 @@ public:
     void setX(float x);
     void setY(float y);
     void setPosition(float x, float y);
-
+    void move(float x, float y);
+    
     // Adjusts the view position
     void setW(float w);
     void setH(float h);
@@ -154,4 +155,29 @@ public:
     void setFontSize(unsigned size);
     void setStyle(const sf::Font &font, unsigned int size, const sf::Color &color);
     void draw(sf::RenderWindow &window, const sf::Shader *shader = nullptr);
+};
+
+
+//
+// Progress view
+//
+
+class ProgressView : public ImageView {
+
+    isize counter = 0;
+    
+public:
+       
+    using ImageView::ImageView;
+
+    // Initializers
+    void init(class Assets &assets);
+    
+    void step(class Assets &assets);
+    
+    // Delegation methods
+    // void update();
+    
+    // Wrappers
+    // void draw(sf::RenderWindow &window, const sf::Shader *shader = nullptr);
 };

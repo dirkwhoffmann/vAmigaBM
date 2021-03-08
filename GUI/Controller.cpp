@@ -55,10 +55,12 @@ Controller::processMessage(long id, long data)
             
         case MSG_POWER_ON:
             app.canvas.powerOn();
+            app.statusBar.open();
             break;
             
         case MSG_POWER_OFF:
             app.canvas.powerOff();
+            app.statusBar.close();
             break;
 
         case MSG_RUN:

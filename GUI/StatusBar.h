@@ -13,6 +13,20 @@
 
 class StatusBar : public Layer {
         
+    GradientView bar;
+    
+    ImageView powerLed;
+    ImageView driveLed[4];
+    TextView cylinder[4];
+    ImageView disk[4];
+    ProgressView spin[4];
+    
+    ImageView port[2];
+    ImageView mute;
+    TextView mhz;
+    ImageView state;
+    
+    
     //
     // Initializing
     //
@@ -45,4 +59,7 @@ public:
     
     void respond(const sf::Event &event) override;
     void resize(float width, float height) override;
+    
+    // Refreshs dirty elements
+    void refresh();
 };
