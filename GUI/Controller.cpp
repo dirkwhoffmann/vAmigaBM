@@ -82,10 +82,12 @@ Controller::processMessage(long id, long data)
 
         case MSG_DRIVE_STEP:
             app.playClick();
+            app.statusBar.needsUpdate |= (StatusBarItem::DRIVE_CYL << data);
             break;
             
         case MSG_DRIVE_POLL:
             app.playClick();
+            app.statusBar.needsUpdate |= (StatusBarItem::DRIVE_CYL << data);
             return;
 
         case MSG_SHAKING:

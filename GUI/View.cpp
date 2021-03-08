@@ -151,7 +151,7 @@ ImageView::update()
 void
 ImageView::draw(sf::RenderWindow &window, const sf::Shader *shader)
 {
-    window.draw(rectangle, shader);
+    if (isVisible) window.draw(rectangle, shader);
 }
 
 
@@ -190,7 +190,7 @@ GradientView::update()
 void
 GradientView::draw(sf::RenderWindow &window, const sf::Shader *shader)
 {
-    window.draw(rectangle, 4, sf::Quads, shader);
+    if (isVisible) window.draw(rectangle, 4, sf::Quads, shader);
 }
 
 
@@ -233,7 +233,7 @@ TextView::setStyle(const sf::Font &font, unsigned int size, const sf::Color &col
 void
 TextView::draw(sf::RenderWindow &window, const sf::Shader *shader)
 {
-    window.draw(text, shader);
+    if (isVisible) window.draw(text, shader);
 }
 
 //

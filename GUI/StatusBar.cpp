@@ -74,7 +74,8 @@ void
 StatusBar::update(u64 frames, sf::Time dt)
 {
     Layer::update(frames, dt);
-    
+ 
+    if (needsUpdate) refresh();
     for (isize i = 0; i < 4; i++) spin[i].step();
 }
 
@@ -142,3 +143,142 @@ StatusBar::resize(float width, float height)
     mhz.setPosition(pos, y + 10); pos -= mute.w + pad;
     mute.setPosition(pos, y + 8);
 }
+
+void
+StatusBar::refresh()
+{
+    char tmp[16];
+    
+    refreshDrive(0);
+    refreshDrive(1);
+    refreshDrive(2);
+    refreshDrive(3);
+
+    if (needsUpdate & StatusBarItem::POWER_LED) {
+        
+    }
+
+    if (needsUpdate & StatusBarItem::MUTE) {
+        
+    }
+
+    if (needsUpdate & StatusBarItem::MHZ) {
+        
+        sprintf(tmp, "%3.2f Mhz", 99.9);
+        mhz.setString(string(tmp));
+    }
+
+    if (needsUpdate & StatusBarItem::STATE) {
+        
+    }
+    
+    needsUpdate = 0;
+}
+
+void
+StatusBar::refreshDrive(isize nr)
+{
+    char tmp[16];
+    
+    if (needsUpdate & (StatusBarItem::DRIVE_LED << nr)) {
+        
+    }
+    
+    if (needsUpdate & (StatusBarItem::DRIVE_CYL << nr)) {
+
+        sprintf(tmp, "%02d", amiga.df[nr]->getCylinder());
+        cylinder[nr].setString(string(tmp));
+    }
+
+    if (needsUpdate & (StatusBarItem::DISK_ICON << nr)) {
+        
+        disk[nr].isVisible =!amiga.df[nr]->hasDisk();
+    }
+
+    if (needsUpdate & (StatusBarItem::DISK_SPIN << nr)) {
+
+        disk[nr].isVisible = amiga.df[nr]->getMotor();
+    }
+}
+
+/*
+let config = amiga.diskController.getConfig()
+let connected0 = config.connected.0
+let connected1 = config.connected.1
+let connected2 = config.connected.2
+let connected3 = config.connected.3
+
+let motor0 = amiga.df0.motor
+let motor1 = amiga.df1.motor
+let motor2 = amiga.df2.motor
+let motor3 = amiga.df3.motor
+let hasDisk0 = amiga.df0.hasDisk
+let hasDisk1 = amiga.df1.hasDisk
+let hasDisk2 = amiga.df2.hasDisk
+let hasDisk3 = amiga.df3.hasDisk
+
+let running = amiga.running
+let debug = amiga.debugMode
+let halted = amiga.cpu.halted
+let warp = amiga.warp
+
+// Cylinders
+refreshStatusBar(drive: 0, cylinder: amiga.df0.cylinder)
+refreshStatusBar(drive: 1, cylinder: amiga.df1.cylinder)
+refreshStatusBar(drive: 2, cylinder: amiga.df2.cylinder)
+refreshStatusBar(drive: 3, cylinder: amiga.df3.cylinder)
+refreshStatusBar(writing: nil)
+
+// Animation
+refreshStatusBar(drive: 0, motor: motor0)
+refreshStatusBar(drive: 1, motor: motor1)
+refreshStatusBar(drive: 2, motor: motor2)
+refreshStatusBar(drive: 3, motor: motor3)
+
+// Drive icons
+df0Disk.image = amiga.df0.icon
+df1Disk.image = amiga.df1.icon
+df2Disk.image = amiga.df2.icon
+df3Disk.image = amiga.df3.icon
+
+// Warp mode icon
+warpIcon.image = hourglassIcon
+
+// Visibility
+let items: [NSView: Bool] = [
+    
+    powerLED: true,
+    
+    df0LED: connected0,
+    df1LED: connected1,
+    df2LED: connected2,
+    df3LED: connected3,
+    df0Disk: connected0 && hasDisk0,
+    df1Disk: connected1 && hasDisk1,
+    df2Disk: connected2 && hasDisk2,
+    df3Disk: connected3 && hasDisk3,
+    df0Cylinder: connected0,
+    df1Cylinder: connected1,
+    df2Cylinder: connected2,
+    df3Cylinder: connected3,
+    df0DMA: motor0,
+    df1DMA: motor1,
+    df2DMA: motor2,
+    df3DMA: motor3,
+
+    haltIcon: halted,
+    cmdLock: myAppDelegate.mapCommandKeys,
+    debugIcon: debug,
+    muteIcon: warp || muted,
+
+    clockSpeed: running,
+    clockSpeedBar: running,
+    warpIcon: running
+]
+
+for (item, visible) in items {
+    item.isHidden = !visible || !statusBar
+}
+}
+
+*/

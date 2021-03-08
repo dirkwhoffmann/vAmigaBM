@@ -11,6 +11,19 @@
 
 #include "Layer.h"
 
+namespace StatusBarItem {
+
+static const u32 DRIVE_LED  = 0x00000001;
+static const u32 DRIVE_CYL  = 0x00000010;
+static const u32 DISK_ICON  = 0x00000100;
+static const u32 DISK_SPIN  = 0x00001000;
+static const u32 POWER_LED  = 0x00010000;
+static const u32 MUTE       = 0x00020000;
+static const u32 MHZ        = 0x00040000;
+static const u32 STATE      = 0x00080000;
+
+}
+
 class StatusBar : public Layer {
         
     GradientView bar;
@@ -25,6 +38,10 @@ class StatusBar : public Layer {
     ImageView mute;
     TextView mhz;
     ImageView state;
+    
+public:
+    
+    u32 needsUpdate = 0;
     
     
     //
@@ -62,4 +79,8 @@ public:
     
     // Refreshs dirty elements
     void refresh();
+
+private:
+    
+    void refreshDrive(isize nr);
 };

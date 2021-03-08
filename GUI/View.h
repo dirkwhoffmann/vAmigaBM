@@ -30,15 +30,17 @@ struct Align {
 };
 
 class View {
- 
-public:
- 
+
     //
     // Members
     //
+
+public:
+     
+    // Indicates if the object is hidden
+    bool isVisible = true;
     
 // protected:
-public:
  
     // Position and size
     float x = 0;
@@ -52,7 +54,7 @@ public:
     // Render position (final object position)
     float rx = 0;
     float ry = 0;
-
+    
     
     //
     // Methods
