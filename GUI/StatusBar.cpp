@@ -30,7 +30,7 @@ void StatusBar::init()
     
     bar.setColors(greyD, greyD, greyF, greyF);
 
-    powerLed.init(app.assets.get(TextureID::ledRed));
+    powerLed.init(app.assets.get(TextureID::ledBlack));
     powerLed.setW(2 * 24);
 
     for (int i = 0; i < 4; i++) {
@@ -155,9 +155,15 @@ StatusBar::refresh()
     refreshDrive(3);
 
     if (needsUpdate & StatusBarItem::POWER_LED) {
-        
+        if (amiga.isPoweredOff()) {
+            powerLed.rectangle.setTexture(&app.assets.get(TextureID::ledBlack));
+        } else if (amiga.ciaA.getPA() & 2) {
+            powerLed.rectangle.setTexture(&app.assets.get(TextureID::ledGrey));
+        } else {
+            powerLed.rectangle.setTexture(&app.assets.get(TextureID::ledRed));
+        }
     }
-
+    
     if (needsUpdate & StatusBarItem::MUTE) {
         
     }
@@ -196,8 +202,8 @@ StatusBar::refreshDrive(isize nr)
     }
 
     if (needsUpdate & (StatusBarItem::DISK_SPIN << nr)) {
-
-        disk[nr].isVisible = amiga.df[nr]->getMotor();
+        printf("Motor(%zd): %d\n", nr, amiga.df[nr]->getMotor());
+        spin[nr].isVisible = amiga.df[nr]->getMotor();
     }
 }
 

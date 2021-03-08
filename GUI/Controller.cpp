@@ -71,7 +71,13 @@ Controller::processMessage(long id, long data)
 
         case MSG_RESET:
             break;
-                        
+                  
+        case MSG_POWER_LED_ON:
+        case MSG_POWER_LED_DIM:
+        case MSG_POWER_LED_OFF:
+            app.statusBar.needsUpdate |= (StatusBarItem::POWER_LED);
+            break;
+            
         case MSG_DISK_INSERT:
             app.play(SoundID::insert);
             break;
@@ -90,6 +96,12 @@ Controller::processMessage(long id, long data)
             app.statusBar.needsUpdate |= (StatusBarItem::DRIVE_CYL << data);
             return;
 
+        case MSG_DRIVE_MOTOR_ON:
+        case MSG_DRIVE_MOTOR_OFF:
+            printf("Drive: %ld\n", data);
+            app.statusBar.needsUpdate |= (StatusBarItem::DISK_SPIN << data);
+            break;
+            
         case MSG_SHAKING:
             printf("SHAKING\n");
             app.inputManager.releaseMouse();
