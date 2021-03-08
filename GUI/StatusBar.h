@@ -14,7 +14,7 @@
 class StatusBar : public Layer {
         
     GradientView bar;
-    
+
     ImageView powerLed;
     ImageView driveLed[4];
     TextView cylinder[4];

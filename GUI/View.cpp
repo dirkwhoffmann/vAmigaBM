@@ -120,6 +120,8 @@ View::update()
 void
 ImageView::init(const sf::Texture &tex)
 {
+    printf("ImageView::init %d %d\n", tex.getSize().x, tex.getSize().y);
+    
     View::init(tex.getSize().x, tex.getSize().y);
     rectangle.setTexture(&tex);
     
@@ -242,17 +244,20 @@ void
 ProgressView::init(Assets &assets)
 {
     ImageView::init(assets.get(TextureID::spin));
-        
-    printf("init %f %f\n", rectangle.getSize().x, rectangle.getSize().y);
-    
-//     rectangle.setOrigin(32,32); // rectangle.getSize().x * 0.f, rectangle.getSize().y * 0.f);
-//     move(32,32);
-    
-    //     rectangle.setOrigin(16, 16);
 }
 
 void
-ProgressView::step(Assets &assets)
+ProgressView::update()
 {
-    if (++counter == 6) counter = 0;
+    ImageView::update();
+    
+    auto size = rectangle.getSize();
+    rectangle.setOrigin(size.x / 2, size.y / 2);
+    rectangle.setPosition(sf::Vector2f { rx + size.x / 2, ry + size.y / 2} );
+}
+
+void
+ProgressView::step()
+{
+    rectangle.rotate(4.0);
 };

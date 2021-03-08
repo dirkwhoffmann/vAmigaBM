@@ -119,9 +119,7 @@ public:
     GradientView(usize flags) : View(flags) { };
 
     // Initializers
-    void init(float w, float h,
-              sf::Color ul, sf::Color ur, sf::Color ll, sf::Color lr);
-    // void init(sf::Color ul, sf::Color ur, sf::Color ll, sf::Color lr);
+    void init(float w, float h, sf::Color ul, sf::Color ur, sf::Color ll, sf::Color lr);
 
     // Setters
     void setColors(sf::Color ul, sf::Color ur, sf::Color ll, sf::Color lr);
@@ -164,8 +162,6 @@ public:
 
 class ProgressView : public ImageView {
 
-    isize counter = 0;
-    
 public:
        
     using ImageView::ImageView;
@@ -173,11 +169,9 @@ public:
     // Initializers
     void init(class Assets &assets);
     
-    void step(class Assets &assets);
+    // Rotates the progress wheel
+    void step();
     
     // Delegation methods
-    // void update();
-    
-    // Wrappers
-    // void draw(sf::RenderWindow &window, const sf::Shader *shader = nullptr);
+    void update();
 };
