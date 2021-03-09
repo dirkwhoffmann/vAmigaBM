@@ -75,13 +75,13 @@ Controller::processMessage(long id, long data)
         case MSG_MUTE_OFF:
         case MSG_WARP_ON:
         case MSG_WARP_OFF:
-            statusBar.needsUpdate |= StatusBarItem::MUTE;
+            statusBar.setNeedsUpdate(StatusBarItem::MUTE);
             break;
             
         case MSG_POWER_LED_ON:
         case MSG_POWER_LED_DIM:
         case MSG_POWER_LED_OFF:
-            statusBar.needsUpdate |= StatusBarItem::POWER_LED;
+            statusBar.setNeedsUpdate(StatusBarItem::POWER_LED);
             break;
             
         case MSG_DISK_INSERT:
@@ -94,18 +94,18 @@ Controller::processMessage(long id, long data)
 
         case MSG_DRIVE_STEP:
             app.playClick();
-            app.statusBar.needsUpdate |= (StatusBarItem::DRIVE_CYL << data);
+            app.statusBar.setNeedsUpdate(StatusBarItem::DRIVE_CYL, data);
             break;
             
         case MSG_DRIVE_POLL:
             app.playClick();
-            app.statusBar.needsUpdate |= (StatusBarItem::DRIVE_CYL << data);
+            app.statusBar.setNeedsUpdate(StatusBarItem::DRIVE_CYL, data);
             return;
 
         case MSG_DRIVE_MOTOR_ON:
         case MSG_DRIVE_MOTOR_OFF:
             printf("Drive: %ld\n", data);
-            app.statusBar.needsUpdate |= (StatusBarItem::DISK_SPIN << data);
+            app.statusBar.setNeedsUpdate(StatusBarItem::DISK_SPIN, data);
             break;
             
         case MSG_SHAKING:

@@ -78,12 +78,17 @@ public:
     void resize(float width, float height) override;
     void alphaDidChange() override;
     
+    
+    //
     // Refreshs dirty elements
+    //
+
+public:
+    
+    void setNeedsUpdate(u32 flags, isize i = 0) { needsUpdate |= flags << i; }
+
     void refresh();
     void refreshMhz(float value);
-
-private:
-    
     void refreshDrive(isize nr);
     void refreshPort(PortNr nr);
 };

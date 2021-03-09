@@ -40,7 +40,7 @@ public:
     // Indicates if the object is hidden
     bool isVisible = true;
     
-// protected:
+protected:
  
     // Position and size
     float x = 0;
@@ -67,6 +67,12 @@ public:
     // Initializers
     void init(float w, float h);
 
+    // Getters
+    float getX() { return x; }
+    float getY() { return y; }
+    float getW() { return w; }
+    float getH() { return h; }
+
     // Adjusts the view position
     void setX(float x);
     void setY(float y);
@@ -78,6 +84,10 @@ public:
     void setH(float h);
     void setSize(float w, float h);
     
+    // Adjusts the alignment flags
+    void setFlags(usize value) { flags = value; }
+    void addFlags(usize value) { flags |= value; }
+
     // Asjusts the transparency
     virtual void setAlpha(u8 value) = 0;
     

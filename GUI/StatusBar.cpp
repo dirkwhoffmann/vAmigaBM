@@ -53,20 +53,20 @@ void StatusBar::init()
         port[i].init(app.assets.get(TextureID::none));
         port[i].setW(2 * 18);
         port[i].rectangle.setFillColor(grey6);
-        port[i].flags = Align::Top | Align::Right;
+        port[i].setFlags(Align::Top | Align::Right);
     }
     
-    mute.flags = Align::Top | Align::Right;
+    mute.setFlags(Align::Top | Align::Right);
     mute.init(app.assets.get(TextureID::mute));
     mute.setW(2 * 18);
     mute.rectangle.setFillColor(grey6);
     mhz.setStyle(app.assets.get(FontID::sans_sb), 24, grey6);
     mhz.setW(2 * 18);
-    mhz.flags = Align::Top | Align::Right;
+    mhz.setFlags(Align::Top | Align::Right);
     state.init(app.assets.get(TextureID::sync));
     state.setW(2 * 18);
     state.rectangle.setFillColor(grey6);
-    state.flags = Align::Top | Align::Right;
+    state.setFlags(Align::Top | Align::Right);
 }
 
 void
@@ -127,14 +127,14 @@ StatusBar::resize(float width, float height)
     // Left aligned items
     //
         
-    powerLed.setPosition(pos, y + 14);  pos += powerLed.w + pad;
+    powerLed.setPosition(pos, y + 14);  pos += powerLed.getW() + pad;
     
     for (int i = 0; i < 4; i++) {
         
-        driveLed[i].setPosition(pos, y + 14); pos += driveLed[i].w + pad;
-        cylinder[i].setPosition(pos, y + 6); pos += cylinder[i].w + pad;
-        disk[i].setPosition(pos, y + 8); pos += disk[i].w + pad;
-        spin[i].setPosition(pos, y + 8); pos += spin[i].w + pad;
+        driveLed[i].setPosition(pos, y + 14); pos += driveLed[i].getW() + pad;
+        cylinder[i].setPosition(pos, y + 6); pos += cylinder[i].getW() + pad;
+        disk[i].setPosition(pos, y + 8); pos += disk[i].getW() + pad;
+        spin[i].setPosition(pos, y + 8); pos += spin[i].getW() + pad;
     }
     
     //
@@ -143,9 +143,9 @@ StatusBar::resize(float width, float height)
     
     pos = app.window.getSize().x - 18;
 
-    port[1].setPosition(pos, y + 8); pos -= port[1].w + pad;
-    port[0].setPosition(pos, y + 8); pos -= port[0].w + pad;
-    state.setPosition(pos, y + 8); pos -= state.w + pad;
+    port[1].setPosition(pos, y + 8); pos -= port[1].getW() + pad;
+    port[0].setPosition(pos, y + 8); pos -= port[0].getW() + pad;
+    state.setPosition(pos, y + 8); pos -= state.getW() + pad;
     mhz.setPosition(pos, y + 10); pos -= 2 * 64 + pad;
     mute.setPosition(pos, y + 8);
 }
