@@ -80,4 +80,4 @@ public:
         
     void respond(const sf::Event &event) override;
     void resize(float width, float height) override;
-}; 
+};

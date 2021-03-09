@@ -152,6 +152,7 @@ SplashScreen::respond(const sf::Event &event)
                     
                 case Launch:
                     spcAction = None;
+                    statusBar.open();
                     app.amiga.run();
                     break;
                     

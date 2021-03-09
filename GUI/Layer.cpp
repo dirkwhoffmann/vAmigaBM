@@ -21,12 +21,14 @@ Layer::init()
     // printf("w = %f h = %f\n", w, h);
 }
 
+/*
 void
 Layer::setTargetAlpha(isize target, float seconds)
 {
     targetAlpha = target;
     delay = seconds;
 }
+*/
 
 void
 Layer::update(u64 frames, sf::Time dt)

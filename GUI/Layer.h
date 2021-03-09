@@ -43,7 +43,7 @@ public:
     //
     
     // Triggers an alpha animation
-    [[deprecated]] void setTargetAlpha(isize target, float seconds);
+    // [[deprecated]] void setTargetAlpha(isize target, float seconds);
     
     // Informs about the visual state of this layer
     virtual bool isVisible() { return alpha > 0; }

@@ -140,6 +140,14 @@ ImageView::init(const sf::Texture &tex)
 }
 
 void
+ImageView::setAlpha(u8 value)
+{
+    auto color = rectangle.getFillColor();
+    color.a = value;
+    rectangle.setFillColor(color);
+}
+
+void
 ImageView::update()
 {
     View::update();
@@ -177,6 +185,17 @@ GradientView::setColors(sf::Color ul, sf::Color ur, sf::Color ll, sf::Color lr)
 }
 
 void
+GradientView::setAlpha(u8 value)
+{
+    for (isize i = 0; i < 4; i++) {
+
+        auto color = rectangle[i].color;
+        color.a = value;
+        rectangle[i].color = color;
+    }
+}
+
+void
 GradientView::update()
 {
     View::update();
@@ -197,6 +216,14 @@ GradientView::draw(sf::RenderWindow &window, const sf::Shader *shader)
 //
 // TextView
 //
+
+void
+TextView::setAlpha(u8 value)
+{
+    auto color = text.getFillColor();
+    color.a = value;
+    text.setFillColor(color);
+}
 
 void
 TextView::update()
@@ -245,6 +272,16 @@ ProgressView::init(Assets &assets)
 {
     ImageView::init(assets.get(TextureID::spin));
 }
+
+/*
+void
+ProgressView::setAlpha(u8 value)
+{
+    auto color = text.getFillColor();
+    color.a = value;
+    text.setFillColor(color);
+}
+*/
 
 void
 ProgressView::update()

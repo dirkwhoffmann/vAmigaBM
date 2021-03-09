@@ -151,6 +151,26 @@ StatusBar::resize(float width, float height)
 }
 
 void
+StatusBar::alphaDidChange()
+{
+    bar.setAlpha(alpha);
+    powerLed.setAlpha(alpha);
+    
+    for (int i = 0; i < 4; i++) {
+        
+        driveLed[i].setAlpha(alpha);
+        disk[i].setAlpha(alpha);
+        spin[i].setAlpha(alpha);
+        cylinder[i].setAlpha(alpha);
+    }
+    
+    mhz.setAlpha(alpha);
+    state.setAlpha(alpha);
+    port[0].setAlpha(alpha);
+    port[1].setAlpha(alpha);
+}
+
+void
 StatusBar::refresh()
 {
     if (needsUpdate & StatusBarItem::POWER_LED) {

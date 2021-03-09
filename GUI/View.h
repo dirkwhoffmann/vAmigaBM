@@ -78,6 +78,9 @@ public:
     void setH(float h);
     void setSize(float w, float h);
     
+    // Asjusts the transparency
+    virtual void setAlpha(u8 value) = 0;
+    
     // Computes the render position and updates the texture
     virtual void update();
 };
@@ -99,6 +102,9 @@ public:
     // Initializers
     void init(const sf::Texture &tex);
         
+    // Modifiers
+    void setAlpha(u8 value);
+
     // Delegation methods
     void update();
     
@@ -123,9 +129,10 @@ public:
     // Initializers
     void init(float w, float h, sf::Color ul, sf::Color ur, sf::Color ll, sf::Color lr);
 
-    // Setters
+    // Modifiers
     void setColors(sf::Color ul, sf::Color ur, sf::Color ll, sf::Color lr);
-
+    void setAlpha(u8 value);
+    
     // Delegation methods
     void update();
     
@@ -146,6 +153,9 @@ public:
     
     TextView() : View(Align::UpperLeft) { };
     TextView(usize flags) : View(flags) { };
+
+    // Modifiers
+    void setAlpha(u8 value);
 
     // Delegation methods
     void update();
@@ -171,6 +181,9 @@ public:
     // Initializers
     void init(class Assets &assets);
     
+    // Modifiers
+    // void setAlpha(u8 value);
+
     // Rotates the progress wheel
     void step();
     

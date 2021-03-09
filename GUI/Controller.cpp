@@ -55,7 +55,6 @@ Controller::processMessage(long id, long data)
             
         case MSG_POWER_ON:
             canvas.powerOn();
-            statusBar.open();
             break;
             
         case MSG_POWER_OFF:

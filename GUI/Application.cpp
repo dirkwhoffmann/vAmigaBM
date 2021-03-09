@@ -148,6 +148,12 @@ Application::respond(sf::Event &event)
             
         case sf::Event::KeyPressed:
             if (event.key.code == sf::Keyboard::F11) console.toggle();
+            
+            if (event.key.code == sf::Keyboard::B &&
+                sf::Keyboard::isKeyPressed(sf::Keyboard::LSystem)) {
+                statusBar.toggle();
+                printf("LSYSTEM\n");
+            }
             break;
             
         case sf::Event::MouseButtonPressed:
