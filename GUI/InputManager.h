@@ -30,6 +30,11 @@ public:
     
     InputDevice(class Application &ref, isize n) : GUIComponent(ref), nr(n) { }
     
+    // Informs about the device type
+    virtual bool isMouse() { return false; }
+    virtual bool isJoystick() { return false; }
+    virtual bool isKeyset() { return false; }
+
     // Polls a device and updates the Amiga control port accordingly
     virtual void poll(ControlPort &port) = 0;
 };
@@ -47,6 +52,7 @@ public:
     
     using InputDevice::InputDevice;
     
+    bool isMouse() override { return true; }
     void poll(ControlPort &port) override;
 };
 
@@ -56,6 +62,7 @@ public:
     
     using InputDevice::InputDevice;
     
+    bool isJoystick() override { return true; }
     void poll(ControlPort &port) override;
 };
 
@@ -67,6 +74,7 @@ public:
 
     using InputDevice::InputDevice;
     
+    bool isKeyset() override { return true; }
     void poll(ControlPort &port) override;
 };
 
@@ -127,6 +135,11 @@ public:
     void connectMouse(isize nr, PortNr port) throws;
     void connectJoystick(isize nr, PortNr port) throws;
     void connectKeyset(isize nr, PortNr port) throws;
+    
+    // Checks the type of the connected device
+    bool isMouse(PortNr port);
+    bool isJoystick(PortNr port);
+    bool iskeyset(PortNr port);
     
     // Disconnects a device
     void disconnect(PortNr port) { connect(nullptr, port); }

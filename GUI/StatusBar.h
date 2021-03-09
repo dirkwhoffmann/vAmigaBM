@@ -21,7 +21,7 @@ static const u32 POWER_LED  = 0x00010000;
 static const u32 MUTE       = 0x00020000;
 static const u32 MHZ        = 0x00040000;
 static const u32 STATE      = 0x00080000;
-
+static const u32 PORTS      = 0x00100000;
 }
 
 class StatusBar : public Layer {
@@ -79,8 +79,10 @@ public:
     
     // Refreshs dirty elements
     void refresh();
+    void refreshMhz(float value);
 
 private:
     
     void refreshDrive(isize nr);
+    void refreshPort(PortNr nr);
 };

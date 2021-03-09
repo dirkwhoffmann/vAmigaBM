@@ -47,21 +47,26 @@ void StatusBar::init()
         spin[i].setW(2 * 18);
         spin[i].rectangle.setFillColor(grey6);
     }
-    port[0].init(app.assets.get(TextureID::spin));
-    port[0].setW(2 * 18);
-    port[0].rectangle.setFillColor(grey6);
-    port[1].init(app.assets.get(TextureID::spin));
-    port[1].setW(2 * 18);
-    port[1].rectangle.setFillColor(grey6);
+    
+    for (int i = 0; i < 2; i++) {
+        
+        port[i].init(app.assets.get(TextureID::none));
+        port[i].setW(2 * 18);
+        port[i].rectangle.setFillColor(grey6);
+        port[i].flags = Align::Top | Align::Right;
+    }
+    
+    mute.flags = Align::Top | Align::Right;
     mute.init(app.assets.get(TextureID::mute));
     mute.setW(2 * 18);
     mute.rectangle.setFillColor(grey6);
-    mhz.setStyle(app.assets.get(FontID::sans_r), 24, grey6);
-    mhz.setString("999.99 MHz");
+    mhz.setStyle(app.assets.get(FontID::sans_sb), 24, grey6);
     mhz.setW(2 * 18);
+    mhz.flags = Align::Top | Align::Right;
     state.init(app.assets.get(TextureID::sync));
     state.setW(2 * 18);
     state.rectangle.setFillColor(grey6);
+    state.flags = Align::Top | Align::Right;
 }
 
 void
@@ -84,6 +89,8 @@ StatusBar::render()
 {
     bar.draw(app.window);
     
+    powerLed.draw(app.window);
+
     for (int i = 0; i < 4; i++) {
         
         driveLed[i].draw(app.window);
@@ -91,9 +98,8 @@ StatusBar::render()
         disk[i].draw(app.window);
         spin[i].draw(app.window);
     }
-    powerLed.draw(app.window);
-    // port[0].draw(app.window);
-    // port[1].draw(app.window);
+    port[0].draw(app.window);
+    port[1].draw(app.window);
     mute.draw(app.window);
     mhz.draw(app.window);
     state.draw(app.window);
@@ -114,7 +120,7 @@ StatusBar::resize(float width, float height)
     bar.setPosition(0, size.y - 26 * 2);
 
     float pad = 12;
-    float pos = pad;
+    float pos = 18;
     float y = size.y - 26 * 2;
     
     //
@@ -135,20 +141,18 @@ StatusBar::resize(float width, float height)
     // Right aligned items
     //
     
-    pos = app.window.getSize().x - state.w - pad;
-    
-    // port[0].setPosition(pos, y + 8); pos -= port[0].w + pad;
-    // port[1].setPosition(pos, y + 8); pos -= port[1].w + pad;
-    state.setPosition(pos, y + 8); pos -= 2 * 64 + pad;
-    mhz.setPosition(pos, y + 10); pos -= mute.w + pad;
+    pos = app.window.getSize().x - 18;
+
+    port[1].setPosition(pos, y + 8); pos -= port[1].w + pad;
+    port[0].setPosition(pos, y + 8); pos -= port[0].w + pad;
+    state.setPosition(pos, y + 8); pos -= state.w + pad;
+    mhz.setPosition(pos, y + 10); pos -= 2 * 64 + pad;
     mute.setPosition(pos, y + 8);
 }
 
 void
 StatusBar::refresh()
 {
-    char tmp[16];
-    
     if (needsUpdate & StatusBarItem::POWER_LED) {
         if (amiga.isPoweredOff()) {
             powerLed.rectangle.setTexture(&app.assets.get(TextureID::ledBlack));
@@ -168,16 +172,27 @@ StatusBar::refresh()
         mute.isVisible = amiga.inWarpMode();
     }
 
-    if (needsUpdate & StatusBarItem::MHZ) {
-        sprintf(tmp, "%3.2f Mhz", 99.9);
-        mhz.setString(string(tmp));
-    }
-
     if (needsUpdate & StatusBarItem::STATE) {
         state.rectangle.setTexture(&app.assets.get(TextureID::sync));
     }
     
+    if (needsUpdate & StatusBarItem::PORTS) {
+        refreshPort(PORT_1);
+        refreshPort(PORT_2);
+    }
+
     needsUpdate = 0;
+}
+
+void
+StatusBar::refreshMhz(float value)
+{
+    char tmp[16];
+    sprintf(tmp, "%3.2f MHz", value);
+
+    if (mhz.text.getString() != tmp) {
+        mhz.setString(string(tmp));
+    }
 }
 
 void
@@ -203,84 +218,18 @@ StatusBar::refreshDrive(isize nr)
     }
 }
 
-/*
-let config = amiga.diskController.getConfig()
-let connected0 = config.connected.0
-let connected1 = config.connected.1
-let connected2 = config.connected.2
-let connected3 = config.connected.3
+void
+StatusBar::refreshPort(PortNr nr)
+{
+    isize i = (nr == PORT_1) ? 0 : 1;
 
-let motor0 = amiga.df0.motor
-let motor1 = amiga.df1.motor
-let motor2 = amiga.df2.motor
-let motor3 = amiga.df3.motor
-let hasDisk0 = amiga.df0.hasDisk
-let hasDisk1 = amiga.df1.hasDisk
-let hasDisk2 = amiga.df2.hasDisk
-let hasDisk3 = amiga.df3.hasDisk
-
-let running = amiga.running
-let debug = amiga.debugMode
-let halted = amiga.cpu.halted
-let warp = amiga.warp
-
-// Cylinders
-refreshStatusBar(drive: 0, cylinder: amiga.df0.cylinder)
-refreshStatusBar(drive: 1, cylinder: amiga.df1.cylinder)
-refreshStatusBar(drive: 2, cylinder: amiga.df2.cylinder)
-refreshStatusBar(drive: 3, cylinder: amiga.df3.cylinder)
-refreshStatusBar(writing: nil)
-
-// Animation
-refreshStatusBar(drive: 0, motor: motor0)
-refreshStatusBar(drive: 1, motor: motor1)
-refreshStatusBar(drive: 2, motor: motor2)
-refreshStatusBar(drive: 3, motor: motor3)
-
-// Drive icons
-df0Disk.image = amiga.df0.icon
-df1Disk.image = amiga.df1.icon
-df2Disk.image = amiga.df2.icon
-df3Disk.image = amiga.df3.icon
-
-// Warp mode icon
-warpIcon.image = hourglassIcon
-
-// Visibility
-let items: [NSView: Bool] = [
-    
-    powerLED: true,
-    
-    df0LED: connected0,
-    df1LED: connected1,
-    df2LED: connected2,
-    df3LED: connected3,
-    df0Disk: connected0 && hasDisk0,
-    df1Disk: connected1 && hasDisk1,
-    df2Disk: connected2 && hasDisk2,
-    df3Disk: connected3 && hasDisk3,
-    df0Cylinder: connected0,
-    df1Cylinder: connected1,
-    df2Cylinder: connected2,
-    df3Cylinder: connected3,
-    df0DMA: motor0,
-    df1DMA: motor1,
-    df2DMA: motor2,
-    df3DMA: motor3,
-
-    haltIcon: halted,
-    cmdLock: myAppDelegate.mapCommandKeys,
-    debugIcon: debug,
-    muteIcon: warp || muted,
-
-    clockSpeed: running,
-    clockSpeedBar: running,
-    warpIcon: running
-]
-
-for (item, visible) in items {
-    item.isHidden = !visible || !statusBar
+    if (inputManager.isMouse(nr)) {
+        port[i].rectangle.setTexture(&app.assets.get(TextureID::mouse));
+    } else if (inputManager.isJoystick(nr)) {
+        port[i].rectangle.setTexture(&app.assets.get(TextureID::joystick));
+    } else if (inputManager.iskeyset(nr)) {
+        port[i].rectangle.setTexture(&app.assets.get(TextureID::keyset));
+    } else {
+        port[i].rectangle.setTexture(&app.assets.get(TextureID::none));
+    }
 }
-}
-
-*/

@@ -96,6 +96,8 @@ Application::run()
     sf::Event event;
     sf::Clock clock;
     u64 frames = 0, latchedFrames = 0;
+    Cycle cycles = 0, latchedCycles = 0;
+    
     float elapsedTime = 0;
     
     // Render at 60 Hz
@@ -120,8 +122,14 @@ Application::run()
         
         // Compute frames per second once in a while
         if (elapsedTime > 1.0) {
-            fps((frames -latchedFrames) / elapsedTime);
+            
+            cycles = amiga.cpu.getClock();
+            
+            fps((frames - latchedFrames) / elapsedTime,
+                (cycles - latchedCycles) / elapsedTime);
+
             latchedFrames = frames;
+            latchedCycles = cycles;
             elapsedTime = 0;
         }
     }
@@ -211,9 +219,10 @@ Application::render()
 }
 
 void
-Application::fps(float fps)
+Application::fps(float fps, float hz)
 {
-    printf("fps: %.2f\n", fps);
+    printf("fps: %.2f mhz: %.2f\n", fps, hz / 1000000);
+    statusBar.refreshMhz(hz / 1000000);
 }
 
 void

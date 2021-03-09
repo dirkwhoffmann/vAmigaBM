@@ -30,7 +30,11 @@ enum class TextureID
     sync,
     warp,
     syncLock,
-    warpLock
+    warpLock,
+    none,
+    mouse,
+    joystick,
+    keyset
 };
 
 enum class FontID

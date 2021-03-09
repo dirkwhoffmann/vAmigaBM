@@ -145,6 +145,8 @@ InputManager::connect(InputDevice *device, PortNr port)
         port2 = device;
         if (port1 == port2) port1 = nullptr;
     }
+
+    statusBar.needsUpdate |= StatusBarItem::PORTS;
 }
 
 void
@@ -192,6 +194,36 @@ InputManager::connectKeyset(isize nr, PortNr port)
         throw ConfigArgError("1");
     } else {
         throw ConfigArgError("1.." + std::to_string(numKeysets));
+    }
+}
+
+bool
+InputManager::isMouse(PortNr port)
+{
+    if (port == PORT_1) {
+        return port1 ? port1->isMouse() : false;
+    } else {
+        return port2 ? port2->isMouse() : false;
+    }
+}
+
+bool
+InputManager::isJoystick(PortNr port)
+{
+    if (port == PORT_1) {
+        return port1 ? port1->isJoystick() : false;
+    } else {
+        return port2 ? port2->isJoystick() : false;
+    }
+}
+
+bool
+InputManager::iskeyset(PortNr port)
+{
+    if (port == PORT_1) {
+        return port1 ? port1->isKeyset() : false;
+    } else {
+        return port2 ? port2->isKeyset() : false;
     }
 }
 

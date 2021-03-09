@@ -27,10 +27,12 @@ protected:
 
     Amiga &amiga;
     Application &app;
-    Controller &controller;
-    SplashScreen &splash;
     Canvas &canvas;
     Console &console;
+    Controller &controller;
+    InputManager &inputManager;
+    SplashScreen &splash;
+    StatusBar &statusBar;
 
 public:
 

@@ -93,8 +93,8 @@ public:
     
     // The sound object pool
     sf::Sound sound[16];
-    
 
+    
     //
     // Initializing
     //
@@ -140,7 +140,7 @@ public:
     
     void update(u64 frames, sf::Time dt);
     void render();
-    void fps(float fps);
+    void fps(float fps, float hz);
     
     //
     // Responding to events

@@ -54,13 +54,13 @@ Controller::processMessage(long id, long data)
     switch (msg) {
             
         case MSG_POWER_ON:
-            app.canvas.powerOn();
-            app.statusBar.open();
+            canvas.powerOn();
+            statusBar.open();
             break;
             
         case MSG_POWER_OFF:
-            app.canvas.powerOff();
-            app.statusBar.close();
+            canvas.powerOff();
+            statusBar.close();
             break;
 
         case MSG_RUN:
@@ -76,13 +76,13 @@ Controller::processMessage(long id, long data)
         case MSG_MUTE_OFF:
         case MSG_WARP_ON:
         case MSG_WARP_OFF:
-            app.statusBar.needsUpdate |= StatusBarItem::MUTE;
+            statusBar.needsUpdate |= StatusBarItem::MUTE;
             break;
             
         case MSG_POWER_LED_ON:
         case MSG_POWER_LED_DIM:
         case MSG_POWER_LED_OFF:
-            app.statusBar.needsUpdate |= StatusBarItem::POWER_LED;
+            statusBar.needsUpdate |= StatusBarItem::POWER_LED;
             break;
             
         case MSG_DISK_INSERT:

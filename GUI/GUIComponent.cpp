@@ -19,10 +19,12 @@
 GUIComponent::GUIComponent(Application& ref) :
 amiga(ref.amiga),
 app(ref),
-controller(ref.controller),
-splash(ref.splashScreen),
 canvas(ref.canvas),
-console(ref.console)
+console(ref.console),
+controller(ref.controller),
+inputManager(ref.inputManager),
+splash(ref.splashScreen),
+statusBar(ref.statusBar)
 {
     
 }
