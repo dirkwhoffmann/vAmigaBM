@@ -72,10 +72,17 @@ Controller::processMessage(long id, long data)
         case MSG_RESET:
             break;
                   
+        case MSG_MUTE_ON:
+        case MSG_MUTE_OFF:
+        case MSG_WARP_ON:
+        case MSG_WARP_OFF:
+            app.statusBar.needsUpdate |= StatusBarItem::MUTE;
+            break;
+            
         case MSG_POWER_LED_ON:
         case MSG_POWER_LED_DIM:
         case MSG_POWER_LED_OFF:
-            app.statusBar.needsUpdate |= (StatusBarItem::POWER_LED);
+            app.statusBar.needsUpdate |= StatusBarItem::POWER_LED;
             break;
             
         case MSG_DISK_INSERT:

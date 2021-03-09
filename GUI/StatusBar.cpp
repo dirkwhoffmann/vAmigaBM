@@ -149,11 +149,6 @@ StatusBar::refresh()
 {
     char tmp[16];
     
-    refreshDrive(0);
-    refreshDrive(1);
-    refreshDrive(2);
-    refreshDrive(3);
-
     if (needsUpdate & StatusBarItem::POWER_LED) {
         if (amiga.isPoweredOff()) {
             powerLed.rectangle.setTexture(&app.assets.get(TextureID::ledBlack));
@@ -163,19 +158,23 @@ StatusBar::refresh()
             powerLed.rectangle.setTexture(&app.assets.get(TextureID::ledRed));
         }
     }
+
+    refreshDrive(0);
+    refreshDrive(1);
+    refreshDrive(2);
+    refreshDrive(3);
     
     if (needsUpdate & StatusBarItem::MUTE) {
-        
+        mute.isVisible = amiga.inWarpMode();
     }
 
     if (needsUpdate & StatusBarItem::MHZ) {
-        
         sprintf(tmp, "%3.2f Mhz", 99.9);
         mhz.setString(string(tmp));
     }
 
     if (needsUpdate & StatusBarItem::STATE) {
-        
+        state.rectangle.setTexture(&app.assets.get(TextureID::sync));
     }
     
     needsUpdate = 0;
@@ -186,24 +185,21 @@ StatusBar::refreshDrive(isize nr)
 {
     char tmp[16];
     
-    if (needsUpdate & (StatusBarItem::DRIVE_LED << nr)) {
-        
-    }
+    // Only proceed if there is something to update
+    if (!needsUpdate) return;
     
+    // Update visibility of all elements
+    bool connected = amiga.paula.diskController.getConfigItem(OPT_DRIVE_CONNECT, nr);
+    driveLed[nr].isVisible = connected;
+    cylinder[nr].isVisible = connected;
+    disk[nr].isVisible = connected && amiga.df[nr]->hasDisk();
+    spin[nr].isVisible = connected && amiga.df[nr]->getMotor();
+
+    // Update the head position
     if (needsUpdate & (StatusBarItem::DRIVE_CYL << nr)) {
 
         sprintf(tmp, "%02d", amiga.df[nr]->getCylinder());
         cylinder[nr].setString(string(tmp));
-    }
-
-    if (needsUpdate & (StatusBarItem::DISK_ICON << nr)) {
-        
-        disk[nr].isVisible =!amiga.df[nr]->hasDisk();
-    }
-
-    if (needsUpdate & (StatusBarItem::DISK_SPIN << nr)) {
-        printf("Motor(%zd): %d\n", nr, amiga.df[nr]->getMotor());
-        spin[nr].isVisible = amiga.df[nr]->getMotor();
     }
 }
 
