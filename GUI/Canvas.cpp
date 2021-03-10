@@ -80,6 +80,7 @@ Canvas::respond(const sf::Event &event)
 {
     switch (event.type) {
             
+        /*
         case sf::Event::JoystickButtonPressed:
         {
             printf("BUTTON\n");
@@ -116,9 +117,14 @@ Canvas::respond(const sf::Event &event)
             }
             break;
         }
+        */
         case sf::Event::MouseButtonPressed:
         {
-            app.inputManager.retainMouse();
+            if (!inputManager.gotMouse) {
+                if (!statusBar.mouseButtonPressed(0)) {
+                    app.inputManager.retainMouse();
+                }
+            }
             
             /*
             if (event.mouseButton.button == sf::Mouse::Left) {

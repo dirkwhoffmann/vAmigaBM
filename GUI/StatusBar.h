@@ -78,6 +78,8 @@ public:
     void resize(float width, float height) override;
     void alphaDidChange() override;
     
+    bool mouseButtonPressed(isize button);
+
     
     //
     // Refreshs dirty elements

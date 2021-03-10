@@ -170,6 +170,19 @@ StatusBar::alphaDidChange()
     port[1].setAlpha(alpha);
 }
 
+bool
+StatusBar::mouseButtonPressed(isize button)
+{
+    if (button == 0) {
+        
+        if (state.contains(sf::Mouse::getPosition(app.window))) {
+            controller.flipWarpMode();
+            return true;
+        }
+    }
+    return false;
+}
+
 void
 StatusBar::refresh()
 {

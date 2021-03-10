@@ -115,11 +115,11 @@ class InputManager : public GUIComponent {
     InputDevice *port1 = nullptr;
     InputDevice *port2 = nullptr;
 
-    bool gotMouse = false;
+    sf::Vector2i mouseCenter;
 
 public:
 
-    sf::Vector2i mouseCenter;
+    bool gotMouse = false;
 
 public:
     

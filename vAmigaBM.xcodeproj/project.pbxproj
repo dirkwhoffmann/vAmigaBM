@@ -1250,7 +1250,6 @@
 			isa = PBXGroup;
 			children = (
 				50AFF9C425EFCBC40052269B /* Makefile */,
-				50AFF98B25EFC1B60052269B /* MsgQueue.cpp */,
 				50AFF98C25EFC1B60052269B /* HardwareComponent.h */,
 				50AFF98D25EFC1B60052269B /* AmigaObject.h */,
 				50AFF98E25EFC1B60052269B /* HardwareComponent.cpp */,
@@ -1263,6 +1262,7 @@
 				50AFF99525EFC1B60052269B /* ChangeRecorder.h */,
 				50AFF99625EFC1B60052269B /* Errors.cpp */,
 				50AFF99725EFC1B60052269B /* MsgQueue.h */,
+				50AFF98B25EFC1B60052269B /* MsgQueue.cpp */,
 			);
 			name = Base;
 			path = Emulator/Base;

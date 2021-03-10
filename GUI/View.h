@@ -120,6 +120,8 @@ public:
     
     // Wrappers
     void draw(sf::RenderWindow &window, const sf::Shader *shader = nullptr);
+    
+    bool contains(const sf::Vector2i &pos);
 };
 
 

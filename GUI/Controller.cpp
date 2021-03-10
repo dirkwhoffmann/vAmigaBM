@@ -36,14 +36,14 @@ void
 Controller::awake()
 {
     // Register to the message queue
-    amiga.queue.addListener(this, process);
+    amiga.queue.setListener(this, process);
 }
 
 void
 Controller::deinit()
 {
     amiga.powerOff();
-    amiga.queue.removeListener(this);
+    amiga.queue.removeListener();
 }
 
 void
@@ -183,6 +183,7 @@ Controller::flipWarpMode()
     }
     
     updateWarp();
+    statusBar.setNeedsUpdate(StatusBarItem::STATE);
 }
 
 bool

@@ -162,6 +162,12 @@ ImageView::draw(sf::RenderWindow &window, const sf::Shader *shader)
     if (isVisible) window.draw(rectangle, shader);
 }
 
+bool
+ImageView::contains(const sf::Vector2i &pos)
+{
+    return pos.x >= rx && pos.y >= ry && pos.x < rx + w && pos.y < ry + h;
+}
+
 
 //
 // GradientView

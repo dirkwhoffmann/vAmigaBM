@@ -240,7 +240,7 @@ InputManager::getName(PortNr port)
 void
 InputManager::poll()
 {
-    // Only proceed if own the mouse
+    // Only proceed if we own the mouse
     if (!gotMouse) return;
     
     switch (mouseEmulation) {
