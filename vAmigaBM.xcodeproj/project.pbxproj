@@ -1250,8 +1250,8 @@
 			isa = PBXGroup;
 			children = (
 				50AFF9C425EFCBC40052269B /* Makefile */,
-				50AFF98C25EFC1B60052269B /* HardwareComponent.h */,
 				50AFF98D25EFC1B60052269B /* AmigaObject.h */,
+				50AFF98C25EFC1B60052269B /* HardwareComponent.h */,
 				50AFF98E25EFC1B60052269B /* HardwareComponent.cpp */,
 				50AFF98F25EFC1B60052269B /* MsgQueuePublicTypes.h */,
 				50AFF99025EFC1B60052269B /* AmigaObject.cpp */,
@@ -1276,8 +1276,8 @@
 				50AFF9B325EFC2910052269B /* Checksum.h */,
 				50AFF9A325EFC2910052269B /* Chrono.cpp */,
 				50AFF9AB25EFC2910052269B /* Chrono.h */,
-				50AFF9AD25EFC2910052269B /* Concurrency.cpp */,
 				50AFF99D25EFC2900052269B /* Concurrency.h */,
+				50AFF9AD25EFC2910052269B /* Concurrency.cpp */,
 				5041498B25F8A7E500459115 /* Exception.h */,
 				5041498C25F8A7EB00459115 /* Exception.cpp */,
 				50AFF9AE25EFC2910052269B /* Constants.cpp */,

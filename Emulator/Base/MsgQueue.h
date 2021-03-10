@@ -18,6 +18,9 @@ class MsgQueue : public HardwareComponent {
     // Ring buffer storing all pending messages
     RingBuffer<Message, 64> queue;
             
+    // Synchronization mutex
+    RecursiveMutex recMutex;
+    
     // The registered listener
     const void *listener = nullptr;
     

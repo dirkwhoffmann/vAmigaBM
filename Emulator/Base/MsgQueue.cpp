@@ -13,35 +13,43 @@
 void
 MsgQueue::setListener(const void *listener, Callback *callback)
 {
-    this->listener = listener;
-    this->callback = callback;
- 
-    // Send all pending messages
-    while (!queue.isEmpty()) {
-        Message &msg = queue.read();
-        callback(listener, msg.type, msg.data);
-    }
+    synchronized {
         
-    put(MSG_REGISTER);
+        this->listener = listener;
+        this->callback = callback;
+        
+        // Send all pending messages
+        while (!queue.isEmpty()) {
+            Message &msg = queue.read();
+            callback(listener, msg.type, msg.data);
+        }
+        put(MSG_REGISTER);
+    }
 }
 
 void
 MsgQueue::removeListener()
 {
-    this->listener = nullptr;
-    this->callback = nullptr;
-    
-    put(MSG_UNREGISTER);
+    synchronized {
+        
+        this->listener = nullptr;
+        this->callback = nullptr;
+        put(MSG_UNREGISTER);
+    }
 }
 
 void
 MsgQueue::put(MsgType type, long data)
 {
-    debug(QUEUE_DEBUG, "%s [%ld]\n", MsgTypeEnum::key(type), data);
-    
-    // Send the message immediately if a lister has been registered
-    if (listener) { callback(listener, type, data); return; }
-    
-    // Otherwise, store it in the ring buffer
-    Message msg = { type, data }; queue.write(msg);
+    synchronized {
+        
+        // debug(QUEUE_DEBUG, "%s [%ld]\n", MsgTypeEnum::key(type), data);
+        debug(true, "%s [%ld]\n", MsgTypeEnum::key(type), data);
+        
+        // Send the message immediately if a lister has been registered
+        if (listener) { callback(listener, type, data); return; }
+        
+        // Otherwise, store it in the ring buffer
+        Message msg = { type, data }; queue.write(msg);
+    }
 }
