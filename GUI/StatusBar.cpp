@@ -193,7 +193,7 @@ StatusBar::refresh()
     }
 
     if (needsUpdate & StatusBarItem::STATE) {
-        state.rectangle.setTexture(&app.assets.get(TextureID::sync));
+        refreshState();
     }
     
     if (needsUpdate & StatusBarItem::PORTS) {
@@ -252,4 +252,31 @@ StatusBar::refreshPort(PortNr nr)
     } else {
         port[i].rectangle.setTexture(&app.assets.get(TextureID::none));
     }
+}
+
+void
+StatusBar::refreshState()
+{
+    TextureID id;
+    
+    switch (controller.warpActivation) {
+            
+        case Controller::WarpActivation::never:
+            id = TextureID::syncLock;
+            break;
+            
+        case Controller::WarpActivation::always:
+            id = TextureID::warpLock;
+            break;
+            
+        case Controller::WarpActivation::automatic:
+            id = amiga.inWarpMode() ? TextureID::warp : TextureID::sync;
+            break;
+
+        default:
+            assert(false);
+            
+    }
+    
+    state.rectangle.setTexture(&app.assets.get(id));
 }

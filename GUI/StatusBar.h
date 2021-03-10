@@ -91,4 +91,5 @@ public:
     void refreshMhz(float value);
     void refreshDrive(isize nr);
     void refreshPort(PortNr nr);
+    void refreshState();
 };

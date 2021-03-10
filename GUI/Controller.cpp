@@ -69,13 +69,20 @@ Controller::processMessage(long id, long data)
             break;
 
         case MSG_RESET:
+            updateWarp();
             break;
                   
         case MSG_MUTE_ON:
         case MSG_MUTE_OFF:
+            statusBar.setNeedsUpdate(StatusBarItem::MUTE);
+            break;
+
         case MSG_WARP_ON:
         case MSG_WARP_OFF:
-            statusBar.setNeedsUpdate(StatusBarItem::MUTE);
+            printf("MSG_WARP_XX\n");
+            statusBar.setNeedsUpdate(StatusBarItem::STATE);
+            printf("MSG_WARP_XXX\n");
+
             break;
             
         case MSG_POWER_LED_ON:
@@ -104,7 +111,7 @@ Controller::processMessage(long id, long data)
 
         case MSG_DRIVE_MOTOR_ON:
         case MSG_DRIVE_MOTOR_OFF:
-            printf("Drive: %ld\n", data);
+            updateWarp();
             app.statusBar.setNeedsUpdate(StatusBarItem::DISK_SPIN, data);
             break;
             
@@ -113,11 +120,69 @@ Controller::processMessage(long id, long data)
             app.inputManager.releaseMouse();
             break;
             
+        case MSG_SNAPSHOT_RESTORED:
+            updateWarp();
+            break;
+            
         default:
             return;
             
     }
     printf("%s\n", MsgTypeEnum::key(msg));
+}
+
+void
+Controller::updateWarp()
+{
+    printf("updateWarp()\n");
+    
+    bool warp;
+    
+    // Determin the new warp status based on the selected warp activation mode
+    switch (warpActivation) {
+            
+        case WarpActivation::never:
+            warp = false;
+            break;
+            
+        case WarpActivation::always:
+            warp = true;
+            break;
+            
+        case WarpActivation::automatic:
+            warp = amiga.paula.diskController.spinning();
+            break;
+            
+        default:
+            assert(false);
+    }
+        
+    // Change the warp status if neccessary
+    if (amiga.inWarpMode() != warp) { amiga.setWarp(warp); }
+}
+
+void
+Controller::flipWarpMode()
+{
+    switch (warpActivation) {
+            
+        case WarpActivation::automatic:
+            warpActivation = WarpActivation::never;
+            break;
+            
+        case WarpActivation::never:
+            warpActivation = WarpActivation::always;
+            break;
+            
+        case WarpActivation::always:
+            warpActivation = WarpActivation::automatic;
+            break;
+            
+        default:
+            assert(false);
+    }
+    
+    updateWarp();
 }
 
 bool

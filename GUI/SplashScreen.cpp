@@ -132,7 +132,7 @@ SplashScreen::loadAros()
         return true;
         
     } catch (VAError &err) {
-        printf("Failed to load Aros: %s\n", ErrorCodeEnum::key(err.errorCode));
+        printf("Failed to load Aros: %s\n", ErrorCodeEnum::key(err.data));
         return false;
     }
 }

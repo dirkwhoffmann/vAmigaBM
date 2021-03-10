@@ -63,15 +63,17 @@ MsgQueue::get()
     
     return result;
 }
- 
+
 void
 MsgQueue::put(MsgType type, long data)
 {
-    synchronized {
+    printf("::put %s [%ld]\n", MsgTypeEnum::key(type), data);
+
+    // synchronized {
                  
         Message msg;
         
-        debug (QUEUE_DEBUG, "%s [%ld]\n", MsgTypeEnum::key(type), data);
+        debug(QUEUE_DEBUG, "%s [%ld]\n", MsgTypeEnum::key(type), data);
         
         // Delete the oldest message if the queue overflows
         if (queue.isFull()) {
@@ -85,7 +87,7 @@ MsgQueue::put(MsgType type, long data)
         
         // Serve registered callbacks
         propagate(msg);
-    }
+    // }
 }
 
 void

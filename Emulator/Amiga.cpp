@@ -530,9 +530,9 @@ Amiga::_pause()
 void
 Amiga::setWarp(bool enable)
 {
-    suspend();
+    // suspend();
     HardwareComponent::setWarp(enable);
-    resume();
+    // resume();
 }
 
 void

@@ -318,6 +318,8 @@
 		503EB45025D82A5900A6145B /* insert.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = insert.wav; sourceTree = "<group>"; };
 		503EB6F725F102C000C6042E /* InputManager.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = InputManager.cpp; sourceTree = "<group>"; };
 		503EB6F825F102C000C6042E /* InputManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = InputManager.h; sourceTree = "<group>"; };
+		5041498B25F8A7E500459115 /* Exception.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Exception.h; sourceTree = "<group>"; };
+		5041498C25F8A7EB00459115 /* Exception.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Exception.cpp; sourceTree = "<group>"; };
 		5047761D25E7E6E8003DCED0 /* GUIComponent.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = GUIComponent.cpp; sourceTree = "<group>"; };
 		5047761E25E7E6E8003DCED0 /* GUIComponent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GUIComponent.h; sourceTree = "<group>"; };
 		505485E725C15C3B00892284 /* AssetManager.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = AssetManager.cpp; sourceTree = "<group>"; };
@@ -1276,6 +1278,8 @@
 				50AFF9AB25EFC2910052269B /* Chrono.h */,
 				50AFF9AD25EFC2910052269B /* Concurrency.cpp */,
 				50AFF99D25EFC2900052269B /* Concurrency.h */,
+				5041498B25F8A7E500459115 /* Exception.h */,
+				5041498C25F8A7EB00459115 /* Exception.cpp */,
 				50AFF9AE25EFC2910052269B /* Constants.cpp */,
 				50AFF9AC25EFC2910052269B /* Constants.h */,
 				50AFF9A925EFC2910052269B /* Debug.cpp */,

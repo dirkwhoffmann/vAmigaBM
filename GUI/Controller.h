@@ -14,6 +14,16 @@
 
 class Controller : public GUIComponent
 {
+    
+public:
+    
+    // Available warp modes
+    enum class WarpActivation { never, always, automatic };
+    
+    // The currently selected warp activation mode
+    WarpActivation warpActivation = WarpActivation::automatic;
+    
+    
     //
     // Initializing
     //
@@ -35,6 +45,17 @@ public:
     //
     
     void processMessage(long id, long data);
+    
+    
+    //
+    // Managing warp mode
+    //
+    
+    // Updates the warp status according to the current emulator state
+    void updateWarp();
+    
+    // Flips through the available warp modes
+    void flipWarpMode();
     
     
     //
