@@ -33,8 +33,8 @@ enum class Token
     accuracy, bankmap, chip, clxsprspr, clxsprplf, clxplfplf,
     device, esync, extrom, extstart, fast, filter, joystick, keyset, mechanics,
     model, palette, pan, poll, pullup, raminitpattern, revision, rom, sampling,
-    slow, slowramdelay, slowrammirror, speed, step, tod, todbug, unmappingtype,
-    velocity, volume, wom
+    shakedetector, slow, slowramdelay, slowrammirror, speed, step, tod, todbug,
+    unmappingtype, velocity, volume, wom
 };
 
 struct ParseBoolError : public ParseError {

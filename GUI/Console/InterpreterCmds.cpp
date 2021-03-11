@@ -541,13 +541,17 @@ Interpreter::registerInstructions()
     root.add("mouse", "set",
              "command", "Configures the component");
         
-    root.add("mouse", "set", "velocity",
-             "key", "Sets the horizontal and vertical mouse velocity",
-             &Controller::exec <Token::mouse, Token::set, Token::velocity>, 1, 0);
-
     root.add("mouse", "set", "pullup",
              "key", "Enables or disables the emulation of pull-up resistors",
              &Controller::exec <Token::mouse, Token::set, Token::pullup>, 1, 0);
+
+    root.add("mouse", "set", "shakedetector",
+             "key", "Enables or disables the shake detector",
+             &Controller::exec <Token::mouse, Token::set, Token::shakedetector>, 1, 0);
+
+    root.add("mouse", "set", "velocity",
+             "key", "Sets the horizontal and vertical mouse velocity",
+             &Controller::exec <Token::mouse, Token::set, Token::velocity>, 1, 0);
 
     root.add("mouse", "inspect",
              "command", "Displays the internal state",

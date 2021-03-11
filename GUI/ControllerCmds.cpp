@@ -591,7 +591,21 @@ Controller::exec <Token::keyboard, Token::inspect> (Arguments& argv, long param)
 template <> void
 Controller::exec <Token::mouse, Token::config> (Arguments& argv, long param)
 {
-    dump(amiga.keyboard, Dump::Config);
+    dump(amiga.controlPort1.mouse, Dump::Config);
+}
+
+template <> void
+Controller::exec <Token::mouse, Token::set, Token::pullup> (Arguments &argv, long param)
+{
+    amiga.configure(OPT_PULLUP_RESISTORS, PORT_1, parseBool(argv.front()));
+    amiga.configure(OPT_PULLUP_RESISTORS, PORT_2, parseBool(argv.front()));
+}
+
+template <> void
+Controller::exec <Token::mouse, Token::set, Token::shakedetector> (Arguments &argv, long param)
+{
+    amiga.configure(OPT_SHAKE_DETECTION, PORT_1, parseBool(argv.front()));
+    amiga.configure(OPT_SHAKE_DETECTION, PORT_2, parseBool(argv.front()));
 }
 
 template <> void
@@ -599,12 +613,6 @@ Controller::exec <Token::mouse, Token::set, Token::velocity> (Arguments &argv, l
 {
     amiga.configure(OPT_MOUSE_VELOCITY, PORT_1, parseDec(argv.front()));
     amiga.configure(OPT_MOUSE_VELOCITY, PORT_2, parseDec(argv.front()));
-}
-
-template <> void
-Controller::exec <Token::mouse, Token::set, Token::pullup> (Arguments &argv, long param)
-{
-    amiga.configure(OPT_PULLUP_RESISTORS, parseBool(argv.front()));
 }
 
 template <> void
