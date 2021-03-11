@@ -27,7 +27,7 @@ enum class Token
     reset, run, set, source,
     
     // Categories
-    state, registers, events, checksums,
+    checksums, devices, events, registers, state,
     
     // Keys
     accuracy, bankmap, chip, clxsprspr, clxsprplf, clxplfplf,

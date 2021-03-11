@@ -37,6 +37,12 @@ Controller::exec <Token::easteregg> (Arguments& argv, long param)
 }
 
 template <> void
+Controller::exec <Token::list, Token::devices> (Arguments &argv, long param)
+{
+    inputManager.listDevices();
+}
+
+template <> void
 Controller::exec <Token::source> (Arguments &argv, long param)
 {
     string filename = argv.front();

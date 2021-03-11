@@ -184,7 +184,7 @@ InputManager::connectJoystick(isize nr, PortNr port)
 void
 InputManager::connectKeyset(isize nr, PortNr port)
 {
-    if (nr >= 1 && nr < numKeysets) {
+    if (nr >= 1 && nr <= numKeysets) {
         
         connect(&keyset[nr], port);
         return;
@@ -314,6 +314,49 @@ InputManager::poll()
             
     if (port1) port1->poll(amiga.controlPort1);
     if (port2) port2->poll(amiga.controlPort2);
+}
+
+void
+InputManager::listDevices()
+{
+    for (isize i = 0; i < numMice; i++) {
+        
+        console << "     Mouse " << i << " : ";
+        if (port1 == &mouse[i]) {
+            console << "connected to port 1";
+        } else if (port2 == &mouse[i]) {
+            console << "connected to port 2";
+        } else {
+            console << "not connected";
+        }
+        console << '\n';
+    }
+    
+    for (isize i = 0; i < numJoysticks; i++) {
+        
+        console << "  Joystick " << i << " : ";
+        if (port1 == &joystick[i]) {
+            console << "connected to port 1";
+        } else if (port2 == &joystick[i]) {
+            console << "connected to port 2";
+        } else {
+            console << "not connected";
+        }
+        console << '\n';
+    }
+    
+    for (isize i = 0; i < numKeysets; i++) {
+        
+        console << "    Keyset " << i << " : ";
+        if (port1 == &keyset[i]) {
+            console << "connected to port 1";
+        } else if (port2 == &keyset[i]) {
+            console << "connected to port 2";
+        } else {
+            console << "not connected";
+        }
+        console << '\n';
+    }
 }
 
 void

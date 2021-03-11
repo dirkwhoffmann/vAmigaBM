@@ -150,6 +150,9 @@ public:
     // Polls the currently connected devices
     void poll();
     
+    // Prints a list of available devices in the debug console
+    void listDevices();
+    
     // Retains or releases the mouse
     void retainMouse();
     void releaseMouse();

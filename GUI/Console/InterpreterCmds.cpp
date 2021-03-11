@@ -32,6 +32,13 @@ Interpreter::registerInstructions()
              &Controller::exec <Token::easteregg>, 0, 0);
     root.seek("joshua")->hidden = true;
 
+    root.add("list",
+             "command", "Prints system information");
+
+    root.add("list", "devices",
+             "command", "Lists the available input devices",
+             &Controller::exec <Token::list, Token::devices>, 0, 0);
+
     root.add("source",
              "command", "Processes a command script",
              &Controller::exec <Token::source>, 1, 0);
