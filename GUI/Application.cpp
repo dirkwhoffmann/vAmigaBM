@@ -147,14 +147,26 @@ Application::respond(sf::Event &event)
             break;
             
         case sf::Event::KeyPressed:
-            if (event.key.code == sf::Keyboard::F11) console.toggle();
-            
+            if (event.key.code == sf::Keyboard::F11) {
+                console.toggle();
+            }
             if (event.key.code == sf::Keyboard::B &&
                 sf::Keyboard::isKeyPressed(sf::Keyboard::LSystem)) {
                 statusBar.toggle();
-                printf("LSYSTEM\n");
+            }
+            if (event.key.code == sf::Keyboard::Tilde &&
+                sf::Keyboard::isKeyPressed(sf::Keyboard::LSystem)) {
+                controller.flipWarpMode();
             }
             break;
+
+            /*
+        case sf::Event::TextEntered:
+            if ((char)event.text.unicode == '+') {
+                controller.flipWarpMode();
+            }
+            break;
+            */
             
         case sf::Event::MouseButtonPressed:
             printf("Pressed %d\n", event.mouseButton.button);

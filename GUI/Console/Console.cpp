@@ -493,8 +493,8 @@ Console::exec(const string &command, bool verbose)
     } catch (TooManyArgumentsError &err) {
         *this << err.what() << ": Too many arguments";
         *this << '\n';
-        
-    } catch (ParseEnumError &err) {
+            
+    } catch (EnumParseError &err) {
         *this << err.token << ": Invalid key" << '\n';
         *this << "Expected: " << err.expected << '\n';
         
