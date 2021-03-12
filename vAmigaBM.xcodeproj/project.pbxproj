@@ -438,7 +438,6 @@
 		50AE10BD25C42D6600AD13B7 /* Agnus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Agnus.h; sourceTree = "<group>"; };
 		50AE10BE25C42D6600AD13B7 /* EventHandlerTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EventHandlerTypes.h; sourceTree = "<group>"; };
 		50AE10BF25C42D6600AD13B7 /* EventHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EventHandler.cpp; sourceTree = "<group>"; };
-		50AE10C025C42D6600AD13B7 /* AmigaConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AmigaConfig.h; sourceTree = "<group>"; };
 		50AE10C225C42D6600AD13B7 /* AmigaFile.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AmigaFile.cpp; sourceTree = "<group>"; };
 		50AE10C425C42D6600AD13B7 /* RomFile.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RomFile.cpp; sourceTree = "<group>"; };
 		50AE10C525C42D6600AD13B7 /* ExtendedRomFile.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ExtendedRomFile.cpp; sourceTree = "<group>"; };
@@ -844,7 +843,6 @@
 			isa = PBXGroup;
 			children = (
 				50CAD06D25CEAAA300DD55A5 /* Makefile */,
-				50AE10C025C42D6600AD13B7 /* AmigaConfig.h */,
 				50AE107525C42D6500AD13B7 /* AmigaPublicTypes.h */,
 				50AE107425C42D6500AD13B7 /* AmigaTypes.h */,
 				50AE115C25C42D6700AD13B7 /* Amiga.h */,

@@ -43,8 +43,7 @@ MsgQueue::put(MsgType type, long data)
 {
     synchronized {
         
-        // debug(QUEUE_DEBUG, "%s [%ld]\n", MsgTypeEnum::key(type), data);
-        debug(true, "%s [%ld]\n", MsgTypeEnum::key(type), data);
+        debug(QUEUE_DEBUG, "%s [%ld]\n", MsgTypeEnum::key(type), data);
         
         // Send the message immediately if a lister has been registered
         if (listener) { callback(listener, type, data); return; }

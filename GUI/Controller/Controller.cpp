@@ -79,10 +79,7 @@ Controller::processMessage(long id, long data)
 
         case MSG_WARP_ON:
         case MSG_WARP_OFF:
-            printf("MSG_WARP_XX\n");
             statusBar.setNeedsUpdate(StatusBarItem::STATE);
-            printf("MSG_WARP_XXX\n");
-
             break;
             
         case MSG_POWER_LED_ON:
@@ -157,8 +154,8 @@ Controller::updateWarp()
             assert(false);
     }
         
-    // Change the warp status if neccessary
-    if (amiga.inWarpMode() != warp) { amiga.setWarp(warp); }
+    // Change warp status if neccessary
+    warp ? amiga.signalWarpOn() : amiga.signalWarpOff();
 }
 
 void

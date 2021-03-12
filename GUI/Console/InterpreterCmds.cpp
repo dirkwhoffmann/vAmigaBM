@@ -320,12 +320,6 @@ Interpreter::registerInstructions()
     root.add("denise", "set", "revision" ,
              "key", "Selects the emulated chip model",
              &Controller::exec <Token::denise, Token::set, Token::revision>, 1, 0);
-
-    /*
-    root.add("denise", "set", "palette" ,
-             "key", "Selects the color palette",
-             &Controller::exec <Token::denise, Token::set, Token::palette>, 1, 0);
-    */
     
     root.add("denise", "set", "clxsprspr" ,
              "key", "Enables or disables sprite-sprite collision detection",
@@ -349,6 +343,33 @@ Interpreter::registerInstructions()
     root.add("denise", "inspect", "registers",
              "category", "Displays the current register value",
              &Controller::exec <Token::denise, Token::inspect, Token::registers>, 0, 0);
+
+    
+    //
+    // Monitor
+    //
+
+    root.add("monitor",
+             "component", "Amiga monitor");
+
+    root.add("monitor", "set",
+             "command", "Configures the component");
+
+    root.add("monitor", "set", "palette",
+             "key", "Selects the color palette",
+             &Controller::exec <Token::monitor, Token::set, Token::palette>, 1, 0);
+
+    root.add("monitor", "set", "brightness",
+             "key", "Adjusts the brightness of the Amiga texture",
+             &Controller::exec <Token::monitor, Token::set, Token::brightness>, 1, 0);
+
+    root.add("monitor", "set", "contrast",
+             "key", "Adjusts the contrast of the Amiga texture",
+             &Controller::exec <Token::monitor, Token::set, Token::contrast>, 1, 0);
+
+    root.add("monitor", "set", "saturation",
+             "key", "Adjusts the saturation of the Amiga texture",
+             &Controller::exec <Token::monitor, Token::set, Token::saturation>, 1, 0);
 
     
     //

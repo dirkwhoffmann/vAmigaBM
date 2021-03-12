@@ -423,6 +423,35 @@ Controller::exec <Token::denise, Token::inspect, Token::registers> (Arguments& a
 
 
 //
+// Monitor
+//
+
+template <> void
+Controller::exec <Token::monitor, Token::set, Token::palette> (Arguments& argv, long param)
+{
+    amiga.configure(OPT_PALETTE, PaletteEnum::parse(argv.front()));
+}
+
+template <> void
+Controller::exec <Token::monitor, Token::set, Token::brightness> (Arguments& argv, long param)
+{
+    amiga.configure(OPT_BRIGHTNESS, parseNum(argv.front()));
+}
+
+template <> void
+Controller::exec <Token::monitor, Token::set, Token::contrast> (Arguments& argv, long param)
+{
+    amiga.configure(OPT_CONTRAST, parseNum(argv.front()));
+}
+
+template <> void
+Controller::exec <Token::monitor, Token::set, Token::saturation> (Arguments& argv, long param)
+{
+    amiga.configure(OPT_SATURATION, parseNum(argv.front()));
+}
+
+
+//
 // Audio
 //
 
@@ -786,7 +815,7 @@ Controller::exec <Token::dfn, Token::set, Token::model> (Arguments& argv, long p
 template <> void
 Controller::exec <Token::dfn, Token::set, Token::mechanics> (Arguments& argv, long param)
 {
-    long num = parseNum(argv.front());
+    long num = parseBool(argv.front());
     
     if (param >= 0 && param <= 3) {
         amiga.configure(OPT_EMULATE_MECHANICS, param, num);
