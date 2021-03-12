@@ -147,6 +147,9 @@ Drive::setConfigItem(Option option, long id, long value)
 
         case OPT_DEFAULT_FILESYSTEM:
 
+            if (!FSVolumeTypeEnum::isValid(value)) {
+                throw ConfigArgError(FSVolumeTypeEnum::keyList());
+            }
             if (config.defaultFileSystem == value) {
                 return false;
             }
@@ -155,6 +158,9 @@ Drive::setConfigItem(Option option, long id, long value)
 
         case OPT_DEFAULT_BOOTBLOCK:
 
+            if (!BootBlockIdEnum::isValid(value)) {
+                throw ConfigArgError(BootBlockIdEnum::keyList());
+            }
             if (config.defaultBootBlock == value) {
                 return false;
             }
@@ -187,10 +193,10 @@ Drive::_dump(Dump::Category category, std::ostream& os) const
         os << DUMP("Start delay") << DEC << config.startDelay << std::endl;
         os << DUMP("Stop delay") << DEC << config.stopDelay << std::endl;
         os << DUMP("Step delay") << DEC << config.stepDelay << std::endl;
-        os << DUMP("Insert volume") << DEC << config.insertVolume << std::endl;
-        os << DUMP("Eject volume") << DEC << config.ejectVolume << std::endl;
-        os << DUMP("Step volume") << DEC << config.stepVolume << std::endl;
-        os << DUMP("Poll volume") << DEC << config.pollVolume << std::endl;
+        os << DUMP("Insert volume") << DEC << (isize)config.insertVolume << std::endl;
+        os << DUMP("Eject volume") << DEC << (isize)config.ejectVolume << std::endl;
+        os << DUMP("Step volume") << DEC << (isize)config.stepVolume << std::endl;
+        os << DUMP("Poll volume") << DEC << (isize)config.pollVolume << std::endl;
         os << DUMP("Default file system") << FSVolumeTypeEnum::key(config.defaultFileSystem) << std::endl;
         os << DUMP("Default boot block") << BootBlockIdEnum::key(config.defaultBootBlock) << std::endl;
     }

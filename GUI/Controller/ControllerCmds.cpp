@@ -760,6 +760,18 @@ Controller::exec <Token::dfn, Token::set, Token::mechanics> (Arguments& argv, lo
 }
 
 template <> void
+Controller::exec <Token::dfn, Token::set, Token::defaultbb> (Arguments& argv, long param)
+{
+    amiga.configure(OPT_DEFAULT_BOOTBLOCK, param, BootBlockIdEnum::parse(argv.front()));
+}
+
+template <> void
+Controller::exec <Token::dfn, Token::set, Token::defaultfs> (Arguments& argv, long param)
+{
+    amiga.configure(OPT_DEFAULT_FILESYSTEM, param, FSVolumeTypeEnum::parse(argv.front()));
+}
+
+template <> void
 Controller::exec <Token::dfn, Token::inspect> (Arguments& argv, long param)
 {
     dump(*amiga.df[param], Dump::State);

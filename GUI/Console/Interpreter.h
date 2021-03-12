@@ -30,11 +30,11 @@ enum class Token
     checksums, devices, events, registers, state,
     
     // Keys
-    accuracy, bankmap, chip, clxsprspr, clxsprplf, clxplfplf,
-    device, esync, extrom, extstart, fast, filter, joystick, keyset, mechanics,
-    model, palette, pan, poll, pullup, raminitpattern, revision, rom, sampling,
-    shakedetector, slow, slowramdelay, slowrammirror, speed, step, tod, todbug,
-    unmappingtype, velocity, volume, wom
+    accuracy, bankmap, chip, clxsprspr, clxsprplf, clxplfplf, defaultbb,
+    defaultfs, device, esync, extrom, extstart, fast, filter, joystick, keyset,
+    mechanics, model, palette, pan, poll, pullup, raminitpattern, revision,
+    rom, sampling, shakedetector, slow, slowramdelay, slowrammirror, speed,
+    step, tod, todbug, unmappingtype, velocity, volume, wom
 };
 
 struct ParseNumError : public ParseError {

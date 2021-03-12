@@ -655,6 +655,14 @@ Interpreter::registerInstructions()
              "key", "Enables or disables the emulation of mechanical delays",
              &Controller::exec <Token::dfn, Token::set, Token::mechanics>, 1, 0);
 
+    root.add("dfn", "set", "defaultfs",
+             "key", "Determines the default file system type for blank disks",
+             &Controller::exec <Token::dfn, Token::set, Token::defaultfs>, 1, 0);
+
+    root.add("dfn", "set", "defaultbb",
+             "key", "Determines the default boot block type for blank disks",
+             &Controller::exec <Token::dfn, Token::set, Token::defaultbb>, 1, 0);
+    
     root.add("dfn", "audiate",
              "command", "Enables or disables drive sounds",
              &Controller::exec <Token::dfn, Token::set, Token::mechanics>, 0, 0);
