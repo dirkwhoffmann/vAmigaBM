@@ -693,25 +693,49 @@ Controller::exec <Token::dfn, Token::config> (Arguments& argv, long param)
 template <> void
 Controller::exec <Token::dfn, Token::audiate, Token::insert> (Arguments& argv, long param)
 {
-    amiga.configure(OPT_INSERT_VOLUME, param, parseNum(argv.front()));
+    long num = parseNum(argv.front());
+
+    if (param >= 0 && param <= 3) {
+        amiga.configure(OPT_INSERT_VOLUME, param, num);
+    } else {
+        amiga.configure(OPT_INSERT_VOLUME, num);
+    }
 }
 
 template <> void
 Controller::exec <Token::dfn, Token::audiate, Token::eject> (Arguments& argv, long param)
 {
-    amiga.configure(OPT_EJECT_VOLUME, param, parseNum(argv.front()));
+    long num = parseNum(argv.front());
+    
+    if (param >= 0 && param <= 3) {
+        amiga.configure(OPT_EJECT_VOLUME, param, num);
+    } else {
+        amiga.configure(OPT_EJECT_VOLUME, num);
+    }
 }
 
 template <> void
 Controller::exec <Token::dfn, Token::audiate, Token::step> (Arguments& argv, long param)
 {
-    amiga.configure(OPT_STEP_VOLUME, param, parseNum(argv.front()));
+    long num = parseNum(argv.front());
+    
+    if (param >= 0 && param <= 3) {
+        amiga.configure(OPT_STEP_VOLUME, param, num);
+    } else {
+        amiga.configure(OPT_STEP_VOLUME, num);
+    }
 }
 
 template <> void
 Controller::exec <Token::dfn, Token::audiate, Token::poll> (Arguments& argv, long param)
 {
-    amiga.configure(OPT_POLL_VOLUME, param, parseNum(argv.front()));
+    long num = parseNum(argv.front());
+    
+    if (param >= 0 && param <= 3) {
+        amiga.configure(OPT_POLL_VOLUME, param, num);
+    } else {
+        amiga.configure(OPT_POLL_VOLUME, num);
+    }
 }
 
 template <> void
@@ -750,25 +774,49 @@ Controller::exec <Token::dfn, Token::insert> (Arguments& argv, long param)
 template <> void
 Controller::exec <Token::dfn, Token::set, Token::model> (Arguments& argv, long param)
 {
-    amiga.configure(OPT_DRIVE_TYPE, param, DriveTypeEnum::parse(argv.front()));
+    long num = DriveTypeEnum::parse(argv.front());
+    
+    if (param >= 0 && param <= 3) {
+        amiga.configure(OPT_DRIVE_TYPE, param, num);
+    } else {
+        amiga.configure(OPT_DRIVE_TYPE, num);
+    }
 }
 
 template <> void
 Controller::exec <Token::dfn, Token::set, Token::mechanics> (Arguments& argv, long param)
 {
-    amiga.configure(OPT_EMULATE_MECHANICS, param, parseBool(argv.front()));
+    long num = parseNum(argv.front());
+    
+    if (param >= 0 && param <= 3) {
+        amiga.configure(OPT_EMULATE_MECHANICS, param, num);
+    } else {
+        amiga.configure(OPT_EMULATE_MECHANICS, num);
+    }
 }
 
 template <> void
 Controller::exec <Token::dfn, Token::set, Token::defaultbb> (Arguments& argv, long param)
 {
-    amiga.configure(OPT_DEFAULT_BOOTBLOCK, param, BootBlockIdEnum::parse(argv.front()));
+    long num = BootBlockIdEnum::parse(argv.front());
+    
+    if (param >= 0 && param <= 3) {
+        amiga.configure(OPT_DEFAULT_BOOTBLOCK, param, num);
+    } else {
+        amiga.configure(OPT_DEFAULT_BOOTBLOCK, num);
+    }
 }
 
 template <> void
 Controller::exec <Token::dfn, Token::set, Token::defaultfs> (Arguments& argv, long param)
 {
-    amiga.configure(OPT_DEFAULT_FILESYSTEM, param, FSVolumeTypeEnum::parse(argv.front()));
+    long num = FSVolumeTypeEnum::parse(argv.front());
+    
+    if (param >= 0 && param <= 3) {
+        amiga.configure(OPT_DEFAULT_FILESYSTEM, param, num);
+    } else {
+        amiga.configure(OPT_DEFAULT_FILESYSTEM, num);
+    }
 }
 
 template <> void

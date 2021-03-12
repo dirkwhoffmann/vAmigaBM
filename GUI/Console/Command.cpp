@@ -31,7 +31,7 @@ Command::add(const string &token,
         add("ciab", a1, help, func, num, 1);
         return nullptr;
     }
-    if (token == "dfn") {
+    if (token == "df") {
         add("df0", a1, help, func, num, 0);
         add("df1", a1, help, func, num, 1);
         add("df2", a1, help, func, num, 2);
@@ -64,11 +64,12 @@ Command::add(const string &t1, const string &t2,
         add("ciab", t2, a1, help, func, num, 1);
         return nullptr;
     }
-    if (t1 == "dfn") {
+    if (t1 == "df") {
         add("df0", t2, a1, help, func, num, 0);
         add("df1", t2, a1, help, func, num, 1);
         add("df2", t2, a1, help, func, num, 2);
         add("df3", t2, a1, help, func, num, 3);
+        if (t2 == "set") { add("dfn", t2, a1, help, func, num, 4); }
         return nullptr;
     }
     
@@ -93,11 +94,12 @@ Command::add(const string &t1, const string &t2, const string &t3,
         add("ciab", t2, t3, a1, help, func, num, 1);
         return nullptr;
     }
-    if (t1 == "dfn") {
+    if (t1 == "df") {
         add("df0", t2, t3, a1, help, func, num, 0);
         add("df1", t2, t3, a1, help, func, num, 1);
         add("df2", t2, t3, a1, help, func, num, 2);
         add("df3", t2, t3, a1, help, func, num, 3);
+        if (t2 == "set") { add("dfn", t2, t3, a1, help, func, num, 4); }
         return nullptr;
     }
     
@@ -113,7 +115,7 @@ Command::add(const string &t1, const string &t2, const string &t3, const string 
 {
     assert(t1 != "controlport");
     assert(t1 != "cia");
-    assert(t1 != "dfn");
+    assert(t1 != "df");
     
     return seek(t1)->add(t2, t3, t4, a1, help, func, num, param);
 }

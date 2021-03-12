@@ -619,71 +619,74 @@ Interpreter::registerInstructions()
     // Df0, Df1, Df2, Df3
     //
     
-    root.add("dfn",
+    root.add("df",
              "component", "Floppy drive");
 
-    root.add("dfn", "config",
+    root.add("dfn",
+             "component", "All connected drives");
+
+    root.add("df", "config",
              "command", "Displays the current configuration",
              &Controller::exec <Token::dfn, Token::config>, 0, 0);
 
-    root.add("dfn", "connect",
+    root.add("df", "connect",
              "command", "Connects the drive",
              &Controller::exec <Token::dfn, Token::connect>, 0, 0);
     root.seek("df0")->remove("connect");
 
-    root.add("dfn", "disconnect",
+    root.add("df", "disconnect",
              "command", "Disconnects the drive",
              &Controller::exec <Token::dfn, Token::disconnect>, 0, 0);
     root.seek("df0")->remove("disconnect");
 
-    root.add("dfn", "eject",
+    root.add("df", "eject",
              "command", "Ejects a floppy disk",
              &Controller::exec <Token::dfn, Token::eject>, 0, 0);
 
-    root.add("dfn", "insert",
+    root.add("df", "insert",
              "command", "Inserts a floppy disk",
              &Controller::exec <Token::dfn, Token::insert>, 1, 0);
 
-    root.add("dfn", "set",
+    root.add("df", "set",
              "command", "Configures the component");
         
-    root.add("dfn", "set", "model",
+    root.add("df", "set", "model",
              "key", "Selects the drive model",
              &Controller::exec <Token::dfn, Token::set, Token::model>, 1, 0);
 
-    root.add("dfn", "set", "mechanics",
+    root.add("df", "set", "mechanics",
              "key", "Enables or disables the emulation of mechanical delays",
              &Controller::exec <Token::dfn, Token::set, Token::mechanics>, 1, 0);
 
-    root.add("dfn", "set", "defaultfs",
+    root.add("df", "set", "defaultfs",
              "key", "Determines the default file system type for blank disks",
              &Controller::exec <Token::dfn, Token::set, Token::defaultfs>, 1, 0);
 
-    root.add("dfn", "set", "defaultbb",
+    root.add("df", "set", "defaultbb",
              "key", "Determines the default boot block type for blank disks",
              &Controller::exec <Token::dfn, Token::set, Token::defaultbb>, 1, 0);
     
-    root.add("dfn", "audiate",
-             "command", "Enables or disables drive sounds",
+    root.add("df", "audiate",
+             "command", "Sets the volume of drive sounds",
              &Controller::exec <Token::dfn, Token::set, Token::mechanics>, 0, 0);
 
-    root.add("dfn", "audiate", "insert",
+    root.add("df", "audiate", "insert",
              "command", "Makes disk insertions audible",
              &Controller::exec <Token::dfn, Token::audiate, Token::insert>, 1, 0);
 
-    root.add("dfn", "audiate", "eject",
+    root.add("df", "audiate", "eject",
              "command", "Makes disk ejections audible",
              &Controller::exec <Token::dfn, Token::audiate, Token::eject>, 1, 0);
 
-    root.add("dfn", "audiate", "step",
+    root.add("df", "audiate", "step",
              "command", "Makes disk ejections audible",
              &Controller::exec <Token::dfn, Token::audiate, Token::step>, 1, 0);
 
-    root.add("dfn", "audiate", "poll",
+    root.add("df", "audiate", "poll",
              "command", "Makes polling clicks audible",
              &Controller::exec <Token::dfn, Token::audiate, Token::poll>, 1, 0);
 
-    root.add("dfn", "inspect",
+    root.add("df", "inspect",
              "command", "Displays the internal state",
              &Controller::exec <Token::dfn, Token::inspect>, 0, 0);
 }
