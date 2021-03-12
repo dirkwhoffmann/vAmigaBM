@@ -124,25 +124,25 @@ Controller::exec <Token::memory, Token::load, Token::extrom> (Arguments& argv, l
 template <> void
 Controller::exec <Token::memory, Token::set, Token::chip> (Arguments& argv, long param)
 {
-    amiga.configure(OPT_CHIP_RAM, parseDec(argv.front()));
+    amiga.configure(OPT_CHIP_RAM, parseNum(argv.front()));
 }
 
 template <> void
 Controller::exec <Token::memory, Token::set, Token::slow> (Arguments& argv, long param)
 {
-    amiga.configure(OPT_SLOW_RAM, parseDec(argv.front()));
+    amiga.configure(OPT_SLOW_RAM, parseNum(argv.front()));
 }
 
 template <> void
 Controller::exec <Token::memory, Token::set, Token::fast> (Arguments& argv, long param)
 {
-    amiga.configure(OPT_FAST_RAM, parseDec(argv.front()));
+    amiga.configure(OPT_FAST_RAM, parseNum(argv.front()));
 }
 
 template <> void
 Controller::exec <Token::memory, Token::set, Token::extstart> (Arguments& argv, long param)
 {
-    amiga.configure(OPT_EXT_START, parseHex(argv.front()));
+    amiga.configure(OPT_EXT_START, parseNum(argv.front()));
 }
 
 template <> void
@@ -334,7 +334,7 @@ Controller::exec <Token::blitter, Token::config> (Arguments& argv, long param)
 template <> void
 Controller::exec <Token::blitter, Token::set, Token::accuracy> (Arguments &argv, long param)
 {
-    amiga.configure(OPT_BLITTER_ACCURACY, parseDec(argv.front()));
+    amiga.configure(OPT_BLITTER_ACCURACY, parseNum(argv.front()));
 }
 
 template <> void
@@ -449,12 +449,12 @@ Controller::exec <Token::audio, Token::set, Token::volume> (Arguments& argv, lon
 {
     switch (param) {
             
-        case 0: amiga.configure(OPT_AUDVOL, 0, parseDec(argv.front())); break;
-        case 1: amiga.configure(OPT_AUDVOL, 1, parseDec(argv.front())); break;
-        case 2: amiga.configure(OPT_AUDVOL, 2, parseDec(argv.front())); break;
-        case 3: amiga.configure(OPT_AUDVOL, 3, parseDec(argv.front())); break;
-        case 4: amiga.configure(OPT_AUDVOLL, parseDec(argv.front())); break;
-        case 5: amiga.configure(OPT_AUDVOLR, parseDec(argv.front())); break;
+        case 0: amiga.configure(OPT_AUDVOL, 0, parseNum(argv.front())); break;
+        case 1: amiga.configure(OPT_AUDVOL, 1, parseNum(argv.front())); break;
+        case 2: amiga.configure(OPT_AUDVOL, 2, parseNum(argv.front())); break;
+        case 3: amiga.configure(OPT_AUDVOL, 3, parseNum(argv.front())); break;
+        case 4: amiga.configure(OPT_AUDVOLL, parseNum(argv.front())); break;
+        case 5: amiga.configure(OPT_AUDVOLR, parseNum(argv.front())); break;
             
         default:
             assert(false);
@@ -464,7 +464,7 @@ Controller::exec <Token::audio, Token::set, Token::volume> (Arguments& argv, lon
 template <> void
 Controller::exec <Token::audio, Token::set, Token::pan> (Arguments& argv, long param)
 {
-    amiga.configure(OPT_AUDPAN, param, parseDec(argv.front()));
+    amiga.configure(OPT_AUDPAN, param, parseNum(argv.front()));
 }
 
 template <> void
@@ -538,19 +538,19 @@ Controller::exec <Token::controlport, Token::config> (Arguments& argv, long para
 template <> void
 Controller::exec <Token::controlport, Token::connect, Token::mouse> (Arguments& argv, long param)
 {
-    app.inputManager.connectMouse(parseDec(argv.front()), param);
+    app.inputManager.connectMouse(parseNum(argv.front()), param);
 }
 
 template <> void
 Controller::exec <Token::controlport, Token::connect, Token::joystick> (Arguments& argv, long param)
 {
-    app.inputManager.connectJoystick(parseDec(argv.front()), param);
+    app.inputManager.connectJoystick(parseNum(argv.front()), param);
 }
 
 template <> void
 Controller::exec <Token::controlport, Token::connect, Token::keyset> (Arguments& argv, long param)
 {
-    app.inputManager.connectKeyset(parseDec(argv.front()), param);
+    app.inputManager.connectKeyset(parseNum(argv.front()), param);
 }
 
 template <> void
@@ -611,8 +611,8 @@ Controller::exec <Token::mouse, Token::set, Token::shakedetector> (Arguments &ar
 template <> void
 Controller::exec <Token::mouse, Token::set, Token::velocity> (Arguments &argv, long param)
 {
-    amiga.configure(OPT_MOUSE_VELOCITY, PORT_1, parseDec(argv.front()));
-    amiga.configure(OPT_MOUSE_VELOCITY, PORT_2, parseDec(argv.front()));
+    amiga.configure(OPT_MOUSE_VELOCITY, PORT_1, parseNum(argv.front()));
+    amiga.configure(OPT_MOUSE_VELOCITY, PORT_2, parseNum(argv.front()));
 }
 
 template <> void
@@ -664,7 +664,7 @@ Controller::exec <Token::dc, Token::inspect> (Arguments& argv, long param)
 template <> void
 Controller::exec <Token::dc, Token::speed> (Arguments& argv, long param)
 {
-    amiga.configure(OPT_DRIVE_SPEED, parseDec(argv.front()));
+    amiga.configure(OPT_DRIVE_SPEED, parseNum(argv.front()));
 }
 
 template <> void
@@ -693,25 +693,25 @@ Controller::exec <Token::dfn, Token::config> (Arguments& argv, long param)
 template <> void
 Controller::exec <Token::dfn, Token::audiate, Token::insert> (Arguments& argv, long param)
 {
-    amiga.configure(OPT_INSERT_VOLUME, param, parseDec(argv.front()));
+    amiga.configure(OPT_INSERT_VOLUME, param, parseNum(argv.front()));
 }
 
 template <> void
 Controller::exec <Token::dfn, Token::audiate, Token::eject> (Arguments& argv, long param)
 {
-    amiga.configure(OPT_EJECT_VOLUME, param, parseDec(argv.front()));
+    amiga.configure(OPT_EJECT_VOLUME, param, parseNum(argv.front()));
 }
 
 template <> void
 Controller::exec <Token::dfn, Token::audiate, Token::step> (Arguments& argv, long param)
 {
-    amiga.configure(OPT_STEP_VOLUME, param, parseDec(argv.front()));
+    amiga.configure(OPT_STEP_VOLUME, param, parseNum(argv.front()));
 }
 
 template <> void
 Controller::exec <Token::dfn, Token::audiate, Token::poll> (Arguments& argv, long param)
 {
-    amiga.configure(OPT_POLL_VOLUME, param, parseDec(argv.front()));
+    amiga.configure(OPT_POLL_VOLUME, param, parseNum(argv.front()));
 }
 
 template <> void

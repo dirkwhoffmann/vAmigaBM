@@ -495,17 +495,18 @@ Console::exec(const string &command, bool verbose)
         *this << '\n';
             
     } catch (EnumParseError &err) {
-        *this << err.token << ": Invalid key" << '\n';
+        *this << err.token << " is not a valid key" << '\n';
         *this << "Expected: " << err.expected << '\n';
         
+    } catch (ParseNumError &err) {
+        *this << err.token << " is not a number" << '\n';
+
     } catch (ParseBoolError &err) {
-        *this << "Invalid key" << '\n';
-        *this << "Expected: true or false" << '\n';
+        *this << err.token << " must be true or false" << '\n';
 
     } catch (ParseError &err) {
         *this << err.what() << ": Syntax error";
         *this << '\n';
-        // *this << "Expected: " << err.what() << '\n';
         
     } catch (ConfigUnsupportedError) {
         *this << "This option is not yet supported.";

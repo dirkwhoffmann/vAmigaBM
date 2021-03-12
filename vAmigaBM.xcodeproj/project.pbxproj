@@ -303,6 +303,7 @@
 		5002A28025D03B2300665F89 /* Canvas.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Canvas.h; sourceTree = "<group>"; };
 		5002A28225D0596300665F89 /* View.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = View.cpp; sourceTree = "<group>"; };
 		5002A28325D0596300665F89 /* View.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = View.h; sourceTree = "<group>"; };
+		5015FB8D25FB3C9F00A3DD11 /* Makefile */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
 		502D8EB125DC678D00007C2C /* title.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = title.png; sourceTree = "<group>"; };
 		502D8EB525DCE3C500007C2C /* SourceSansPro-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SourceSansPro-Bold.ttf"; sourceTree = "<group>"; };
 		502D8EB625DCE3CE00007C2C /* SourceSansPro-Black.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SourceSansPro-Black.ttf"; sourceTree = "<group>"; };
@@ -713,6 +714,17 @@
 				50C4C27325D1D40C00849A01 /* startup_german.ini */,
 			);
 			path = Scripts;
+			sourceTree = "<group>";
+		};
+		5015FB8C25FB3C6700A3DD11 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				5015FB8D25FB3C9F00A3DD11 /* Makefile */,
+				50AE11C425C44AAC00AD13B7 /* Controller.h */,
+				50AE11C325C44AAC00AD13B7 /* Controller.cpp */,
+				5066F75325C55F75009199B6 /* ControllerCmds.cpp */,
+			);
+			path = Controller;
 			sourceTree = "<group>";
 		};
 		503EB44B25D822D000A6145B /* Sounds */ = {
@@ -1345,9 +1357,6 @@
 				50FD19B625C20102004E7388 /* Application.cpp */,
 				502D8EBC25DD072F00007C2C /* Screen.h */,
 				502D8EBB25DD072F00007C2C /* Screen.cpp */,
-				50AE11C425C44AAC00AD13B7 /* Controller.h */,
-				50AE11C325C44AAC00AD13B7 /* Controller.cpp */,
-				5066F75325C55F75009199B6 /* ControllerCmds.cpp */,
 				5002A27A25CFF35000665F89 /* Layer.h */,
 				5002A27925CFF35000665F89 /* Layer.cpp */,
 				5002A27D25D00F3000665F89 /* SplashScreen.h */,
@@ -1356,6 +1365,7 @@
 				5002A27F25D03B2300665F89 /* Canvas.cpp */,
 				50FFC13025F3E5FC00D7595A /* StatusBar.h */,
 				50FFC12F25F3E5FC00D7595A /* StatusBar.cpp */,
+				5015FB8C25FB3C6700A3DD11 /* Controller */,
 				503EB44C25D8252400A6145B /* Console */,
 				505485E825C15C3B00892284 /* AssetManager.h */,
 				505485E725C15C3B00892284 /* AssetManager.cpp */,

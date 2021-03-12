@@ -196,15 +196,12 @@ Controller::parseBool(string& token)
 }
 
 long
-Controller::parseNum(isize base, string& token)
+Controller::parseNum(string& token)
 {
-    assert(base == 10 || base == 16);
-    
     long result;
     
-    std::stringstream ss;
-    try { ss << (base == 10 ? std::dec : std::hex) << token; ss >> result; }
-    catch (std::exception& err) { result = 1; }
+    try { result = stol(token, nullptr, 0); }
+    catch (std::exception& err) { throw ParseNumError(token); }
 
     return result;
 }

@@ -37,6 +37,10 @@ enum class Token
     unmappingtype, velocity, volume, wom
 };
 
+struct ParseNumError : public ParseError {
+    using ParseError::ParseError;
+};
+
 struct ParseBoolError : public ParseError {
     using ParseError::ParseError;
 };
