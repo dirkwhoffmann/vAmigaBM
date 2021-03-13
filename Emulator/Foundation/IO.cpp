@@ -11,6 +11,8 @@
 #include "IO.h"
 #include "string.h"
 
+#include <vector>
+
 namespace util {
 
 string lowercased(const string& s)
@@ -111,6 +113,26 @@ isize numDirectoryItems(const char *path)
     }
     
     return count;
+}
+
+std::vector<string>
+files(const string &path, const string &suffix)
+{
+    std::vector<string> result;
+    
+    if (DIR *dir = opendir(path.c_str())) {
+        
+        struct dirent *dp;
+        while ((dp = readdir(dir))) {
+            
+            string name = dp->d_name;
+            if (name[0] == '.') continue;
+            if (extractSuffix(name) != suffix) continue;
+            result.push_back(name); 
+        }
+    }
+    
+    return result;
 }
 
 isize

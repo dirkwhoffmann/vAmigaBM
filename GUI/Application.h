@@ -23,6 +23,7 @@
 #include "InputManager.h"
 #include "Layer.h"
 #include "SplashScreen.h"
+#include "Browser.h"
 #include "Canvas.h"
 #include "StatusBar.h"
 #include "Console.h"
@@ -81,6 +82,9 @@ public:
 
     // The status bar
     StatusBar statusBar;
+    
+    // The file browser layer
+    Browser fileBrowser;
     
     // The debug console layer
     Console console;

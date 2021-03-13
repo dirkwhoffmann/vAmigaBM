@@ -19,6 +19,7 @@
 GUIComponent::GUIComponent(Application& ref) :
 amiga(ref.amiga),
 app(ref),
+fileBrowser(ref.fileBrowser),
 canvas(ref.canvas),
 console(ref.console),
 controller(ref.controller),

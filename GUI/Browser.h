@@ -12,37 +12,25 @@
 #include "Layer.h"
 #include "View.h"
 
-namespace StatusBarItem {
-
-static const u32 DRIVE_LED  = 0x00000001;
-static const u32 DRIVE_CYL  = 0x00000010;
-static const u32 DISK_ICON  = 0x00000100;
-static const u32 DISK_SPIN  = 0x00001000;
-static const u32 POWER_LED  = 0x00010000;
-static const u32 MUTE       = 0x00020000;
-static const u32 MHZ        = 0x00040000;
-static const u32 STATE      = 0x00080000;
-static const u32 PORTS      = 0x00100000;
-}
-
-class StatusBar : public Layer {
-        
-    GradientView bar;
-
-    ImageView powerLed;
-    ImageView driveLed[4];
-    TextView cylinder[4];
-    ImageView disk[4];
-    ProgressView spin[4];
+class Browser : public Layer {
     
-    ImageView port[2];
-    ImageView mute;
-    TextView mhz;
-    ImageView state;
+    // Views
+    GradientView background;
+    ImageView icon;
+    TextView name;
+    TextView path;
+    sf::RectangleShape line;
+    TextView item[16];
+    
+    // State
+    std::vector<string> files;
+    isize selectedItem = -1;
+    string input;
+    
     
 public:
     
-    u32 needsUpdate = 0;
+    bool needsUpdate = false;
     
     
     //
@@ -51,14 +39,16 @@ public:
     
 public:
     
-    StatusBar(class Application &ref);
-    ~StatusBar();
+    Browser(class Application &ref);
+    ~Browser();
     
     // Delegation methods
     void init();
     void awake();
     
-
+    virtual void open() override;
+    
+    
     //
     // Performing continuous tasks
     //
@@ -79,8 +69,6 @@ public:
     void resize(float width, float height) override;
     void alphaDidChange() override;
     
-    bool mouseButtonPressed(isize button);
-
     
     //
     // Refreshs dirty elements
@@ -88,11 +76,7 @@ public:
 
 public:
     
-    void setNeedsUpdate(u32 flags, isize i = 0) { needsUpdate |= flags << i; }
+    void setNeedsUpdate() { needsUpdate = true; }
 
     void refresh();
-    void refreshMhz(float value);
-    void refreshDrive(isize nr);
-    void refreshPort(PortNr nr);
-    void refreshState();
 };

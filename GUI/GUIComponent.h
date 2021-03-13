@@ -13,6 +13,7 @@
 
 class Amiga;
 class Application;
+class Browser;
 class Canvas;
 class Console;
 class Controller;
@@ -27,6 +28,7 @@ protected:
 
     Amiga &amiga;
     Application &app;
+    Browser &fileBrowser;
     Canvas &canvas;
     Console &console;
     Controller &controller;

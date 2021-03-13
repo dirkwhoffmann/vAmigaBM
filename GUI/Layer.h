@@ -60,9 +60,9 @@ public:
     
 public:
     
-    void open() { targetAlpha = 0xFF; }
-    void close() { targetAlpha = 0x00; }
-    void toggle() { isVisible() ? close() : open(); }
+    virtual void open() { targetAlpha = 0xFF; }
+    virtual void close() { targetAlpha = 0x00; }
+    virtual void toggle() { isVisible() ? close() : open(); }
     
     
     //

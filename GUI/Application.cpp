@@ -21,6 +21,7 @@ console(*this),
 splashScreen(*this),
 canvas(*this),
 statusBar(*this),
+fileBrowser(*this),
 musicStream(*this)
 {
     for (int i = 0; i < argc; i++) {
@@ -73,6 +74,7 @@ Application::init()
     splashScreen.init();
     canvas.init();
     statusBar.init();
+    fileBrowser.init();
     console.init();
     musicStream.init();
     
@@ -87,6 +89,7 @@ Application::awake()
     splashScreen.awake();
     canvas.awake();
     statusBar.awake();
+    fileBrowser.awake();
     console.awake();
 }
 
@@ -209,6 +212,7 @@ Application::resize(float w, float h)
     splashScreen.resize(w, h);
     canvas.resize(w, h);
     statusBar.resize(w, h);
+    fileBrowser.resize(w, h);
     console.resize(w, h);
 }
 
@@ -220,6 +224,7 @@ Application::update(u64 frames, sf::Time dt)
     splashScreen.update(frames, dt);
     canvas.update(frames, dt);
     statusBar.update(frames, dt);
+    fileBrowser.update(frames, dt);
     console.update(frames, dt);
 }
 
@@ -231,6 +236,7 @@ Application::render()
     if (canvas.isTransparent()) splashScreen.render();
     if (canvas.isVisible()) canvas.render();
     if (statusBar.isVisible()) statusBar.render();
+    if (fileBrowser.isVisible()) fileBrowser.render();
     if (console.isVisible()) console.render();
 
     window.display();

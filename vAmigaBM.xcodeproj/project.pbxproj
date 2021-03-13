@@ -14,6 +14,7 @@
 		5002A27E25D00F3000665F89 /* SplashScreen.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5002A27C25D00F3000665F89 /* SplashScreen.cpp */; };
 		5002A28125D03B2300665F89 /* Canvas.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5002A27F25D03B2300665F89 /* Canvas.cpp */; };
 		5002A28425D0596300665F89 /* View.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5002A28225D0596300665F89 /* View.cpp */; };
+		502431CD25FCA08A00A019F7 /* Browser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 502431CB25FCA08A00A019F7 /* Browser.cpp */; };
 		502D8EB225DC678D00007C2C /* title.png in CopyFiles */ = {isa = PBXBuildFile; fileRef = 502D8EB125DC678D00007C2C /* title.png */; };
 		502D8EB725DCE40F00007C2C /* SourceSansPro-Bold.ttf in CopyFiles */ = {isa = PBXBuildFile; fileRef = 502D8EB525DCE3C500007C2C /* SourceSansPro-Bold.ttf */; };
 		502D8EB825DCE41100007C2C /* SourceSansPro-Black.ttf in CopyFiles */ = {isa = PBXBuildFile; fileRef = 502D8EB625DCE3CE00007C2C /* SourceSansPro-Black.ttf */; };
@@ -304,6 +305,8 @@
 		5002A28225D0596300665F89 /* View.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = View.cpp; sourceTree = "<group>"; };
 		5002A28325D0596300665F89 /* View.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = View.h; sourceTree = "<group>"; };
 		5015FB8D25FB3C9F00A3DD11 /* Makefile */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
+		502431CB25FCA08A00A019F7 /* Browser.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = Browser.cpp; path = GUI/Browser.cpp; sourceTree = SOURCE_ROOT; };
+		502431CC25FCA08A00A019F7 /* Browser.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Browser.h; path = GUI/Browser.h; sourceTree = SOURCE_ROOT; };
 		502D8EB125DC678D00007C2C /* title.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = title.png; sourceTree = "<group>"; };
 		502D8EB525DCE3C500007C2C /* SourceSansPro-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SourceSansPro-Bold.ttf"; sourceTree = "<group>"; };
 		502D8EB625DCE3CE00007C2C /* SourceSansPro-Black.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SourceSansPro-Black.ttf"; sourceTree = "<group>"; };
@@ -1302,8 +1305,8 @@
 				50AFF9A625EFC2910052269B /* SSEUtils.cpp */,
 				50AFF9B025EFC2910052269B /* SSEUtils.h */,
 				50AFF9B225EFC2910052269B /* TimeDelayed.h */,
-				50AFF9C125EFC4300052269B /* IO.cpp */,
 				50AFF9C225EFC4300052269B /* IO.h */,
+				50AFF9C125EFC4300052269B /* IO.cpp */,
 			);
 			path = Foundation;
 			sourceTree = "<group>";
@@ -1361,6 +1364,8 @@
 				5002A27C25D00F3000665F89 /* SplashScreen.cpp */,
 				5002A28025D03B2300665F89 /* Canvas.h */,
 				5002A27F25D03B2300665F89 /* Canvas.cpp */,
+				502431CC25FCA08A00A019F7 /* Browser.h */,
+				502431CB25FCA08A00A019F7 /* Browser.cpp */,
 				50FFC13025F3E5FC00D7595A /* StatusBar.h */,
 				50FFC12F25F3E5FC00D7595A /* StatusBar.cpp */,
 				5015FB8C25FB3C6700A3DD11 /* Controller */,
@@ -1576,6 +1581,7 @@
 				50AE118925C42D6700AD13B7 /* DiskFile.cpp in Sources */,
 				50AE119F25C42D6700AD13B7 /* DiskControllerEvents.cpp in Sources */,
 				50AFF9B725EFC2910052269B /* SSEUtils.cpp in Sources */,
+				502431CD25FCA08A00A019F7 /* Browser.cpp in Sources */,
 				50AE118F25C42D6700AD13B7 /* SerialPort.cpp in Sources */,
 				50AE119325C42D6700AD13B7 /* u_heavy.c in Sources */,
 				50AE119225C42D6700AD13B7 /* Joystick.cpp in Sources */,

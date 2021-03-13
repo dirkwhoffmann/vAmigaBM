@@ -175,10 +175,23 @@ StatusBar::mouseButtonPressed(isize button)
 {
     if (button == 0) {
         
-        if (state.contains(sf::Mouse::getPosition(app.window))) {
+        auto position = sf::Mouse::getPosition(app.window);
+
+        if (state.contains(position)) {
             controller.flipWarpMode();
             return true;
         }
+        
+        for (isize i = 0; i < 4; i++) {
+            
+            if (disk[i].contains(position)) {
+                
+                printf("Drive icon %zd clicked\n", i);
+                fileBrowser.open();
+                return true;
+            }
+        }
+
     }
     return false;
 }
