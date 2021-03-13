@@ -59,6 +59,20 @@ public:
     
     
     //
+    // Handling disks
+    //
+    
+    // Inserts a disk
+    void insertDisk(const string &path, isize n);
+    
+    // Convenience wrappers
+    void insertDf0(const string &path) { insertDisk(path, 0); }
+    void insertDf1(const string &path) { insertDisk(path, 1); }
+    void insertDf2(const string &path) { insertDisk(path, 2); }
+    void insertDf3(const string &path) { insertDisk(path, 3); }
+
+    
+    //
     // Executing commands
     //
     

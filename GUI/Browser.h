@@ -43,6 +43,9 @@ class Browser : public Layer {
 public:
     
     bool needsUpdate = false;
+
+    // Action function
+    std::function<void(const string &s)> action; 
     
     
     //

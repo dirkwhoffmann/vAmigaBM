@@ -788,6 +788,8 @@ Controller::exec <Token::dfn, Token::disconnect> (Arguments& argv, long param)
 template <> void
 Controller::exec <Token::dfn, Token::insert> (Arguments& argv, long param)
 {
+    insertDisk(argv.front(), param);
+    /*
     string path = argv.front();
     
     try {
@@ -798,6 +800,7 @@ Controller::exec <Token::dfn, Token::insert> (Arguments& argv, long param)
     } catch (VAError &err) {
         console << "Failed to insert disk: " << err.what() << '\n';
     }
+    */
 }
 
 template <> void

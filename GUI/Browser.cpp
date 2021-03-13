@@ -59,6 +59,8 @@ Browser::awake()
 void
 Browser::open()
 {
+    // action = [](const string &s) { printf("Loading %s\n", s.c_str()); };
+    
     Layer::open();
     delay = 0.5;
     
@@ -134,6 +136,7 @@ Browser::respond(const sf::Event &event)
                     
                     printf("highlightedRow: %zd\n", highlightedRow());
                     printf("%s\n", filtered[highlightedRow()].c_str());
+                    action(filtered[highlightedRow()]);
                     input = filtered[highlightedRow()];
                     refresh();
                     close();

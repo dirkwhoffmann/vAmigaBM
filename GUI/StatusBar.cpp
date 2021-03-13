@@ -183,15 +183,14 @@ StatusBar::mouseButtonPressed(isize button)
         }
         
         for (isize i = 0; i < 4; i++) {
-            
-            if (disk[i].contains(position)) {
-                
-                printf("Drive icon %zd clicked\n", i);
+            if (disk[i].isVisible && disk[i].contains(position)) {
+                fileBrowser.action = [this, i](const string &s) {
+                    this->controller.insertDisk(s, i);
+                };
                 fileBrowser.open();
                 return true;
             }
         }
-
     }
     return false;
 }
@@ -253,9 +252,16 @@ StatusBar::refreshDrive(isize nr)
     bool connected = amiga.paula.diskController.getConfigItem(OPT_DRIVE_CONNECT, nr);
     driveLed[nr].isVisible = connected;
     cylinder[nr].isVisible = connected;
-    disk[nr].isVisible = connected && amiga.df[nr]->hasDisk();
+    disk[nr].isVisible = connected; //  && amiga.df[nr]->hasDisk();
     spin[nr].isVisible = connected && amiga.df[nr]->getMotor();
 
+    // Update the drive icon
+    if (amiga.df[nr]->hasDisk()) {
+        disk[nr].rectangle.setTexture(&app.assets.get(TextureID::disk));
+    } else {
+        disk[nr].rectangle.setTexture(&app.assets.get(TextureID::none));
+    }
+    
     // Update the head position
     if (needsUpdate & (StatusBarItem::DRIVE_CYL << nr)) {
 

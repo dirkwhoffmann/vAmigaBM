@@ -9,6 +9,7 @@
 
 #include "config.h"
 #include "Application.h"
+#include "ADFFile.h"
 
 extern "C" {
 void process(const void *ref, long id, long data)
@@ -181,6 +182,21 @@ Controller::flipWarpMode()
     
     updateWarp();
     statusBar.setNeedsUpdate(StatusBarItem::STATE);
+}
+
+void
+Controller::insertDisk(const string &name, isize n)
+{
+    auto path = "/tmp/" + name;
+    
+    try {
+        ADFFile *adf = AmigaFile::make <ADFFile> (path.c_str());
+        Disk *disk = Disk::makeWithFile(adf);
+        amiga.df[n]->insertDisk(disk);
+        
+    } catch (VAError &err) {
+        console << "Failed to insert disk: " << err.what() << '\n';
+    }
 }
 
 bool
