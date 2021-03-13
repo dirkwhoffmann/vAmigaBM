@@ -252,7 +252,7 @@ StatusBar::refreshDrive(isize nr)
     bool connected = amiga.paula.diskController.getConfigItem(OPT_DRIVE_CONNECT, nr);
     driveLed[nr].isVisible = connected;
     cylinder[nr].isVisible = connected;
-    disk[nr].isVisible = connected; //  && amiga.df[nr]->hasDisk();
+    disk[nr].isVisible = connected;
     spin[nr].isVisible = connected && amiga.df[nr]->getMotor();
 
     // Update the drive icon

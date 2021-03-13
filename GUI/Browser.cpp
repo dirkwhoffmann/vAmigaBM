@@ -58,11 +58,11 @@ Browser::awake()
 
 void
 Browser::open()
-{
-    // action = [](const string &s) { printf("Loading %s\n", s.c_str()); };
-    
+{    
     Layer::open();
     delay = 0.5;
+    input = "";
+    cursor = "_";
     
     files = util::files("/tmp/", "adf");
     
@@ -138,6 +138,7 @@ Browser::respond(const sf::Event &event)
                     printf("%s\n", filtered[highlightedRow()].c_str());
                     action(filtered[highlightedRow()]);
                     input = filtered[highlightedRow()];
+                    cursor = "";
                     refresh();
                     close();
                     break;
@@ -219,7 +220,7 @@ Browser::refresh()
     }
     
     path.setString("/tmp/");
-    name.setString(input + "_");
+    name.setString(input + cursor);
     
     for (int i = 0; i < numRows; i++) {
                         

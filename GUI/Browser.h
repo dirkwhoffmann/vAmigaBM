@@ -38,6 +38,7 @@ class Browser : public Layer {
 
     isize selectedItem = 0;
     string input;
+    string cursor;
     
     
 public:

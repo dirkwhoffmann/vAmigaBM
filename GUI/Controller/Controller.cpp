@@ -192,7 +192,7 @@ Controller::insertDisk(const string &name, isize n)
     try {
         ADFFile *adf = AmigaFile::make <ADFFile> (path.c_str());
         Disk *disk = Disk::makeWithFile(adf);
-        amiga.df[n]->insertDisk(disk);
+        amiga.paula.diskController.insertDisk(disk, n);
         
     } catch (VAError &err) {
         console << "Failed to insert disk: " << err.what() << '\n';
