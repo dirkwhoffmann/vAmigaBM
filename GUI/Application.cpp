@@ -163,14 +163,6 @@ Application::respond(sf::Event &event)
             }
             break;
 
-            /*
-        case sf::Event::TextEntered:
-            if ((char)event.text.unicode == '+') {
-                controller.flipWarpMode();
-            }
-            break;
-            */
-            
         case sf::Event::MouseButtonPressed:
             printf("Pressed %d\n", event.mouseButton.button);
             break;
@@ -189,6 +181,7 @@ Application::respond(sf::Event &event)
     
     // Distribute the event to the uppermost visible layer
     if (console.isVisible()) console.respond(event);
+    else if (fileBrowser.isVisible()) fileBrowser.respond(event);
     else if (canvas.isVisible()) canvas.respond(event);
     else if (splashScreen.isVisible()) splashScreen.respond(event);
 }

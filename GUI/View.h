@@ -113,10 +113,10 @@ public:
     void init(const sf::Texture &tex);
         
     // Modifiers
-    void setAlpha(u8 value);
+    void setAlpha(u8 value) override;
 
     // Delegation methods
-    void update();
+    void update() override;
     
     // Wrappers
     void draw(sf::RenderWindow &window, const sf::Shader *shader = nullptr);
@@ -143,10 +143,10 @@ public:
 
     // Modifiers
     void setColors(sf::Color ul, sf::Color ur, sf::Color ll, sf::Color lr);
-    void setAlpha(u8 value);
+    void setAlpha(u8 value) override;
     
     // Delegation methods
-    void update();
+    void update() override;
     
     // Wrappers
     void draw(sf::RenderWindow &window, const sf::Shader *shader = nullptr);
@@ -167,15 +167,46 @@ public:
     TextView(usize flags) : View(flags) { };
 
     // Modifiers
-    void setAlpha(u8 value);
+    void setAlpha(u8 value) override;
 
     // Delegation methods
-    void update();
+    void update() override;
     
     // Wrappers
     void setString(const string &str);
     void setFontSize(unsigned size);
     void setStyle(const sf::Font &font, unsigned int size, const sf::Color &color);
+    void draw(sf::RenderWindow &window, const sf::Shader *shader = nullptr);
+};
+
+
+//
+// Text box view
+//
+
+class TextBoxView : public TextView {
+
+    isize padx = 0;
+    isize pady = 0;
+    
+public:
+
+    sf::RectangleShape box;
+    bool drawBackground = true;
+
+    TextBoxView() : TextView(Align::UpperLeft) { };
+    TextBoxView(usize flags);
+
+    // Modifiers
+    void setAlpha(u8 value) override;
+    void setPads(isize x, isize y);
+    
+    // Delegation methods
+    void update() override;
+    
+    // Wrappers
+    void setString(const string &str);
+    void setFontSize(unsigned size);
     void draw(sf::RenderWindow &window, const sf::Shader *shader = nullptr);
 };
 
@@ -200,5 +231,5 @@ public:
     void step();
     
     // Delegation methods
-    void update();
+    void update() override;
 };

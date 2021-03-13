@@ -28,19 +28,25 @@ void Browser::init()
     auto grey1 = sf::Color(0x30,0x30,0x30,0x80);
     auto grey2 = sf::Color(0x50,0x50,0x50,0x80);
     background.setColors(grey1, grey1, grey2, grey2);
-    
+
     icon.init(app.assets.get(TextureID::disk));
-    path.setStyle(app.assets.get(FontID::sans_r), 22, sf::Color::White);
-    name.setStyle(app.assets.get(FontID::sans_r), 44, sf::Color::White);
+    path.setStyle(app.assets.get(FontID::console), 22, sf::Color::White);
+    path.setSize(800, 54);
+    path.setPads(24, -4);
+    path.drawBackground = false;
+    name.setStyle(app.assets.get(FontID::console), 44, sf::Color::White);
+    name.setSize(800, 54);
+    name.setPads(24, -4);
+    name.drawBackground = false;
     line.setFillColor(sf::Color::White);
     line.setSize(sf::Vector2f { 800, 4 });
         
     for (int i = 0; i < 16; i++) {
-        item[i].setStyle(app.assets.get(FontID::sans_r), 44, sf::Color::White);
+        item[i].setStyle(app.assets.get(FontID::console), 44, sf::Color::White);
+        item[i].setSize(800, 54);
+        item[i].setPads(24, -4);
+        item[i].drawBackground = false;
     }
-
-    selectedItem = 8;
-    input = "Foo";
 }
 
 void
@@ -93,12 +99,41 @@ Browser::respond(const sf::Event &event)
         case sf::Event::KeyPressed:
             
             printf("keycode: %d\n", event.key.code);
+            
+            switch (event.key.code) {
+                    
+                case sf::Keyboard::Up:
+
+                    if (selectedItem > 0) selectedItem--;
+                    refresh();
+                    break;
+
+                case sf::Keyboard::Down:
+
+                    if (selectedItem + 1 < filtered.size()) selectedItem++;
+                    refresh();
+                    break;
+                    
+                case sf::Keyboard::Backspace:
+                    
+                    if (input.size() > 0) input.pop_back();
+                    refresh();
+                    break;
+                    
+                default:
+                    break;
+            }
             break;
             
         case sf::Event::TextEntered:
             
-            if (event.text.unicode < 128) {
+            if (isprint(event.text.unicode)) {
                 printf("Character: %c\n", static_cast<char>(event.text.unicode));
+                if (input.size() < 32) {
+                    input += static_cast<char>(event.text.unicode);
+                    selectedItem = 0;
+                    refresh();
+                }
             }
             break;
             
@@ -128,7 +163,7 @@ Browser::alphaDidChange()
 {
     printf("Browser alpha: %zd\n", alpha);
     
-    background.setAlpha(alpha);
+    background.setAlpha(std::min((isize)0x80, alpha));
     icon.setAlpha(alpha);
     name.setAlpha(alpha);
     path.setAlpha(alpha);
@@ -140,17 +175,41 @@ Browser::alphaDidChange()
 
 void
 Browser::refresh()
-{
-    input = "Foo";
+{    
+    // Filter out files to display
+    filtered.clear();
+    for (auto &it : files) {
+        
+        bool matches = true;
+        for (isize i = 0; i < input.size(); i++) {
+            if (toupper(input[i]) != toupper(it[i])) { matches = false; break; }
+        }
+        if (!matches) continue;
+        
+        if (it.size() > 16) {
+            auto prefix = util::extractName(it);
+            auto suffix = util::extractSuffix(it);
+            it = prefix.substr(0, 16 - suffix.size()) + "." + suffix;
+        }
+        filtered.push_back(it);
+    }
     
     path.setString("/tmp/");
-    name.setString(input);
+    name.setString(input + "_");
     
+    isize highlightedItem = std::min((isize)16, selectedItem);
+
     for (int i = 0; i < 16; i++) {
-        if (i < files.size()) {
-            item[i].setString(files[i]);
+                
+        isize index = i + selectedItem - highlightedItem;
+        
+        item[i].setString(i < filtered.size() ? filtered[index] : "");
+        if (i == selectedItem) {
+            item[i].box.setFillColor(sf::Color(0x40,0x40,0x40));
+            item[i].drawBackground = true;
         } else {
-            item[i].setString("row " + std::to_string(i));
+            item[i].box.setFillColor(sf::Color::Transparent);
+            item[i].drawBackground = false;
         }
     }
 }

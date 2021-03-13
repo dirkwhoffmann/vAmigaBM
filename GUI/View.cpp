@@ -269,6 +269,70 @@ TextView::draw(sf::RenderWindow &window, const sf::Shader *shader)
     if (isVisible) window.draw(text, shader);
 }
 
+
+//
+// Text box view
+//
+
+
+TextBoxView::TextBoxView(usize flags) : TextView(flags)
+{
+    box.setFillColor(sf::Color::Transparent);
+}
+
+void
+TextBoxView::setAlpha(u8 value)
+{
+    TextView::setAlpha(value);
+    
+    auto color = box.getFillColor();
+    color.a = value;
+    box.setFillColor(color);
+}
+
+void
+TextBoxView::setPads(isize x, isize y)
+{
+    padx = x;
+    pady = y;
+    update();
+}
+
+void
+TextBoxView::update()
+{
+    View::update();
+
+    box.setPosition(sf::Vector2f { rx, ry } );
+    box.setSize(sf::Vector2f { w, h } );
+
+    text.setPosition(rx + padx, ry + pady);
+}
+
+void
+TextBoxView::setString(const string &str)
+{
+    text.setString(str);
+    update();
+}
+
+void
+TextBoxView::setFontSize(unsigned size)
+{
+    text.setCharacterSize(size);
+    update();
+}
+
+void
+TextBoxView::draw(sf::RenderWindow &window, const sf::Shader *shader)
+{
+    if (isVisible) {
+        if (drawBackground) window.draw(box, shader);
+        window.draw(text, shader);
+    }
+}
+
+
 //
 // Progress view
 //

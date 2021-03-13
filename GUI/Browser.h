@@ -17,14 +17,16 @@ class Browser : public Layer {
     // Views
     GradientView background;
     ImageView icon;
-    TextView name;
-    TextView path;
+    TextBoxView name;
+    TextBoxView path;
     sf::RectangleShape line;
-    TextView item[16];
+    TextBoxView item[16];
     
     // State
     std::vector<string> files;
-    isize selectedItem = -1;
+    std::vector<string> filtered;
+
+    isize selectedItem = 0;
     string input;
     
     
