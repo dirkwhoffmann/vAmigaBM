@@ -170,6 +170,47 @@ ImageView::contains(const sf::Vector2i &pos)
 
 
 //
+// SolidView
+//
+
+void
+SolidView::init(float w, float h, const sf::Color &col)
+{
+    View::init(w, h);
+    rectangle.setFillColor(col);
+}
+
+void
+SolidView::setAlpha(u8 value)
+{
+    auto color = rectangle.getFillColor();
+    color.a = value;
+    rectangle.setFillColor(color);
+}
+
+void
+SolidView::update()
+{
+    View::update();
+    
+    rectangle.setPosition(sf::Vector2f { rx, ry } );
+    rectangle.setSize(sf::Vector2f{ w, h });
+}
+
+void
+SolidView::draw(sf::RenderWindow &window, const sf::Shader *shader)
+{
+    if (isVisible) window.draw(rectangle, shader);
+}
+
+bool
+SolidView::contains(const sf::Vector2i &pos)
+{
+    return pos.x >= rx && pos.y >= ry && pos.x < rx + w && pos.y < ry + h;
+}
+
+
+//
 // GradientView
 //
 
@@ -267,69 +308,6 @@ void
 TextView::draw(sf::RenderWindow &window, const sf::Shader *shader)
 {
     if (isVisible) window.draw(text, shader);
-}
-
-
-//
-// Text box view
-//
-
-
-TextBoxView::TextBoxView(usize flags) : TextView(flags)
-{
-    box.setFillColor(sf::Color::Transparent);
-}
-
-void
-TextBoxView::setAlpha(u8 value)
-{
-    TextView::setAlpha(value);
-    
-    auto color = box.getFillColor();
-    color.a = value;
-    box.setFillColor(color);
-}
-
-void
-TextBoxView::setPads(isize x, isize y)
-{
-    padx = x;
-    pady = y;
-    update();
-}
-
-void
-TextBoxView::update()
-{
-    View::update();
-
-    box.setPosition(sf::Vector2f { rx, ry } );
-    box.setSize(sf::Vector2f { w, h } );
-
-    text.setPosition(rx + padx, ry + pady);
-}
-
-void
-TextBoxView::setString(const string &str)
-{
-    text.setString(str);
-    update();
-}
-
-void
-TextBoxView::setFontSize(unsigned size)
-{
-    text.setCharacterSize(size);
-    update();
-}
-
-void
-TextBoxView::draw(sf::RenderWindow &window, const sf::Shader *shader)
-{
-    if (isVisible) {
-        if (drawBackground) window.draw(box, shader);
-        window.draw(text, shader);
-    }
 }
 
 

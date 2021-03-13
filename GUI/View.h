@@ -126,6 +126,35 @@ public:
 
 
 //
+// Solid view
+//
+
+class SolidView : public View {
+    
+public:
+    
+    sf::RectangleShape rectangle;
+    
+    SolidView() : View(Align::UpperLeft | Align::Proportional) { };
+    SolidView(usize flags) : View(flags) { };
+
+    // Initializers
+    void init(float w, float h, const sf::Color &col);
+        
+    // Modifiers
+    void setAlpha(u8 value) override;
+
+    // Delegation methods
+    void update() override;
+    
+    // Wrappers
+    void draw(sf::RenderWindow &window, const sf::Shader *shader = nullptr);
+    
+    bool contains(const sf::Vector2i &pos);
+};
+
+
+//
 // Gradient view
 //
 
@@ -176,37 +205,6 @@ public:
     void setString(const string &str);
     void setFontSize(unsigned size);
     void setStyle(const sf::Font &font, unsigned int size, const sf::Color &color);
-    void draw(sf::RenderWindow &window, const sf::Shader *shader = nullptr);
-};
-
-
-//
-// Text box view
-//
-
-class TextBoxView : public TextView {
-
-    isize padx = 0;
-    isize pady = 0;
-    
-public:
-
-    sf::RectangleShape box;
-    bool drawBackground = true;
-
-    TextBoxView() : TextView(Align::UpperLeft) { };
-    TextBoxView(usize flags);
-
-    // Modifiers
-    void setAlpha(u8 value) override;
-    void setPads(isize x, isize y);
-    
-    // Delegation methods
-    void update() override;
-    
-    // Wrappers
-    void setString(const string &str);
-    void setFontSize(unsigned size);
     void draw(sf::RenderWindow &window, const sf::Shader *shader = nullptr);
 };
 

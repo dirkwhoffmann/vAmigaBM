@@ -14,13 +14,23 @@
 
 class Browser : public Layer {
     
+    // Position
+    static const isize numRows = 12;
+    static const isize w = 1016;
+    static const isize h = 832;
+    static const isize pad = 32;
+    static const isize icn = 128;
+    isize dx = 0;
+    isize dy = 0;
+    
     // Views
     GradientView background;
     ImageView icon;
-    TextBoxView name;
-    TextBoxView path;
+    TextView name;
+    TextView path;
+    SolidView selector;
     sf::RectangleShape line;
-    TextBoxView item[16];
+    TextView item[numRows];
     
     // State
     std::vector<string> files;
@@ -49,7 +59,8 @@ public:
     void awake();
     
     virtual void open() override;
-    
+    virtual void close() override;
+
     
     //
     // Performing continuous tasks
@@ -80,5 +91,10 @@ public:
     
     void setNeedsUpdate() { needsUpdate = true; }
 
+private:
+    
     void refresh();
+    
+    isize highlightedRow() const;
+    isize indexForRow(isize row) const;
 };

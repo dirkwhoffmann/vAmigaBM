@@ -20,6 +20,7 @@ enum class TextureID
 
     disk,
     diskProtected,
+    diskLarge,
     spin,
     ledBlack,
     ledGrey,

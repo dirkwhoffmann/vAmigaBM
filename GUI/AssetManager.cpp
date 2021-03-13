@@ -21,6 +21,7 @@ TextureManager::load(TextureID id)
         case TextureID::title: path = "title.png"; break;
         case TextureID::disk: path = "disk.png"; break;
         case TextureID::diskProtected: path = "disk_protected.png"; break;
+        case TextureID::diskLarge: path = "disk_large.png"; break;
         case TextureID::spin: path = "spin.png"; break;
         case TextureID::ledBlack: path = "led_black.png"; break;
         case TextureID::ledGrey: path = "led_grey.png"; break;

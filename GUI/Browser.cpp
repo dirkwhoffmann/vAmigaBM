@@ -11,6 +11,12 @@
 #include "Application.h"
 #include "IO.h"
 
+const isize Browser::numRows;
+const isize Browser::w;
+const isize Browser::h;
+const isize Browser::pad;
+const isize Browser::icn;
+
 Browser::Browser(Application &ref) : Layer(ref)
 {
     
@@ -28,24 +34,19 @@ void Browser::init()
     auto grey1 = sf::Color(0x30,0x30,0x30,0x80);
     auto grey2 = sf::Color(0x50,0x50,0x50,0x80);
     background.setColors(grey1, grey1, grey2, grey2);
-
-    icon.init(app.assets.get(TextureID::disk));
-    path.setStyle(app.assets.get(FontID::console), 22, sf::Color::White);
-    path.setSize(800, 54);
-    path.setPads(24, -4);
-    path.drawBackground = false;
+    background.setSize(w, h);
+    
+    icon.init(app.assets.get(TextureID::diskLarge));
+    icon.setPosition(pad, pad);
+    path.setStyle(app.assets.get(FontID::console), 36, sf::Color::White);
     name.setStyle(app.assets.get(FontID::console), 44, sf::Color::White);
-    name.setSize(800, 54);
-    name.setPads(24, -4);
-    name.drawBackground = false;
+    selector.init(w - icn - 2.5 * pad, 54, sf::Color(0x80,0x80,0x80));
     line.setFillColor(sf::Color::White);
-    line.setSize(sf::Vector2f { 800, 4 });
+    line.setSize(sf::Vector2f { w - 2 * pad, 4 });
         
-    for (int i = 0; i < 16; i++) {
+    for (int i = 0; i < numRows; i++) {
+        
         item[i].setStyle(app.assets.get(FontID::console), 44, sf::Color::White);
-        item[i].setSize(800, 54);
-        item[i].setPads(24, -4);
-        item[i].drawBackground = false;
     }
 }
 
@@ -59,6 +60,7 @@ void
 Browser::open()
 {
     Layer::open();
+    delay = 0.5;
     
     files = util::files("/tmp/", "adf");
     
@@ -72,6 +74,13 @@ Browser::open()
 }
 
 void
+Browser::close()
+{
+    Layer::close();
+    delay = 1.0;
+}
+
+void
 Browser::update(u64 frames, sf::Time dt)
 {
     Layer::update(frames, dt);
@@ -81,12 +90,13 @@ void
 Browser::render()
 {
     background.draw(app.window);
+    selector.draw(app.window);
     icon.draw(app.window);
     path.draw(app.window);
     name.draw(app.window);
     app.window.draw(line);
     
-    for (int i = 0; i < 16; i++) {
+    for (int i = 0; i < numRows; i++) {
         item[i].draw(app.window);
     }
 }
@@ -119,7 +129,16 @@ Browser::respond(const sf::Event &event)
                     if (input.size() > 0) input.pop_back();
                     refresh();
                     break;
+
+                case sf::Keyboard::Return:
                     
+                    printf("highlightedRow: %zd\n", highlightedRow());
+                    printf("%s\n", filtered[highlightedRow()].c_str());
+                    input = filtered[highlightedRow()];
+                    refresh();
+                    close();
+                    break;
+
                 default:
                     break;
             }
@@ -129,7 +148,7 @@ Browser::respond(const sf::Event &event)
             
             if (isprint(event.text.unicode)) {
                 printf("Character: %c\n", static_cast<char>(event.text.unicode));
-                if (input.size() < 32) {
+                if (input.size() < 30) {
                     input += static_cast<char>(event.text.unicode);
                     selectedItem = 0;
                     refresh();
@@ -145,16 +164,17 @@ Browser::respond(const sf::Event &event)
 void
 Browser::resize(float width, float height)
 {
-    // auto size = app.window.getSize();
+    dx = (width - w) / 2;
+    dy = (height - h) / 2;
     
-    background.setSize(800, 800);
-    icon.setPosition(0, 0);
-    path.setPosition(100, 0);
-    name.setPosition(100, 20);
-    line.setPosition(0, 80);
+    background.setPosition(dx, dy);
+    icon.setPosition(dx + pad, dy + pad);
+    path.setPosition(dx + pad + icn + pad, dy + pad);
+    name.setPosition(dx + pad + icn + pad, dy + pad + 70);
+    line.setPosition(dx + pad, dy + pad + icn + pad);
     
-    for (isize i = 0; i < 16; i++) {
-        item[i].setPosition(100, 100 + 48 * i);
+    for (isize i = 0; i < numRows; i++) {
+        item[i].setPosition(dx + icn + 3 * pad, dy + icn + 3 * pad + 48 * i);
     }
 }
 
@@ -167,8 +187,9 @@ Browser::alphaDidChange()
     icon.setAlpha(alpha);
     name.setAlpha(alpha);
     path.setAlpha(alpha);
+    selector.setAlpha(alpha);
     // line.setAlpha(alpha);
-    for (isize i = 0; i < 16; i++) {
+    for (isize i = 0; i < numRows; i++) {
         item[i].setAlpha(alpha);
     }
 }
@@ -186,7 +207,7 @@ Browser::refresh()
         }
         if (!matches) continue;
         
-        if (it.size() > 16) {
+        if (it.size() > 30) {
             auto prefix = util::extractName(it);
             auto suffix = util::extractSuffix(it);
             it = prefix.substr(0, 16 - suffix.size()) + "." + suffix;
@@ -197,19 +218,23 @@ Browser::refresh()
     path.setString("/tmp/");
     name.setString(input + "_");
     
-    isize highlightedItem = std::min((isize)16, selectedItem);
-
-    for (int i = 0; i < 16; i++) {
-                
-        isize index = i + selectedItem - highlightedItem;
-        
-        item[i].setString(i < filtered.size() ? filtered[index] : "");
-        if (i == selectedItem) {
-            item[i].box.setFillColor(sf::Color(0x40,0x40,0x40));
-            item[i].drawBackground = true;
-        } else {
-            item[i].box.setFillColor(sf::Color::Transparent);
-            item[i].drawBackground = false;
-        }
+    for (int i = 0; i < numRows; i++) {
+                        
+        item[i].setString(i < filtered.size() ? filtered[indexForRow(i)] : "");
     }
+
+    selector.setPosition(dx + pad + icn + pad / 2,
+                         dy + 3 * pad + icn + 2 + 48 * highlightedRow());
+}
+
+isize
+Browser::highlightedRow() const
+{
+    return std::min(numRows - 1, selectedItem);
+}
+
+isize
+Browser::indexForRow(isize row) const
+{
+    return row + selectedItem - highlightedRow();
 }
