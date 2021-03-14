@@ -45,6 +45,9 @@ public:
     
     bool needsUpdate = false;
 
+    // The number of the drive this browser has been opened for
+    isize nr;
+    
     // Action function
     std::function<void(const string &s)> action; 
     
@@ -62,6 +65,7 @@ public:
     void init();
     void awake();
     
+    void open(isize dfn);
     virtual void open() override;
     virtual void close() override;
 

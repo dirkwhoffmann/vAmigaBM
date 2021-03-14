@@ -1150,12 +1150,12 @@
 			isa = PBXGroup;
 			children = (
 				50B6306825D92EE200A860A7 /* Makefile */,
-				50AFF9C525EFD0340052269B /* DiskControllerTypes.h */,
 				50AE110D25C42D6600AD13B7 /* DiskControllerPublicTypes.h */,
-				50AE110C25C42D6600AD13B7 /* DiskControllerEvents.cpp */,
-				50AE110E25C42D6600AD13B7 /* DiskControllerRegisters.cpp */,
-				50AE110F25C42D6600AD13B7 /* DiskController.cpp */,
+				50AFF9C525EFD0340052269B /* DiskControllerTypes.h */,
 				50AE111025C42D6600AD13B7 /* DiskController.h */,
+				50AE110F25C42D6600AD13B7 /* DiskController.cpp */,
+				50AE110E25C42D6600AD13B7 /* DiskControllerRegisters.cpp */,
+				50AE110C25C42D6600AD13B7 /* DiskControllerEvents.cpp */,
 			);
 			path = DiskController;
 			sourceTree = "<group>";

@@ -828,6 +828,18 @@ Controller::exec <Token::dfn, Token::set, Token::mechanics> (Arguments& argv, lo
 }
 
 template <> void
+Controller::exec <Token::dfn, Token::set, Token::searchpath> (Arguments& argv, long param)
+{
+    string path = argv.front();
+    
+    if (param >= 0 && param <= 3) {
+        amiga.paula.diskController.setSearchPath(path, param);
+    } else {
+        amiga.paula.diskController.setSearchPath(path);
+    }    
+}
+
+template <> void
 Controller::exec <Token::dfn, Token::set, Token::defaultbb> (Arguments& argv, long param)
 {
     long num = BootBlockIdEnum::parse(argv.front());

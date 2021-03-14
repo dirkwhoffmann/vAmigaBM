@@ -184,14 +184,12 @@ StatusBar::mouseButtonPressed(isize button)
         
         for (isize i = 0; i < 4; i++) {
             if (disk[i].isVisible && disk[i].contains(position)) {
-                fileBrowser.action = [this, i](const string &s) {
-                    this->controller.insertDisk(s, i);
-                };
-                fileBrowser.open();
+                fileBrowser.open(i);
                 return true;
             }
         }
     }
+    
     return false;
 }
 

@@ -57,18 +57,37 @@ Browser::awake()
 }
 
 void
-Browser::open()
-{    
-    Layer::open();
+Browser::open(isize dfn)
+{
+    assert(dfn >= 0 && dfn <= 3);
+ 
+    // Assign action function
+    action = [this, dfn](const string &s) {
+        this->controller.insertDisk(s, dfn);
+    };
+    
+    // Get the media directory for this drive
+    auto searchPath = amiga.paula.diskController.getSearchPath(dfn);
+    path.setString(searchPath);
+
+    // Scan directory
+    std::vector <string> allowedTypes { "adf", "dms", "exe", "img" };
+    files = util::files(searchPath, allowedTypes);
+    
     delay = 0.5;
     input = "";
     cursor = "_";
-    
-    // Scan directory
-    std::vector <string> allowedTypes { "adf", "dms", "exe", "img" };
-    files = util::files("/tmp/", allowedTypes);
-        
     refresh();
+    
+    Layer::open();
+    // open();
+}
+
+void
+Browser::open()
+{
+    assert(false);
+    Layer::open();
 }
 
 void
@@ -213,7 +232,6 @@ Browser::refresh()
         filtered.push_back(it);
     }
     
-    path.setString("/tmp/");
     name.setString(input + cursor);
     
     for (int i = 0; i < numRows; i++) {

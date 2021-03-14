@@ -185,16 +185,22 @@ Controller::flipWarpMode()
 }
 
 void
-Controller::insertDisk(const string &name, isize n)
+Controller::insertDisk(const string &path, isize n)
 {
-    auto path = "/tmp/" + name;
-    
-    printf("Trying to load %s\n", path.c_str());
+    // Assemble the full path for this file
+    string full = path;
+    if (!util::fileExists(full)) {
+        full = util::appendPath(amiga.paula.diskController.getSearchPath(n), path);
+    }
+    if (!util::fileExists(full)) {
+        console << path << ": No such file" << '\n';
+        return;
+    }
+     
+    // Try to load file
     try {
-        DiskFile *file = DiskFile::make(path);
-        printf("file = %p\n", file);
+        DiskFile *file = DiskFile::make(full);
         Disk *disk = Disk::makeWithFile(file);
-        printf("disk = %p\n", disk);
         amiga.paula.diskController.insertDisk(disk, n);
         
     } catch (VAError &err) {

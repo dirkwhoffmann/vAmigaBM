@@ -77,6 +77,20 @@ string stripSuffix(const string &s)
     return s.substr(pos, len);
 }
 
+string appendPath(const string &path, const string &path2)
+{
+    if (path.back() == '/') {
+        return path + path2;
+    } else {
+        return path + "/" + path2;
+    }
+}
+
+bool fileExists(const string &path)
+{
+    return getSizeOfFile(path) >= 0;
+}
+
 bool isDirectory(const string &path)
 {
     return isDirectory(path.c_str());
@@ -134,7 +148,7 @@ std::vector<string> files(const string &path, std::vector <string> &suffixes)
         while ((dp = readdir(dir))) {
             
             string name = dp->d_name;
-            string suffix = extractSuffix(name);
+            string suffix = lowercased(extractSuffix(name));
             
             if (std::find(suffixes.begin(), suffixes.end(), suffix) != suffixes.end()) {
                 result.push_back(name);

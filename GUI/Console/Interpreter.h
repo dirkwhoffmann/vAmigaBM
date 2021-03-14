@@ -33,9 +33,9 @@ enum class Token
     accuracy, bankmap, brightness, chip, clxsprspr, clxsprplf, clxplfplf,
     contrast, defaultbb, defaultfs, device, esync, extrom, extstart, fast,
     filter, joystick, keyset, mechanics, model, palette, pan, poll, pullup,
-    raminitpattern, revision, rom, sampling, saturation, shakedetector, slow,
-    slowramdelay, slowrammirror, speed, step, tod, todbug, unmappingtype,
-    velocity, volume, wom
+    raminitpattern, revision, rom, sampling, saturation, searchpath,
+    shakedetector, slow, slowramdelay, slowrammirror, speed, step, tod, todbug,
+    unmappingtype, velocity, volume, wom
 };
 
 struct ParseNumError : public ParseError {

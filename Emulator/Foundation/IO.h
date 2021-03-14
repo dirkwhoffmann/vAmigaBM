@@ -37,6 +37,9 @@ string stripPath(const string &path);
 string stripName(const string &path);
 string stripSuffix(const string &path);
 
+// Concatinates two path segments
+string appendPath(const string &path, const string &path2);
+
 
 //
 // Handling files
@@ -45,6 +48,9 @@ string stripSuffix(const string &path);
 // Returns the size of a file in bytes
 isize getSizeOfFile(const string &path);
 isize getSizeOfFile(const char *path);
+
+// Checks if a file exists
+bool fileExists(const string &path);
 
 // Checks if a path points to a directory
 bool isDirectory(const string &path);

@@ -427,12 +427,15 @@ Interpreter::registerInstructions()
     root.add("audio", "set", "pan", "channel0",
              "key", "Sets the pan for audio channel 0",
              &Controller::exec <Token::audio, Token::set, Token::pan>, 1, 0);
+    
     root.add("audio", "set", "pan", "channel1",
              "key", "Sets the pan for audio channel 1",
              &Controller::exec <Token::audio, Token::set, Token::pan>, 1, 1);
+    
     root.add("audio", "set", "pan", "channel2",
              "key", "Sets the pan for audio channel 2",
              &Controller::exec <Token::audio, Token::set, Token::pan>, 1, 2);
+    
     root.add("audio", "set", "pan", "channel3",
              "key", "Sets the pan for audio channel 3",
              &Controller::exec <Token::audio, Token::set, Token::pan>, 1, 3);
@@ -679,6 +682,10 @@ Interpreter::registerInstructions()
              "key", "Enables or disables the emulation of mechanical delays",
              &Controller::exec <Token::dfn, Token::set, Token::mechanics>, 1, 0);
 
+    root.add("df", "set", "searchpath",
+             "key", "Sets the search path for media files",
+             &Controller::exec <Token::dfn, Token::set, Token::searchpath>, 1, 0);
+    
     root.add("df", "set", "defaultfs",
              "key", "Determines the default file system type for blank disks",
              &Controller::exec <Token::dfn, Token::set, Token::defaultfs>, 1, 0);
