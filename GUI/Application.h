@@ -164,9 +164,11 @@ public:
      * feature is used for the clicking sounds to limit the number of sounds
      * that are played simultaneously.
      */
-    void play(SoundID, float volume = 25.0, isize min = 0, isize max = 15);
+    void play(SoundID, float vol, float pan, isize min, isize max);
 
-    void playInsert() { play(SoundID::insert, 25.0); }
-    void playEject()  { play(SoundID::eject, 25.0); }
-    void playClick()  { play(SoundID::click, 25.0, 13, 15); }
+    void playInsert(float vol, float pan) { play(SoundID::insert, vol, pan, 0, 15); }
+    void playEject(float vol, float pan)  { play(SoundID::eject, vol, pan, 0, 15); }
+    void playClick(float vol, float pan) { play(SoundID::click, vol, pan, 13, 15); }
+
+    void setPan(isize pan);
 };

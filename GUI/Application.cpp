@@ -243,8 +243,13 @@ Application::fps(float fps, float hz)
 }
 
 void
-Application::play(SoundID id, float volume, isize min, isize max)
+Application::play(SoundID id, float volume, float pan, isize min, isize max)
 {
+    float pf = pan > 100 ? 1.0 : pan < -100 ? -1.0 : pan / 100.0;
+    auto pos = sf::Vector3f(pf, 0.0f, pf < 0.0f ? -pf - 1.0f : pf - 1.0f);
+
+    // printf("Pos: %f %f %f\n", pos.x, pos.y, pos.z);
+    
     // Search the pool for a free sound object
     for (isize i = min; i <= max; i++) {
 
@@ -252,8 +257,15 @@ Application::play(SoundID id, float volume, isize min, isize max)
             
             sound[i].setBuffer(assets.get(id));
             sound[i].setVolume(volume);
+            sound[i].setPosition(pos);
             sound[i].play();
             break;
         }
     }
+}
+
+void
+Application::setPan(isize pan)
+{
+     
 }

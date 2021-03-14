@@ -80,21 +80,13 @@ Browser::open(isize dfn)
     refresh();
     
     Layer::open();
-    // open();
-}
-
-void
-Browser::open()
-{
-    assert(false);
-    Layer::open();
 }
 
 void
 Browser::close()
 {
-    Layer::close();
     delay = 1.0;
+    Layer::close();
 }
 
 void

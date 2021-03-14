@@ -51,59 +51,69 @@ void
 Controller::processMessage(long id, long data)
 {
     MsgType msg = (MsgType)id;
-
+    isize pan, vol;
+    
     switch (msg) {
             
         case MSG_POWER_ON:
             canvas.powerOn();
-            break;
+            return;
             
         case MSG_POWER_OFF:
             canvas.powerOff();
             statusBar.close();
-            break;
+            return;
 
         case MSG_RUN:
-            break;
+            return;
 
         case MSG_PAUSE:
-            break;
+            return;
 
         case MSG_RESET:
             updateWarp();
-            break;
+            return;
                   
         case MSG_MUTE_ON:
         case MSG_MUTE_OFF:
             statusBar.setNeedsUpdate(StatusBarItem::MUTE);
-            break;
+            return;
 
         case MSG_WARP_ON:
         case MSG_WARP_OFF:
             statusBar.setNeedsUpdate(StatusBarItem::STATE);
-            break;
+            return;
             
         case MSG_POWER_LED_ON:
         case MSG_POWER_LED_DIM:
         case MSG_POWER_LED_OFF:
             statusBar.setNeedsUpdate(StatusBarItem::POWER_LED);
-            break;
+            return;
             
         case MSG_DISK_INSERT:
-            app.play(SoundID::insert);
-            break;
+            vol = (i8)((data >> 16) & 0xFF);
+            pan = (i8)((data >> 24) & 0xFF);
+            app.playInsert(vol, pan);
+            return;
 
         case MSG_DISK_EJECT:
-            app.play(SoundID::eject);
-            break;
+            vol = (i8)((data >> 16) & 0xFF);
+            pan = (i8)((data >> 24) & 0xFF);
+            app.playEject(vol, pan);
+            return;
 
         case MSG_DRIVE_STEP:
-            app.playClick();
+            vol = (i8)((data >> 16) & 0xFF);
+            pan = (i8)((data >> 24) & 0xFF);
+            app.playClick(vol, pan);
             app.statusBar.setNeedsUpdate(StatusBarItem::DRIVE_CYL, data);
-            break;
+            return;
             
         case MSG_DRIVE_POLL:
-            app.playClick();
+            vol = (i8)((data >> 16) & 0xFF);
+            pan = (i8)((data >> 24) & 0xFF);
+            printf("Pan = %zd\n", pan);
+            app.playClick(vol, pan);
             app.statusBar.setNeedsUpdate(StatusBarItem::DRIVE_CYL, data);
             return;
 
@@ -111,19 +121,18 @@ Controller::processMessage(long id, long data)
         case MSG_DRIVE_MOTOR_OFF:
             updateWarp();
             app.statusBar.setNeedsUpdate(StatusBarItem::DISK_SPIN, data);
-            break;
+            return;
             
         case MSG_SHAKING:
-            printf("SHAKING\n");
             app.inputManager.releaseMouse();
-            break;
+            return;
             
         case MSG_SNAPSHOT_RESTORED:
             updateWarp();
-            break;
+            return;
             
         default:
-            return;
+            break;
             
     }
     printf("%s\n", MsgTypeEnum::key(msg));

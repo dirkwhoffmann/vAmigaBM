@@ -816,6 +816,18 @@ Controller::exec <Token::dfn, Token::set, Token::model> (Arguments& argv, long p
 }
 
 template <> void
+Controller::exec <Token::dfn, Token::set, Token::pan> (Arguments& argv, long param)
+{
+    long num = parseNum(argv.front());
+    
+    if (param >= 0 && param <= 3) {
+        amiga.configure(OPT_DRIVE_PAN, param, num);
+    } else {
+        amiga.configure(OPT_DRIVE_PAN, num);
+    }
+}
+
+template <> void
 Controller::exec <Token::dfn, Token::set, Token::mechanics> (Arguments& argv, long param)
 {
     long num = parseBool(argv.front());

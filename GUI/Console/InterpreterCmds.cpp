@@ -694,6 +694,10 @@ Interpreter::registerInstructions()
              "key", "Determines the default boot block type for blank disks",
              &Controller::exec <Token::dfn, Token::set, Token::defaultbb>, 1, 0);
     
+    root.add("df", "set", "pan",
+             "key", "Sets the pan for drive sounds",
+             &Controller::exec <Token::dfn, Token::set, Token::pan>, 1, 0);
+    
     root.add("df", "audiate",
              "command", "Sets the volume of drive sounds",
              &Controller::exec <Token::dfn, Token::set, Token::mechanics>, 0, 0);

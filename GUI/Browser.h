@@ -66,7 +66,6 @@ public:
     void awake();
     
     void open(isize dfn);
-    virtual void open() override;
     virtual void close() override;
 
     
