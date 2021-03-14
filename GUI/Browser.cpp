@@ -73,6 +73,7 @@ Browser::open(isize dfn)
     // Scan directory
     std::vector <string> allowedTypes { "adf", "dms", "exe", "img" };
     files = util::files(searchPath, allowedTypes);
+    std::sort(files.begin(), files.end());
     
     delay = 0.5;
     input = "";
@@ -141,8 +142,6 @@ Browser::respond(const sf::Event &event)
 
                 case sf::Keyboard::Return:
                     
-                    printf("highlightedRow: %zd\n", highlightedRow());
-                    printf("%s\n", filtered[highlightedRow()].c_str());
                     action(filtered[highlightedRow()]);
                     input = filtered[highlightedRow()];
                     cursor = "";
@@ -158,7 +157,6 @@ Browser::respond(const sf::Event &event)
         case sf::Event::TextEntered:
             
             if (isprint(event.text.unicode)) {
-                printf("Character: %c\n", static_cast<char>(event.text.unicode));
                 if (input.size() < 30) {
                     input += static_cast<char>(event.text.unicode);
                     selectedItem = 0;
@@ -219,7 +217,7 @@ Browser::refresh()
         if (it.size() > 30) {
             auto prefix = util::extractName(it);
             auto suffix = util::extractSuffix(it);
-            it = prefix.substr(0, 16 - suffix.size()) + "." + suffix;
+            it = prefix.substr(0, 28 - suffix.size()) + "." + suffix;
         }
         filtered.push_back(it);
     }
