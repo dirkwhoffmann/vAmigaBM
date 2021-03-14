@@ -64,14 +64,10 @@ Browser::open()
     input = "";
     cursor = "_";
     
-    files = util::files("/tmp/", "adf");
-    
     // Scan directory
-    printf("ADF files in /tmp/\n");
-    for (auto &it : files) {
-        printf("%s\n", it.c_str());
-    }
-    
+    std::vector <string> allowedTypes { "adf", "dms", "exe", "img" };
+    files = util::files("/tmp/", allowedTypes);
+        
     refresh();
 }
 
@@ -184,9 +180,7 @@ Browser::resize(float width, float height)
 
 void
 Browser::alphaDidChange()
-{
-    printf("Browser alpha: %zd\n", alpha);
-    
+{    
     background.setAlpha(std::min((isize)0x80, alpha));
     icon.setAlpha(alpha);
     name.setAlpha(alpha);

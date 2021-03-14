@@ -118,6 +118,14 @@ isize numDirectoryItems(const char *path)
 std::vector<string>
 files(const string &path, const string &suffix)
 {
+    std::vector <string> suffixes;
+    if (suffix != "") suffixes.push_back(suffix);
+
+    return files(path, suffixes);
+}
+
+std::vector<string> files(const string &path, std::vector <string> &suffixes)
+{
     std::vector<string> result;
     
     if (DIR *dir = opendir(path.c_str())) {
@@ -126,9 +134,11 @@ files(const string &path, const string &suffix)
         while ((dp = readdir(dir))) {
             
             string name = dp->d_name;
-            if (name[0] == '.') continue;
-            if (extractSuffix(name) != suffix) continue;
-            result.push_back(name); 
+            string suffix = extractSuffix(name);
+            
+            if (std::find(suffixes.begin(), suffixes.end(), suffix) != suffixes.end()) {
+                result.push_back(name);
+            }
         }
     }
     

@@ -56,6 +56,7 @@ isize numDirectoryItems(const char *path);
 
 // Returns a list of files in a directory
 std::vector<string> files(const string &path, const string &suffix = "");
+std::vector<string> files(const string &path, std::vector <string> &suffixes);
 
 // Checks the header signature (magic bytes) of a stream or buffer
 bool matchingStreamHeader(std::istream &stream, const u8 *header, isize len);

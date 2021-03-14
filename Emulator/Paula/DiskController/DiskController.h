@@ -244,6 +244,7 @@ public:
     // Inserts a disk into the specified drive
     void insertDisk(class Disk *disk, isize nr, Cycle delay = 0);
     void insertDisk(class DiskFile *file, isize nr, Cycle delay = 0);
+    void insertDisk(const string &name, isize nr, Cycle delay = 0);
     
     // Write protects or unprotects a disk
     void setWriteProtection(isize nr, bool value);

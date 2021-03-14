@@ -11,6 +11,7 @@
 #include "DiskController.h"
 
 #include "Agnus.h"
+#include "DiskFile.h"
 #include "Drive.h"
 #include "MsgQueue.h"
 #include "Paula.h"
@@ -291,6 +292,15 @@ DiskController::insertDisk(class DiskFile *file, isize nr, Cycle delay)
 {
     if (Disk *disk = Disk::makeWithFile(file)) {
         insertDisk(disk, nr, delay);
+    }
+}
+
+void
+DiskController::insertDisk(const string &name, isize nr, Cycle delay)
+{
+    ErrorCode ec;
+    if (DiskFile *file = DiskFile::make(name, &ec)) {
+        insertDisk(file, nr, delay);
     }
 }
 

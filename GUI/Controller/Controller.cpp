@@ -189,9 +189,12 @@ Controller::insertDisk(const string &name, isize n)
 {
     auto path = "/tmp/" + name;
     
+    printf("Trying to load %s\n", path.c_str());
     try {
-        ADFFile *adf = AmigaFile::make <ADFFile> (path.c_str());
-        Disk *disk = Disk::makeWithFile(adf);
+        DiskFile *file = DiskFile::make(path);
+        printf("file = %p\n", file);
+        Disk *disk = Disk::makeWithFile(file);
+        printf("disk = %p\n", disk);
         amiga.paula.diskController.insertDisk(disk, n);
         
     } catch (VAError &err) {
