@@ -39,7 +39,7 @@ void StatusBar::init()
         driveLed[i].setW(2 * 24);
         cylinder[i].setStyle(app.assets.get(FontID::sans_r), 28, grey6);
         cylinder[i].setString("00");
-        cylinder[i].setW(2 * 16);
+//        cylinder[i].setW(2 * 16);
         disk[i].init(app.assets.get(TextureID::disk));
         disk[i].setW(2 * 18);
         disk[i].rectangle.setFillColor(grey6);
@@ -54,6 +54,10 @@ void StatusBar::init()
         port[i].setW(2 * 18);
         port[i].rectangle.setFillColor(grey6);
         port[i].setFlags(Align::Top | Align::Right);
+        portNr[i].setStyle(app.assets.get(FontID::sans_r), 28, grey6);
+        portNr[i].setString("0");
+        // portNr[i].setW(2 * 8);
+        portNr[i].setFlags(Align::Top | Align::Right);
     }
     
     mute.setFlags(Align::Top | Align::Right);
@@ -61,7 +65,7 @@ void StatusBar::init()
     mute.setW(2 * 18);
     mute.rectangle.setFillColor(grey6);
     mhz.setStyle(app.assets.get(FontID::sans_sb), 24, grey6);
-    mhz.setW(2 * 18);
+    // mhz.setW(2 * 18);
     mhz.setFlags(Align::Top | Align::Right);
     state.init(app.assets.get(TextureID::sync));
     state.setW(2 * 18);
@@ -99,7 +103,9 @@ StatusBar::render()
         spin[i].draw(app.window);
     }
     port[0].draw(app.window);
+    portNr[0].draw(app.window);
     port[1].draw(app.window);
+    portNr[1].draw(app.window);
     mute.draw(app.window);
     mhz.draw(app.window);
     state.draw(app.window);
@@ -143,8 +149,11 @@ StatusBar::resize(float width, float height)
     
     pos = app.window.getSize().x - 18;
 
+    portNr[1].setPosition(pos, y + 8); pos -= portNr[1].getW() + pad / 2;
     port[1].setPosition(pos, y + 8); pos -= port[1].getW() + pad;
+    portNr[0].setPosition(pos, y + 8); pos -= portNr[1].getW() + pad / 2;
     port[0].setPosition(pos, y + 8); pos -= port[0].getW() + pad;
+    pos -= pad;
     state.setPosition(pos, y + 8); pos -= state.getW() + pad;
     mhz.setPosition(pos, y + 10); pos -= 2 * 64 + pad;
     mute.setPosition(pos, y + 8);
@@ -168,6 +177,8 @@ StatusBar::alphaDidChange()
     state.setAlpha(alpha);
     port[0].setAlpha(alpha);
     port[1].setAlpha(alpha);
+    portNr[0].setAlpha(alpha);
+    portNr[1].setAlpha(alpha);
 }
 
 bool
@@ -177,6 +188,7 @@ StatusBar::mouseButtonPressed(isize button)
         
         auto position = sf::Mouse::getPosition(app.window);
 
+        if (!bar)
         if (state.contains(position)) {
             controller.flipWarpMode();
             return true;

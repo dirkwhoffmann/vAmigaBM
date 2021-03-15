@@ -36,6 +36,7 @@ class StatusBar : public Layer {
     ProgressView spin[4];
     
     ImageView port[2];
+    TextView portNr[2];
     ImageView mute;
     TextView mhz;
     ImageView state;
