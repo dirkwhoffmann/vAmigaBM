@@ -63,7 +63,6 @@ void StatusBar::init()
     mute.setW(2 * 18);
     mute.rectangle.setFillColor(grey6);
     mhz.setStyle(app.assets.get(FontID::sans_sb), 24, grey6);
-    // mhz.setW(2 * 18);
     mhz.setFlags(Align::Top | Align::Right);
     state.init(app.assets.get(TextureID::sync));
     state.setW(2 * 18);
@@ -76,7 +75,7 @@ void StatusBar::init()
 void
 StatusBar::awake()
 {
-    // auto size = app.window.getSize();
+
 }
 
 void
