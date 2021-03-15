@@ -17,9 +17,11 @@
 #include "Console.h"
 
 #ifdef __MACH__
-    const int GUIComponent::scalingFactor = 2;
+    const int GUIComponent::scalingFactor = 1;
+    const float GUIComponent::fontScalingFactor = 0.5;
 #else
     const int GUIComponent::scalingFactor = 1;
+    const float GUIComponent::fontScalingFactor = 1.0;
 #endif
     
 GUIComponent::GUIComponent(Application& ref) :
