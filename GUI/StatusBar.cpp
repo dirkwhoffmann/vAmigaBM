@@ -147,7 +147,7 @@ StatusBar::resize(float width, float height)
     // Right aligned items
     //
     
-    pos = app.window.getSize().x - 18;
+    pos = app.window.getSize().x - 36;
 
     portNr[1].setPosition(pos, y + 8); pos -= portNr[1].getW() + pad / 2;
     port[1].setPosition(pos, y + 8); pos -= port[1].getW() + pad;

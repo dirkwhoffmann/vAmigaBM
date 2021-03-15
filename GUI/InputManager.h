@@ -30,13 +30,16 @@ public:
     
     InputDevice(class Application &ref, isize n) : GUIComponent(ref), nr(n) { }
     
+    // Returns the devie number
+    isize getNr() { return nr; }
+    
     // Informs about the device type
     virtual bool isMouse() { return false; }
     virtual bool isJoystick() { return false; }
     virtual bool isKeyset() { return false; }
 
     // Polls a device and updates the Amiga control port accordingly
-    virtual void poll(ControlPort &port) = 0;
+    virtual void poll(ControlPort &port) { };
 };
 
 class MouseDevice : public InputDevice {
@@ -54,6 +57,13 @@ public:
     
     bool isMouse() override { return true; }
     void poll(ControlPort &port) override;
+};
+
+class NullDevice : public InputDevice {
+
+public:
+    
+    using InputDevice::InputDevice;
 };
 
 class JoystickDevice : public InputDevice {
@@ -89,6 +99,9 @@ class InputManager : public GUIComponent {
     static const isize numJoystickSlots = 3;
     static const isize numKeysetSlots = 2;
 
+    // Available input devices
+    std::vector<InputDevice *> devices;
+    
     MouseDevice mouse[numMouseSlots] = {
         MouseDevice(app, 0),
         MouseDevice(app, 1),
@@ -112,8 +125,7 @@ class InputManager : public GUIComponent {
     isize numKeysets = 0;
 
     // Connected devices
-    InputDevice *port1 = nullptr;
-    InputDevice *port2 = nullptr;
+    InputDevice *connectedDevice[2] = { nullptr, nullptr };
 
     sf::Vector2i mouseCenter;
 
