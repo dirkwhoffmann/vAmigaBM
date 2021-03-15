@@ -79,7 +79,6 @@ public:
     void setPosition(float x, float y);
     void move(float x, float y);
     
-    // Adjusts the view position
     void setW(float w);
     void setH(float h);
     void setSize(float w, float h);
@@ -90,6 +89,9 @@ public:
 
     // Asjusts the transparency
     virtual void setAlpha(u8 value) = 0;
+    
+    // Checks if a mouse coordinate belongs to this view
+    bool contains(const sf::Vector2i &pos);
     
     // Computes the render position and updates the texture
     virtual void update();
@@ -120,8 +122,6 @@ public:
     
     // Wrappers
     void draw(sf::RenderWindow &window, const sf::Shader *shader = nullptr);
-    
-    bool contains(const sf::Vector2i &pos);
 };
 
 
@@ -149,8 +149,6 @@ public:
     
     // Wrappers
     void draw(sf::RenderWindow &window, const sf::Shader *shader = nullptr);
-    
-    bool contains(const sf::Vector2i &pos);
 };
 
 

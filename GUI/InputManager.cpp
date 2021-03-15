@@ -197,6 +197,18 @@ InputManager::connectKeyset(isize nr, PortNr port)
     }
 }
 
+void
+InputManager::flipPortDeviceType(PortNr port)
+{
+    printf("flipPortDeviceType(%lld)\n", port);
+}
+
+void
+InputManager::flipPortDeviceNumber(PortNr port)
+{
+    printf("flipPortDeviceNumber(%lld)\n", port);
+}
+
 bool
 InputManager::isMouse(PortNr port)
 {

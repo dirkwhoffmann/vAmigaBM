@@ -102,6 +102,12 @@ View::setSize(float w, float h)
     }
 }
 
+bool
+View::contains(const sf::Vector2i &pos)
+{
+    return pos.x >= rx && pos.y >= ry && pos.x < rx + w && pos.y < ry + h;
+}
+
 void
 View::update()
 {
@@ -162,12 +168,6 @@ ImageView::draw(sf::RenderWindow &window, const sf::Shader *shader)
     if (isVisible) window.draw(rectangle, shader);
 }
 
-bool
-ImageView::contains(const sf::Vector2i &pos)
-{
-    return pos.x >= rx && pos.y >= ry && pos.x < rx + w && pos.y < ry + h;
-}
-
 
 //
 // SolidView
@@ -201,12 +201,6 @@ void
 SolidView::draw(sf::RenderWindow &window, const sf::Shader *shader)
 {
     if (isVisible) window.draw(rectangle, shader);
-}
-
-bool
-SolidView::contains(const sf::Vector2i &pos)
-{
-    return pos.x >= rx && pos.y >= ry && pos.x < rx + w && pos.y < ry + h;
 }
 
 

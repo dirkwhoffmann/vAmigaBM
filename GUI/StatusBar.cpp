@@ -184,25 +184,48 @@ StatusBar::alphaDidChange()
 bool
 StatusBar::mouseButtonPressed(isize button)
 {
-    if (button == 0) {
-        
-        auto position = sf::Mouse::getPosition(app.window);
+    // Get the relative mouse position
+    auto position = sf::Mouse::getPosition(app.window);
 
-        if (!bar)
-        if (state.contains(position)) {
-            controller.flipWarpMode();
-            return true;
-        }
-        
+    // Only proceed if the mouse is located inside the status bar
+    if (!isVisible() || !bar.contains(position)) return false;
+
+    if (button == 0) {
+
         for (isize i = 0; i < 4; i++) {
             if (disk[i].isVisible && disk[i].contains(position)) {
                 fileBrowser.open(i);
                 return true;
             }
         }
+
+        if (state.contains(position)) {
+            controller.flipWarpMode();
+            return true;
+        }
+
+        if (port[0].contains(position)) {
+            inputManager.flipPortDeviceType(PORT_1);
+            return true;
+        }
+
+        if (portNr[0].contains(position)) {
+            inputManager.flipPortDeviceNumber(PORT_1);
+            return true;
+        }
+
+        if (port[1].contains(position)) {
+            inputManager.flipPortDeviceType(PORT_2);
+            return true;
+        }
+
+        if (portNr[1].contains(position)) {
+            inputManager.flipPortDeviceNumber(PORT_2);
+            return true;
+        }
     }
     
-    return false;
+    return true;
 }
 
 void

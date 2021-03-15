@@ -135,6 +135,8 @@ public:
     void connectMouse(isize nr, PortNr port) throws;
     void connectJoystick(isize nr, PortNr port) throws;
     void connectKeyset(isize nr, PortNr port) throws;
+    void flipPortDeviceType(PortNr port);
+    void flipPortDeviceNumber(PortNr port);
     
     // Checks the type of the connected device
     bool isMouse(PortNr port);
