@@ -16,6 +16,12 @@
 #include "SplashScreen.h"
 #include "Console.h"
 
+#ifdef __MACH__
+    const int GUIComponent::scalingFactor = 2;
+#else
+    const int GUIComponent::scalingFactor = 1;
+#endif
+    
 GUIComponent::GUIComponent(Application& ref) :
 amiga(ref.amiga),
 app(ref),

@@ -29,10 +29,10 @@ class Console : public Layer {
     //
           
     // Layout properties
-    int padx     = OS::scale(5);
-    int pady     = OS::scale(2);
-    int fontSize = OS::scale(14);
-    int lineSkip = OS::scale(5);
+    int padx     = scale(5);
+    int pady     = scale(2);
+    int fontSize = scale(14);
+    int lineSkip = scale(5);
     
     
     //

@@ -16,7 +16,6 @@ Application::Application(int argc, const char *argv[]) :
 GUIComponent(*this),
 controller(*this),
 inputManager(*this),
-os(*this),
 console(*this),
 splashScreen(*this),
 canvas(*this),
@@ -57,8 +56,8 @@ void
 Application::init()
 {
     // Setup window dimensions
-    winXmin = OS::scale(canvas.textureRect.width);
-    winYmin = OS::scale(canvas.textureRect.height);
+    winXmin = scale(canvas.textureRect.width);
+    winYmin = scale(canvas.textureRect.height);
     int winXinit = winXmin;
     int winYinit = winYmin;
     

@@ -68,7 +68,6 @@
 		509F49E325D5332F005DA7CB /* aros-amiga-m68k-ext.bin in CopyFiles */ = {isa = PBXBuildFile; fileRef = 509F49E225D5332F005DA7CB /* aros-amiga-m68k-ext.bin */; };
 		509F49E525D53363005DA7CB /* aros-amiga-m68k-rom.bin in CopyFiles */ = {isa = PBXBuildFile; fileRef = 509F49E425D53363005DA7CB /* aros-amiga-m68k-rom.bin */; };
 		509F49EA25D66302005DA7CB /* ApplicationServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 509F49E925D66302005DA7CB /* ApplicationServices.framework */; };
-		509F49ED25D68405005DA7CB /* OS.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 509F49EB25D68405005DA7CB /* OS.cpp */; };
 		50A7E05B25D6AFDF00113BF8 /* AmigaMusicStream.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50A7E05925D6AFDF00113BF8 /* AmigaMusicStream.cpp */; };
 		50AE115D25C42D6700AD13B7 /* DeniseRegisters.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50AE104D25C42D6500AD13B7 /* DeniseRegisters.cpp */; };
 		50AE115E25C42D6700AD13B7 /* Denise.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50AE105225C42D6500AD13B7 /* Denise.cpp */; };
@@ -315,7 +314,6 @@
 		502D8EB925DCE82200007C2C /* logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo.png; sourceTree = "<group>"; };
 		502D8EBB25DD072F00007C2C /* Screen.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Screen.cpp; sourceTree = "<group>"; };
 		502D8EBC25DD072F00007C2C /* Screen.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Screen.h; sourceTree = "<group>"; };
-		50335C7A25D933D300510D0E /* Makefile */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
 		50335C7C25D933F000510D0E /* Makefile */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
 		50335C8025D9342100510D0E /* Makefile */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
 		503EB44D25D8294D00A6145B /* click.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = click.wav; sourceTree = "<group>"; };
@@ -359,8 +357,6 @@
 		509F49E225D5332F005DA7CB /* aros-amiga-m68k-ext.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = "aros-amiga-m68k-ext.bin"; sourceTree = "<group>"; };
 		509F49E425D53363005DA7CB /* aros-amiga-m68k-rom.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = "aros-amiga-m68k-rom.bin"; sourceTree = "<group>"; };
 		509F49E925D66302005DA7CB /* ApplicationServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ApplicationServices.framework; path = System/Library/Frameworks/ApplicationServices.framework; sourceTree = SDKROOT; };
-		509F49EB25D68405005DA7CB /* OS.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = OS.cpp; sourceTree = "<group>"; };
-		509F49EC25D68405005DA7CB /* OS.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OS.h; sourceTree = "<group>"; };
 		50A7E05925D6AFDF00113BF8 /* AmigaMusicStream.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = AmigaMusicStream.cpp; sourceTree = "<group>"; };
 		50A7E05A25D6AFDF00113BF8 /* AmigaMusicStream.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AmigaMusicStream.h; sourceTree = "<group>"; };
 		50AE104B25C42D6500AD13B7 /* DenisePublicTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DenisePublicTypes.h; sourceTree = "<group>"; };
@@ -842,16 +838,6 @@
 				509F49E225D5332F005DA7CB /* aros-amiga-m68k-ext.bin */,
 			);
 			path = Roms;
-			sourceTree = "<group>";
-		};
-		509F49EE25D68411005DA7CB /* Arch */ = {
-			isa = PBXGroup;
-			children = (
-				50335C7A25D933D300510D0E /* Makefile */,
-				509F49EC25D68405005DA7CB /* OS.h */,
-				509F49EB25D68405005DA7CB /* OS.cpp */,
-			);
-			path = Arch;
 			sourceTree = "<group>";
 		};
 		50AE104925C42D6500AD13B7 /* Emulator */ = {
@@ -1361,7 +1347,6 @@
 			isa = PBXGroup;
 			children = (
 				50335C8025D9342100510D0E /* Makefile */,
-				509F49EE25D68411005DA7CB /* Arch */,
 				50C4C27025D127AE00849A01 /* Foundation */,
 				50CF561925BFECA900B1AC0D /* main.cpp */,
 				5047761E25E7E6E8003DCED0 /* GUIComponent.h */,
@@ -1564,7 +1549,6 @@
 				50AE118425C42D6700AD13B7 /* IMGFile.cpp in Sources */,
 				50AE118725C42D6700AD13B7 /* Folder.cpp in Sources */,
 				50AE11A625C42D6700AD13B7 /* AudioStream.cpp in Sources */,
-				509F49ED25D68405005DA7CB /* OS.cpp in Sources */,
 				50AE119125C42D6700AD13B7 /* Keyboard.cpp in Sources */,
 				5066F75425C55F75009199B6 /* ControllerCmds.cpp in Sources */,
 				50AE117B25C42D6700AD13B7 /* AgnusDma.cpp in Sources */,

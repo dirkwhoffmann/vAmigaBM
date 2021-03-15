@@ -24,6 +24,8 @@ class StatusBar;
 // Base class for all GUI components
 class GUIComponent {
 
+    static const int scalingFactor;
+    
 protected:
 
     Amiga &amiga;
@@ -39,4 +41,7 @@ protected:
 public:
 
     GUIComponent(Application& ref);
+    
+    // Scales a pixel dimension
+    int scale(int value) { return scalingFactor * value; }
 };

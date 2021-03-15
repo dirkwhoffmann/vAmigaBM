@@ -16,7 +16,6 @@
 #include "Aliases.h"
 
 #include "GUIComponent.h"
-#include "OS.h"
 #include "Exception.h"
 #include "Controller.h"
 #include "Screen.h"
@@ -70,10 +69,7 @@ public:
     
     // The input device manager
     InputManager inputManager;
-    
-    // Gateway to the host operating system
-    OS os;
-        
+            
     // The splash screen layer
     SplashScreen splashScreen;
 

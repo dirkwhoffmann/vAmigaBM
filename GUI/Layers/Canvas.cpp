@@ -161,12 +161,7 @@ void
 Canvas::update(u64 frames, sf::Time dt)
 {
     Layer::update(frames, dt);
-    
-    // Update the mouse location
-    if (app.os.gotMouse && app.os.mouseMoved()) {
-        mouseMoved(app.os.mouseDX, app.os.mouseDY);
-    }
-            
+        
     // Update the texture
     if (app.amiga.isPoweredOff()) {
         

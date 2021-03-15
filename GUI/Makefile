@@ -1,4 +1,4 @@
-SUBDIRS = Arch Foundation Console Controller
+SUBDIRS = Foundation Layers Console Controller
 
 MYCC = g++ -std=c++17 -Wfatal-errors
 
