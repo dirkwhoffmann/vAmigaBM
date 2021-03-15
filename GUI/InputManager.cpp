@@ -57,7 +57,7 @@ InputManager::InputManager(Application &ref) : GUIComponent(ref)
 {
     // Add a placeholder for an unconnected control port
     devices.push_back(new NullDevice(app, 0));
-    devices.back()->name = "Null device";
+    devices.back()->setName("Null device");
     
     //
     // Initialize mice
@@ -79,18 +79,18 @@ InputManager::InputManager(Application &ref) : GUIComponent(ref)
                 if (i >= count) break;
                 
                 auto device = new MouseDevice(app, i + 1);
-                device->name = ManyMouse_DeviceName(i + 1);
+                device->setName(ManyMouse_DeviceName(i + 1));
                 devices.push_back(device);
                 mice.push_back(device);
                 
-                printf("%d: %s\n", i + 1, devices.back()->name.c_str());
+                printf("%d: %s\n", i + 1, devices.back()->getName().c_str());
             }
             break;
         }
         case MouseEmulation::MACH:
         {
             auto device = new MouseDevice(app, 1);
-            device->name = "Mac Mouse";
+            device->setName("Mac Mouse");
             devices.push_back(device);
             mice.push_back(device);
             break;
@@ -98,7 +98,7 @@ InputManager::InputManager(Application &ref) : GUIComponent(ref)
         case MouseEmulation::SFML:
         {
             auto device = new MouseDevice(app, 1);
-            device->name = "Mouse";
+            device->setName("Mouse");
             devices.push_back(device);
             mice.push_back(device);
             break;
@@ -115,7 +115,7 @@ InputManager::InputManager(Application &ref) : GUIComponent(ref)
         
         auto properties = sf::Joystick::getIdentification(i);
         auto device = new JoystickDevice(app, i + 1);
-        device->name = properties.name;
+        device->setName(properties.name);
         devices.push_back(device);
         joysticks.push_back(device);
     }
@@ -125,7 +125,7 @@ InputManager::InputManager(Application &ref) : GUIComponent(ref)
     //
 
     auto keyset1 = new KeysetDevice(app, 1);
-    keyset1->name = "Joystick keyset 1";
+    keyset1->setName("Joystick keyset 1");
     keyset1->left = sf::Keyboard::Key::Left;
     keyset1->right = sf::Keyboard::Key::Right;
     keyset1->up = sf::Keyboard::Key::Up;
@@ -135,7 +135,7 @@ InputManager::InputManager(Application &ref) : GUIComponent(ref)
     keysets.push_back(keyset1);
     
     auto keyset2 = new KeysetDevice(app, 2);
-    keyset2->name = "Joystick keyset 2";
+    keyset2->setName("Joystick keyset 2");
     keyset2->left = sf::Keyboard::Key::A;
     keyset2->right = sf::Keyboard::Key::S;
     keyset2->up = sf::Keyboard::Key::W;
@@ -179,32 +179,11 @@ InputManager::flipPortDevice(PortNr port)
     }
 }
 
-bool
-InputManager::isMouse(PortNr port)
-{
-    auto nr = connectedDevice[port == PORT_1 ? 0 : 1];
-    return devices[nr]->isMouse();
-}
-
-bool
-InputManager::isJoystick(PortNr port)
-{
-    auto nr = connectedDevice[port == PORT_1 ? 0 : 1];
-    return devices[nr]->isJoystick();
-}
-
-bool
-InputManager::iskeyset(PortNr port)
-{
-    auto nr = connectedDevice[port == PORT_1 ? 0 : 1];
-    return devices[nr]->isKeyset();
-}
-
 string
 InputManager::getName(PortNr port)
 {
     auto nr = connectedDevice[port == PORT_1 ? 0 : 1];
-    return devices[nr]->name;
+    return devices[nr]->getName();
 }
 
 void
@@ -291,8 +270,8 @@ InputManager::listDevices()
 {
     for (isize i = 0; i < devices.size(); i++) {
     
-        printf("Device %zd: %s\n", i, devices[i]->name.c_str());
-        console << "Device " << i << ": " << devices[i]->name;
+        printf("Device %zd: %s\n", i, devices[i]->getName().c_str());
+        console << "Device " << i << ": " << devices[i]->getName();
         
         if (connectedDevice[0] == i) {
             console << " (connected to port 1)";
@@ -302,47 +281,6 @@ InputManager::listDevices()
         }
         console << '\n';
     }
-    
-    /*
-    for (isize i = 0; i < numMice; i++) {
-        
-        console << "     Mouse " << i << " : ";
-        if (connectedDevice[0] == &mouse[i]) {
-            console << "connected to port 1";
-        } else if (connectedDevice[1] == &mouse[i]) {
-            console << "connected to port 2";
-        } else {
-            console << "not connected";
-        }
-        console << '\n';
-    }
-    
-    for (isize i = 0; i < numJoysticks; i++) {
-        
-        console << "  Joystick " << i << " : ";
-        if (connectedDevice[0] == &joystick[i]) {
-            console << "connected to port 1";
-        } else if (connectedDevice[1] == &joystick[i]) {
-            console << "connected to port 2";
-        } else {
-            console << "not connected";
-        }
-        console << '\n';
-    }
-    
-    for (isize i = 0; i < numKeysets; i++) {
-        
-        console << "    Keyset " << i << " : ";
-        if (connectedDevice[0] == &keyset[i]) {
-            console << "connected to port 1";
-        } else if (connectedDevice[1] == &keyset[i]) {
-            console << "connected to port 2";
-        } else {
-            console << "not connected";
-        }
-        console << '\n';
-    }
-    */
 }
 
 void

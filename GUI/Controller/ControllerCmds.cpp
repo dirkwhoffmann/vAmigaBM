@@ -559,7 +559,7 @@ Controller::exec <Token::controlport, Token::config> (Arguments& argv, long para
     std::stringstream ss; string line;
     
     ss << DUMP("Connected device");
-    ss << app.inputManager.getName(param);
+    ss << app.inputManager.device(param).getName();
 
     while(std::getline(ss, line)) console << line << '\n';
 }

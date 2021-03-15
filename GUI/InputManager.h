@@ -23,17 +23,16 @@ class InputDevice : public GUIComponent {
 protected:
     
     isize nr;
-
-public:
-    
     string name;
 
 public:
     
     InputDevice(class Application &ref, isize n) : GUIComponent(ref), nr(n) { }
     
-    // Returns the devie number
+    // Getters and setters
     isize getNr() { return nr; }
+    const string &getName() { return name; }
+    void setName(const string &s) { name = s; }
     
     // Informs about the device type
     virtual InputDeviceType type() = 0;
@@ -137,14 +136,9 @@ public:
     void connect(InputDeviceType type, isize nr, PortNr port) throws;
     void disconnect(PortNr port) { connect(InputDeviceType::NULLDEVICE, 0, port); }
     void flipPortDevice(PortNr port);
-    
-    // Checks the type of the connected device
-    bool isMouse(PortNr port);
-    bool isJoystick(PortNr port);
-    bool iskeyset(PortNr port);
-    
+        
     // Returns the name of the connected device
-    string getName(PortNr port);
+    [[deprecated]] string getName(PortNr port);
     
     // Polls the currently connected devices
     void poll();
