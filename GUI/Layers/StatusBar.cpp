@@ -150,8 +150,8 @@ StatusBar::resize(float width, float height)
 
     portNr[1].setPosition(pos, y + 8); pos -= portNr[1].getW() + pad / 2;
     port[1].setPosition(pos, y + 8); pos -= port[1].getW() + pad;
-    portNr[0].setPosition(pos, y + 8); pos -= portNr[1].getW() + pad / 2;
-    port[0].setPosition(pos, y + 8); pos -= port[0].getW() + pad;
+    port[0].setPosition(pos, y + 8); pos -= port[0].getW() + pad / 2;
+    portNr[0].setPosition(pos, y + 8); pos -= portNr[1].getW() + pad;
     pos -= pad;
     state.setPosition(pos, y + 8); pos -= state.getW() + pad;
     mhz.setPosition(pos, y + 10); pos -= 2 * 64 + pad;
@@ -348,7 +348,6 @@ StatusBar::refreshState()
 
         default:
             assert(false);
-            
     }
     
     state.rectangle.setTexture(&app.assets.get(id));
