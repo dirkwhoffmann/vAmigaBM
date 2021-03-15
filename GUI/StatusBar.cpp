@@ -39,7 +39,6 @@ void StatusBar::init()
         driveLed[i].setW(2 * 24);
         cylinder[i].setStyle(app.assets.get(FontID::sans_r), 28, grey6);
         cylinder[i].setString("00");
-//        cylinder[i].setW(2 * 16);
         disk[i].init(app.assets.get(TextureID::disk));
         disk[i].setW(2 * 18);
         disk[i].rectangle.setFillColor(grey6);
@@ -56,7 +55,6 @@ void StatusBar::init()
         port[i].setFlags(Align::Top | Align::Right);
         portNr[i].setStyle(app.assets.get(FontID::sans_r), 28, grey6);
         portNr[i].setString("0");
-        // portNr[i].setW(2 * 8);
         portNr[i].setFlags(Align::Top | Align::Right);
     }
     
@@ -71,6 +69,8 @@ void StatusBar::init()
     state.setW(2 * 18);
     state.rectangle.setFillColor(grey6);
     state.setFlags(Align::Top | Align::Right);
+    
+    needsUpdate = (u32)-1;
 }
 
 void
@@ -205,22 +205,14 @@ StatusBar::mouseButtonPressed(isize button)
         }
 
         if (port[0].contains(position)) {
-            inputManager.flipPortDeviceType(PORT_1);
-            return true;
-        }
-
-        if (portNr[0].contains(position)) {
-            inputManager.flipPortDeviceNumber(PORT_1);
+            inputManager.flipPortDevice(PORT_1);
+            needsUpdate |= StatusBarItem::PORTS;
             return true;
         }
 
         if (port[1].contains(position)) {
-            inputManager.flipPortDeviceType(PORT_2);
-            return true;
-        }
-
-        if (portNr[1].contains(position)) {
-            inputManager.flipPortDeviceNumber(PORT_2);
+            inputManager.flipPortDevice(PORT_2);
+            needsUpdate |= StatusBarItem::PORTS;
             return true;
         }
     }
@@ -306,16 +298,33 @@ StatusBar::refreshDrive(isize nr)
 void
 StatusBar::refreshPort(PortNr nr)
 {
-    isize i = (nr == PORT_1) ? 0 : 1;
+    auto i = nr == PORT_1 ? 0 : 1;
+    InputDevice &device = inputManager.device(nr);
+    isize devNr = device.getNr();
+    
+    portNr[i].setString("");
+    
+    switch (device.type()) {
 
-    if (inputManager.isMouse(nr)) {
-        port[i].rectangle.setTexture(&app.assets.get(TextureID::mouse));
-    } else if (inputManager.isJoystick(nr)) {
-        port[i].rectangle.setTexture(&app.assets.get(TextureID::joystick));
-    } else if (inputManager.iskeyset(nr)) {
-        port[i].rectangle.setTexture(&app.assets.get(TextureID::keyset));
-    } else {
-        port[i].rectangle.setTexture(&app.assets.get(TextureID::none));
+        case InputDeviceType::NULLDEVICE:
+            port[i].rectangle.setTexture(&app.assets.get(TextureID::none));
+            portNr[i].setString("");
+            break;
+            
+        case InputDeviceType::MOUSE:
+            port[i].rectangle.setTexture(&app.assets.get(TextureID::mouse));
+            if (inputManager.numMice() > 1) portNr[i].setString(std::to_string(devNr));
+            break;
+
+        case InputDeviceType::JOYSTICK:
+            port[i].rectangle.setTexture(&app.assets.get(TextureID::joystick));
+            if (inputManager.numJoysticks() > 1) portNr[i].setString(std::to_string(devNr));
+            break;
+
+        case InputDeviceType::KEYSET:
+            port[i].rectangle.setTexture(&app.assets.get(TextureID::keyset));
+            if (inputManager.numKeysets() > 1) portNr[i].setString(std::to_string(devNr));
+            break;
     }
 }
 

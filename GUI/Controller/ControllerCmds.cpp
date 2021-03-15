@@ -567,19 +567,19 @@ Controller::exec <Token::controlport, Token::config> (Arguments& argv, long para
 template <> void
 Controller::exec <Token::controlport, Token::connect, Token::mouse> (Arguments& argv, long param)
 {
-    app.inputManager.connectMouse(parseNum(argv.front()), param);
+    app.inputManager.connect(InputDeviceType::MOUSE, parseNum(argv.front()), param);
 }
 
 template <> void
 Controller::exec <Token::controlport, Token::connect, Token::joystick> (Arguments& argv, long param)
 {
-    app.inputManager.connectJoystick(parseNum(argv.front()), param);
+    app.inputManager.connect(InputDeviceType::JOYSTICK, parseNum(argv.front()), param);
 }
 
 template <> void
 Controller::exec <Token::controlport, Token::connect, Token::keyset> (Arguments& argv, long param)
 {
-    app.inputManager.connectKeyset(parseNum(argv.front()), param);
+    app.inputManager.connect(InputDeviceType::KEYSET, parseNum(argv.front()), param);
 }
 
 template <> void

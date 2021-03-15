@@ -16,6 +16,8 @@
 // Input devices
 //
 
+enum class InputDeviceType { NULLDEVICE, MOUSE, JOYSTICK, KEYSET };
+
 class InputDevice : public GUIComponent {
     
 protected:
@@ -34,10 +36,11 @@ public:
     isize getNr() { return nr; }
     
     // Informs about the device type
-    virtual bool isMouse() { return false; }
-    virtual bool isJoystick() { return false; }
-    virtual bool isKeyset() { return false; }
-
+    virtual InputDeviceType type() = 0;
+    bool isMouse() { return type() == InputDeviceType::MOUSE; }
+    bool isJoystick() { return type() == InputDeviceType::JOYSTICK; }
+    bool isKeyset() { return type() == InputDeviceType::KEYSET; }
+    
     // Polls a device and updates the Amiga control port accordingly
     virtual void poll(ControlPort &port) { };
 };
@@ -55,7 +58,7 @@ public:
     
     using InputDevice::InputDevice;
     
-    bool isMouse() override { return true; }
+    InputDeviceType type() override { return InputDeviceType::MOUSE; }
     void poll(ControlPort &port) override;
 };
 
@@ -64,6 +67,8 @@ class NullDevice : public InputDevice {
 public:
     
     using InputDevice::InputDevice;
+    
+    InputDeviceType type() override { return InputDeviceType::NULLDEVICE; }
 };
 
 class JoystickDevice : public InputDevice {
@@ -72,7 +77,7 @@ public:
     
     using InputDevice::InputDevice;
     
-    bool isJoystick() override { return true; }
+    InputDeviceType type() override { return InputDeviceType::JOYSTICK; }
     void poll(ControlPort &port) override;
 };
 
@@ -84,7 +89,7 @@ public:
 
     using InputDevice::InputDevice;
     
-    bool isKeyset() override { return true; }
+    InputDeviceType type() override { return InputDeviceType::KEYSET; }
     void poll(ControlPort &port) override;
 };
 
@@ -99,33 +104,16 @@ class InputManager : public GUIComponent {
     static const isize numJoystickSlots = 3;
     static const isize numKeysetSlots = 2;
 
-    // Available input devices
+    // Available input devices (all types)
     std::vector<InputDevice *> devices;
     
-    MouseDevice mouse[numMouseSlots] = {
-        MouseDevice(app, 0),
-        MouseDevice(app, 1),
-        MouseDevice(app, 2)
-    };
-    
-    JoystickDevice joystick[numJoystickSlots] = {
-        JoystickDevice(app, 0),
-        JoystickDevice(app, 1),
-        JoystickDevice(app, 2),
-    };
-    
-    KeysetDevice keyset[numKeysetSlots] = {
-        KeysetDevice(app, 0),
-        KeysetDevice(app, 1)
-    };
-
-    // Number of available devices
-    isize numMice = 0;
-    isize numJoysticks = 0;
-    isize numKeysets = 0;
+    // Available input devices of a specific type
+    std::vector<MouseDevice *> mice;
+    std::vector<JoystickDevice *> joysticks;
+    std::vector<KeysetDevice *> keysets;
 
     // Connected devices
-    InputDevice *connectedDevice[2] = { nullptr, nullptr };
+    isize connectedDevice[2] = { 0, 0 };
 
     sf::Vector2i mouseCenter;
 
@@ -138,26 +126,23 @@ public:
     InputManager(Application &ref);
     
     // Returns the number of available devices
-    isize getNumMice() { return numMice; }
-    isize getNumJoysticks() { return numJoysticks; }
-    isize getNumKeysets() { return numKeysets; }
+    isize numMice() { return mice.size(); }
+    isize numJoysticks() { return joysticks.size(); }
+    isize numKeysets() { return keysets.size(); }
+    
+    // Returns the currently connected device
+    InputDevice &device(PortNr port);
     
     // Connects a device
-    void connect(InputDevice *device, PortNr port);
-    void connectMouse(isize nr, PortNr port) throws;
-    void connectJoystick(isize nr, PortNr port) throws;
-    void connectKeyset(isize nr, PortNr port) throws;
-    void flipPortDeviceType(PortNr port);
-    void flipPortDeviceNumber(PortNr port);
+    void connect(InputDeviceType type, isize nr, PortNr port) throws;
+    void disconnect(PortNr port) { connect(InputDeviceType::NULLDEVICE, 0, port); }
+    void flipPortDevice(PortNr port);
     
     // Checks the type of the connected device
     bool isMouse(PortNr port);
     bool isJoystick(PortNr port);
     bool iskeyset(PortNr port);
     
-    // Disconnects a device
-    void disconnect(PortNr port) { connect(nullptr, port); }
-
     // Returns the name of the connected device
     string getName(PortNr port);
     
