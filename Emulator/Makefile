@@ -2,7 +2,7 @@ SUBDIRS = \
 Agnus Base CIA CPU Denise Drive Files FileSystems Foundation LogicBoard \
 Memory Paula Peripherals xdms
 
-MAKEFLAGS = --no-print-directory
+MYMAKE = --no-print-directory
 
 MYCC = g++ -std=c++17 -Wfatal-errors
 
@@ -33,7 +33,7 @@ MYFLAGS = \
 -I $(CURDIR)/Peripherals \
 -I $(CURDIR)/xdms
 
-export MYCC MYFLAGS MAKEFLAGS
+export MYCC MYFLAGS MYMAKE
 
 DEPS =
 OBJ = Amiga.o
@@ -48,7 +48,7 @@ prebuild:
 subdirs:
 	@for dir in $(SUBDIRS); do \
 		echo "Entering ${CURDIR}/$$dir"; \
-		$(MAKE) $(MAKEFLAGS) -C $$dir; \
+		$(MAKE) $(MYMAKE) -C $$dir; \
 	done
 
 clean:
