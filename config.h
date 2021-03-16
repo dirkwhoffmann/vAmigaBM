@@ -49,6 +49,7 @@ struct U16Stereo; typedef U16Stereo SampleType;
  */
 enum class MouseEmulation { SFML, MANY, MACH };
 static const MouseEmulation mouseEmulation = MouseEmulation::SFML;
+// static const MouseEmulation mouseEmulation = MouseEmulation::MACH;
 
 
 //

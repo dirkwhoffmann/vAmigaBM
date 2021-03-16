@@ -189,8 +189,6 @@
 		50CC028F25F7871A00242723 /* none.png in CopyFiles */ = {isa = PBXBuildFile; fileRef = 50CC028D25F7870200242723 /* none.png */; };
 		50CF561A25BFECA900B1AC0D /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50CF561925BFECA900B1AC0D /* main.cpp */; };
 		50D3312B25FFB8F400FBC489 /* Browser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50D3312925FFB8F400FBC489 /* Browser.cpp */; };
-		50D3312D2600FA6900FBC489 /* Makefile in Sources */ = {isa = PBXBuildFile; fileRef = 50D3312C2600FA6900FBC489 /* Makefile */; };
-		50D3312F2600FBA500FBC489 /* Makefile in Sources */ = {isa = PBXBuildFile; fileRef = 50D3312E2600FBA500FBC489 /* Makefile */; };
 		50E08E1D25C3102200B82E96 /* IBMPlexMono-Medium.ttf in CopyFiles */ = {isa = PBXBuildFile; fileRef = 50E08E1C25C3101C00B82E96 /* IBMPlexMono-Medium.ttf */; };
 		50E4DD5525C6B180001F6432 /* InterpreterCmds.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50E4DD5425C6B180001F6432 /* InterpreterCmds.cpp */; };
 		50E9337225C2188700F4958B /* Interpreter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50E9337025C2188700F4958B /* Interpreter.cpp */; };
@@ -1567,7 +1565,6 @@
 				5047761F25E7E6E8003DCED0 /* GUIComponent.cpp in Sources */,
 				50A7E05B25D6AFDF00113BF8 /* AmigaMusicStream.cpp in Sources */,
 				50AE118625C42D6700AD13B7 /* ADFFile.cpp in Sources */,
-				50D3312D2600FA6900FBC489 /* Makefile in Sources */,
 				50AE11AC25C42D6700AD13B7 /* UARTEvents.cpp in Sources */,
 				50AFF99A25EFC1B60052269B /* AmigaObject.cpp in Sources */,
 				5002A27E25D00F3000665F89 /* SplashScreen.cpp in Sources */,
@@ -1584,7 +1581,6 @@
 				50AE117525C42D6700AD13B7 /* BlitterEvents.cpp in Sources */,
 				50AE117F25C42D6700AD13B7 /* EventHandler.cpp in Sources */,
 				50AE11B225C42D6700AD13B7 /* CIAEvents.cpp in Sources */,
-				50D3312F2600FBA500FBC489 /* Makefile in Sources */,
 				50AE117E25C42D6700AD13B7 /* DmaDebugger.cpp in Sources */,
 				50AE11B425C42D6700AD13B7 /* Amiga.cpp in Sources */,
 				50CF561A25BFECA900B1AC0D /* main.cpp in Sources */,

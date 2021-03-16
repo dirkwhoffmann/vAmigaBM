@@ -19,7 +19,7 @@ OPT = -lsfml-graphics \
 	-lsfml-system
 endif
 
-FRAMEWORKS=sfml-graphics sfml-audio
+#FRAMEWORKS=sfml-graphics sfml-audio
 
 .PHONY: all prebuild install a.out clean
 
