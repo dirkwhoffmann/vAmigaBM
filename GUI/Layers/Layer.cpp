@@ -14,21 +14,19 @@ void
 Layer::init()
 {
     assert(app.window.isOpen());
-    
-    // w = app.window.getView().getSize().x;
-    // h = app.window.getView().getSize().y;
-    
-    // printf("w = %f h = %f\n", w, h);
 }
 
-/*
 void
-Layer::setTargetAlpha(isize target, float seconds)
+Layer::open()
 {
-    targetAlpha = target;
-    delay = seconds;
+    targetAlpha = 0xFF;
 }
-*/
+
+void
+Layer::close()
+{
+    targetAlpha = 0x00;
+}
 
 void
 Layer::update(u64 frames, sf::Time dt)

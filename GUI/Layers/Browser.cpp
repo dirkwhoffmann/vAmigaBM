@@ -79,19 +79,11 @@ Browser::open(isize dfn)
     files = util::files(searchPath, allowedTypes);
     std::sort(files.begin(), files.end());
     
-    delay = 0.5;
     input = "";
     cursor = "_";
     refresh();
     
-    Layer::open();
-}
-
-void
-Browser::close()
-{
-    delay = 1.0;
-    Layer::close();
+    Layer::open(0.5);
 }
 
 void
@@ -150,9 +142,14 @@ Browser::respond(const sf::Event &event)
                     input = filtered[highlightedRow()];
                     cursor = "";
                     refresh();
-                    close();
+                    close(1.0);
                     break;
 
+                case sf::Keyboard::Escape:
+                    
+                    close(0.2);
+                    break;
+                    
                 default:
                     break;
             }

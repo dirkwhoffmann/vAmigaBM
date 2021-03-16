@@ -60,10 +60,13 @@ public:
     
 public:
     
-    virtual void open() { targetAlpha = 0xFF; }
-    virtual void close() { targetAlpha = 0x00; }
+    void open(float delay) { this->delay = delay; open(); }
+    void close(float delay) { this->delay = delay; close(); }
+
+    virtual void open();
+    virtual void close();
     virtual void toggle() { isVisible() ? close() : open(); }
-    
+
     
     //
     // Performing continuous tasks
