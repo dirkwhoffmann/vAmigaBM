@@ -16,10 +16,11 @@ class Browser : public Layer {
     
     // Position
     static const isize numRows = 12;
-    static const isize w = 1016;
-    static const isize h = 832;
-    static const isize pad = 32;
-    static const isize icn = 128;
+    static isize w;
+    static isize h;
+    static isize pad;
+    static isize icn;
+    
     isize dx = 0;
     isize dy = 0;
     
@@ -49,7 +50,7 @@ public:
     isize nr;
     
     // Action function
-    std::function<void(const string &s)> action; 
+    std::function <void(const string &s)> action;
     
     
     //

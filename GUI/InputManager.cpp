@@ -290,8 +290,8 @@ InputManager::retainMouse()
     if (gotMouse) return;
             
     // Place the cursor in the middle of the screen
-    mouseCenter = sf::Vector2i(app.window.getSize().x / 2,
-                               app.window.getSize().y / 2);
+    mouseCenter = sf::Vector2i((app.window.getSize().x / 2) & ~1,
+                               (app.window.getSize().y / 2) & ~1);
     sf::Mouse::setPosition(mouseCenter, app.window);
     
     // Hide and disconnect the mouse cursor

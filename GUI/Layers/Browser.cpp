@@ -12,41 +12,45 @@
 #include "IO.h"
 
 const isize Browser::numRows;
-const isize Browser::w;
-const isize Browser::h;
-const isize Browser::pad;
-const isize Browser::icn;
+isize Browser::w;
+isize Browser::h;
+isize Browser::pad;
+isize Browser::icn;
 
 Browser::Browser(Application &ref) : Layer(ref)
 {
-    
+    w = scale(508);
+    h = scale(416);
+    pad = scale(16);
+    icn = scale(64);
 }
 
 Browser::~Browser()
 {
-    
+
 }
 
 void Browser::init()
 {
     Layer::init();
-
+    
     auto grey1 = sf::Color(0x30,0x30,0x30,0x80);
     auto grey2 = sf::Color(0x50,0x50,0x50,0x80);
     background.setColors(grey1, grey1, grey2, grey2);
     background.setSize(w, h);
     
     icon.init(app.assets.get(TextureID::diskLarge));
+    icon.setW(icn);
     icon.setPosition(pad, pad);
-    path.setStyle(app.assets.get(FontID::console), 36, sf::Color::White);
-    name.setStyle(app.assets.get(FontID::console), 44, sf::Color::White);
-    selector.init(w - icn - 2.5 * pad, 54, sf::Color(0x80,0x80,0x80));
+    path.setStyle(app.assets.get(FontID::console), fontScale(36), sf::Color::White);
+    name.setStyle(app.assets.get(FontID::console), fontScale(44), sf::Color::White);
+    selector.init(w - icn - 2.5 * pad, scale(27), sf::Color(0x80,0x80,0x80));
     line.setFillColor(sf::Color::White);
-    line.setSize(sf::Vector2f { w - 2 * pad, 4 });
+    line.setSize(sf::Vector2f { (float)w - 2 * pad, (float)scale(2) });
         
     for (int i = 0; i < numRows; i++) {
         
-        item[i].setStyle(app.assets.get(FontID::console), 44, sf::Color::White);
+        item[i].setStyle(app.assets.get(FontID::console), fontScale(44), sf::Color::White);
     }
 }
 
@@ -175,22 +179,23 @@ Browser::resize(float width, float height)
 {
     dx = (width - w) / 2;
     dy = (height - h) / 2;
-    
+    printf("w = %zd h = %zd dx = %zd dy = %zd\n", w, h, dx, dy);
     background.setPosition(dx, dy);
     icon.setPosition(dx + pad, dy + pad);
     path.setPosition(dx + pad + icn + pad, dy + pad);
-    name.setPosition(dx + pad + icn + pad, dy + pad + 70);
+    name.setPosition(dx + pad + icn + pad, dy + pad + scale(35));
     line.setPosition(dx + pad, dy + pad + icn + pad);
     
     for (isize i = 0; i < numRows; i++) {
-        item[i].setPosition(dx + icn + 3 * pad, dy + icn + 3 * pad + 48 * i);
+        item[i].setPosition(dx + icn + 2 * pad,
+                            dy + icn + 2 * pad + scale(24) * i);
     }
 }
 
 void
 Browser::alphaDidChange()
 {    
-    background.setAlpha(std::min((isize)0x80, alpha));
+    background.setAlpha(std::min((isize)0xD0, alpha));
     icon.setAlpha(alpha);
     name.setAlpha(alpha);
     path.setAlpha(alpha);
@@ -229,8 +234,8 @@ Browser::refresh()
         item[i].setString(i < filtered.size() ? filtered[indexForRow(i)] : "");
     }
 
-    selector.setPosition(dx + pad + icn + pad / 2,
-                         dy + 3 * pad + icn + 2 + 48 * highlightedRow());
+    selector.setPosition(dx + icn + 1.5 * pad, 
+                         dy + icn + 2 * pad + scale(1) + scale(24) * highlightedRow());
 }
 
 isize
