@@ -1,4 +1,4 @@
-SUBDIRS = Foundation Layers Console Controller
+SUBDIRS = Foundation Layers Controller ../ThirdParty/manymouse
 
 MYCC = g++ -std=c++17 -Wfatal-errors
 
@@ -33,9 +33,10 @@ MYFLAGS = \
 -I $(EMU)/Peripherals \
 -I $(EMU)/xdms \
 -I $(GUI) \
--I $(GUI)/Arch \
+-I $(GUI)/Controller \
 -I $(GUI)/Foundation \
--I $(GUI)/Console \
+-I $(GUI)/Layers \
+-I $(GUI)/../ThirdParty/manymouse \
 -I $(SFML)/include
 
 export MYCC MYFLAGS

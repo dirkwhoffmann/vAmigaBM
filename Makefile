@@ -10,6 +10,7 @@ OPT = -F SFML \
 	-framework sfml-audio \
 	-framework sfml-window \
 	-framework sfml-system \
+	-framework IOKit \
 	-framework ApplicationServices
 else
 OPT = -lsfml-graphics \

@@ -11,7 +11,7 @@ all: $(OBJ) subdirs
 subdirs:
 	@for dir in $(SUBDIRS); do \
 		echo "Entering ${CURDIR}/$$dir"; \
-		$(MAKE) -C $$dir; \
+		$(MAKE) $(MAKEFLAGS) -C $$dir; \
 	done
 
 clean:
