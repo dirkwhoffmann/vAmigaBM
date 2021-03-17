@@ -11,7 +11,7 @@
 #include "IO.h"
 #include "string.h"
 
-#include <vector>
+#include <algorithm>
 
 namespace util {
 

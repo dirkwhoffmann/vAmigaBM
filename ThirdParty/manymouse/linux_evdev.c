@@ -260,7 +260,7 @@ static int linux_evdev_init(void)
 
     while ((dent = readdir(dirp)) != NULL)
     {
-        char fname[128];
+        char fname[280];
         snprintf(fname, sizeof (fname), "/dev/input/%s", dent->d_name);
         if (open_if_mouse(fname))
             available_mice++;
