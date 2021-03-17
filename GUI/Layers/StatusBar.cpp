@@ -37,7 +37,7 @@ void StatusBar::init()
         
         driveLed[i].init(app.assets.get(TextureID::ledGreen));
         driveLed[i].setW(scale(24));
-        cylinder[i].setStyle(app.assets.get(FontID::sans_r), fontScale(28), grey6);
+        cylinder[i].setStyle(app.assets.get(FontID::sans_r), fontScale(14), grey6);
         cylinder[i].setString("00");
         disk[i].init(app.assets.get(TextureID::disk));
         disk[i].setW(scale(18));
@@ -53,7 +53,7 @@ void StatusBar::init()
         port[i].setW(scale(18));
         port[i].rectangle.setFillColor(grey6);
         port[i].setFlags(Align::Top | Align::Right);
-        portNr[i].setStyle(app.assets.get(FontID::sans_r), fontScale(28), grey6);
+        portNr[i].setStyle(app.assets.get(FontID::sans_r), fontScale(14), grey6);
         portNr[i].setString("0");
         portNr[i].setFlags(Align::Top | Align::Right);
     }
@@ -62,7 +62,7 @@ void StatusBar::init()
     mute.init(app.assets.get(TextureID::mute));
     mute.setW(scale(18));
     mute.rectangle.setFillColor(grey6);
-    mhz.setStyle(app.assets.get(FontID::sans_sb), fontScale(24), grey6);
+    mhz.setStyle(app.assets.get(FontID::sans_sb), fontScale(12), grey6);
     mhz.setFlags(Align::Top | Align::Right);
     state.init(app.assets.get(TextureID::sync));
     state.setW(scale(18));

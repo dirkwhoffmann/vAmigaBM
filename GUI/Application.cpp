@@ -152,13 +152,10 @@ Application::respond(sf::Event &event)
             if (event.key.code == sf::Keyboard::F11) {
                 console.toggle();
             }
-            if (event.key.code == sf::Keyboard::B &&
-                sf::Keyboard::isKeyPressed(sf::Keyboard::LSystem)) {
-                statusBar.toggle();
-            }
-            if (event.key.code == sf::Keyboard::Tilde &&
-                sf::Keyboard::isKeyPressed(sf::Keyboard::LSystem)) {
-                controller.flipWarpMode();
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::LSystem) ||
+                sf::Keyboard::isKeyPressed(sf::Keyboard::RSystem)) {
+                systemKeyPressed(event.key);
+                
             }
             break;
 
@@ -183,6 +180,48 @@ Application::respond(sf::Event &event)
     else if (fileBrowser.isVisible()) fileBrowser.respond(event);
     else if (canvas.isVisible()) canvas.respond(event);
     else if (splashScreen.isVisible()) splashScreen.respond(event);
+}
+
+void
+Application::systemKeyPressed(sf::Event::KeyEvent &event)
+{
+    switch (event.code) {
+            
+        case sf::Keyboard::B:
+            statusBar.toggle();
+            break;
+            
+        case sf::Keyboard::Tilde:
+            controller.flipWarpMode();
+            break;
+            
+        case sf::Keyboard::Num0:
+            if (amiga.getConfigItem(OPT_DRIVE_CONNECT, 0)) {
+                fileBrowser.open(0);
+            }
+            break;
+
+        case sf::Keyboard::Num1:
+            if (amiga.getConfigItem(OPT_DRIVE_CONNECT, 1)) {
+                fileBrowser.open(1);
+            }
+            break;
+
+        case sf::Keyboard::Num2:
+            if (amiga.getConfigItem(OPT_DRIVE_CONNECT, 2)) {
+                fileBrowser.open(2);
+            }
+            break;
+
+        case sf::Keyboard::Num3:
+            if (amiga.getConfigItem(OPT_DRIVE_CONNECT, 3)) {
+                fileBrowser.open(3);
+            }
+            break;
+
+        default:
+            break;
+    }
 }
 
 void

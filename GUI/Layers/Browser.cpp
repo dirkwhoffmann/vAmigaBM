@@ -42,15 +42,15 @@ void Browser::init()
     icon.init(app.assets.get(TextureID::diskLarge));
     icon.setW(icn);
     icon.setPosition(pad, pad);
-    path.setStyle(app.assets.get(FontID::console), fontScale(36), sf::Color::White);
-    name.setStyle(app.assets.get(FontID::console), fontScale(44), sf::Color::White);
+    path.setStyle(app.assets.get(FontID::console), fontScale(18), sf::Color::White);
+    name.setStyle(app.assets.get(FontID::console), fontScale(22), sf::Color::White);
     selector.init(w - icn - 2.5 * pad, scale(27), sf::Color(0x80,0x80,0x80));
     line.setFillColor(sf::Color::White);
     line.setSize(sf::Vector2f { (float)w - 2 * pad, (float)scale(2) });
         
     for (int i = 0; i < numRows; i++) {
         
-        item[i].setStyle(app.assets.get(FontID::console), fontScale(44), sf::Color::White);
+        item[i].setStyle(app.assets.get(FontID::console), fontScale(22), sf::Color::White);
     }
 }
 

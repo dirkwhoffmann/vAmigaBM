@@ -80,44 +80,6 @@ Canvas::respond(const sf::Event &event)
 {
     switch (event.type) {
             
-        /*
-        case sf::Event::JoystickButtonPressed:
-        {
-            printf("BUTTON\n");
-            app.amiga.controlPort2.joystick.trigger(PRESS_FIRE);
-            break;
-        }
-        case sf::Event::JoystickButtonReleased:
-        {
-            printf("BUTTON (RELEASED)\n");
-            app.amiga.controlPort2.joystick.trigger(RELEASE_FIRE);
-            break;
-        }
-        case sf::Event::JoystickMoved:
-        {
-            if (event.joystickMove.axis == sf::Joystick::X)
-            {
-                if (event.joystickMove.position > 10.0) {
-                    app.amiga.controlPort2.joystick.trigger(PULL_RIGHT);
-                } else if (event.joystickMove.position < -10.0) {
-                    app.amiga.controlPort2.joystick.trigger(PULL_LEFT);
-                } else {
-                    app.amiga.controlPort2.joystick.trigger(RELEASE_X);
-                }
-            }
-            if (event.joystickMove.axis == sf::Joystick::Y)
-            {
-                if (event.joystickMove.position > 10.0) {
-                    app.amiga.controlPort2.joystick.trigger(PULL_DOWN);
-                } else if (event.joystickMove.position < -10.0) {
-                    app.amiga.controlPort2.joystick.trigger(PULL_UP);
-                } else {
-                    app.amiga.controlPort2.joystick.trigger(RELEASE_Y);
-                }
-            }
-            break;
-        }
-        */
         case sf::Event::MouseButtonPressed:
         {
             if (!inputManager.gotMouse) {
@@ -125,33 +87,9 @@ Canvas::respond(const sf::Event &event)
                     app.inputManager.retainMouse();
                 }
             }
-            
-            /*
-            if (event.mouseButton.button == sf::Mouse::Left) {
-                printf("Pressed left\n");
-                app.amiga.controlPort1.mouse.setLeftButton(true);
-            } else if (event.mouseButton.button == sf::Mouse::Right) {
-                printf("Pressed right\n");
-                app.amiga.controlPort1.mouse.setRightButton(true);
-            }
-            */
             break;
         }
-        /*
-        case sf::Event::MouseButtonReleased:
-        {
-            if (!app.os.gotMouse) { return; }
-            
-            if (event.mouseButton.button == sf::Mouse::Left) {
-                printf("Released left\n");
-                app.amiga.controlPort1.mouse.setLeftButton(false);
-            } else if (event.mouseButton.button == sf::Mouse::Right) {
-                printf("Released right\n");
-                app.amiga.controlPort1.mouse.setRightButton(false);
-            }
-            break;
-        }
-        */
+ 
         default:
             break;
     }

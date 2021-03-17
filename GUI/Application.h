@@ -147,6 +147,7 @@ public:
     //
 
     void respond(sf::Event &event);
+    void systemKeyPressed(sf::Event::KeyEvent &event);
     void resize(float w, float h);
     
     
