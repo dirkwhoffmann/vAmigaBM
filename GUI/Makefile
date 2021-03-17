@@ -1,4 +1,4 @@
-SUBDIRS = Foundation Layers Controller ../ThirdParty/manymouse
+SUBDIRS = Foundation Layers Controller
 
 MYCC = g++ -std=c++17 -Wfatal-errors
 
@@ -54,14 +54,14 @@ prebuild:
 subdirs:
 	@for dir in $(SUBDIRS); do \
 		echo "Entering ${CURDIR}/$$dir"; \
-		$(MAKE) -C $$dir; \
+		$(MYMAKE) -C $$dir; \
 	done
 
 clean:
 	@echo "Cleaning up $(CURDIR)"
 	@rm -f vAmiga *.o
 	@for dir in $(SUBDIRS); do \
-		$(MAKE) -C $$dir clean; \
+		$(MYMAKE) -C $$dir clean; \
 	done
 
 bin:

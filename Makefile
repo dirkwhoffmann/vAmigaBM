@@ -1,4 +1,4 @@
-SUBDIRS = Emulator GUI
+SUBDIRS = Emulator GUI ThirdParty/manymouse
 
 DEPS =
 OBJ = Amiga.o vAmiga.o
@@ -19,7 +19,9 @@ OPT = -lsfml-graphics \
 	-lsfml-system
 endif
 
-#FRAMEWORKS=sfml-graphics sfml-audio
+MYMAKE = $(MAKE) --no-print-directory
+
+export MYMAKE
 
 .PHONY: all prebuild install a.out clean
 
@@ -36,14 +38,14 @@ install: a.out
 	@cp Resources/*/* vAmiga
 	
 a.out:
-	@$(MAKE) -C Emulator
-	@$(MAKE) -C GUI
+	@$(MYMAKE) -C Emulator
+	@$(MYMAKE) -C GUI
 	@echo "Linking object files"
 	@g++ -pthread */*.o */*/*.o */*/*/*.o $(OPT)
 
 clean:
-	@$(MAKE) -C Emulator clean
-	@$(MAKE) -C GUI clean
+	@$(MYMAKE) -C Emulator clean
+	@$(MYMAKE) -C GUI clean
 	@echo "Cleaning up $(CURDIR)"
 	@rm -rf vAmiga a.out *.o
 
