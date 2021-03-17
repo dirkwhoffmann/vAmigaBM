@@ -30,6 +30,8 @@
 		50658EE025C03EF800F7128D /* Console.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50658EDE25C03EF800F7128D /* Console.cpp */; };
 		5066F75425C55F75009199B6 /* ControllerCmds.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5066F75325C55F75009199B6 /* ControllerCmds.cpp */; };
 		5070133A25C0745D003B3420 /* DroidSansMono.ttf in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5070133625C0719B003B3420 /* DroidSansMono.ttf */; };
+		507FA33026025875003939F1 /* mouse36.png in Resources */ = {isa = PBXBuildFile; fileRef = 507FA32F26025875003939F1 /* mouse36.png */; };
+		507FA33126025886003939F1 /* mouse36.png in CopyFiles */ = {isa = PBXBuildFile; fileRef = 507FA32F26025875003939F1 /* mouse36.png */; };
 		508A80B825E650E3007C4E46 /* krunch.png in CopyFiles */ = {isa = PBXBuildFile; fileRef = 508A80B725E650E3007C4E46 /* krunch.png */; };
 		508A80BA25E65148007C4E46 /* merge.frag in CopyFiles */ = {isa = PBXBuildFile; fileRef = 508A80B925E65148007C4E46 /* merge.frag */; };
 		508A80BC25E6A67A007C4E46 /* mergeBypass.frag in CopyFiles */ = {isa = PBXBuildFile; fileRef = 508A80BB25E6A67A007C4E46 /* mergeBypass.frag */; };
@@ -288,6 +290,7 @@
 				50CC028A25F785ED00242723 /* keyset.png in CopyFiles */,
 				50CC028B25F785F000242723 /* joystick.png in CopyFiles */,
 				50CC028C25F785F300242723 /* mouse.png in CopyFiles */,
+				507FA33126025886003939F1 /* mouse36.png in CopyFiles */,
 				50CC028F25F7871A00242723 /* none.png in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -331,6 +334,7 @@
 		50658EDF25C03EF800F7128D /* Console.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Console.h; sourceTree = "<group>"; };
 		5066F75325C55F75009199B6 /* ControllerCmds.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ControllerCmds.cpp; sourceTree = "<group>"; };
 		5070133625C0719B003B3420 /* DroidSansMono.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = DroidSansMono.ttf; sourceTree = "<group>"; };
+		507FA32F26025875003939F1 /* mouse36.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mouse36.png; sourceTree = "<group>"; };
 		508A80B725E650E3007C4E46 /* krunch.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = krunch.png; sourceTree = "<group>"; };
 		508A80B925E65148007C4E46 /* merge.frag */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = merge.frag; sourceTree = "<group>"; };
 		508A80BB25E6A67A007C4E46 /* mergeBypass.frag */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = mergeBypass.frag; sourceTree = "<group>"; };
@@ -1412,6 +1416,7 @@
 				50CC028425F785D800242723 /* keyset.png */,
 				50CC028625F785DC00242723 /* joystick.png */,
 				50CC028825F785DF00242723 /* mouse.png */,
+				507FA32F26025875003939F1 /* mouse36.png */,
 				50CC028D25F7870200242723 /* none.png */,
 			);
 			path = Icons;
@@ -1479,6 +1484,7 @@
 				50FA652C25F66C45003B786F /* led_green.png in Resources */,
 				50FA652025F66950003B786F /* disk_protected.png in Resources */,
 				50FA652825F66C12003B786F /* sync.png in Resources */,
+				507FA33026025875003939F1 /* mouse36.png in Resources */,
 				50FA652425F66BD9003B786F /* sync_lock.png in Resources */,
 				50FA651B25F65BD6003B786F /* disk.png in Resources */,
 				50FA652A25F66C38003B786F /* mute.png in Resources */,

@@ -34,7 +34,7 @@ TextureManager::load(TextureID id)
         case TextureID::syncLock: path = "sync_lock.png"; break;
         case TextureID::warpLock: path = "warp_lock.png"; break;
         case TextureID::none: path = "none.png"; break;
-        case TextureID::mouse: path = "mouse.png"; break;
+        case TextureID::mouse: path = "mouse36.png"; break;
         case TextureID::joystick: path = "joystick.png"; break;
         case TextureID::keyset: path = "keyset.png"; break;
             

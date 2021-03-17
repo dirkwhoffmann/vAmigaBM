@@ -306,22 +306,22 @@ StatusBar::refreshPort(PortNr nr)
     switch (device.type()) {
 
         case InputDeviceType::NULLDEVICE:
-            port[i].rectangle.setTexture(&app.assets.get(TextureID::none));
+            port[i].setTexture(app.assets.get(TextureID::none));
             portNr[i].setString("");
             break;
             
         case InputDeviceType::MOUSE:
-            port[i].rectangle.setTexture(&app.assets.get(TextureID::mouse));
+            port[i].setTexture(app.assets.get(TextureID::mouse));
             if (inputManager.numMice() > 1) portNr[i].setString(std::to_string(devNr));
             break;
 
         case InputDeviceType::JOYSTICK:
-            port[i].rectangle.setTexture(&app.assets.get(TextureID::joystick));
+            port[i].setTexture(app.assets.get(TextureID::joystick));
             if (inputManager.numJoysticks() > 1) portNr[i].setString(std::to_string(devNr));
             break;
 
         case InputDeviceType::KEYSET:
-            port[i].rectangle.setTexture(&app.assets.get(TextureID::keyset));
+            port[i].setTexture(app.assets.get(TextureID::keyset));
             if (inputManager.numKeysets() > 1) portNr[i].setString(std::to_string(devNr));
             break;
     }

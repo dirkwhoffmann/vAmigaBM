@@ -116,6 +116,7 @@ public:
         
     // Modifiers
     void setAlpha(u8 value) override;
+    void setTexture(const sf::Texture &tex);
 
     // Delegation methods
     void update() override;

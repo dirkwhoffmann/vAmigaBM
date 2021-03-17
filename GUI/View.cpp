@@ -129,7 +129,24 @@ ImageView::init(const sf::Texture &tex)
     printf("ImageView::init %d %d\n", tex.getSize().x, tex.getSize().y);
     
     View::init(tex.getSize().x, tex.getSize().y);
+    setTexture(tex);
+}
+
+void
+ImageView::setAlpha(u8 value)
+{
+    auto color = rectangle.getFillColor();
+    color.a = value;
+    rectangle.setFillColor(color);
+}
+
+void
+ImageView::setTexture(const sf::Texture &tex)
+{
+    auto size = tex.getSize();
+
     rectangle.setTexture(&tex);
+    rectangle.setTextureRect(sf::IntRect(0, 0, size.x, size.y));
     
     if (flags & Align::FlippedX) {
         
@@ -143,14 +160,6 @@ ImageView::init(const sf::Texture &tex)
         auto size = tex.getSize();
         rectangle.setTextureRect(sf::IntRect(rect.left, size.y, rect.width, -size.y));
     }
-}
-
-void
-ImageView::setAlpha(u8 value)
-{
-    auto color = rectangle.getFillColor();
-    color.a = value;
-    rectangle.setFillColor(color);
 }
 
 void
