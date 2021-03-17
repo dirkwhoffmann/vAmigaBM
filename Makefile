@@ -13,7 +13,8 @@ OPT = -F SFML \
 	-framework IOKit \
 	-framework ApplicationServices
 else
-OPT = -lsfml-graphics \
+OPT = -ldl \
+	-lsfml-graphics \
 	-lsfml-audio \
 	-lsfml-window \
 	-lsfml-system

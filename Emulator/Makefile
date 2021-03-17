@@ -31,7 +31,9 @@ MYFLAGS = \
 -I $(CURDIR)/Peripherals \
 -I $(CURDIR)/xdms
 
-export MYCC MYFLAGS
+MYMAKE = $(MAKE) --no-print-directory
+
+export MYCC MYFLAGS MYMAKE
 
 DEPS =
 OBJ = Amiga.o
