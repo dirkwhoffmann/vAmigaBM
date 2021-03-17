@@ -1195,14 +1195,14 @@
 			isa = PBXGroup;
 			children = (
 				50B6306425D92E8000A860A7 /* Makefile */,
-				50AE112B25C42D6600AD13B7 /* Disk.cpp */,
 				50AE112C25C42D6600AD13B7 /* DrivePublicTypes.h */,
-				50AE112D25C42D6600AD13B7 /* DiskPublicTypes.h */,
+				50AE113125C42D6600AD13B7 /* DriveTypes.h */,
 				50AE112E25C42D6600AD13B7 /* Drive.h */,
 				50AE112F25C42D6600AD13B7 /* Drive.cpp */,
-				50AE113025C42D6600AD13B7 /* Disk.h */,
-				50AE113125C42D6600AD13B7 /* DriveTypes.h */,
+				50AE112D25C42D6600AD13B7 /* DiskPublicTypes.h */,
 				50AE113225C42D6600AD13B7 /* DiskTypes.h */,
+				50AE113025C42D6600AD13B7 /* Disk.h */,
+				50AE112B25C42D6600AD13B7 /* Disk.cpp */,
 			);
 			path = Drive;
 			sourceTree = "<group>";

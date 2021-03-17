@@ -26,10 +26,10 @@ Drive::Drive(Amiga& ref, isize n) : AmigaComponent(ref), nr(n)
     config.stopDelay = MSEC(80);
     config.stepDelay = USEC(8000);
     config.pan = IS_EVEN(nr) ? 100 : -100;
-    config.stepVolume = 128;
-    config.pollVolume = 128;
-    config.insertVolume = 128;
-    config.ejectVolume = 128;
+    config.stepVolume = 50;
+    config.pollVolume = 0;
+    config.insertVolume = 50;
+    config.ejectVolume = 50;
     config.defaultFileSystem = FS_OFS;
     config.defaultBootBlock = BB_NONE;
 }
