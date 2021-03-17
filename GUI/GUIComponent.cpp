@@ -18,10 +18,8 @@
 
 #ifdef __MACH__
     const int GUIComponent::scalingFactor = 2;
-    // const float GUIComponent::fontScalingFactor = 1;
 #else
     const int GUIComponent::scalingFactor = 1;
-    // const float GUIComponent::fontScalingFactor = 1;
 #endif
     
 GUIComponent::GUIComponent(Application& ref) :

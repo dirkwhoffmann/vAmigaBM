@@ -25,7 +25,6 @@ class StatusBar;
 class GUIComponent {
 
     static const int scalingFactor;
-    // static const float fontScalingFactor;
     
 protected:
 
@@ -45,5 +44,4 @@ public:
     
     // Scales a pixel dimension
     int scale(int value) { return scalingFactor * value; }
-    // int fontScale(int value) { return fontScalingFactor * value; }
 };
