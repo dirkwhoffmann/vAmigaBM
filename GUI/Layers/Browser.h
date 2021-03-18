@@ -12,6 +12,8 @@
 #include "Layer.h"
 #include "View.h"
 
+#include <functional>
+
 class Browser : public Layer {
     
     // Position
