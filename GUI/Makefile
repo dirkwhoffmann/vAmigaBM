@@ -1,6 +1,6 @@
 SUBDIRS = Foundation Layers Controller
 
-MYCC = g++ -std=c++17 -Wfatal-errors
+MYCC = g++ -std=c++17 -O2 -Wfatal-errors
 
 EMU = $(CURDIR)/../Emulator
 GUI = $(CURDIR)

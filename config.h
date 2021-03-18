@@ -19,7 +19,7 @@
 #define V_SUBMINOR 17
 
 // Uncomment these settings in a release build
-// #define RELEASEBUILD
+#define RELEASEBUILD
 
 
 //

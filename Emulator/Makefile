@@ -2,7 +2,7 @@ SUBDIRS = \
 Agnus Base CIA CPU Denise Drive Files FileSystems Foundation LogicBoard \
 Memory Paula Peripherals xdms
 
-MYCC = g++ -std=c++17 -Wfatal-errors
+MYCC = g++ -std=c++17 -O2 -Wfatal-errors
 
 MYFLAGS = \
 -Wall \
