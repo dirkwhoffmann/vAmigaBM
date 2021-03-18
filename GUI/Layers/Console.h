@@ -66,6 +66,9 @@ class Console : public Layer {
     // The currently active input string
     isize ipos = 0;
 
+    // Indicates if TAB was the most recently pressed key
+    bool tabPressed = false;
+    
     // The render texture
     sf::RenderTexture texture;
     

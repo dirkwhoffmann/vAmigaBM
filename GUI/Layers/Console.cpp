@@ -297,11 +297,35 @@ Console::lastLineIsVisible()
 void
 Console::type(char c)
 {
-    static isize doubleTab = 0;
-    
     switch (c) {
             
         case '\n':
+        case '\b':
+        case '\t':
+            break;
+            
+        default:
+            
+            if (input[ipos].length() < numCols - (int)prompt.length() - 1) {
+                
+                input[ipos].insert(input[ipos].begin() + cpos++, c);
+            }
+            *this << '\r' << string(prompt) << input[ipos];
+    }
+
+    tabPressed = (c == '\t');
+    makeLastLineVisible();
+    isDirty = true;
+}
+
+void
+Console::keyPressed(const sf::Keyboard::Key& key)
+{
+    bool jumpToLastLine = true;
+        
+    switch (key) {
+            
+        case sf::Keyboard::Return:
 
             *this << '\n';
                         
@@ -323,7 +347,7 @@ Console::type(char c)
             exec(input[ipos - 1]);
             break;
             
-        case '\b':
+        case sf::Keyboard::Backspace:
             
             if (cpos > 0) {
                 input[ipos].erase(input[ipos].begin() + --cpos);
@@ -331,10 +355,11 @@ Console::type(char c)
             *this << '\r' << string(prompt) << input[ipos];
             break;
             
-        case '\t':
-            
-            if (doubleTab) {
-                
+        case sf::Keyboard::Tab:
+                      
+            if (tabPressed) {
+
+                // TAB was pressed twice
                 *this << '\n';
 
                 // Print the instructions for this command
@@ -349,28 +374,7 @@ Console::type(char c)
                 cpos = (isize)input[ipos].length();
                 replace(input[ipos]);
             }
-            
-            doubleTab = 2;
             break;
-            
-        default:
-            
-            if (input[ipos].length() < numCols - (int)prompt.length() - 1) {
-                
-                input[ipos].insert(input[ipos].begin() + cpos++, c);
-            }
-            *this << '\r' << string(prompt) << input[ipos];
-    }
-
-    if (doubleTab > 0) doubleTab--;
-    makeLastLineVisible();
-    isDirty = true;
-}
-
-void
-Console::keyPressed(const sf::Keyboard::Key& key)
-{
-    switch (key) {
             
         case sf::Keyboard::Up:
 
@@ -380,7 +384,6 @@ Console::keyPressed(const sf::Keyboard::Key& key)
 
                 replace(input[ipos]);
             }
-            makeLastLineVisible();
             break;
 
         case sf::Keyboard::Down:
@@ -391,7 +394,6 @@ Console::keyPressed(const sf::Keyboard::Key& key)
                 
                 replace(input[ipos]);
             }
-            makeLastLineVisible();
             break;
             
         case sf::Keyboard::Left:
@@ -399,7 +401,6 @@ Console::keyPressed(const sf::Keyboard::Key& key)
             if (cpos > 0) {
                 cpos--;
             }
-            makeLastLineVisible();
             break;
             
         case sf::Keyboard::Right:
@@ -407,35 +408,36 @@ Console::keyPressed(const sf::Keyboard::Key& key)
             if (cpos < input[ipos].length()) {
                 cpos++;
             }
-            makeLastLineVisible();
             break;
             
         case sf::Keyboard::Home:
             
             cpos = 0;
-            makeLastLineVisible();
             break;
 
         case sf::Keyboard::End:
             
             cpos = (isize)input[ipos].length();
-            makeLastLineVisible();
             break;
 
         case sf::Keyboard::PageUp:
             
             scrollUp(numRows);
+            jumpToLastLine = false;
             break;
             
         case sf::Keyboard::PageDown:
             
             scrollDown(numRows);
+            jumpToLastLine = false;
             break;
             
         default:
             return;
     }
     
+    tabPressed = (key == sf::Keyboard::Tab);
+    if (jumpToLastLine) makeLastLineVisible();
     isDirty = true;
 }
 
