@@ -135,7 +135,7 @@ Controller::processMessage(long id, long data)
             break;
             
     }
-    printf("%s\n", MsgTypeEnum::key(msg));
+    // printf("%s\n", MsgTypeEnum::key(msg));
 }
 
 void

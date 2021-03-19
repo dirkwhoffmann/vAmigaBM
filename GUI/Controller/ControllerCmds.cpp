@@ -112,13 +112,19 @@ Controller::exec <Token::memory, Token::config> (Arguments& argv, long param)
 template <> void
 Controller::exec <Token::memory, Token::load, Token::rom> (Arguments& argv, long param)
 {
-    amiga.mem.loadRomFromFile(argv.front().c_str());
+    auto path = argv.front();
+    if (!util::fileExists(path)) throw ConfigFileNotFoundError(path);
+
+    amiga.mem.loadRomFromFile(path.c_str());
 }
 
 template <> void
 Controller::exec <Token::memory, Token::load, Token::extrom> (Arguments& argv, long param)
 {
-    amiga.mem.loadExtFromFile(argv.front().c_str());
+    auto path = argv.front();
+    if (!util::fileExists(path)) throw ConfigFileNotFoundError(path);
+
+    amiga.mem.loadExtFromFile(path.c_str());
 }
 
 template <> void

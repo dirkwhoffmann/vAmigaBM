@@ -522,6 +522,11 @@ Console::exec(const string &command, bool verbose)
         *this << "Error: Invalid argument. Expected: " << err.what();
         *this << '\n';
         
+    } catch (ConfigFileNotFoundError &err) {
+        *this << err.what() << " not found";
+        *this << '\n';
+        success = true; // Don't break the execution
+        
     } catch (ConfigFileReadError &err) {
         *this << "Error: Unable to read file " << err.what();
         *this << '\n';
