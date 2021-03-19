@@ -228,7 +228,6 @@
 		50AFF9C325EFC4300052269B /* IO.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50AFF9C125EFC4300052269B /* IO.cpp */; };
 		50C4C26F25D1278A00849A01 /* Exception.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50C4C26D25D1278A00849A01 /* Exception.cpp */; };
 		50C4C27225D16C4D00849A01 /* SourceSansPro-Regular.ttf in CopyFiles */ = {isa = PBXBuildFile; fileRef = 50C4C27125D16C2100849A01 /* SourceSansPro-Regular.ttf */; };
-		50C4C27425D1D40C00849A01 /* startup_german.ini in Resources */ = {isa = PBXBuildFile; fileRef = 50C4C27325D1D40C00849A01 /* startup_german.ini */; };
 		50CF561A25BFECA900B1AC0D /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50CF561925BFECA900B1AC0D /* main.cpp */; };
 		50D3312B25FFB8F400FBC489 /* Browser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50D3312925FFB8F400FBC489 /* Browser.cpp */; };
 		50E08E1D25C3102200B82E96 /* IBMPlexMono-Medium.ttf in CopyFiles */ = {isa = PBXBuildFile; fileRef = 50E08E1C25C3101C00B82E96 /* IBMPlexMono-Medium.ttf */; };
@@ -696,7 +695,6 @@
 		50C4C26D25D1278A00849A01 /* Exception.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Exception.cpp; sourceTree = "<group>"; };
 		50C4C26E25D1278A00849A01 /* Exception.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Exception.h; sourceTree = "<group>"; };
 		50C4C27125D16C2100849A01 /* SourceSansPro-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SourceSansPro-Regular.ttf"; sourceTree = "<group>"; };
-		50C4C27325D1D40C00849A01 /* startup_german.ini */ = {isa = PBXFileReference; lastKnownFileType = text; path = startup_german.ini; sourceTree = "<group>"; };
 		50CAD06D25CEAAA300DD55A5 /* Makefile */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
 		50CAD06E25CEAC3A00DD55A5 /* Makefile */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
 		50CAD07025CEAC6100DD55A5 /* Makefile */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
@@ -762,7 +760,6 @@
 			isa = PBXGroup;
 			children = (
 				5002A27625CFCB0400665F89 /* startup.ini */,
-				50C4C27325D1D40C00849A01 /* startup_german.ini */,
 			);
 			path = Scripts;
 			sourceTree = "<group>";
@@ -926,12 +923,12 @@
 				50AE104C25C42D6500AD13B7 /* DeniseTypes.h */,
 				50AE104D25C42D6500AD13B7 /* DeniseRegisters.cpp */,
 				50AE104E25C42D6500AD13B7 /* PixelEngine.h */,
+				50AE105325C42D6500AD13B7 /* PixelEngine.cpp */,
 				50AE104F25C42D6500AD13B7 /* Colors.h */,
-				50AE105025C42D6500AD13B7 /* ScreenRecorder.h */,
+				50AE105425C42D6500AD13B7 /* Colors.cpp */,
 				50AE105125C42D6500AD13B7 /* Denise.h */,
 				50AE105225C42D6500AD13B7 /* Denise.cpp */,
-				50AE105325C42D6500AD13B7 /* PixelEngine.cpp */,
-				50AE105425C42D6500AD13B7 /* Colors.cpp */,
+				50AE105025C42D6500AD13B7 /* ScreenRecorder.h */,
 				50AE105525C42D6500AD13B7 /* ScreenRecorder.cpp */,
 			);
 			path = Denise;
@@ -1565,7 +1562,6 @@
 				507FA35B26047A93003939F1 /* disk18.png in Resources */,
 				50FA653225F66C5F003B786F /* led_grey.png in Resources */,
 				507FA36B26047B09003939F1 /* mute18.png in Resources */,
-				50C4C27425D1D40C00849A01 /* startup_german.ini in Resources */,
 				507FA36126047AD0003939F1 /* halt18.png in Resources */,
 				507FA36D26047B35003939F1 /* keyset18.png in Resources */,
 			);

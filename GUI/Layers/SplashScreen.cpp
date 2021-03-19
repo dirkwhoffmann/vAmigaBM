@@ -43,7 +43,8 @@ SplashScreen::init()
     title1.setString("vAmiga");
     title2.setString("Bare Metal");
     info2.setString("Press F11 to open the debug console");
-    info3.setString("Press F12 to open the menu");
+    // info3.setString("Press F12 to open the menu");
+    info3.setString("");
 
     // Background
     background.init(0, 0,
