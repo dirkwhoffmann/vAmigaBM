@@ -25,12 +25,10 @@ The easiest way to download the source code is to clone the GitHub project with 
 
 On startup, vAmigaBM reads in a config file named `startup.ini`. This file is the central place to configure the emulator. Before starting vAmigaBM the first time, two important settings must be made. To do so, open the configuration file in the editor of your choice and search for the following two items:
 
-    ...
-    memory load rom "/tmp/kickstart.rom"
-    ...
-    dfn set searchpath "adf"
-    ...
-
+    memory load rom "..."
+    
+    dfn set searchpath "..."
+    
 These two settings tell vAmiga the file name of the Kickstart Rom and the location of ADF files. Please note that vAmiga does not come with any an original Commodore ROM. All original ROMs are the intellectual property of the company Cloanto and cannot be distributed freely.
 
 ## Run
