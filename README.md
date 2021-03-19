@@ -6,27 +6,40 @@ vAmiga Bare Metal (vAmigaBM) is a fork of vAmiga wich emulates a Commodore Amiga
 
 To build vAmigaBM from source, please follow the instructions below: 
 
-#### Download the source code
+#### Download
 
 The easiest way to download the source code is to clone the GitHub project with the following command:
 
     git clone https://github.com/dirkwhoffmann/vAmigaBM.git
 
-#### Build the application
+#### Build
 
     cd vAmigaBM
     make
 
   If no errors occur, a subdirectory vAmiga has been created which contains the executable and a number of resource files.
+  
+    cd vAmiga
 
-## Running the emulator
+## Configure
 
 On startup, vAmigaBM reads in a config file named `startup.ini`. This file is the central place to configure the emulator. Before starting vAmigaBM the first time, two important settings must be made. To do so, open the configuration file in the editor of your choice and search for the following two items:
 
+    ...
     memory load rom "/tmp/kickstart.rom"
+    ...
     dfn set searchpath "adf"
+    ...
 
 These two settings tell vAmiga the file name of the Kickstart Rom and the location of ADF files. Please note that vAmiga does not come with any an original Commodore ROM. All original ROMs are the intellectual property of the company Cloanto and cannot be distributed freely.
+
+## Run
+
+You are done. Type 'vAmiga' and have fun with your virtual Amiga.
+
+<div class ="center">
+<img src="https://dirkwhoffmann.github.io/vAmiga/images/vAmigaBM.png" width="600">
+</div>
 
 ## Frequently asked questions
 
