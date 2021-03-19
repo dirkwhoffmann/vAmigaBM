@@ -48,9 +48,11 @@ struct U16Stereo; typedef U16Stereo SampleType;
  *           mouse state. It is the recommended mode for macOS.
  */
 enum class MouseEmulation { SFML, MANY, MACH };
+#ifdef __MACH__
+static const MouseEmulation mouseEmulation = MouseEmulation::MACH;
+#else
 static const MouseEmulation mouseEmulation = MouseEmulation::SFML;
-// static const MouseEmulation mouseEmulation = MouseEmulation::MACH;
-
+#endif
 
 //
 // Configuration overrides
