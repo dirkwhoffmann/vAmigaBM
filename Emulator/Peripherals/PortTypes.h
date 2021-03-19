@@ -9,8 +9,11 @@
 
 #pragma once
 
-#include "PortPublicTypes.h"
 #include "Reflection.h"
+
+namespace va {
+
+#include "PortPublicTypes.h"
 
 struct SerialPortDeviceEnum : Reflection<SerialPortDeviceEnum, SerialPortDevice> {
     
@@ -101,3 +104,5 @@ struct GamePadActionEnum : Reflection<GamePadActionEnum, GamePadAction> {
         return "???";
     }
 };
+
+}

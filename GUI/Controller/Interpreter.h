@@ -13,6 +13,8 @@
 #include "Exception.h"
 #include "Errors.h"
 
+using namespace va;
+
 enum class Token
 {
     none,

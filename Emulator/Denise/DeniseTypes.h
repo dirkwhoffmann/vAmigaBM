@@ -9,8 +9,11 @@
 
 #pragma once
 
-#include "DenisePublicTypes.h"
 #include "Reflection.h"
+
+namespace va {
+
+#include "DenisePublicTypes.h"
 
 //
 // Reflection APIs
@@ -60,3 +63,5 @@ struct PaletteEnum : Reflection<PaletteEnum, Palette> {
         return "???";
     }
 };
+
+}

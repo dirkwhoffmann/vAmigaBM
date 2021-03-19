@@ -16,6 +16,8 @@
 #include "FSDevice.h"
 #include "MsgQueue.h"
 
+namespace va {
+
 Drive::Drive(Amiga& ref, isize n) : AmigaComponent(ref), nr(n)
 {
     assert(nr < 4);
@@ -26,10 +28,10 @@ Drive::Drive(Amiga& ref, isize n) : AmigaComponent(ref), nr(n)
     config.stopDelay = MSEC(80);
     config.stepDelay = USEC(8000);
     config.pan = IS_EVEN(nr) ? 100 : -100;
-    config.stepVolume = 50;
-    config.pollVolume = 0;
-    config.insertVolume = 50;
-    config.ejectVolume = 50;
+    config.stepVolume = 128;
+    config.pollVolume = 128;
+    config.insertVolume = 128;
+    config.ejectVolume = 128;
     config.defaultFileSystem = FS_OFS;
     config.defaultBootBlock = BB_NONE;
 }
@@ -831,4 +833,6 @@ Drive::PRBdidChange(u8 oldValue, u8 newValue)
         // debug("Switching to side %d\n", !(newValue & 0b100));
     }
     head.side = !(newValue & 0b100);
+}
+
 }

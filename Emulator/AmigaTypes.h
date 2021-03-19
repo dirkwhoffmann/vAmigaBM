@@ -9,8 +9,11 @@
 
 #pragma once
 
-#include "AmigaPublicTypes.h"
 #include "Reflection.h"
+
+namespace va {
+
+#include "AmigaPublicTypes.h"
 
 //
 // Reflection APIs
@@ -204,3 +207,5 @@ enum_u32(RunLoopControlFlag)
     RL_AUTO_SNAPSHOT      = 0b01000000,
     RL_USER_SNAPSHOT      = 0b10000000,
 };
+
+}

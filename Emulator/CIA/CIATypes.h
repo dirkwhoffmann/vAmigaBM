@@ -9,8 +9,11 @@
 
 #pragma once
 
-#include "CIAPublicTypes.h"
 #include "Reflection.h"
+
+namespace va {
+
+#include "CIAPublicTypes.h"
 
 //
 // Reflection APIs
@@ -35,3 +38,5 @@ struct CIARevisionEnum : Reflection<CIARevisionEnum, CIARevision> {
         return "???";
     }
 };
+
+}

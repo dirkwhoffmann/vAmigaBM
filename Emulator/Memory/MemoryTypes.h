@@ -9,8 +9,11 @@
 
 #pragma once
 
-#include "MemoryPublicTypes.h"
 #include "Reflection.h"
+
+namespace va {
+
+#include "MemoryPublicTypes.h"
 
 //
 // Reflection APIs
@@ -133,3 +136,5 @@ struct UnmappedMemoryEnum : Reflection<UnmappedMemoryEnum, UnmappedMemory> {
         return "???";
     }
 };
+
+}

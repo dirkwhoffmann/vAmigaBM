@@ -10,7 +10,7 @@
 #pragma once
 
 #include "FSTypes.h"
-#include "DiskPublicTypes.h"
+#include "DiskTypes.h"
 #include "AmigaObject.h"
 #include "FSObjects.h"
 #include "FSBlock.h"
@@ -23,6 +23,8 @@
 #include "FSFileHeaderBlock.h"
 #include "FSFileListBlock.h"
 #include "FSDataBlock.h"
+
+namespace va {
 
 /* To create a FSDevice, the layout parameters of the represendet device have
  * to be provided. This is done by passing a structure of type FSDeviceLayout
@@ -99,3 +101,5 @@ struct FSPartitionDescriptor : AmigaObject {
     // Returns the number of cylinders in this partition
     isize numCyls() { return highCyl - lowCyl + 1; }
 };
+
+}

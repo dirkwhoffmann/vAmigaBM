@@ -9,8 +9,11 @@
 
 #pragma once
 
-#include "DrivePublicTypes.h"
 #include "Reflection.h"
+
+namespace va {
+
+#include "DrivePublicTypes.h"
 
 struct DriveTypeEnum : Reflection<DriveTypeEnum, DriveType> {
     
@@ -32,3 +35,5 @@ struct DriveTypeEnum : Reflection<DriveTypeEnum, DriveType> {
         return "???";
     }
 };
+
+}

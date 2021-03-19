@@ -11,7 +11,8 @@
 
 #include "Aliases.h"
 
-class Amiga;
+namespace va { class Amiga; }
+
 class Application;
 class Browser;
 class Canvas;
@@ -28,7 +29,7 @@ class GUIComponent {
     
 protected:
 
-    Amiga &amiga;
+    va::Amiga &amiga;
     Application &app;
     Browser &fileBrowser;
     Canvas &canvas;

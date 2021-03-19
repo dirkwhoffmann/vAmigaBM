@@ -10,9 +10,10 @@
 #pragma once
 
 #include "Aliases.h"
-#include "EventHandlerPublicTypes.h"
+#include "EventHandlerTypes.h"
 #include "RingBuffer.h"
 
+namespace va {
 
 /* Register change recorder
  *
@@ -49,3 +50,4 @@ struct RegChangeRecorder : public SortedRingBuffer<RegChange, capacity>
     }
 };
 
+}

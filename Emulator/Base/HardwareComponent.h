@@ -10,13 +10,15 @@
 #pragma once
 
 #include "AmigaObject.h"
-#include "AmigaPublicTypes.h"
+#include "AmigaTypes.h"
 #include "Serialization.h"
 #include "Concurrency.h"
 
 #include <vector>
 #include <iostream>
 #include <iomanip>
+
+namespace va {
 
 /* This class defines the base functionality of all hardware components. It
  * comprises functions for initializing, configuring, and serializing the
@@ -324,4 +326,6 @@ applyToHardResetItems(writer); \
 applyToResetItems(writer); \
 debug(SNP_DEBUG, "Serialized to %zu bytes\n", writer.ptr - buffer); \
 return (isize)(writer.ptr - buffer); \
+}
+
 }

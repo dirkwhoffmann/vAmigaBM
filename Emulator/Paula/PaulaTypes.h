@@ -9,8 +9,11 @@
 
 #pragma once
 
-#include "PaulaPublicTypes.h"
 #include "Reflection.h"
+
+namespace va {
+
+#include "PaulaPublicTypes.h"
 
 //
 // Private types
@@ -72,3 +75,5 @@ struct IrqSourceEnum : Reflection<IrqSourceEnum, IrqSource> {
         return "???";
     }
 };
+
+}

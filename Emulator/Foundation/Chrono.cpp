@@ -75,7 +75,7 @@ Time::sleep()
 void
 Time::sleepUntil()
 {
-    (*this - now()).sleep();
+    (now() - *this).sleep();
 }
 
 #endif

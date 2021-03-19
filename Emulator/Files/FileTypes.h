@@ -9,9 +9,11 @@
 
 #pragma once
 
-#include "FilePublicTypes.h"
 #include "DiskTypes.h"
-#include "Reflection.h"
+
+namespace va {
+
+#include "FilePublicTypes.h"
 
 struct FileTypeEnum : Reflection<FileTypeEnum, FileType> {
     
@@ -135,3 +137,5 @@ struct BootBlockIdEnum : Reflection<BootBlockIdEnum, BootBlockId> {
         return "???";
     }
 };
+
+}

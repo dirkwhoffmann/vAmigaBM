@@ -9,8 +9,11 @@
 
 #pragma once
 
-#include "DiskControllerPublicTypes.h"
 #include "Reflection.h"
+
+namespace va {
+
+#include "DiskControllerPublicTypes.h"
 
 struct DriveStateEnum : Reflection<DriveStateEnum, DriveState> {
     
@@ -35,3 +38,5 @@ struct DriveStateEnum : Reflection<DriveStateEnum, DriveState> {
         return "???";
     }
 };
+
+}

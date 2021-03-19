@@ -9,11 +9,14 @@
 
 #pragma once
 
-#include "AgnusPublicTypes.h"
 #include "Reflection.h"
 
 #include "BlitterTypes.h"
 #include "CopperTypes.h"
+
+namespace va {
+
+#include "AgnusPublicTypes.h"
 
 //
 // Reflection APIs
@@ -168,4 +171,6 @@ enum RegChangeID : i32
 static inline bool isRegChangeID(long value)
 {
     return (unsigned long)value < REG_COUNT;
+}
+
 }

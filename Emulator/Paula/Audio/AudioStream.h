@@ -34,32 +34,6 @@
  */
 
 //
-// Volume
-//
-
-struct Volume {
-
-    // Maximum volume
-    // constexpr const static float maxVolume = 1.0;
-
-    // Current volume (will eventually reach the target volume)
-    float current = 1.0;
-
-    // Target volume
-    float target = 1.0;
-
-    // Delta steps (added to volume until the target volume is reached)
-    float delta = 0;
-
-    bool fading() { return current != target; }
-    bool silent() { return current == 0.0; }
-    
-    // Shifts the current volume towards the target volume
-    void shift();
-};
-
-
-//
 // Sample types
 //
 
@@ -132,6 +106,34 @@ struct FloatStereo
 };
 
 
+namespace va {
+
+//
+// Volume
+//
+
+struct Volume {
+
+    // Maximum volume
+    // constexpr const static float maxVolume = 1.0;
+
+    // Current volume (will eventually reach the target volume)
+    float current = 1.0;
+
+    // Target volume
+    float target = 1.0;
+
+    // Delta steps (added to volume until the target volume is reached)
+    float delta = 0;
+
+    bool fading() { return current != target; }
+    bool silent() { return current == 0.0; }
+    
+    // Shifts the current volume towards the target volume
+    void shift();
+};
+
+
 //
 // AudioStream
 //
@@ -183,3 +185,5 @@ public:
     float draw(u32 *buffer, isize width, isize height,
                bool left, float highestAmplitude, u32 color);
 };
+
+}

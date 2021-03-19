@@ -10,14 +10,14 @@
 #pragma once
 
 #include "CopperTypes.h"
-
-#include "EventHandlerPublicTypes.h"
-#include "MemoryPublicTypes.h"
-
+#include "EventHandlerTypes.h"
+#include "MemoryTypes.h"
 #include "AmigaComponent.h"
 #include "Beam.h"
 #include "Checksum.h"
 #include "CopperTypes.h"
+
+namespace va {
 
 class Copper : public AmigaComponent
 {
@@ -333,3 +333,5 @@ public:
     // Dumps a Copper list
     void dumpCopperList(isize list, isize length);
 };
+
+}

@@ -9,12 +9,10 @@
 
 #pragma once
 
-#include "AmigaPublicTypes.h"
+#include "AmigaTypes.h"
 #include "Exception.h"
 
-// #include <exception>
-// #include <string>
-
+namespace va {
 
 //
 // VAError
@@ -64,3 +62,5 @@ struct ConfigLockedError : ConfigError {
 struct ConfigUnsupportedError : ConfigError {
     ConfigUnsupportedError() : ConfigError("") { };
 };
+
+}

@@ -31,6 +31,8 @@
 #include "View.h"
 #include "AmigaMusicStream.h"
 
+using namespace va;
+
 class Application : public GUIComponent
 {
 

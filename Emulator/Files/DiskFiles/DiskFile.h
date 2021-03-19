@@ -10,6 +10,9 @@
 #pragma once
 
 #include "AmigaFile.h"
+
+namespace va {
+
 #include "FSPublicTypes.h"
 
 // Base class of all file types encoding a disk
@@ -92,3 +95,5 @@ public:
     virtual bool encodeDisk(class Disk *disk);
     virtual void decodeDisk(class Disk *disk) throws;
 };
+
+}

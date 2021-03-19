@@ -9,8 +9,11 @@
 
 #pragma once
 
-#include "FSPublicTypes.h"
 #include "Reflection.h"
+
+namespace va {
+
+#include "FSPublicTypes.h"
 
 struct FSVolumeTypeEnum : Reflection<FSVolumeTypeEnum, FSVolumeType> {
     
@@ -123,3 +126,5 @@ struct FSItemTypeEnum : Reflection<FSItemTypeEnum, FSItemType> {
         return "???";
     }
 };
+
+}
