@@ -10,34 +10,65 @@
 #include "config.h"
 #include "Application.h"
 
+
+Assets::Assets(class Application &ref) :
+textures(ref),
+fonts(ref),
+sounds(ref),
+shaders(ref)
+{
+
+}
+
 void
 TextureManager::load(TextureID id)
 {
+    bool highdpi = scale(1) != 1;
     string path = "";
     
     switch (id) {
             
-        case TextureID::logo: path = "logo.png"; break;
-        case TextureID::title: path = "title.png"; break;
-        case TextureID::disk: path = "disk36.png"; break;
-        case TextureID::diskProtected: path = "disk_protected36.png"; break;
-        case TextureID::diskLarge: path = "disk_large.png"; break;
-        case TextureID::spin: path = "spin36.png"; break;
-        case TextureID::ledBlack: path = "led_black.png"; break;
-        case TextureID::ledGrey: path = "led_grey.png"; break;
-        case TextureID::ledGreen: path = "led_green.png"; break;
-        case TextureID::ledRed: path = "led_red.png"; break;
-        case TextureID::mute: path = "mute36.png"; break;
-        case TextureID::halt: path = "halt36.png"; break;
-        case TextureID::sync: path = "sync36.png"; break;
-        case TextureID::warp: path = "warp36.png"; break;
-        case TextureID::syncLock: path = "sync_lock36.png"; break;
-        case TextureID::warpLock: path = "warp_lock36.png"; break;
-        case TextureID::none: path = "none36.png"; break;
-        case TextureID::mouse: path = "mouse36.png"; break;
-        case TextureID::joystick: path = "joystick36.png"; break;
-        case TextureID::keyset: path = "keyset36.png"; break;
-            
+        case TextureID::diskLarge:
+            path = "disk128.png"; break;
+        case TextureID::ledBlack:
+            path = "led_black.png"; break;
+        case TextureID::ledGrey:
+            path = "led_grey.png"; break;
+        case TextureID::ledGreen:
+            path = "led_green.png"; break;
+        case TextureID::ledRed:
+            path = "led_red.png"; break;
+        case TextureID::logo:
+            path = "logo.png"; break;
+        case TextureID::title:
+            path = "title.png"; break;
+        case TextureID::disk:
+            path = highdpi ? "disk36.png" : "disk18.png"; break;
+        case TextureID::diskProtected:
+            path = highdpi ? "disk_protected36.png" : "disk_protected18.png"; break;
+        case TextureID::spin:
+            path = highdpi ? "spin36.png" : "spin18.png"; break;
+        case TextureID::mute:
+            path = highdpi ? "mute36.png" : "mute18.png"; break;
+        case TextureID::halt:
+            path = highdpi ? "halt36.png" : "halt18.png"; break;
+        case TextureID::sync:
+            path = highdpi ? "sync36.png" : "sync18.png"; break;
+        case TextureID::warp:
+            path = highdpi ? "warp36.png" : "warp18.png"; break;
+        case TextureID::syncLock:
+            path = highdpi ? "sync_lock36.png" : "sync_lock18.png"; break;
+        case TextureID::warpLock:
+            path = highdpi ? "warp_lock36.png" : "warp_lock18.png"; break;
+        case TextureID::none:
+            path = highdpi ? "none36.png" : "none18.png"; break;
+        case TextureID::mouse:
+            path = highdpi ? "mouse36.png" : "mouse18.png"; break;
+        case TextureID::joystick:
+            path = highdpi ? "joystick36.png" : "joystick18.png"; break;
+        case TextureID::keyset:
+            path = highdpi ? "keyset36.png": "keyset18.png"; break;
+
         default:
             assert(false);
     }

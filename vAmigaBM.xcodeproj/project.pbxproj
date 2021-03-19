@@ -14,8 +14,8 @@
 		5002A27E25D00F3000665F89 /* SplashScreen.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5002A27C25D00F3000665F89 /* SplashScreen.cpp */; };
 		5002A28125D03B2300665F89 /* Canvas.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5002A27F25D03B2300665F89 /* Canvas.cpp */; };
 		5002A28425D0596300665F89 /* View.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5002A28225D0596300665F89 /* View.cpp */; };
-		502431CF25FD0A3200A019F7 /* disk_large.png in Resources */ = {isa = PBXBuildFile; fileRef = 502431CE25FD0A3200A019F7 /* disk_large.png */; };
-		502431D025FD0AD400A019F7 /* disk_large.png in CopyFiles */ = {isa = PBXBuildFile; fileRef = 502431CE25FD0A3200A019F7 /* disk_large.png */; };
+		502431CF25FD0A3200A019F7 /* disk128.png in Resources */ = {isa = PBXBuildFile; fileRef = 502431CE25FD0A3200A019F7 /* disk128.png */; };
+		502431D025FD0AD400A019F7 /* disk128.png in CopyFiles */ = {isa = PBXBuildFile; fileRef = 502431CE25FD0A3200A019F7 /* disk128.png */; };
 		502D8EB225DC678D00007C2C /* title.png in CopyFiles */ = {isa = PBXBuildFile; fileRef = 502D8EB125DC678D00007C2C /* title.png */; };
 		502D8EB725DCE40F00007C2C /* SourceSansPro-Bold.ttf in CopyFiles */ = {isa = PBXBuildFile; fileRef = 502D8EB525DCE3C500007C2C /* SourceSansPro-Bold.ttf */; };
 		502D8EB825DCE41100007C2C /* SourceSansPro-Black.ttf in CopyFiles */ = {isa = PBXBuildFile; fileRef = 502D8EB625DCE3CE00007C2C /* SourceSansPro-Black.ttf */; };
@@ -56,6 +56,30 @@
 		507FA3572602861D003939F1 /* joystick36.png in CopyFiles */ = {isa = PBXBuildFile; fileRef = 507FA34C26028548003939F1 /* joystick36.png */; };
 		507FA35826028633003939F1 /* none36.png in CopyFiles */ = {isa = PBXBuildFile; fileRef = 507FA342260283CB003939F1 /* none36.png */; };
 		507FA3592603A77A003939F1 /* warp_lock36.png in CopyFiles */ = {isa = PBXBuildFile; fileRef = 507FA33626028316003939F1 /* warp_lock36.png */; };
+		507FA35B26047A93003939F1 /* disk18.png in Resources */ = {isa = PBXBuildFile; fileRef = 507FA35A26047A93003939F1 /* disk18.png */; };
+		507FA35D26047A9B003939F1 /* disk_protected18.png in Resources */ = {isa = PBXBuildFile; fileRef = 507FA35C26047A9B003939F1 /* disk_protected18.png */; };
+		507FA35F26047AB6003939F1 /* spin18.png in Resources */ = {isa = PBXBuildFile; fileRef = 507FA35E26047AB6003939F1 /* spin18.png */; };
+		507FA36126047AD0003939F1 /* halt18.png in Resources */ = {isa = PBXBuildFile; fileRef = 507FA36026047AD0003939F1 /* halt18.png */; };
+		507FA36326047ADF003939F1 /* sync18.png in Resources */ = {isa = PBXBuildFile; fileRef = 507FA36226047ADF003939F1 /* sync18.png */; };
+		507FA36526047AE7003939F1 /* warp18.png in Resources */ = {isa = PBXBuildFile; fileRef = 507FA36426047AE7003939F1 /* warp18.png */; };
+		507FA36726047AED003939F1 /* warp_lock18.png in Resources */ = {isa = PBXBuildFile; fileRef = 507FA36626047AEC003939F1 /* warp_lock18.png */; };
+		507FA36926047AFA003939F1 /* sync_lock18.png in Resources */ = {isa = PBXBuildFile; fileRef = 507FA36826047AFA003939F1 /* sync_lock18.png */; };
+		507FA36B26047B09003939F1 /* mute18.png in Resources */ = {isa = PBXBuildFile; fileRef = 507FA36A26047B09003939F1 /* mute18.png */; };
+		507FA36D26047B35003939F1 /* keyset18.png in Resources */ = {isa = PBXBuildFile; fileRef = 507FA36C26047B35003939F1 /* keyset18.png */; };
+		507FA36F26047B3B003939F1 /* joystick18.png in Resources */ = {isa = PBXBuildFile; fileRef = 507FA36E26047B3A003939F1 /* joystick18.png */; };
+		507FA37126047B44003939F1 /* mouse18.png in Resources */ = {isa = PBXBuildFile; fileRef = 507FA37026047B44003939F1 /* mouse18.png */; };
+		507FA37326047B4E003939F1 /* none18.png in Resources */ = {isa = PBXBuildFile; fileRef = 507FA37226047B4E003939F1 /* none18.png */; };
+		507FA37426047DC4003939F1 /* spin18.png in CopyFiles */ = {isa = PBXBuildFile; fileRef = 507FA35E26047AB6003939F1 /* spin18.png */; };
+		507FA37526047DCB003939F1 /* halt18.png in CopyFiles */ = {isa = PBXBuildFile; fileRef = 507FA36026047AD0003939F1 /* halt18.png */; };
+		507FA37626047DD2003939F1 /* sync18.png in CopyFiles */ = {isa = PBXBuildFile; fileRef = 507FA36226047ADF003939F1 /* sync18.png */; };
+		507FA37726047DD6003939F1 /* warp18.png in CopyFiles */ = {isa = PBXBuildFile; fileRef = 507FA36426047AE7003939F1 /* warp18.png */; };
+		507FA37826047DDA003939F1 /* warp_lock18.png in CopyFiles */ = {isa = PBXBuildFile; fileRef = 507FA36626047AEC003939F1 /* warp_lock18.png */; };
+		507FA37926047DDD003939F1 /* sync_lock18.png in CopyFiles */ = {isa = PBXBuildFile; fileRef = 507FA36826047AFA003939F1 /* sync_lock18.png */; };
+		507FA37A26047DE2003939F1 /* mute18.png in CopyFiles */ = {isa = PBXBuildFile; fileRef = 507FA36A26047B09003939F1 /* mute18.png */; };
+		507FA37B26047DEA003939F1 /* keyset18.png in CopyFiles */ = {isa = PBXBuildFile; fileRef = 507FA36C26047B35003939F1 /* keyset18.png */; };
+		507FA37C26047DEF003939F1 /* joystick18.png in CopyFiles */ = {isa = PBXBuildFile; fileRef = 507FA36E26047B3A003939F1 /* joystick18.png */; };
+		507FA37D26047DF3003939F1 /* mouse18.png in CopyFiles */ = {isa = PBXBuildFile; fileRef = 507FA37026047B44003939F1 /* mouse18.png */; };
+		507FA37E26047DF6003939F1 /* none18.png in CopyFiles */ = {isa = PBXBuildFile; fileRef = 507FA37226047B4E003939F1 /* none18.png */; };
 		508A80B825E650E3007C4E46 /* krunch.png in CopyFiles */ = {isa = PBXBuildFile; fileRef = 508A80B725E650E3007C4E46 /* krunch.png */; };
 		508A80BA25E65148007C4E46 /* merge.frag in CopyFiles */ = {isa = PBXBuildFile; fileRef = 508A80B925E65148007C4E46 /* merge.frag */; };
 		508A80BC25E6A67A007C4E46 /* mergeBypass.frag in CopyFiles */ = {isa = PBXBuildFile; fileRef = 508A80BB25E6A67A007C4E46 /* mergeBypass.frag */; };
@@ -273,21 +297,32 @@
 				502D8EBA25DCE82200007C2C /* logo.png in CopyFiles */,
 				507FA34E260285F9003939F1 /* disk36.png in CopyFiles */,
 				507FA34F260285FD003939F1 /* disk_protected36.png in CopyFiles */,
-				502431D025FD0AD400A019F7 /* disk_large.png in CopyFiles */,
+				502431D025FD0AD400A019F7 /* disk128.png in CopyFiles */,
+				507FA37426047DC4003939F1 /* spin18.png in CopyFiles */,
 				507FA35026028600003939F1 /* spin36.png in CopyFiles */,
+				507FA37526047DCB003939F1 /* halt18.png in CopyFiles */,
 				507FA35126028606003939F1 /* halt36.png in CopyFiles */,
+				507FA37626047DD2003939F1 /* sync18.png in CopyFiles */,
 				507FA3522602860A003939F1 /* sync36.png in CopyFiles */,
+				507FA37726047DD6003939F1 /* warp18.png in CopyFiles */,
 				507FA3532602860E003939F1 /* warp36.png in CopyFiles */,
+				507FA37826047DDA003939F1 /* warp_lock18.png in CopyFiles */,
 				507FA3592603A77A003939F1 /* warp_lock36.png in CopyFiles */,
+				507FA37926047DDD003939F1 /* sync_lock18.png in CopyFiles */,
 				507FA35426028612003939F1 /* sync_lock36.png in CopyFiles */,
+				507FA37A26047DE2003939F1 /* mute18.png in CopyFiles */,
 				507FA35526028615003939F1 /* mute36.png in CopyFiles */,
 				50FA653A25F66C98003B786F /* led_green.png in CopyFiles */,
 				50FA653B25F66C9B003B786F /* led_black.png in CopyFiles */,
 				50FA653C25F66C9E003B786F /* led_red.png in CopyFiles */,
 				50FA653D25F66CA1003B786F /* led_grey.png in CopyFiles */,
+				507FA37B26047DEA003939F1 /* keyset18.png in CopyFiles */,
 				507FA35626028619003939F1 /* keyset36.png in CopyFiles */,
+				507FA37C26047DEF003939F1 /* joystick18.png in CopyFiles */,
 				507FA3572602861D003939F1 /* joystick36.png in CopyFiles */,
+				507FA37D26047DF3003939F1 /* mouse18.png in CopyFiles */,
 				507FA33126025886003939F1 /* mouse36.png in CopyFiles */,
+				507FA37E26047DF6003939F1 /* none18.png in CopyFiles */,
 				507FA35826028633003939F1 /* none36.png in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -307,7 +342,7 @@
 		5002A28225D0596300665F89 /* View.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = View.cpp; sourceTree = "<group>"; };
 		5002A28325D0596300665F89 /* View.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = View.h; sourceTree = "<group>"; };
 		5015FB8D25FB3C9F00A3DD11 /* Makefile */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
-		502431CE25FD0A3200A019F7 /* disk_large.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = disk_large.png; sourceTree = "<group>"; };
+		502431CE25FD0A3200A019F7 /* disk128.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = disk128.png; sourceTree = "<group>"; };
 		502D8EB125DC678D00007C2C /* title.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = title.png; sourceTree = "<group>"; };
 		502D8EB525DCE3C500007C2C /* SourceSansPro-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SourceSansPro-Bold.ttf"; sourceTree = "<group>"; };
 		502D8EB625DCE3CE00007C2C /* SourceSansPro-Black.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SourceSansPro-Black.ttf"; sourceTree = "<group>"; };
@@ -344,6 +379,19 @@
 		507FA348260284AB003939F1 /* disk_protected36.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = disk_protected36.png; sourceTree = "<group>"; };
 		507FA34A260284EF003939F1 /* halt36.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = halt36.png; sourceTree = "<group>"; };
 		507FA34C26028548003939F1 /* joystick36.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = joystick36.png; sourceTree = "<group>"; };
+		507FA35A26047A93003939F1 /* disk18.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = disk18.png; sourceTree = "<group>"; };
+		507FA35C26047A9B003939F1 /* disk_protected18.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = disk_protected18.png; sourceTree = "<group>"; };
+		507FA35E26047AB6003939F1 /* spin18.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = spin18.png; sourceTree = "<group>"; };
+		507FA36026047AD0003939F1 /* halt18.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = halt18.png; sourceTree = "<group>"; };
+		507FA36226047ADF003939F1 /* sync18.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sync18.png; sourceTree = "<group>"; };
+		507FA36426047AE7003939F1 /* warp18.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = warp18.png; sourceTree = "<group>"; };
+		507FA36626047AEC003939F1 /* warp_lock18.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = warp_lock18.png; sourceTree = "<group>"; };
+		507FA36826047AFA003939F1 /* sync_lock18.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sync_lock18.png; sourceTree = "<group>"; };
+		507FA36A26047B09003939F1 /* mute18.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mute18.png; sourceTree = "<group>"; };
+		507FA36C26047B35003939F1 /* keyset18.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = keyset18.png; sourceTree = "<group>"; };
+		507FA36E26047B3A003939F1 /* joystick18.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = joystick18.png; sourceTree = "<group>"; };
+		507FA37026047B44003939F1 /* mouse18.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mouse18.png; sourceTree = "<group>"; };
+		507FA37226047B4E003939F1 /* none18.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = none18.png; sourceTree = "<group>"; };
 		508A80B725E650E3007C4E46 /* krunch.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = krunch.png; sourceTree = "<group>"; };
 		508A80B925E65148007C4E46 /* merge.frag */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = merge.frag; sourceTree = "<group>"; };
 		508A80BB25E6A67A007C4E46 /* mergeBypass.frag */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = mergeBypass.frag; sourceTree = "<group>"; };
@@ -1395,24 +1443,37 @@
 		50FFC12E25F3E5B100D7595A /* Icons */ = {
 			isa = PBXGroup;
 			children = (
+				502431CE25FD0A3200A019F7 /* disk128.png */,
+				507FA35A26047A93003939F1 /* disk18.png */,
 				507FA34626028485003939F1 /* disk36.png */,
-				502431CE25FD0A3200A019F7 /* disk_large.png */,
+				507FA35C26047A9B003939F1 /* disk_protected18.png */,
 				507FA348260284AB003939F1 /* disk_protected36.png */,
+				507FA35E26047AB6003939F1 /* spin18.png */,
 				507FA33C260283AA003939F1 /* spin36.png */,
+				507FA36026047AD0003939F1 /* halt18.png */,
 				507FA34A260284EF003939F1 /* halt36.png */,
+				507FA36226047ADF003939F1 /* sync18.png */,
 				507FA344260283D2003939F1 /* sync36.png */,
+				507FA36426047AE7003939F1 /* warp18.png */,
 				507FA33426028310003939F1 /* warp36.png */,
+				507FA36626047AEC003939F1 /* warp_lock18.png */,
 				507FA33626028316003939F1 /* warp_lock36.png */,
+				507FA36826047AFA003939F1 /* sync_lock18.png */,
 				507FA33226028309003939F1 /* sync_lock36.png */,
+				507FA36A26047B09003939F1 /* mute18.png */,
 				507FA340260283C4003939F1 /* mute36.png */,
+				507FA36C26047B35003939F1 /* keyset18.png */,
+				507FA33E260283BC003939F1 /* keyset36.png */,
+				507FA36E26047B3A003939F1 /* joystick18.png */,
+				507FA34C26028548003939F1 /* joystick36.png */,
+				507FA37026047B44003939F1 /* mouse18.png */,
+				507FA32F26025875003939F1 /* mouse36.png */,
+				507FA37226047B4E003939F1 /* none18.png */,
+				507FA342260283CB003939F1 /* none36.png */,
 				50FA652B25F66C45003B786F /* led_green.png */,
 				50FA652D25F66C4E003B786F /* led_black.png */,
 				50FA652F25F66C59003B786F /* led_red.png */,
 				50FA653125F66C5F003B786F /* led_grey.png */,
-				507FA33E260283BC003939F1 /* keyset36.png */,
-				507FA34C26028548003939F1 /* joystick36.png */,
-				507FA32F26025875003939F1 /* mouse36.png */,
-				507FA342260283CB003939F1 /* none36.png */,
 			);
 			path = Icons;
 			sourceTree = "<group>";
@@ -1477,23 +1538,36 @@
 			files = (
 				50FA652C25F66C45003B786F /* led_green.png in Resources */,
 				507FA343260283CB003939F1 /* none36.png in Resources */,
+				507FA36F26047B3B003939F1 /* joystick18.png in Resources */,
 				507FA34B260284EF003939F1 /* halt36.png in Resources */,
+				507FA37126047B44003939F1 /* mouse18.png in Resources */,
 				507FA345260283D2003939F1 /* sync36.png in Resources */,
 				507FA33026025875003939F1 /* mouse36.png in Resources */,
+				507FA35D26047A9B003939F1 /* disk_protected18.png in Resources */,
+				507FA36926047AFA003939F1 /* sync_lock18.png in Resources */,
 				507FA33726028317003939F1 /* warp_lock36.png in Resources */,
 				507FA33D260283AA003939F1 /* spin36.png in Resources */,
 				507FA341260283C4003939F1 /* mute36.png in Resources */,
 				507FA349260284AB003939F1 /* disk_protected36.png in Resources */,
 				507FA34726028485003939F1 /* disk36.png in Resources */,
-				502431CF25FD0A3200A019F7 /* disk_large.png in Resources */,
+				502431CF25FD0A3200A019F7 /* disk128.png in Resources */,
 				507FA33F260283BD003939F1 /* keyset36.png in Resources */,
 				50FA653025F66C59003B786F /* led_red.png in Resources */,
 				507FA33526028310003939F1 /* warp36.png in Resources */,
+				507FA36726047AED003939F1 /* warp_lock18.png in Resources */,
 				507FA34D26028549003939F1 /* joystick36.png in Resources */,
 				507FA33326028309003939F1 /* sync_lock36.png in Resources */,
 				50FA652E25F66C4E003B786F /* led_black.png in Resources */,
+				507FA37326047B4E003939F1 /* none18.png in Resources */,
+				507FA36526047AE7003939F1 /* warp18.png in Resources */,
+				507FA35F26047AB6003939F1 /* spin18.png in Resources */,
+				507FA36326047ADF003939F1 /* sync18.png in Resources */,
+				507FA35B26047A93003939F1 /* disk18.png in Resources */,
 				50FA653225F66C5F003B786F /* led_grey.png in Resources */,
+				507FA36B26047B09003939F1 /* mute18.png in Resources */,
 				50C4C27425D1D40C00849A01 /* startup_german.ini in Resources */,
+				507FA36126047AD0003939F1 /* halt18.png in Resources */,
+				507FA36D26047B35003939F1 /* keyset18.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

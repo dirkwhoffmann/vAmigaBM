@@ -9,6 +9,8 @@
 
 #pragma once
 
+#include "GUIComponent.h"
+
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
 #include <map>
@@ -62,7 +64,7 @@ enum class ShaderID
 };
 
 template <typename Asset, typename ID>
-class AssetManager
+class AssetManager : public GUIComponent
 {
 protected:
     
@@ -71,6 +73,8 @@ protected:
 
 public:
         
+    using GUIComponent::GUIComponent;
+    
     // Requests an asset
     Asset& get(ID id)
     {
@@ -92,18 +96,22 @@ public:
 };
 
 class TextureManager : public AssetManager<sf::Texture, TextureID> {
+    using AssetManager::AssetManager;
     void load(TextureID id) override;
 };
 
 class FontManager : public AssetManager<sf::Font, FontID> {
+    using AssetManager::AssetManager;
     void load(FontID id) override;
 };
 
 class SoundManager : public AssetManager<sf::SoundBuffer, SoundID> {
+    using AssetManager::AssetManager;
     void load(SoundID id) override;
 };
 
 class ShaderManager : public AssetManager<sf::Shader, ShaderID> {
+    using AssetManager::AssetManager;
     void load(ShaderID id) override;
 };
 
@@ -115,6 +123,8 @@ class Assets {
     ShaderManager shaders;
     
 public:
+    
+    Assets(class Application &ref);
     
     sf::Texture &get(TextureID id) { return textures.get(id); }
     sf::Font &get(FontID id) { return fonts.get(id); }
