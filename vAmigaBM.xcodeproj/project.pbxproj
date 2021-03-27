@@ -546,27 +546,19 @@
 		509F5F68260F3DD000EA136A /* DMSFile.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DMSFile.cpp; sourceTree = "<group>"; };
 		509F5F69260F3DD000EA136A /* BootBlockImageTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BootBlockImageTypes.h; sourceTree = "<group>"; };
 		509F5F6A260F3DD000EA136A /* IMGFile.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = IMGFile.cpp; sourceTree = "<group>"; };
-		509F5F6B260F3DD000EA136A /* DiskFile.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = DiskFile.o; sourceTree = "<group>"; };
 		509F5F6C260F3DD000EA136A /* DiskFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DiskFile.h; sourceTree = "<group>"; };
 		509F5F6D260F3DD000EA136A /* EXEFile.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EXEFile.cpp; sourceTree = "<group>"; };
 		509F5F6E260F3DD000EA136A /* ADFFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ADFFile.h; sourceTree = "<group>"; };
-		509F5F6F260F3DD000EA136A /* ADFFile.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = ADFFile.o; sourceTree = "<group>"; };
 		509F5F70260F3DD000EA136A /* Makefile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
 		509F5F71260F3DD000EA136A /* ADFFile.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ADFFile.cpp; sourceTree = "<group>"; };
 		509F5F72260F3DD000EA136A /* Folder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Folder.cpp; sourceTree = "<group>"; };
 		509F5F73260F3DD000EA136A /* EXTFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EXTFile.h; sourceTree = "<group>"; };
-		509F5F74260F3DD000EA136A /* EXTFile.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = EXTFile.o; sourceTree = "<group>"; };
 		509F5F75260F3DD000EA136A /* BootBlockImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BootBlockImage.h; sourceTree = "<group>"; };
-		509F5F76260F3DD000EA136A /* BootBlockImage.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = BootBlockImage.o; sourceTree = "<group>"; };
 		509F5F77260F3DD000EA136A /* BootBlockImage.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BootBlockImage.cpp; sourceTree = "<group>"; };
 		509F5F78260F3DD000EA136A /* EXEFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EXEFile.h; sourceTree = "<group>"; };
 		509F5F79260F3DD000EA136A /* DiskFile.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DiskFile.cpp; sourceTree = "<group>"; };
-		509F5F7A260F3DD000EA136A /* EXEFile.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = EXEFile.o; sourceTree = "<group>"; };
-		509F5F7B260F3DD000EA136A /* DMSFile.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = DMSFile.o; sourceTree = "<group>"; };
 		509F5F7C260F3DD000EA136A /* DMSFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMSFile.h; sourceTree = "<group>"; };
 		509F5F7D260F3DD000EA136A /* IMGFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IMGFile.h; sourceTree = "<group>"; };
-		509F5F7E260F3DD000EA136A /* IMGFile.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = IMGFile.o; sourceTree = "<group>"; };
-		509F5F7F260F3DD000EA136A /* Folder.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = Folder.o; sourceTree = "<group>"; };
 		509F5F80260F3DD000EA136A /* Folder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Folder.h; sourceTree = "<group>"; };
 		509F5F81260F3DD000EA136A /* EXTFile.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EXTFile.cpp; sourceTree = "<group>"; };
 		509F5F82260F3DD000EA136A /* Snapshot.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Snapshot.cpp; sourceTree = "<group>"; };
@@ -1148,27 +1140,19 @@
 				509F5F68260F3DD000EA136A /* DMSFile.cpp */,
 				509F5F69260F3DD000EA136A /* BootBlockImageTypes.h */,
 				509F5F6A260F3DD000EA136A /* IMGFile.cpp */,
-				509F5F6B260F3DD000EA136A /* DiskFile.o */,
 				509F5F6C260F3DD000EA136A /* DiskFile.h */,
 				509F5F6D260F3DD000EA136A /* EXEFile.cpp */,
 				509F5F6E260F3DD000EA136A /* ADFFile.h */,
-				509F5F6F260F3DD000EA136A /* ADFFile.o */,
 				509F5F70260F3DD000EA136A /* Makefile */,
 				509F5F71260F3DD000EA136A /* ADFFile.cpp */,
 				509F5F72260F3DD000EA136A /* Folder.cpp */,
 				509F5F73260F3DD000EA136A /* EXTFile.h */,
-				509F5F74260F3DD000EA136A /* EXTFile.o */,
 				509F5F75260F3DD000EA136A /* BootBlockImage.h */,
-				509F5F76260F3DD000EA136A /* BootBlockImage.o */,
 				509F5F77260F3DD000EA136A /* BootBlockImage.cpp */,
 				509F5F78260F3DD000EA136A /* EXEFile.h */,
 				509F5F79260F3DD000EA136A /* DiskFile.cpp */,
-				509F5F7A260F3DD000EA136A /* EXEFile.o */,
-				509F5F7B260F3DD000EA136A /* DMSFile.o */,
 				509F5F7C260F3DD000EA136A /* DMSFile.h */,
 				509F5F7D260F3DD000EA136A /* IMGFile.h */,
-				509F5F7E260F3DD000EA136A /* IMGFile.o */,
-				509F5F7F260F3DD000EA136A /* Folder.o */,
 				509F5F80260F3DD000EA136A /* Folder.h */,
 				509F5F81260F3DD000EA136A /* EXTFile.cpp */,
 			);
