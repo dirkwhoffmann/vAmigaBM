@@ -9,8 +9,8 @@
 
 #include "config.h"
 #include "IO.h"
-#include <vector>
 #include <algorithm>
+#include <cstring>
 
 namespace util {
 
