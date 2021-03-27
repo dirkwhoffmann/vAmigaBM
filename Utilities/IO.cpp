@@ -10,6 +10,7 @@
 #include "config.h"
 #include "IO.h"
 #include <vector>
+#include <algorithm>
 
 namespace util {
 
