@@ -324,7 +324,7 @@ RetroShell::exec(const string &command, bool verbose)
         *this << err.what() << ": Syntax error";
         *this << '\n';
         
-    } catch (ConfigUnsupportedError) {
+    } catch (ConfigUnsupportedError &err) {
         *this << "This option is not yet supported.";
         *this << '\n';
         
