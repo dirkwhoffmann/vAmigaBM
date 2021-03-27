@@ -445,7 +445,6 @@
 		509F5ED9260F3DCF00EA136A /* DeniseTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DeniseTypes.h; sourceTree = "<group>"; };
 		509F5EDA260F3DCF00EA136A /* PixelEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PixelEngine.h; sourceTree = "<group>"; };
 		509F5EDD260F3DCF00EA136A /* Makefile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
-		509F5EDF260F3DCF00EA136A /* ScreenRecorder.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = ScreenRecorder.o; sourceTree = "<group>"; };
 		509F5EE0260F3DCF00EA136A /* Colors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Colors.h; sourceTree = "<group>"; };
 		509F5EE1260F3DCF00EA136A /* ScreenRecorder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScreenRecorder.h; sourceTree = "<group>"; };
 		509F5EE3260F3DCF00EA136A /* Denise.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Denise.h; sourceTree = "<group>"; };
@@ -729,13 +728,13 @@
 		509F6058260F3DD000EA136A /* FSBitmapExtBlock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSBitmapExtBlock.h; sourceTree = "<group>"; };
 		509F6059260F3DD000EA136A /* FSDevice.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FSDevice.cpp; sourceTree = "<group>"; };
 		509F605B260F3DD000EA136A /* FSDataBlock.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FSDataBlock.cpp; sourceTree = "<group>"; };
-		509F605C260F3DD000EA136A /* Amiga.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = Amiga.o; sourceTree = "<group>"; };
 		509F605D260F3DD000EA136A /* Amiga.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Amiga.h; sourceTree = "<group>"; };
 		50A7E05925D6AFDF00113BF8 /* AmigaMusicStream.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = AmigaMusicStream.cpp; sourceTree = "<group>"; };
 		50A7E05A25D6AFDF00113BF8 /* AmigaMusicStream.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AmigaMusicStream.h; sourceTree = "<group>"; };
 		50AE11C325C44AAC00AD13B7 /* Controller.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Controller.cpp; sourceTree = "<group>"; };
 		50AE11C425C44AAC00AD13B7 /* Controller.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Controller.h; sourceTree = "<group>"; };
 		50AFF9BE25EFC34D0052269B /* config.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = config.h; sourceTree = "<group>"; };
+		50B3DCBF260F62CD00F05C22 /* Makefile */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
 		50B6305F25D8FFA100A860A7 /* Makefile */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
 		50C4C26D25D1278A00849A01 /* Exception.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Exception.cpp; sourceTree = "<group>"; };
 		50C4C26E25D1278A00849A01 /* Exception.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Exception.h; sourceTree = "<group>"; };
@@ -902,6 +901,7 @@
 		509F5EB4260F3DA100EA136A /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				509F5EBF260F3DA100EA136A /* Makefile */,
 				509F5EB5260F3DA100EA136A /* SSEUtils.cpp */,
 				509F5EB6260F3DA100EA136A /* SSEUtils.h */,
 				509F5EB7260F3DA100EA136A /* Debug.h */,
@@ -912,7 +912,6 @@
 				509F5EBC260F3DA100EA136A /* Chrono.h */,
 				509F5EBD260F3DA100EA136A /* Parser.h */,
 				509F5EBE260F3DA100EA136A /* TimeDelayed.h */,
-				509F5EBF260F3DA100EA136A /* Makefile */,
 				509F5EC0260F3DA100EA136A /* Serialization.h */,
 				509F5EC1260F3DA100EA136A /* Chrono.cpp */,
 				509F5EC2260F3DA100EA136A /* Concurrency.cpp */,
@@ -932,11 +931,11 @@
 		509F5ED5260F3DCF00EA136A /* Emulator */ = {
 			isa = PBXGroup;
 			children = (
+				509F5F0B260F3DCF00EA136A /* Makefile */,
+				509F5F0C260F3DD000EA136A /* AmigaTypes.h */,
 				509F5ED6260F3DCF00EA136A /* Denise */,
 				509F5EE8260F3DCF00EA136A /* Memory */,
 				509F5EEE260F3DCF00EA136A /* CPU */,
-				509F5F0B260F3DCF00EA136A /* Makefile */,
-				509F5F0C260F3DD000EA136A /* AmigaTypes.h */,
 				509F5F0D260F3DD000EA136A /* LogicBoard */,
 				509F5F19260F3DD000EA136A /* Agnus */,
 				509F5F50260F3DD000EA136A /* RetroShell */,
@@ -949,7 +948,6 @@
 				509F6015260F3DD000EA136A /* Base */,
 				509F602E260F3DD000EA136A /* Amiga.cpp */,
 				509F602F260F3DD000EA136A /* FileSystems */,
-				509F605C260F3DD000EA136A /* Amiga.o */,
 				509F605D260F3DD000EA136A /* Amiga.h */,
 			);
 			path = Emulator;
@@ -958,12 +956,11 @@
 		509F5ED6260F3DCF00EA136A /* Denise */ = {
 			isa = PBXGroup;
 			children = (
+				509F5EDD260F3DCF00EA136A /* Makefile */,
 				509F5ED7260F3DCF00EA136A /* DeniseRegs.cpp */,
 				509F5ED8260F3DCF00EA136A /* PixelEngineTypes.h */,
 				509F5ED9260F3DCF00EA136A /* DeniseTypes.h */,
 				509F5EDA260F3DCF00EA136A /* PixelEngine.h */,
-				509F5EDD260F3DCF00EA136A /* Makefile */,
-				509F5EDF260F3DCF00EA136A /* ScreenRecorder.o */,
 				509F5EE0260F3DCF00EA136A /* Colors.h */,
 				509F5EE1260F3DCF00EA136A /* ScreenRecorder.h */,
 				509F5EE3260F3DCF00EA136A /* Denise.h */,
@@ -1102,6 +1099,7 @@
 		509F5F50260F3DD000EA136A /* RetroShell */ = {
 			isa = PBXGroup;
 			children = (
+				50B3DCBF260F62CD00F05C22 /* Makefile */,
 				509F5F51260F3DD000EA136A /* RetroShell.h */,
 				509F5F55260F3DD000EA136A /* RetroShell.cpp */,
 				509F5F58260F3DD000EA136A /* RetroShellCmds.cpp */,

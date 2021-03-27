@@ -1,4 +1,4 @@
-SUBDIRS = Foundation Layers Controller
+SUBDIRS = Foundation Layers
 
 MYCC = g++ -std=c++17 -O2 -Wfatal-errors
 
