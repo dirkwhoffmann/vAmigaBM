@@ -6,10 +6,13 @@ MYFLAGS = \
 -Wall \
 -I $(CURDIR)/..
 
-.PHONY: all clean
+.PHONY: all prebuild clean
 
-all: $(OBJ)
+all: prebuild $(OBJ)
 	@echo > /dev/null
+	
+prebuild:
+	@echo "Entering ${CURDIR}"
 	
 clean:
 	@echo "Cleaning up $(CURDIR)"

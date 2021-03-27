@@ -39,12 +39,14 @@ install: a.out
 	@cp Resources/*/* vAmiga
 	
 a.out:
+	@$(MYMAKE) -C Utilities
 	@$(MYMAKE) -C Emulator
 	@$(MYMAKE) -C GUI
 	@echo "Linking object files"
 	@g++ -pthread */*.o */*/*.o */*/*/*.o $(OPT)
 
 clean:
+	@$(MYMAKE) -C Utilities clean
 	@$(MYMAKE) -C Emulator clean
 	@$(MYMAKE) -C GUI clean
 	@echo "Cleaning up $(CURDIR)"

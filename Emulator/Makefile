@@ -43,7 +43,8 @@ all: prebuild $(OBJ) subdirs
 	@echo > /dev/null
 	
 prebuild:
-
+	@echo "Entering ${CURDIR}"
+		
 subdirs:
 	@for dir in $(SUBDIRS); do \
 		echo "Entering ${CURDIR}/$$dir"; \
