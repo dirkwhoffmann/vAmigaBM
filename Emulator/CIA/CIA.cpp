@@ -9,16 +9,14 @@
 
 #include "config.h"
 #include "CIA.h"
-
 #include "Agnus.h"
 #include "ControlPort.h"
 #include "DiskController.h"
+#include "IO.h"
 #include "Memory.h"
 #include "MsgQueue.h"
 #include "Paula.h"
 #include "SerialPort.h"
-
-namespace va {
 
 #define CIA_DEBUG (nr == 0 ? CIAA_DEBUG : CIAB_DEBUG)
 
@@ -1034,6 +1032,4 @@ CIAB::updatePB()
         */
         diskController.PRBdidChange(oldPB, PB);
     }
-}
-
 }

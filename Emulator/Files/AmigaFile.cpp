@@ -19,9 +19,6 @@
 #include "HDFFile.h"
 #include "RomFile.h"
 #include "ExtendedRomFile.h"
-#include "string.h"
-
-namespace va {
 
 AmigaFile::AmigaFile(isize capacity)
 {
@@ -193,6 +190,4 @@ AmigaFile::writeToBuffer(u8 *buf, ErrorCode *err)
     try { return writeToBuffer(buf); }
     catch (VAError &exception) { *err = exception.data; }
     return 0;
-}
-
 }

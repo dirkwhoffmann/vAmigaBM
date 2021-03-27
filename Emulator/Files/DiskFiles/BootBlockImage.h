@@ -9,10 +9,8 @@
 
 #pragma once
 
-#include "FileTypes.h"
-#include <stddef.h>
-
-namespace va {
+#include "BootBlockImageTypes.h"
+#include "Reflection.h"
 
 typedef struct
 {
@@ -43,5 +41,3 @@ public:
     // Exports the image
     void write(u8 *buffer, isize first = 0, isize last = 0);
 };
-
-}

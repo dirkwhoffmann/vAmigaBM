@@ -9,10 +9,8 @@
 
 #pragma once
 
-#include "PortTypes.h"
+#include "JoystickTypes.h"
 #include "AmigaComponent.h"
-
-namespace va {
 
 class Joystick : public AmigaComponent {
 
@@ -144,5 +142,3 @@ public:
      */
     void execute();
 };
-
-}

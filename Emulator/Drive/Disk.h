@@ -12,8 +12,6 @@
 #include "DiskTypes.h"
 #include "HardwareComponent.h"
 
-namespace va {
-
 /* MFM encoded disk data of a standard 3.5" DD disk:
  *
  *    Cylinder  Track     Head      Sectors
@@ -101,7 +99,7 @@ public:
     const char *getDescription() const override { return "Disk"; }
 
     static Disk *makeWithFile(class DiskFile *file);
-    static Disk *makeWithReader(SerReader &reader, DiskDiameter type, DiskDensity density);
+    static Disk *makeWithReader(util::SerReader &reader, DiskDiameter type, DiskDensity density);
         
     void dump();
     
@@ -204,5 +202,3 @@ public:
     // Repeats the MFM data inside the track buffer to ease decoding
     void repeatTracks(); 
 };
-
-}

@@ -9,10 +9,8 @@
 
 #include "config.h"
 #include "TOD.h"
-
 #include "CIA.h"
-
-namespace va {
+#include "IO.h"
 
 TOD::TOD(CIA *cia, Amiga& ref) : AmigaComponent(ref)
 {
@@ -212,6 +210,4 @@ TOD::checkIrq()
         cia->todInterrupt();
     }
     matching = (tod.value == alarm.value);
-}
-
 }

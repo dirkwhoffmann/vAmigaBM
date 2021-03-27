@@ -9,16 +9,14 @@
 
 #pragma once
 
+#include "HardwareComponentTypes.h"
 #include "AmigaObject.h"
-#include "AmigaTypes.h"
 #include "Serialization.h"
 #include "Concurrency.h"
-
+#include "Reflection.h"
 #include <vector>
 #include <iostream>
 #include <iomanip>
-
-namespace va {
 
 /* This class defines the base functionality of all hardware components. It
  * comprises functions for initializing, configuring, and serializing the
@@ -28,7 +26,7 @@ namespace va {
  */
 
 #define synchronized \
-for (AutoMutex _am(mutex); _am.active; _am.active = false)
+for (util::AutoMutex _am(mutex); _am.active; _am.active = false)
 
 namespace Dump {
 enum Category : usize {
@@ -80,7 +78,7 @@ protected:
      * to prevent multiple threads to enter the same code block. It mimics the
      * behaviour of the well known Java construct 'synchronized(this) { }'.
      */
-    RecursiveMutex mutex;
+    util::ReentrantMutex mutex;
 
         
     //
@@ -294,7 +292,7 @@ protected:
 //
 
 #define COMPUTE_SNAPSHOT_SIZE \
-SerCounter counter; \
+util::SerCounter counter; \
 applyToPersistentItems(counter); \
 applyToHardResetItems(counter); \
 applyToResetItems(counter); \
@@ -302,7 +300,7 @@ return counter.count;
 
 #define RESET_SNAPSHOT_ITEMS(hard) \
 { \
-SerResetter resetter; \
+util::SerResetter resetter; \
 if (hard) applyToHardResetItems(resetter); \
 applyToResetItems(resetter); \
 debug(SNP_DEBUG, "Resetted (%s)\n", hard ? "hard" : "soft"); \
@@ -310,7 +308,7 @@ debug(SNP_DEBUG, "Resetted (%s)\n", hard ? "hard" : "soft"); \
 
 #define LOAD_SNAPSHOT_ITEMS \
 { \
-SerReader reader(buffer); \
+util::SerReader reader(buffer); \
 applyToPersistentItems(reader); \
 applyToHardResetItems(reader); \
 applyToResetItems(reader); \
@@ -320,12 +318,10 @@ return (isize)(reader.ptr - buffer); \
 
 #define SAVE_SNAPSHOT_ITEMS \
 { \
-SerWriter writer(buffer); \
+util::SerWriter writer(buffer); \
 applyToPersistentItems(writer); \
 applyToHardResetItems(writer); \
 applyToResetItems(writer); \
 debug(SNP_DEBUG, "Serialized to %zu bytes\n", writer.ptr - buffer); \
 return (isize)(writer.ptr - buffer); \
-}
-
 }

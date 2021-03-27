@@ -9,12 +9,9 @@
 
 #include "config.h"
 #include "FSUserDirBlock.h"
-
 #include "FSDevice.h"
 #include "FSPartition.h"
 #include "IO.h"
-
-namespace va {
 
 FSUserDirBlock::FSUserDirBlock(FSPartition &p, Block nr) : FSBlock(p, nr)
 {
@@ -121,6 +118,4 @@ FSUserDirBlock::exportBlock(const char *exportDir)
     if (mkdir(path.c_str(), 0777) != 0) return ERROR_FS_CANNOT_CREATE_DIR;
     
     return ERROR_OK;
-}
-
 }

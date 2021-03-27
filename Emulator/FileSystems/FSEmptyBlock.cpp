@@ -9,9 +9,6 @@
 
 #include "config.h"
 #include "FSEmptyBlock.h"
-#include "string.h"
-
-namespace va {
 
 FSItemType
 FSEmptyBlock::itemType(isize byte) const
@@ -31,6 +28,4 @@ FSEmptyBlock::exportBlock(u8 *p, isize size)
     assert(size == bsize());
     assert(p);
     memset(p, 0, size);
-}
-
 }

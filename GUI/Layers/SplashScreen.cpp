@@ -74,7 +74,10 @@ SplashScreen::launchPhase(isize phase)
                 return;
             }
             
-            try { app.console.exec(stream); }
+            try {
+                amiga.retroShell.exec(stream);
+                amiga.retroShell.printPrompt();
+            }
             catch (Exception &e) {
                 errMsg.setString(configFile + ": Error in line " + std::to_string(e.data));
                 // runMsg.setString("Press SPACE to quit");

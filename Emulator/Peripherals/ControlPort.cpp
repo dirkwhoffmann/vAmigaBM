@@ -8,11 +8,10 @@
 // -----------------------------------------------------------------------------
 
 #include "config.h"
+
 #include "ControlPort.h"
-
+#include "IO.h"
 #include "Paula.h"
-
-namespace va {
 
 ControlPort::ControlPort(Amiga& ref, PortNr portNr) : AmigaComponent(ref), nr(portNr)
 {
@@ -112,6 +111,4 @@ ControlPort::changePra(u8 &pra) const
         joystick.changePra(pra);
         return;
     }
-}
-
 }

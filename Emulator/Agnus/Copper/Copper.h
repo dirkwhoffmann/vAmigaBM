@@ -10,14 +10,11 @@
 #pragma once
 
 #include "CopperTypes.h"
-#include "EventHandlerTypes.h"
-#include "MemoryTypes.h"
+#include "Event.h"
+#include "Memory.h"
 #include "AmigaComponent.h"
 #include "Beam.h"
 #include "Checksum.h"
-#include "CopperTypes.h"
-
-namespace va {
 
 class Copper : public AmigaComponent
 {
@@ -82,7 +79,7 @@ public:
 private:
 
     u64 checkcnt = 0;
-    u32 checksum = fnv_1a_init32();
+    u32 checksum = util::fnv_1a_init32();
 
 
     //
@@ -333,5 +330,3 @@ public:
     // Dumps a Copper list
     void dumpCopperList(isize list, isize length);
 };
-
-}

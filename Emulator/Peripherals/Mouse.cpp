@@ -9,13 +9,11 @@
 
 #include "config.h"
 #include "Mouse.h"
-
 #include "Chrono.h"
 #include "ControlPort.h"
+#include "IO.h"
 #include "MsgQueue.h"
 #include "Oscillator.h"
-
-namespace va {
 
 Mouse::Mouse(Amiga& ref, ControlPort& pref) : AmigaComponent(ref), port(pref)
 {
@@ -275,7 +273,7 @@ ShakeDetector::isShakingRel(double dx) {
     // Check for a direction reversal
     if (dx * dxsign < 0) {
     
-        u64 dt = Time::now().asNanoseconds() - lastTurn;
+        u64 dt = util::Time::now().asNanoseconds() - lastTurn;
         dxsign = -dxsign;
 
         // A direction reversal is considered part of a shake, if the
@@ -293,7 +291,7 @@ ShakeDetector::isShakingRel(double dx) {
                 if (dxturns > 3) {
                     
                     // printf("Mouse shake detected\n");
-                    lastShake = Time::now().asNanoseconds();
+                    lastShake = util::Time::now().asNanoseconds();
                     dxturns = 0;
                     return true;
                 }
@@ -307,10 +305,8 @@ ShakeDetector::isShakingRel(double dx) {
             dxsum = 0;
         }
         
-        lastTurn = Time::now().asNanoseconds();
+        lastTurn = util::Time::now().asNanoseconds();
     }
     
     return false;
-}
-
 }

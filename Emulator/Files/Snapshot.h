@@ -12,8 +12,6 @@
 #include "AmigaFile.h"
 #include "Constants.h"
 
-namespace va {
-
 class Amiga;
 
 struct Thumbnail {
@@ -99,5 +97,3 @@ public:
     // Takes a screenshot
     void takeScreenshot(Amiga &amiga);
 };
-
-}

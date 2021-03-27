@@ -9,11 +9,9 @@
 
 #include "config.h"
 #include "Joystick.h"
-
 #include "Agnus.h"
 #include "ControlPort.h"
-
-namespace va {
+#include "IO.h"
 
 const char *
 Joystick::getDescription() const
@@ -187,6 +185,4 @@ Joystick::execute()
         }
         scheduleNextShot();
     }
-}
-
 }

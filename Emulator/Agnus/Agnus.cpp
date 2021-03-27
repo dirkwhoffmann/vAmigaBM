@@ -10,8 +10,7 @@
 #include "config.h"
 #include "Agnus.h"
 #include "Amiga.h"
-
-namespace va {
+#include "IO.h"
 
 Agnus::Agnus(Amiga& ref) : AmigaComponent(ref)
 {    
@@ -527,7 +526,7 @@ Agnus::computeDDFWindowOCS()
      *  7 | large   | medium  | -       || not handled         | DDF_OFF
      *  8 | large   | large   | -       || Empty               | DDF_OFF
      */
-    const struct { int interval; } table[9] = {
+    const struct { isize interval; } table[9] = {
         { DDF_EMPTY     }, // 0
         { DDF_18_STOP   }, // 1
         { DDF_18_D8     }, // 2
@@ -539,7 +538,7 @@ Agnus::computeDDFWindowOCS()
         { DDF_EMPTY     }  // 8
     };
 
-    int index = 3*strt + stop;
+    isize index = 3*strt + stop;
     switch (table[index].interval) {
 
         case DDF_EMPTY:
@@ -606,7 +605,7 @@ Agnus::computeDDFWindowECS()
      * 16 | large   | large   | DDF_OFF || Empty               | DDF_OFF
      * 17 | large   | large   | DDF_ON  || [0x18 ; 0xD8]       | DDF_ON
      */
-    const struct { int interval; DDFState state; } table[18] = {
+    const struct { isize interval; DDFState state; } table[18] = {
         { DDF_EMPTY ,    DDF_OFF }, // 0
         { DDF_EMPTY ,    DDF_OFF }, // 1
         { DDF_18_STOP ,  DDF_OFF }, // 2
@@ -627,7 +626,7 @@ Agnus::computeDDFWindowECS()
         { DDF_18_D8 ,    DDF_ON  }, // 17
     };
 
-    int index = 6*strt + 2*stop + (ddfState == DDF_ON);
+    isize index = 6*strt + 2*stop + (ddfState == DDF_ON);
     switch (table[index].interval) {
 
         case DDF_EMPTY:
@@ -1148,5 +1147,3 @@ template void Agnus::executeSecondSpriteCycle<4>();
 template void Agnus::executeSecondSpriteCycle<5>();
 template void Agnus::executeSecondSpriteCycle<6>();
 template void Agnus::executeSecondSpriteCycle<7>();
-
-}

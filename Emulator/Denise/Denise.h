@@ -9,13 +9,13 @@
 
 #pragma once
 
+#include "DeniseTypes.h"
 #include "AmigaComponent.h"
 #include "Colors.h"
-#include "MemoryTypes.h"
+#include "Memory.h"
 #include "PixelEngine.h"
+#include "Reflection.h"
 #include "ScreenRecorder.h"
-
-namespace va {
 
 class Denise : public AmigaComponent {
 
@@ -599,5 +599,3 @@ public:
     void dumpBuffer(const u8 *buffer, isize length) const;
 
 };
-
-}

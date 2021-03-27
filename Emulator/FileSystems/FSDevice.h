@@ -9,7 +9,6 @@
 
 #pragma once
 
-#include "AmigaTypes.h"
 #include "FSObjects.h"
 #include "FSPartition.h"
 #include "FSBlock.h"
@@ -24,12 +23,8 @@
 #include "FSDataBlock.h"
 #include "ADFFile.h"
 #include "HDFFile.h"
-
-#include <dirent.h>
 #include <stack>
 #include <set>
-
-namespace va {
 
 /* This class provides the basic functionality of the Amiga File Systems OFS
  * and FFS. Starting from an empty volume, files can be added or removed,
@@ -353,5 +348,3 @@ public:
     // Exports the volume to a directory of the host file system
     ErrorCode exportDirectory(const char *path);
 };
-
-}

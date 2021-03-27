@@ -7,6 +7,7 @@
 // See https://www.gnu.org for license information
 // -----------------------------------------------------------------------------
 
+#include "config.h"
 #include "Application.h"
 
 #ifdef __MACH__
@@ -271,15 +272,15 @@ InputManager::listDevices()
     for (isize i = 0; i < devices.size(); i++) {
     
         printf("Device %zd: %s\n", i, devices[i]->getName().c_str());
-        console << "Device " << i << ": " << devices[i]->getName();
+        amiga.retroShell << "Device " << i << ": " << devices[i]->getName();
         
         if (connectedDevice[0] == i) {
-            console << " (connected to port 1)";
+            amiga.retroShell << " (connected to port 1)";
         }
         if (connectedDevice[1] == i) {
-            console << " (connected to port 2)";
+            amiga.retroShell << " (connected to port 2)";
         }
-        console << '\n';
+        amiga.retroShell << '\n';
     }
 }
 

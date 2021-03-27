@@ -56,36 +56,4 @@ public:
     
     // Flips through the available warp modes
     void flipWarpMode();
-    
-    
-    //
-    // Handling disks
-    //
-    
-    // Inserts a disk
-    void insertDisk(const string &path, isize n);
-    
-    // Convenience wrappers
-    void insertDf0(const string &path) { insertDisk(path, 0); }
-    void insertDf1(const string &path) { insertDisk(path, 1); }
-    void insertDf2(const string &path) { insertDisk(path, 2); }
-    void insertDf3(const string &path) { insertDisk(path, 3); }
-
-    
-    //
-    // Executing commands
-    //
-    
-    void exec(const string& command) throws;
-    
-    template <Token t1> void exec(Arguments& argv, long param) throws;
-    template <Token t1, Token t2> void exec(Arguments& argv, long param) throws;
-    template <Token t1, Token t2, Token t3> void exec(Arguments& argv, long param) throws;
-
-private:
-    
-    bool parseBool(string& token);
-    long parseNum(string& token);
-
-    void dump(HardwareComponent &component, Dump::Category category);
 };

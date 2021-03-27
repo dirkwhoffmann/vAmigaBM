@@ -11,8 +11,6 @@
 #include "AmigaComponent.h"
 #include "Amiga.h"  
 
-namespace va {
-
 AmigaComponent::AmigaComponent(Amiga& ref) :
 agnus(ref.agnus),
 amiga(ref),
@@ -36,6 +34,7 @@ messageQueue(ref.queue),
 oscillator(ref.oscillator),
 paula(ref.paula),
 pixelEngine(ref.denise.pixelEngine),
+retroShell(ref.retroShell),
 rtc(ref.rtc),
 serialPort(ref.serialPort),
 uart(ref.paula.uart),
@@ -60,6 +59,4 @@ void
 AmigaComponent::prefix() const
 {
     amiga.prefix();
-}
-
 }

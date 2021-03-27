@@ -9,17 +9,38 @@
 
 #pragma once
 
+#include "Aliases.h"
 #include "Reflection.h"
 
-namespace va {
+/* Memory source identifiers. The identifiers are used in the mem source lookup
+ * table to specify the source and target of a peek or poke operation,
+ * respectively.
+ */
+enum_long(MEM_SOURCE)
+{
+    MEM_NONE,
+    MEM_CHIP,
+    MEM_CHIP_MIRROR,
+    MEM_SLOW,
+    MEM_SLOW_MIRROR,
+    MEM_FAST,
+    MEM_CIA,
+    MEM_CIA_MIRROR,
+    MEM_RTC,
+    MEM_CUSTOM,
+    MEM_CUSTOM_MIRROR,
+    MEM_AUTOCONF,
+    MEM_ROM,
+    MEM_ROM_MIRROR,
+    MEM_WOM,
+    MEM_EXT,
+    
+    MEM_COUNT
+};
+typedef MEM_SOURCE MemorySource;
 
-#include "MemoryPublicTypes.h"
-
-//
-// Reflection APIs
-//
-
-struct MemorySourceEnum : Reflection<MemorySourceEnum, MemorySource> {
+#ifdef __cplusplus
+struct MemorySourceEnum : util::Reflection<MemorySourceEnum, MemorySource> {
     
     static bool isValid(long value)
     {
@@ -52,8 +73,19 @@ struct MemorySourceEnum : Reflection<MemorySourceEnum, MemorySource> {
         return "???";
     }
 };
+#endif
 
-struct AccessorEnum : Reflection<AccessorEnum, Accessor> {
+enum_long(ACCESSOR_TYPE)
+{
+    ACCESSOR_CPU,
+    ACCESSOR_AGNUS,
+    
+    ACCESSOR_COUNT
+};
+typedef ACCESSOR_TYPE Accessor;
+
+#ifdef __cplusplus
+struct AccessorEnum : util::Reflection<AccessorEnum, Accessor> {
     
     static bool isValid(long value)
     {
@@ -72,8 +104,21 @@ struct AccessorEnum : Reflection<AccessorEnum, Accessor> {
         return "???";
     }
 };
+#endif
 
-struct BankMapEnum : Reflection<BankMapEnum, BankMap> {
+enum_long(BANK_MAP)
+{
+    BANK_MAP_A500,
+    BANK_MAP_A1000,
+    BANK_MAP_A2000A,
+    BANK_MAP_A2000B,
+    
+    BANK_MAP_COUNT
+};
+typedef BANK_MAP BankMap;
+
+#ifdef __cplusplus
+struct BankMapEnum : util::Reflection<BankMapEnum, BankMap> {
     
     static bool isValid(long value)
     {
@@ -94,8 +139,20 @@ struct BankMapEnum : Reflection<BankMapEnum, BankMap> {
         return "???";
     }
 };
+#endif
 
-struct RamInitPatternEnum : Reflection<RamInitPatternEnum, RamInitPattern> {
+enum_long(RAM_INIT_PATTERN)
+{
+    RAM_INIT_RANDOMIZED,
+    RAM_INIT_ALL_ZEROES,
+    RAM_INIT_ALL_ONES,
+    
+    RAM_INIT_COUNT
+};
+typedef RAM_INIT_PATTERN RamInitPattern;
+
+#ifdef __cplusplus
+struct RamInitPatternEnum : util::Reflection<RamInitPatternEnum, RamInitPattern> {
     
     static bool isValid(long value)
     {
@@ -115,8 +172,20 @@ struct RamInitPatternEnum : Reflection<RamInitPatternEnum, RamInitPattern> {
         return "???";
     }
 };
+#endif
 
-struct UnmappedMemoryEnum : Reflection<UnmappedMemoryEnum, UnmappedMemory> {
+enum_long(UNMAPPED_MEMORY)
+{
+    UNMAPPED_FLOATING,
+    UNMAPPED_ALL_ZEROES,
+    UNMAPPED_ALL_ONES,
+
+    UNMAPPED_COUNT
+};
+typedef UNMAPPED_MEMORY UnmappedMemory;
+
+#ifdef __cplusplus
+struct UnmappedMemoryEnum : util::Reflection<UnmappedMemoryEnum, UnmappedMemory> {
     
     static bool isValid(long value)
     {
@@ -136,5 +205,50 @@ struct UnmappedMemoryEnum : Reflection<UnmappedMemoryEnum, UnmappedMemory> {
         return "???";
     }
 };
+#endif
 
+//
+// Structures
+//
+
+typedef struct
+{
+    // RAM size in bytes
+    i32 chipSize;
+    i32 slowSize;
+    i32 fastSize;
+
+    // ROM size in bytes
+    i32 romSize;
+    i32 womSize;
+    i32 extSize;
+
+    // Indicates if slow Ram accesses need a free bus
+    bool slowRamDelay;
+    
+    // Memory layout
+    BankMap bankMap;
+    
+    // Ram contents on startup
+    RamInitPattern ramInitPattern;
+    
+    // Specifies how to deal with unmapped memory
+    UnmappedMemory unmappingType;
+    
+    // First memory page where the extended ROM is blended it
+    u32 extStart;
 }
+MemoryConfig;
+
+typedef struct
+{
+    struct { long raw; double accumulated; } chipReads;
+    struct { long raw; double accumulated; } chipWrites;
+    struct { long raw; double accumulated; } slowReads;
+    struct { long raw; double accumulated; } slowWrites;
+    struct { long raw; double accumulated; } fastReads;
+    struct { long raw; double accumulated; } fastWrites;
+    struct { long raw; double accumulated; } kickReads;
+    struct { long raw; double accumulated; } kickWrites;
+}
+MemoryStats;

@@ -9,13 +9,25 @@
 
 #pragma once
 
+#include "Aliases.h"
 #include "Reflection.h"
 
-namespace va {
+//
+// Enumerations
+//
 
-#include "RTCPublicTypes.h"
+enum_long(RTC_REVISION)
+{
+    RTC_NONE,
+    RTC_OKI,
+    RTC_RICOH,
+    
+    RTC_COUNT
+};
+typedef RTC_REVISION RTCRevision;
 
-struct RTCRevisionEnum : Reflection<RTCRevisionEnum, RTCRevision> {
+#ifdef __cplusplus
+struct RTCRevisionEnum : util::Reflection<RTCRevisionEnum, RTCRevision> {
     
     static bool isValid(long value)
     {
@@ -35,5 +47,15 @@ struct RTCRevisionEnum : Reflection<RTCRevisionEnum, RTCRevision> {
         return "???";
     }
 };
+#endif
 
+
+//
+// Structures
+//
+
+typedef struct
+{
+    RTCRevision model;
 }
+RTCConfig;

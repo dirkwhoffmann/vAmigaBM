@@ -9,14 +9,10 @@
 
 #include "config.h"
 #include "Muxer.h"
-
 #include "CIA.h"
+#include "IO.h"
 #include "MsgQueue.h"
 #include "Oscillator.h"
-#include "Macros.h"
-#include <math.h>
-
-namespace va {
 
 Muxer::Muxer(Amiga& ref) : AmigaComponent(ref)
 {
@@ -254,7 +250,7 @@ Muxer::setSampleRate(double hz)
     trace(AUD_DEBUG, "setSampleRate(%f)\n", hz);
 
     sampleRate = hz;
-    cyclesPerSample = MHz(masterClockFrequency) / hz;
+    cyclesPerSample = MHz(Oscillator::masterClockFrequency) / hz;
 
     filterL.setSampleRate(hz);
     filterR.setSampleRate(hz);
@@ -391,8 +387,8 @@ Muxer::handleBufferUnderflow()
     stream.alignWritePtr();
 
     // Determine the elapsed seconds since the last pointer adjustment
-    auto elapsedTime = Time::now() - lastAlignment;
-    lastAlignment = Time::now();
+    auto elapsedTime = util::Time::now() - lastAlignment;
+    lastAlignment = util::Time::now();
     
     // Adjust the sample rate, if condition (1) holds
     if (elapsedTime.asSeconds() > 10.0) {
@@ -419,8 +415,8 @@ Muxer::handleBufferOverflow()
     stream.alignWritePtr();
 
     // Determine the number of elapsed seconds since the last adjustment
-    auto elapsedTime = Time::now() - lastAlignment;
-    lastAlignment = Time::now();
+    auto elapsedTime = util::Time::now() - lastAlignment;
+    lastAlignment = util::Time::now();
     trace(AUDBUF_DEBUG, "elapsedTime: %f\n", elapsedTime.asSeconds());
     
     // Adjust the sample rate, if condition (1) holds
@@ -440,7 +436,7 @@ Muxer::handleBufferOverflow()
 void
 Muxer::ignoreNextUnderOrOverflow()
 {
-    lastAlignment = Time::now();
+    lastAlignment = util::Time::now();
 }
 
 void
@@ -483,6 +479,4 @@ Muxer::nocopy(isize n)
         
     stream.unlock();
     return addr;
-}
-
 }

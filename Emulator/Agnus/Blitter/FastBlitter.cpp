@@ -9,13 +9,10 @@
 
 #include "config.h"
 #include "Blitter.h"
-
 #include "Agnus.h"
 #include "Checksum.h"
 #include "Memory.h"
 #include "Paula.h"
-
-namespace va {
 
 void
 Blitter::initFastBlitter()
@@ -173,8 +170,8 @@ void Blitter::doFastCopyBlit()
                 mem.poke16 <ACCESSOR_AGNUS> (dpt, dhold);
 
                 if (BLT_CHECKSUM) {
-                    check1 = fnv_1a_it32(check1, dhold);
-                    check2 = fnv_1a_it32(check2, dpt & agnus.ptrMask);
+                    check1 = util::fnv_1a_it32(check1, dhold);
+                    check2 = util::fnv_1a_it32(check2, dpt & agnus.ptrMask);
                 }
                 trace(BLT_DEBUG, "D: poke(%X), %X  (check: %X %X)\n", dpt, dhold, check1, check2);
                 dpt = U32_ADD(dpt, incr);
@@ -293,8 +290,8 @@ Blitter::doFastLineBlit()
             mem.poke16 <ACCESSOR_AGNUS> (bltdpt_local, bltddat_local);
 
             if (BLT_CHECKSUM) {
-                check1 = fnv_1a_it32(check1, bltddat_local);
-                check2 = fnv_1a_it32(check2, bltdpt_local & agnus.ptrMask);
+                check1 = util::fnv_1a_it32(check1, bltddat_local);
+                check2 = util::fnv_1a_it32(check2, bltdpt_local & agnus.ptrMask);
             }
         }
         
@@ -366,6 +363,4 @@ Blitter::doFastLineBlit()
     bltcpt = bltcpt_local & agnus.ptrMask;
     bltdpt = bltdpt_local & agnus.ptrMask;
     bzero  = bzero_local == 0;
-}
-
 }

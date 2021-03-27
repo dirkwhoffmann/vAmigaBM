@@ -1,4 +1,4 @@
-SUBDIRS = Emulator GUI ThirdParty/manymouse
+SUBDIRS = Utilities Emulator GUI ThirdParty/manymouse
 
 DEPS =
 OBJ = Amiga.o vAmiga.o

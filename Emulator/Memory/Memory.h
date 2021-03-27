@@ -11,10 +11,7 @@
 
 #include "MemoryTypes.h"
 #include "AmigaComponent.h"
-#include "FileTypes.h"
-#include "Macros.h"
-
-namespace va {
+#include "RomFileTypes.h"
 
 // DEPRECATED. TODO: GET VALUE FROM ZORRO CARD MANANGER
 const u32 FAST_RAM_STRT = 0x200000;
@@ -487,5 +484,3 @@ public:
     // Returns a certain amount of bytes as a string containing hex words
     template <Accessor A> const char *hex(u32 addr, isize bytes);
 };
-
-}

@@ -9,10 +9,9 @@
 
 #pragma once
 
-#include "AmigaComponent.h"
 #include "DiskControllerTypes.h"
-
-namespace va {
+#include "AmigaComponent.h"
+#include "Reflection.h"
 
 class DiskController : public AmigaComponent {
 
@@ -366,5 +365,3 @@ public:
     void performTurboRead(Drive *drive);
     void performTurboWrite(Drive *drive);
 };
-
-}

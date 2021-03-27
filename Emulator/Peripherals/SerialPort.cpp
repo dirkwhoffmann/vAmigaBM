@@ -10,9 +10,7 @@
 #include "config.h"
 #include "SerialPort.h"
 #include "UART.h"
-#include "Macros.h"
-
-namespace va {
+#include "IO.h"
 
 SerialPort::SerialPort(Amiga& ref) : AmigaComponent(ref)
 {
@@ -39,7 +37,7 @@ SerialPort::setConfigItem(Option option, long value)
             
         case OPT_SERIAL_DEVICE:
             
-            if (!isSerialPortDevice(value)) {
+            if (!SerialPortDeviceEnum::isValid(value)) {
                 warn("Invalid serial port device: %ld\n", value);
                 return false;
             }
@@ -132,6 +130,4 @@ SerialPort::setPort(u32 mask, bool value)
 
     // Let the UART know if RXD has changed
     if ((oldPort ^ port) & RXD_MASK) uart.rxdHasChanged(value);
-}
-
 }

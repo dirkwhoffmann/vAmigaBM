@@ -9,12 +9,10 @@
 
 #pragma once
 
-#include "PortTypes.h"
+#include "ControlPortTypes.h"
 #include "AmigaComponent.h"
 #include "Joystick.h"
 #include "Mouse.h"
-
-namespace va {
 
 class ControlPort : public AmigaComponent {
 
@@ -132,5 +130,3 @@ public:
     // Modifies the PRA bits of CIA A according to the connected device
     void changePra(u8 &pra) const;
 };
-
-}

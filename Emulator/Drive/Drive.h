@@ -13,8 +13,6 @@
 #include "AmigaComponent.h"
 #include "Disk.h"
 
-namespace va {
-
 class Drive : public AmigaComponent {
     
     friend class DiskController;
@@ -279,5 +277,3 @@ public:
     // Write handler for the PRB register of CIA B
     void PRBdidChange(u8 oldValue, u8 newValue);
 };
-
-}

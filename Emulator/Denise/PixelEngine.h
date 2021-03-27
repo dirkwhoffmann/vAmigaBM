@@ -9,11 +9,9 @@
 
 #pragma once
 
+#include "PixelEngineTypes.h"
 #include "AmigaComponent.h"
-#include "DeniseTypes.h"
 #include "ChangeRecorder.h"
-
-namespace va {
 
 class PixelEngine : public AmigaComponent {
 
@@ -247,5 +245,3 @@ public:
     
     void hide(isize line, u16 layer, u8 alpha);
 };
-
-}

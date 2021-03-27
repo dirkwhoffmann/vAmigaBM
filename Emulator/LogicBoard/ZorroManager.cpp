@@ -9,10 +9,7 @@
 
 #include "config.h"
 #include "ZorroManager.h"
-
 #include "Memory.h"
-
-namespace va {
 
 ZorroManager::ZorroManager(Amiga& ref) : AmigaComponent(ref)
 {
@@ -199,6 +196,4 @@ ZorroManager::pokeFastRamDevice(u32 addr, u8 value)
         default:
             return;
     }
-}
-
 }

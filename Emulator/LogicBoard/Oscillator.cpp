@@ -9,11 +9,12 @@
 
 #include "config.h"
 #include "Oscillator.h"
-
 #include "Agnus.h"
 #include "Chrono.h"
 
-namespace va {
+const double Oscillator::masterClockFrequency = 28.37516;
+const double Oscillator::cpuClockFrequency = masterClockFrequency / 4.0;
+const double Oscillator::dmaClockFrequency = masterClockFrequency / 8.0;
 
 Oscillator::Oscillator(Amiga& ref) : AmigaComponent(ref)
 {
@@ -44,7 +45,7 @@ void
 Oscillator::restart()
 {
     clockBase = agnus.clock;
-    timeBase = Time::now();
+    timeBase = util::Time::now();
 }
 
 void
@@ -55,11 +56,9 @@ Oscillator::synchronize()
     // Only proceed if we are not running in warp mode
     if (warpMode) return;
     
-    auto now          = Time::now();
-    // lastSync          = now;
-
+    auto now          = util::Time::now();
     auto elapsedCyles = agnus.clock - clockBase;
-    auto elapsedNanos = Time((i64)(elapsedCyles * 1000 / masterClockFrequency));
+    auto elapsedNanos = util::Time((i64)(elapsedCyles * 1000 / masterClockFrequency));
     auto targetTime   = timeBase + elapsedNanos;
     
     // Check if we're running too slow...
@@ -102,6 +101,4 @@ Oscillator::synchronize()
         loadClock.restart();
         nonstopClock.restart();
     }
-}
-
 }

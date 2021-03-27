@@ -9,13 +9,24 @@
 
 #pragma once
 
+#include "Aliases.h"
 #include "Reflection.h"
 
-namespace va {
+//
+// Enumerations
+//
 
-#include "DiskPublicTypes.h"
+enum_long(DISK_DIAMETER)
+{
+    INCH_35,
+    INCH_525,
+    
+    INCH_COUNT
+};
+typedef DISK_DIAMETER DiskDiameter;
 
-struct DiskDiameterEnum : Reflection<DiskDiameterEnum, DiskDiameter> {
+#ifdef __cplusplus
+struct DiskDiameterEnum : util::Reflection<DiskDiameterEnum, DiskDiameter> {
     
     static bool isValid(long value)
     {
@@ -34,8 +45,20 @@ struct DiskDiameterEnum : Reflection<DiskDiameterEnum, DiskDiameter> {
         return "???";
     }
 };
+#endif
 
-struct DiskDensityEnum : Reflection<DiskDensityEnum, DiskDensity> {
+enum_long(DISK_DENSITY)
+{
+    DISK_SD,
+    DISK_DD,
+    DISK_HD,
+    
+    DISK_COUNT
+};
+typedef DISK_DENSITY DiskDensity;
+
+#ifdef __cplusplus
+struct DiskDensityEnum : util::Reflection<DiskDensityEnum, DiskDensity> {
     
     static bool isValid(long value)
     {
@@ -55,5 +78,4 @@ struct DiskDensityEnum : Reflection<DiskDensityEnum, DiskDensity> {
         return "???";
     }
 };
-
-}
+#endif

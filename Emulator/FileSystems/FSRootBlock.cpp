@@ -9,11 +9,8 @@
 
 #include "config.h"
 #include "FSRootBlock.h"
-
 #include "FSDevice.h"
 #include "FSPartition.h"
-
-namespace va {
 
 FSRootBlock::FSRootBlock(FSPartition &p, Block nr) : FSBlock(p, nr)
 {
@@ -143,6 +140,4 @@ FSRootBlock::addBitmapBlockRefs(std::vector<Block> &refs)
     }
     
     return it == refs.end();
-}
-
 }

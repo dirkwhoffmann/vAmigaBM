@@ -9,13 +9,11 @@
 
 #include "config.h"
 #include "DmaDebugger.h"
-
 #include "Agnus.h"
+#include "Bus.h"
 #include "Denise.h"
 #include "MsgQueue.h"
 #include "PixelEngine.h"
-
-namespace va {
 
 DmaDebugger::DmaDebugger(Amiga &ref) : AmigaComponent(ref)
 {
@@ -85,14 +83,14 @@ DmaDebugger::setEnabled(bool value)
 bool
 DmaDebugger::isVisualized(BusOwner owner) const
 {
-    assert(isBusOwner(owner));
+    assert_enum(BusOwner, owner);
     return visualize[owner];
 }
 
 void
 DmaDebugger::setVisualized(BusOwner owner, bool value)
 {
-    assert(isBusOwner(owner));
+    assert_enum(BusOwner, owner);
     visualize[owner] = value;
 }
 
@@ -159,7 +157,7 @@ DmaDebugger::visualizeRefresh(bool value)
 RgbColor
 DmaDebugger::getColor(BusOwner owner) const
 {
-    assert(isBusOwner(owner));
+    assert_enum(BusOwner, owner);
     return debugColor[owner][4];
 }
 
@@ -175,7 +173,7 @@ DmaDebugger::getColor(BusOwner owner, double *rgb)
 void
 DmaDebugger::setColor(BusOwner owner, RgbColor color)
 {
-    assert(isBusOwner(owner));
+    assert_enum(BusOwner, owner);
 
     // Store the original color at an unused location
     debugColor[owner][4] = color;
@@ -190,7 +188,7 @@ DmaDebugger::setColor(BusOwner owner, RgbColor color)
 void
 DmaDebugger::setColor(BusOwner owner, double r, double g, double b)
 {
-    assert(isBusOwner(owner));
+    assert_enum(BusOwner, owner);
     setColor(owner, RgbColor(r, g, b));
 }
 
@@ -347,6 +345,4 @@ DmaDebugger::vSyncHandler()
             ptr[row * HPIXELS + col] = PixelEngine::rgbaVBlank;
         }
     }
-}
-
 }

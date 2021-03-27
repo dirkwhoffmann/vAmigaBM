@@ -11,8 +11,6 @@
 
 #include "HardwareComponent.h"
 
-namespace va {
-
 class Agnus;
 class Amiga;
 class Blitter;
@@ -34,6 +32,7 @@ class MsgQueue;
 class Oscillator;
 class Paula;
 class PixelEngine;
+class RetroShell;
 class RTC;
 class SerialPort;
 class UART;
@@ -68,6 +67,7 @@ protected:
     Oscillator &oscillator;
     Paula &paula;
     PixelEngine &pixelEngine;
+    RetroShell &retroShell;
     RTC &rtc;
     SerialPort &serialPort;
     UART &uart;
@@ -84,5 +84,3 @@ public:
     
     void prefix() const override;
 };
-
-}

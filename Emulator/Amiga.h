@@ -9,15 +9,7 @@
 
 #pragma once
 
-#include "Aliases.h"
 #include "AmigaTypes.h"
-
-// General
-#include "HardwareComponent.h"
-#include "Serialization.h"
-#include "MsgQueue.h"
-
-// Sub components
 #include "Agnus.h"
 #include "ControlPort.h"
 #include "CIA.h"
@@ -26,13 +18,13 @@
 #include "Drive.h"
 #include "Keyboard.h"
 #include "Memory.h"
+#include "MsgQueue.h"
 #include "Oscillator.h"
 #include "Paula.h"
+#include "RetroShell.h"
 #include "RTC.h"
 #include "SerialPort.h"
 #include "ZorroManager.h"
-
-namespace va {
 
 void threadTerminated(void *thisAmiga);
 void *threadMain(void *thisAmiga);
@@ -95,6 +87,10 @@ public:
     
     // Shortcuts to all four drives
     Drive *df[4] = { &df0, &df1, &df2, &df3 };
+    
+    // Command shell
+    RetroShell retroShell = RetroShell(*this);
+    
     
     //
     // Message queue
@@ -372,5 +368,3 @@ public:
     void loadFromSnapshotUnsafe(Snapshot *snapshot);
     void loadFromSnapshotSafe(Snapshot *snapshot);
 };
-
-}

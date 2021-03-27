@@ -9,13 +9,13 @@
 
 #pragma once
 
+#include "MuxerTypes.h"
+
 #include "AmigaComponent.h"
 #include "AudioStream.h"
 #include "AudioFilter.h"
 #include "Chrono.h"
 #include "Sampler.h"
-
-namespace va {
 
 /* Architecture of the audio pipeline
  *
@@ -57,7 +57,7 @@ class Muxer : public AmigaComponent {
     double fraction;
 
     // Time stamp of the last write pointer alignment
-    Time lastAlignment;
+    util::Time lastAlignment;
 
     // Volume control
     Volume volume;
@@ -238,5 +238,3 @@ public:
      */
     SampleType *nocopy(isize n);
 };
-
-}

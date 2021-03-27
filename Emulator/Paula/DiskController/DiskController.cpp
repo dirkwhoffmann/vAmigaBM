@@ -9,16 +9,12 @@
 
 #include "config.h"
 #include "DiskController.h"
-
 #include "Agnus.h"
 #include "DiskFile.h"
 #include "Drive.h"
 #include "MsgQueue.h"
 #include "Paula.h"
-
 #include <algorithm>
-
-namespace va {
 
 DiskController::DiskController(Amiga& ref) : AmigaComponent(ref)
 {
@@ -337,10 +333,15 @@ DiskController::insertDisk(class DiskFile *file, isize nr, Cycle delay)
 void
 DiskController::insertDisk(const string &name, isize nr, Cycle delay)
 {
+    if (DiskFile *file = DiskFile::make(name)) {
+        insertDisk(file, nr, delay);
+    }
+    /*
     ErrorCode ec;
     if (DiskFile *file = DiskFile::make(name, &ec)) {
         insertDisk(file, nr, delay);
     }
+    */
 }
 
 void
@@ -507,8 +508,8 @@ DiskController::performDMARead(Drive *drive, u32 remaining)
         // Write word into memory
         if (DSK_CHECKSUM) {
             checkcnt++;
-            check1 = fnv_1a_it32(check1, word);
-            check2 = fnv_1a_it32(check2, agnus.dskpt & agnus.ptrMask);
+            check1 = util::fnv_1a_it32(check1, word);
+            check2 = util::fnv_1a_it32(check2, agnus.dskpt & agnus.ptrMask);
         }
         agnus.doDiskDMA(word);
 
@@ -543,12 +544,12 @@ DiskController::performDMAWrite(Drive *drive, u32 remaining)
         // Read next word from memory
         if (DSK_CHECKSUM) {
             checkcnt++;
-            check2 = fnv_1a_it32(check2, agnus.dskpt & agnus.ptrMask);
+            check2 = util::fnv_1a_it32(check2, agnus.dskpt & agnus.ptrMask);
         }
         u16 word = agnus.doDiskDMA();
 
         if (DSK_CHECKSUM) {
-            check1 = fnv_1a_it32(check1, word);
+            check1 = util::fnv_1a_it32(check1, word);
         }
 
         // Write word into FIFO buffer
@@ -642,8 +643,8 @@ DiskController::performTurboRead(Drive *drive)
         // Write word into memory
         if (DSK_CHECKSUM) {
             checkcnt++;
-            check1 = fnv_1a_it32(check1, word);
-            check2 = fnv_1a_it32(check2, agnus.dskpt & agnus.ptrMask);
+            check1 = util::fnv_1a_it32(check1, word);
+            check2 = util::fnv_1a_it32(check2, agnus.dskpt & agnus.ptrMask);
         }
         mem.poke16 <ACCESSOR_AGNUS> (agnus.dskpt, word);
         agnus.dskpt += 2;
@@ -669,8 +670,8 @@ DiskController::performTurboWrite(Drive *drive)
         
         if (DSK_CHECKSUM) {
             checkcnt++;
-            check1 = fnv_1a_it32(check1, word);
-            check2 = fnv_1a_it32(check2, agnus.dskpt & agnus.ptrMask);
+            check1 = util::fnv_1a_it32(check1, word);
+            check2 = util::fnv_1a_it32(check2, agnus.dskpt & agnus.ptrMask);
         }
 
         agnus.dskpt += 2;
@@ -682,6 +683,4 @@ DiskController::performTurboWrite(Drive *drive)
     debug(DSK_CHECKSUM,
           "Turbo write %s: checkcnt = %llu check1 = %x check2 = %x\n",
           drive->getDescription(), checkcnt, check1, check2);
-}
-
 }

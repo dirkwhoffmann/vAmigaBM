@@ -9,10 +9,7 @@
 
 #include "config.h"
 #include "EXTFile.h"
-
 #include "IO.h"
-
-namespace va {
 
 const u8 EXTFile::extAdfHeaders[2][8] = {
 
@@ -40,6 +37,4 @@ EXTFile::isCompatibleStream(std::istream &stream)
         if (util::matchingStreamHeader(stream, extAdfHeaders[i], len)) return true;
     }
     return false;
-}
-
 }

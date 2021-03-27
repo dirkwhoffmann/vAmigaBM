@@ -9,11 +9,7 @@
 
 #include "config.h"
 #include "RomFile.h"
-#include "Macros.h"
-
 #include "IO.h"
-
-namespace va {
 
 //
 // Boot Roms
@@ -414,6 +410,4 @@ RomFile::decrypt()
     if (!isRomBuffer(data, size)) {
         throw VAError(ERROR_INVALID_ROM_KEY);
     }
-}
-
 }

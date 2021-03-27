@@ -20,9 +20,6 @@
 #include "FSPartition.h"
 #include "FSRootBlock.h"
 #include "FSUserDirBlock.h"
-#include <string.h>
-
-namespace va {
 
 FSBlock *
 FSBlock::makeWithType(FSPartition &p, Block nr, FSBlockType type)
@@ -238,6 +235,4 @@ isize
 FSBlock::getMaxDataBlockRefs() const
 {
     return bsize() / 4 - 56;
-}
-
 }

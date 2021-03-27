@@ -9,9 +9,8 @@
 
 #pragma once
 
+#include "RomFileTypes.h"
 #include "AmigaFile.h"
-
-namespace va {
 
 class RomFile : public AmigaFile {
 
@@ -83,5 +82,3 @@ public:
      */
     void decrypt() throws;
 };
-
-}

@@ -9,12 +9,10 @@
 
 #pragma once
 
-#include "Aliases.h"
+#include "StateMachineTypes.h"
 #include "AmigaComponent.h"
 #include "Sampler.h"
 #include "Agnus.h"
-
-namespace va {
 
 template <isize nr>
 class StateMachine : public AmigaComponent {
@@ -252,5 +250,3 @@ public:
 
     void serviceEvent();
 };
-
-}

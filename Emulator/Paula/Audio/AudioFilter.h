@@ -9,10 +9,8 @@
 
 #pragma once
 
+#include "AudioFilterTypes.h"
 #include "AmigaComponent.h"
-#include "AudioTypes.h"
-
-namespace va {
 
 class AudioFilter : public AmigaComponent {
     
@@ -94,5 +92,3 @@ public:
     // Inserts a sample into the filter pipeline
     float apply(float sample);
 };
-    
-}

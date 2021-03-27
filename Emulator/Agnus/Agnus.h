@@ -9,8 +9,8 @@
 
 #pragma once
 
-#include "AmigaComponent.h"
 #include "AgnusTypes.h"
+#include "AmigaComponent.h"
 #include "Beam.h"
 #include "Blitter.h"
 #include "ChangeRecorder.h"
@@ -20,9 +20,9 @@
 #include "Event.h"
 #include "Frame.h"
 #include "Memory.h"
-#include "Macros.h"
 
-namespace va {
+#define isPrimarySlot(s) ((s) <= SLOT_SEC)
+#define isSecondarySlot(s) ((s) > SLOT_SEC && (s) < SLOT_COUNT)
 
 /* Hsync handler action flags
  *
@@ -784,7 +784,7 @@ private:
     void updateDasJumpTable(i16 end = HPOS_MAX);
 
     // Dumps an event table for debugging
-    void dumpEventTable(const EventID *table, char str[256][3], int from, int to) const;
+    void dumpEventTable(const EventID *table, char str[256][3], isize from, isize to) const;
 
 public:
     
@@ -936,5 +936,3 @@ private:
 #include "EventHandler.h"
 
 };
-
-}

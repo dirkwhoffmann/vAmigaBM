@@ -12,10 +12,7 @@
 #include "FSPartition.h"
 #include "FSDevice.h"
 #include <algorithm>
-#include <string.h>
 #include <vector>
-
-namespace va {
 
 FSPartition *
 FSPartition::makeWithFormat(FSDevice &dev, FSPartitionDescriptor &layout)
@@ -512,6 +509,4 @@ FSPartition::check(bool strict, FSErrorReport &report) const
     }
  
     return report.bitmapErrors == 0;
-}
-
 }

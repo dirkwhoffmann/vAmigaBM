@@ -9,16 +9,42 @@
 
 #pragma once
 
-#include "FileTypes.h"
+#include "AmigaFileTypes.h"
 #include "AmigaObject.h"
-
 #include "Checksum.h"
 #include "IO.h"
-
+#include "Reflection.h"
 #include <sstream>
 #include <fstream>
 
-namespace va {
+struct FileTypeEnum : util::Reflection<FileTypeEnum, FileType> {
+    
+    static bool isValid(long value)
+    {
+        return (unsigned long)value < FILETYPE_COUNT;
+    }
+    
+    static const char *prefix() { return "FILETYPE"; }
+    static const char *key(FileType value)
+    {
+        switch (value) {
+                
+            case FILETYPE_UKNOWN:       return "UKNOWN";
+            case FILETYPE_SNAPSHOT:     return "SNAPSHOT";
+            case FILETYPE_ADF:          return "ADF";
+            case FILETYPE_HDF:          return "HDF";
+            case FILETYPE_EXT:          return "EXT";
+            case FILETYPE_IMG:          return "IMG";
+            case FILETYPE_DMS:          return "DMS";
+            case FILETYPE_EXE:          return "EXE";
+            case FILETYPE_DIR:          return "DIR";
+            case FILETYPE_ROM:          return "ROM";
+            case FILETYPE_EXTENDED_ROM: return "EXTENDED_ROM";
+            case FILETYPE_COUNT:        return "???";
+        }
+        return "???";
+    }
+};
 
 /* All media files are organized in the class hierarchy displayed below. Two
  * abstract classes are involed: AmigaFile and DiskFile. AmigaFile provides
@@ -159,7 +185,7 @@ public:
     virtual FileType type() const { return FILETYPE_UKNOWN; }
             
     // Returns a fingerprint (hash value) for this file
-    virtual u64 fnv() const { return fnv_1a_64(data, size); }
+    virtual u64 fnv() const { return util::fnv_1a_64(data, size); }
         
     
     //
@@ -191,5 +217,3 @@ public:
     isize writeToBuffer(u8 *buf) throws;
     isize writeToBuffer(u8 *buf, ErrorCode *err);    
 };
-
-}

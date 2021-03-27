@@ -12,9 +12,6 @@
 #include "AmigaObject.h"
 #include "FSTypes.h"
 #include "FSObjects.h"
-#include "Macros.h"
-
-namespace va {
 
 struct FSBlock : AmigaObject {
         
@@ -322,5 +319,3 @@ if (value == 0) return ERROR_FS_EXPECTED_DATABLOCK_NR; }
 
 #define EXPECT_HASHTABLE_SIZE { \
 if (value != 72) return ERROR_FS_INVALID_HASHTABLE_SIZE; }
-
-}

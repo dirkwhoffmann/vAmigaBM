@@ -12,8 +12,6 @@
 #include "Aliases.h"
 #include "Constants.h"
 
-namespace va {
-
 struct Beam
 {
     // Counters for the vertical and horizontal beam position
@@ -36,7 +34,7 @@ struct Beam
     }
     
     Beam(i16 v, i16 h) : v(v), h(h) { }
-    Beam(u32 cycle = 0) : Beam((i16)(cycle / HPOS_CNT), (i16)(cycle % HPOS_CNT)) { }
+    Beam(isize cycle = 0) : Beam((i16)(cycle / HPOS_CNT), (i16)(cycle % HPOS_CNT)) { }
 
     Beam& operator=(const Beam& beam)
     {
@@ -77,7 +75,7 @@ struct Beam
         return Beam(newv, newh);
     }
 
-    Beam operator+(const int i) const
+    Beam operator+(const isize i) const
     {
         return *this + Beam(i);
     }
@@ -99,5 +97,3 @@ struct Beam
         return *this;
     }
 };
-
-}

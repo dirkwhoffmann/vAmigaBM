@@ -7,6 +7,7 @@
 // See https://www.gnu.org for license information
 // -----------------------------------------------------------------------------
 
+#include "config.h"
 #include "Browser.h"
 #include "Application.h"
 #include "IO.h"
@@ -67,7 +68,7 @@ Browser::open(isize dfn)
  
     // Assign action function
     action = [this, dfn](const string &s) {
-        this->controller.insertDisk(s, dfn);
+        amiga.paula.diskController.insertDisk(s, dfn);
     };
     
     // Get the media directory for this drive

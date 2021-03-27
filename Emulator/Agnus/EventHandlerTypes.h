@@ -9,16 +9,48 @@
 
 #pragma once
 
+#include "Aliases.h"
 #include "Reflection.h"
 
-namespace va {
+//
+// Enumerations
+//
 
-#include "EventHandlerPublicTypes.h"
+enum_long(SLOT)
+{
+    // Primary slots
+    SLOT_REG,                       // Register changes
+    SLOT_RAS,                       // Rasterline
+    SLOT_CIAA,                      // CIA A execution
+    SLOT_CIAB,                      // CIA B execution
+    SLOT_BPL,                       // Bitplane DMA
+    SLOT_DAS,                       // Disk, Audio, and Sprite DMA
+    SLOT_COP,                       // Copper
+    SLOT_BLT,                       // Blitter
+    SLOT_SEC,                       // Enables secondary slots
 
-#define isPrimarySlot(s) ((s) <= SLOT_SEC)
-#define isSecondarySlot(s) ((s) > SLOT_SEC && (s) < SLOT_COUNT)
+    // Secondary slots
+    SLOT_CH0,                       // Audio channel 0
+    SLOT_CH1,                       // Audio channel 1
+    SLOT_CH2,                       // Audio channel 2
+    SLOT_CH3,                       // Audio channel 3
+    SLOT_DSK,                       // Disk controller
+    SLOT_DCH,                       // Disk changes (insert, eject)
+    SLOT_VBL,                       // Vertical blank
+    SLOT_IRQ,                       // Interrupts
+    SLOT_IPL,                       // CPU Interrupt Priority Lines
+    SLOT_KBD,                       // Keyboard
+    SLOT_TXD,                       // Serial data out (UART)
+    SLOT_RXD,                       // Serial data in (UART)
+    SLOT_POT,                       // Potentiometer
+    SLOT_INS,                       // Handles periodic calls to inspect()
+    
+    SLOT_COUNT
+};
+typedef SLOT EventSlot;
 
-struct EventSlotEnum : Reflection<EventSlotEnum, EventSlot> {
+#ifdef __cplusplus
+struct EventSlotEnum : util::Reflection<EventSlotEnum, EventSlot> {
     
     static bool isValid(long value)
     {
@@ -58,40 +90,5 @@ struct EventSlotEnum : Reflection<EventSlotEnum, EventSlot> {
         }
         return "???";
     }
-    /*
-    static const char *description(EventSlot value)
-    {
-        switch (value) {
-                
-            case SLOT_REG:   return "Registers";
-            case SLOT_RAS:   return "Rasterline";
-            case SLOT_CIAA:  return "CIA A";
-            case SLOT_CIAB:  return "CIA B";
-            case SLOT_BPL:   return "Bitplane DMA";
-            case SLOT_DAS:   return "Other DMA";
-            case SLOT_COP:   return "Copper";
-            case SLOT_BLT:   return "Blitter";
-            case SLOT_SEC:   return "Secondary";
-
-            case SLOT_CH0:   return "Audio channel 0";
-            case SLOT_CH1:   return "Audio channel 1";
-            case SLOT_CH2:   return "Audio channel 2";
-            case SLOT_CH3:   return "Audio channel 3";
-            case SLOT_DSK:   return "Disk Controller";
-            case SLOT_DCH:   return "Disk Change";
-            case SLOT_VBL:   return "Vertical blank";
-            case SLOT_IRQ:   return "Interrupts";
-            case SLOT_IPL:   return "IPL";
-            case SLOT_KBD:   return "Keyboard";
-            case SLOT_TXD:   return "UART out";
-            case SLOT_RXD:   return "UART in";
-            case SLOT_POT:   return "Potentiometer";
-            case SLOT_INS:   return "Inspector";
-            case SLOT_COUNT: return "???";
-        }
-        return "???";
-    }
-    */
 };
-
-}
+#endif

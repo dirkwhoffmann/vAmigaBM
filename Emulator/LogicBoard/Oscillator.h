@@ -16,17 +16,28 @@
 #include <mach/mach_time.h>
 #endif
 
-namespace va {
-
 class Oscillator : public AmigaComponent {
 
+public:
+    
+    // Clock rate of the master clock in MHz (PAL Amiga, 28.37516 MHz)
+    static const double masterClockFrequency;
+
+    // Clock rate of the Motorola 68000 CPU (7.09379 MHz)
+    static const double cpuClockFrequency;
+
+    // Clock rate of the DMA bus (3.546895 MHz)
+    static const double dmaClockFrequency;
+
+private:
+    
     /* The heart of this class is method sychronize() which puts the thread to
      * sleep for a certain interval. In order to calculate the delay, the
      * function needs to know the values of the Amiga clock and the Kernel
      * clock at the time the synchronization timer was started. The values are
      * stores in the following two variables and recorded in restart().
      */
-    
+        
     // Agnus clock (Amiga master cycles)
     Cycle clockBase = 0;
     
@@ -37,14 +48,14 @@ class Oscillator : public AmigaComponent {
     // Time lastSync;
 
     // Kernel clock
-    Time timeBase;
+    util::Time timeBase;
 
     // The current CPU load (%)
     float cpuLoad = 0.0;
     
     // Clocks for measuring the CPU load
-    Clock nonstopClock;
-    Clock loadClock;
+    util::Clock nonstopClock;
+    util::Clock loadClock;
 
     
     //
@@ -101,5 +112,3 @@ public:
     // Puts the emulator thread to rest
     void synchronize();
 };
-
-}

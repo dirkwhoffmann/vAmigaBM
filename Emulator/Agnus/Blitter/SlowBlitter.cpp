@@ -13,8 +13,6 @@
 #include "Memory.h"
 #include "Paula.h"
 
-namespace va {
-
 /* Micro-instructions:
  *
  * To keep the implementation flexible, the SlowBlitter is emulated as a
@@ -984,8 +982,8 @@ Blitter::exec()
             }
 
             if (BLT_CHECKSUM) {
-                check1 = fnv_1a_it32(check1, dhold);
-                check2 = fnv_1a_it32(check2, bltdpt);
+                check1 = util::fnv_1a_it32(check1, dhold);
+                check2 = util::fnv_1a_it32(check2, bltdpt);
             }
             trace(BLT_DEBUG, "D: poke(%X), %X (check: %X %X)\n", bltdpt, dhold, check1, check2);
             bltdpt = U32_ADD(bltdpt, desc ? -2 : 2);
@@ -1237,6 +1235,4 @@ Blitter::doBarrelShifterB()
     } else {
         bhold = (bold << (16 - bltconBSH())) | (bnew >> bltconBSH());
     }
-}
-
 }

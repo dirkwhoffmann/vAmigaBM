@@ -9,17 +9,25 @@
 
 #pragma once
 
+#include "Aliases.h"
 #include "Reflection.h"
+#include "TODTypes.h"
 
-namespace va {
+/* Emulated CIA model
+ *
+ *   CIA_8520_DIP  mimics option "[ ] 391078-01" in UAE (default)
+ *   CIA_8520_PLCC mimics option "[X] 391078-01" in UAE (A600)
+ */
+enum_long(CIARevision)
+{
+    CIA_8520_DIP,
+    CIA_8520_PLCC,
+    
+    CIA_COUNT
+};
 
-#include "CIAPublicTypes.h"
-
-//
-// Reflection APIs
-//
-
-struct CIARevisionEnum : Reflection<CIARevisionEnum, CIARevision> {
+#ifdef __cplusplus
+struct CIARevisionEnum : util::Reflection<CIARevisionEnum, CIARevision> {
     
     static bool isValid(long value)
     {
@@ -38,5 +46,63 @@ struct CIARevisionEnum : Reflection<CIARevisionEnum, CIARevision> {
         return "???";
     }
 };
+#endif
 
+//
+// Structures
+//
+
+typedef struct
+{
+    CIARevision revision;
+    bool todBug;
+    bool eClockSyncing;
 }
+CIAConfig;
+
+typedef struct
+{
+    struct {
+        u8 port;
+        u8 reg;
+        u8 dir;
+    } portA;
+
+    struct {
+        u8 port;
+        u8 reg;
+        u8 dir;
+    } portB;
+
+    struct {
+        u16 count;
+        u16 latch;
+        bool running;
+        bool toggle;
+        bool pbout;
+        bool oneShot;
+    } timerA;
+
+    struct {
+        u16 count;
+        u16 latch;
+        bool running;
+        bool toggle;
+        bool pbout;
+        bool oneShot;
+    } timerB;
+
+    u8 sdr;
+    u8 ssr;
+    u8 icr;
+    u8 imr;
+    bool intLine;
+    
+    CounterInfo cnt;
+    bool cntIntEnable;
+    
+    Cycle idleSince;
+    Cycle idleTotal;
+    double idlePercentage;
+}
+CIAInfo;

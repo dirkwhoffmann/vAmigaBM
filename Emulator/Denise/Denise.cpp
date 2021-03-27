@@ -9,13 +9,11 @@
 
 #include "config.h"
 #include "Denise.h"
-
 #include "Agnus.h"
 #include "Amiga.h"
 #include "ControlPort.h"
+#include "IO.h"
 #include "SSEUtils.h"
-
-namespace va {
 
 Denise::Denise(Amiga& ref) : AmigaComponent(ref)
 {    
@@ -276,7 +274,7 @@ Denise::fillShiftRegisters(bool odd, bool even)
     #if (defined(__i386__) || defined(__x86_64__)) && defined(__MACH__)
     
     if (!NO_SSE) {
-        transposeSSE(shiftReg, slice);
+        util::transposeSSE(shiftReg, slice);
         return;
     }
     
@@ -1209,5 +1207,3 @@ template void Denise::drawEven<true>(Pixel offset);
 
 template void Denise::translateDPF<true>(Pixel from, Pixel to, PFState &state);
 template void Denise::translateDPF<false>(Pixel from, Pixel to, PFState &state);
-
-}

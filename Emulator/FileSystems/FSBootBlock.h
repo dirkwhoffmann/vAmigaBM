@@ -10,9 +10,7 @@
 #pragma once
 
 #include "FSBlock.h"
-#include "FileTypes.h"
-
-namespace va {
+#include "BootBlockImage.h"
 
 struct FSBootBlock : FSBlock {
         
@@ -41,5 +39,3 @@ struct FSBootBlock : FSBlock {
 
     void writeBootBlock(BootBlockId id, isize page);
 };
-
-}

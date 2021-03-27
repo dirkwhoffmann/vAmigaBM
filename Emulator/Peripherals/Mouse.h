@@ -9,11 +9,10 @@
 
 #pragma once
 
-#include "PortTypes.h"
+#include "MouseTypes.h"
+#include "Joystick.h"
 #include "AmigaComponent.h"
 #include "Chrono.h"
-
-namespace va {
 
 class ShakeDetector {
     
@@ -31,7 +30,7 @@ class ShakeDetector {
     
     // Time stamps
     u64 lastTurn = 0;
-    Time lastShake;
+    util::Time lastShake;
     
 public:
     
@@ -189,5 +188,3 @@ public:
     // Performs periodic actions for this device
     void execute();
 };
-
-}

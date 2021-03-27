@@ -9,10 +9,8 @@
 
 #pragma once
 
-#include "AmigaComponent.h"
 #include "RTCTypes.h"
-
-namespace va {
+#include "AmigaComponent.h"
 
 class RTC : public AmigaComponent {
 
@@ -177,5 +175,3 @@ private:
     void registers2timeOki(tm *t);
     void registers2timeRicoh(tm *t);
 };
-
-}

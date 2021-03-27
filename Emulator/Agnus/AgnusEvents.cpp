@@ -9,7 +9,6 @@
 
 #include "config.h"
 #include "Agnus.h"
-
 #include "Amiga.h"
 #include "CIA.h"
 #include "ControlPort.h"
@@ -17,8 +16,6 @@
 #include "Denise.h"
 #include "Paula.h"
 #include "SerialPort.h"
-
-namespace va {
 
 void
 Agnus::serviceVblEvent()
@@ -651,5 +648,3 @@ Agnus::serviceRASEvent()
 
 template void Agnus::serviceCIAEvent<0>();
 template void Agnus::serviceCIAEvent<1>();
-
-}

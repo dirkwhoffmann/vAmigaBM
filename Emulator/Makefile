@@ -7,6 +7,7 @@ MYCC = g++ -std=c++17 -Wfatal-errors
 MYFLAGS = \
 -Wall \
 -I $(CURDIR)/.. \
+-I $(CURDIR)/../Utilities \
 -I $(CURDIR) \
 -I $(CURDIR)/Agnus \
 -I $(CURDIR)/Agnus/Blitter \
@@ -29,6 +30,7 @@ MYFLAGS = \
 -I $(CURDIR)/Paula/DiskController \
 -I $(CURDIR)/Paula/UART \
 -I $(CURDIR)/Peripherals \
+-I $(CURDIR)/RetroShell \
 -I $(CURDIR)/xdms
 
 export MYCC MYFLAGS

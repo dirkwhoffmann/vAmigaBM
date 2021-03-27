@@ -22,7 +22,7 @@ int main(int argc, const char *argv[]) {
         
         // app.configure(argc, argv);
         
-    } catch (Exception &e) {
+    } catch (util::Exception &e) {
         std::cout << "vAmiga is not able to launch." << std::endl;
         std::cout << "Error: " << e.what() << std::endl;
         exit(1);

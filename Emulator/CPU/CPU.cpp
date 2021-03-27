@@ -9,13 +9,11 @@
 
 #include "config.h"
 #include "CPU.h"
-
 #include "Agnus.h"
 #include "Amiga.h"
+#include "IO.h"
 #include "Memory.h"
 #include "MsgQueue.h"
-
-namespace va {
 
 //
 // Moira
@@ -381,6 +379,4 @@ CPU::disassembleWords(isize len)
 {
     return disassembleWords(reg.pc0, len);
     return "";
-}
-
 }

@@ -9,10 +9,17 @@
 
 #pragma once
 
-#include "Reflection.h"
+#include "Aliases.h"
 
-namespace va {
+#define CPUINFO_INSTR_COUNT 256
 
-#include "CPUPublicTypes.h"
-
+typedef struct
+{
+    u32 pc0;
+    u32 d[8];
+    u32 a[8];
+    u32 usp;
+    u32 ssp;
+    u16 sr;
 }
+CPUInfo;

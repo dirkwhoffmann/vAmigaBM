@@ -10,10 +10,7 @@
 #pragma once
 
 #include "FSTypes.h"
-#include "FileTypes.h"
 #include "FSDescriptors.h"
-
-namespace va {
 
 struct FSPartition : AmigaObject {
     
@@ -171,5 +168,3 @@ public:
 };
 
 typedef FSPartition* FSPartitionPtr;
-
-}

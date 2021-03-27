@@ -9,13 +9,10 @@
 
 #include "config.h"
 #include "UART.h"
-
 #include "Agnus.h"
 #include "MsgQueue.h"
 #include "Paula.h"
 #include "SerialPort.h"
-
-namespace va {
 
 UART::UART(Amiga& ref) : AmigaComponent(ref)
 {
@@ -173,6 +170,4 @@ UART::rxdHasChanged(bool value)
         // Schedule the event
         agnus.scheduleRel<SLOT_RXD>(delay, RXD_BIT);
     }
-}
-
 }

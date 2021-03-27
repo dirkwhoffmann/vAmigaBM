@@ -11,8 +11,6 @@
 #include "AudioFilter.h"
 #include "math.h"
 
-namespace va {
-
 AudioFilter::AudioFilter(Amiga& ref) : AmigaComponent(ref)
 {
     a1 = a2 = b0 = b1 = b2 = 0.0;
@@ -74,6 +72,4 @@ AudioFilter::apply(float sample)
     y2 = y1; y1 = y0;
     
     return (float)y0;
-}
-
 }

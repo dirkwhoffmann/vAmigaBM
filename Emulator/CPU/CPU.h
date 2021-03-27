@@ -12,9 +12,6 @@
 #include "CPUTypes.h"
 #include "AmigaComponent.h"
 #include "Moira.h"
-#include "Macros.h"
-
-namespace va {
 
 class CPU : public moira::Moira {
 
@@ -184,5 +181,3 @@ public:
     const char *disassembleInstr(isize *len);
     const char *disassembleWords(isize len);
 };
-
-}

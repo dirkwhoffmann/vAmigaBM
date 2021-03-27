@@ -9,9 +9,8 @@
 
 #pragma once
 
-#include "AmigaComponent.h"
 #include "PaulaTypes.h"
-
+#include "AmigaComponent.h"
 #include "AudioFilter.h"
 #include "AudioStream.h"
 #include "ChangeRecorder.h"
@@ -21,7 +20,9 @@
 #include "TimeDelayed.h"
 #include "UART.h"
 
-namespace va {
+//
+// Class
+//
 
 class Paula : public AmigaComponent {
     
@@ -79,7 +80,7 @@ public:
     u64 iplPipe;
     
     // Interrupt priority line (IPL)
-    TimeDelayed <u8,4> ipl = TimeDelayed <u8,4> ();
+    util::TimeDelayed <u8,4> ipl = util::TimeDelayed <u8,4> ();
     
     
     //
@@ -276,5 +277,3 @@ private:
     // Computes the interrupt level of a pending interrupt.
     u8 interruptLevel();
 };
-
-}

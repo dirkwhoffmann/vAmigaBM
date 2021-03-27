@@ -11,9 +11,6 @@
 #include "FSObjects.h"
 #include "FSBlock.h"
 #include <algorithm>
-#include <string.h>
-
-namespace va {
 
 FSString::FSString(const char *str, isize l) : limit(l)
 {
@@ -163,6 +160,4 @@ FSTime::str() const
 {
     string result = dateStr() + "  " + timeStr();
     return result;
-}
-
 }

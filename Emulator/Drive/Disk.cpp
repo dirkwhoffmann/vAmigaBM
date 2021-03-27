@@ -9,10 +9,7 @@
 
 #include "config.h"
 #include "Disk.h"
-
 #include "DiskFile.h"
-
-namespace va {
 
 Disk::Disk(DiskDiameter type, DiskDensity density)
 {    
@@ -50,7 +47,7 @@ Disk::makeWithFile(DiskFile *file)
 }
 
 Disk *
-Disk::makeWithReader(SerReader &reader, DiskDiameter type, DiskDensity density)
+Disk::makeWithReader(util::SerReader &reader, DiskDiameter type, DiskDensity density)
 {
     Disk *disk = new Disk(type, density);
     disk->applyToPersistentItems(reader);
@@ -276,6 +273,4 @@ Disk::repeatTracks()
             data.track[t][i] = data.track[t][j];
         }
     }
-}
-
 }

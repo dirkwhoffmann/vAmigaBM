@@ -9,14 +9,11 @@
 
 #pragma once
 
+#include "Aliases.h"
 #include "Reflection.h"
 
-namespace va {
-
-#include "KeyboardPublicTypes.h"
-
 //
-// Private types
+// Enumerations
 //
 
 enum_long(KB_STATE)
@@ -31,7 +28,8 @@ enum_long(KB_STATE)
 };
 typedef KB_STATE KeyboardState;
 
-struct KeyboardStateEnum : Reflection<KeyboardStateEnum, KeyboardState> {
+#ifdef __cplusplus
+struct KeyboardStateEnum : util::Reflection<KeyboardStateEnum, KeyboardState> {
     
     static bool isValid(long value)
     {
@@ -53,5 +51,14 @@ struct KeyboardStateEnum : Reflection<KeyboardStateEnum, KeyboardState> {
         return "???";
     }
 };
+#endif
 
+//
+// Structures
+//
+
+typedef struct
+{
+    bool accurate;
 }
+KeyboardConfig;

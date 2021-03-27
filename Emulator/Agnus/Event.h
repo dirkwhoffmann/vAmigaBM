@@ -9,9 +9,11 @@
 
 #pragma once
 
-#include "EventHandlerTypes.h"
+#include "Aliases.h"
+#include "EventTypes.h"
 
-namespace va {
+// Time stamp used for messages that never trigger
+#define NEVER INT64_MAX
 
 struct Event
 {
@@ -34,5 +36,3 @@ struct Event
         << data;
     }
 };
-
-}

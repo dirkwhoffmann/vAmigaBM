@@ -9,11 +9,8 @@
 
 #include "config.h"
 #include "Snapshot.h"
-
 #include "Amiga.h"
 #include "IO.h"
-
-namespace va {
 
 Thumbnail *
 Thumbnail::makeWithAmiga(Amiga *amiga, isize dx, isize dy)
@@ -99,6 +96,4 @@ void
 Snapshot::takeScreenshot(Amiga &amiga)
 {
     ((SnapshotHeader *)data)->screenshot.take(&amiga);
-}
-
 }

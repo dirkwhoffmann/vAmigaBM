@@ -9,12 +9,10 @@
 
 #include "config.h"
 #include "Keyboard.h"
-
 #include "Agnus.h"
 #include "CIA.h"
+#include "IO.h"
 #include "MsgQueue.h"
-
-namespace va {
 
 Keyboard::Keyboard(Amiga& ref) : AmigaComponent(ref)
 {
@@ -332,6 +330,4 @@ Keyboard::sendSyncPulse()
          // In simple keyboard mode, send a whole byte
          sendKeyCode(0xFF);
      }
-}
-
 }

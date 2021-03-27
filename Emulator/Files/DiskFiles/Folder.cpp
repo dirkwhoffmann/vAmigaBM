@@ -9,10 +9,7 @@
 
 #include "config.h"
 #include "Folder.h"
-
 #include "FSDevice.h"
-
-namespace va {
 
 bool
 Folder::isFolder(const char *path)
@@ -79,6 +76,4 @@ Folder::makeWithFolder(const string &path, ErrorCode *err)
     try { return makeWithFolder(path); }
     catch (VAError &exception) { *err = exception.data; }
     return nullptr;
-}
-
 }

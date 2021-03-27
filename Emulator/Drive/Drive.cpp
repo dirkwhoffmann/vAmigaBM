@@ -9,14 +9,12 @@
 
 #include "config.h"
 #include "Drive.h"
-
 #include "Agnus.h"
+#include "BootBlockImage.h"
 #include "CIA.h"
 #include "DiskFile.h"
 #include "FSDevice.h"
 #include "MsgQueue.h"
-
-namespace va {
 
 Drive::Drive(Amiga& ref, isize n) : AmigaComponent(ref), nr(n)
 {
@@ -229,7 +227,7 @@ Drive::_dump(Dump::Category category, std::ostream& os) const
 isize
 Drive::_size()
 {
-    SerCounter counter;
+    util::SerCounter counter;
 
     applyToPersistentItems(counter);
     applyToHardResetItems(counter);
@@ -252,7 +250,7 @@ Drive::_size()
 isize
 Drive::_load(const u8 *buffer) 
 {
-    SerReader reader(buffer);
+    util::SerReader reader(buffer);
     isize result;
     
     // Read own state
@@ -287,7 +285,7 @@ Drive::_load(const u8 *buffer)
 isize
 Drive::_save(u8 *buffer)
 {
-    SerWriter writer(buffer);
+    util::SerWriter writer(buffer);
     isize result;
     
     // Write own state
@@ -833,6 +831,4 @@ Drive::PRBdidChange(u8 oldValue, u8 newValue)
         // debug("Switching to side %d\n", !(newValue & 0b100));
     }
     head.side = !(newValue & 0b100);
-}
-
 }

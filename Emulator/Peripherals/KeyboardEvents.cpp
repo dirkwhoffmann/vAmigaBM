@@ -9,11 +9,8 @@
 
 #include "config.h"
 #include "Keyboard.h"
-
 #include "Agnus.h"
 #include "CIA.h"
-
-namespace va {
 
 void
 Keyboard::serviceKeyboardEvent(EventID id)
@@ -99,6 +96,4 @@ Keyboard::serviceKeyboardEvent(EventID id)
             assert(false);
             break;
     }
-}
-
 }

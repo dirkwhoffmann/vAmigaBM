@@ -9,11 +9,10 @@
 
 #pragma once
 
-#include "AudioTypes.h"
+#include "SamplerTypes.h"
 #include "Constants.h"
 #include "RingBuffer.h"
-
-namespace va {
+#include "Reflection.h"
 
 /* This buffer type is used to temporarily store the generated sound samples as
  * they are produced by the state machine. Note that the state machine doesn't
@@ -28,7 +27,7 @@ struct TaggedSample
     i16   sample;
 };
 
-struct Sampler : RingBuffer <TaggedSample, VPOS_CNT * HPOS_CNT> {
+struct Sampler : util::RingBuffer <TaggedSample, VPOS_CNT * HPOS_CNT> {
     
     /* Initializes the ring buffer by removing all existing elements and adding
      * a single dummy element. The dummy element is added because some methods
@@ -50,5 +49,3 @@ struct Sampler : RingBuffer <TaggedSample, VPOS_CNT * HPOS_CNT> {
      */
     template <SamplingMethod method> i16 interpolate(Cycle clock);
 };
-
-}

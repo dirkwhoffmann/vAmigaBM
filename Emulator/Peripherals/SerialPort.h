@@ -9,10 +9,8 @@
 
 #pragma once
 
-#include "PortTypes.h"
+#include "SerialPortTypes.h"
 #include "AmigaComponent.h"
-
-namespace va {
 
 #define TXD_MASK (1 << 2)
 #define RXD_MASK (1 << 3)
@@ -143,5 +141,3 @@ private:
 
     void setPort(u32 mask, bool value);
 };
-
-}

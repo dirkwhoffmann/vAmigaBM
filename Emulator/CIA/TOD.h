@@ -9,10 +9,8 @@
 
 #pragma once
 
-#include "CIATypes.h"
+#include "TODTypes.h"
 #include "AmigaComponent.h"
-
-namespace va {
 
 typedef union
 {
@@ -196,5 +194,3 @@ private:
     // Starts the counter
     void cont() { stopped = false; }
 };
-
-}

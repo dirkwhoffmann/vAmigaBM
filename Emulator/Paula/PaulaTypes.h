@@ -9,14 +9,11 @@
 
 #pragma once
 
+#include "Aliases.h"
 #include "Reflection.h"
 
-namespace va {
-
-#include "PaulaPublicTypes.h"
-
 //
-// Private types
+// Enumerations
 //
 
 enum_long(INT_SOURCE)
@@ -39,12 +36,8 @@ enum_long(INT_SOURCE)
 };
 typedef INT_SOURCE IrqSource;
 
-static inline bool isIrqSource(long value)
-{
-    return value >= 0 && value < INT_COUNT;
-}
-
-struct IrqSourceEnum : Reflection<IrqSourceEnum, IrqSource> {
+#ifdef __cplusplus
+struct IrqSourceEnum : util::Reflection<IrqSourceEnum, IrqSource> {
     
     static bool isValid(long value)
     {
@@ -75,5 +68,16 @@ struct IrqSourceEnum : Reflection<IrqSourceEnum, IrqSource> {
         return "???";
     }
 };
+#endif
 
+//
+// Structures
+//
+
+typedef struct
+{
+    u16 intreq;
+    u16 intena;
+    u16 adkcon;
 }
+PaulaInfo;

@@ -9,20 +9,28 @@
 
 #pragma once
 
+#include "Aliases.h"
+#include "BusTypes.h"
+#include "EventTypes.h"
+#include "EventHandlerTypes.h"
 #include "Reflection.h"
 
-#include "BlitterTypes.h"
-#include "CopperTypes.h"
-
-namespace va {
-
-#include "AgnusPublicTypes.h"
-
 //
-// Reflection APIs
+// Enumerations
 //
 
-struct AgnusRevisionEnum : Reflection<AgnusRevisionEnum, AgnusRevision> {
+enum_long(AGNUS_REVISION)
+{
+    AGNUS_OCS,              // Revision 8367
+    AGNUS_ECS_1MB,          // Revision 8372
+    AGNUS_ECS_2MB,          // Revision 8375
+    
+    AGNUS_COUNT
+};
+typedef AGNUS_REVISION AgnusRevision;
+
+#ifdef __cplusplus
+struct AgnusRevisionEnum : util::Reflection<AgnusRevisionEnum, AgnusRevision> {
     
     static bool isValid(long value)
     {
@@ -42,135 +50,157 @@ struct AgnusRevisionEnum : Reflection<AgnusRevisionEnum, AgnusRevision> {
         return "???";
     }
 };
+#endif
 
-//
-// Private types
-//
-
-enum_long(DDFState)
+enum_long(DDF_STATE)
 {
     DDF_OFF,
     DDF_READY,
     DDF_ON
 };
+typedef DDF_STATE DDFState;
 
-static inline bool isDDFState(long value)
-{
-    return (unsigned long)value <= DDF_ON;
-}
+#ifdef __cplusplus
+struct DDFStateEnum : util::Reflection<DDFStateEnum, DDFState> {
+    
+    static bool isValid(long value)
+    {
+        return (unsigned long)value <= DDF_ON;
+    }
 
-enum_long(SprDMAState)
+    static const char *prefix() { return "DDF"; }
+    static const char *key(AgnusRevision value)
+    {
+        switch (value) {
+                
+            case DDF_OFF:   return "OFF";
+            case DDF_READY: return "READY";
+            case DDF_ON:    return "ON";
+        }
+        return "???";
+    }
+};
+#endif
+
+enum_long(SPR_DMA_STATE)
 {
     SPR_DMA_IDLE,
     SPR_DMA_ACTIVE
 };
+typedef SPR_DMA_STATE SprDMAState;
 
-static inline bool isSprDMAState(long value)
-{
-    return (unsigned long)value <= SPR_DMA_ACTIVE;
-}
-
-enum RegChangeID : i32
-{
-    SET_NONE,
+#ifdef __cplusplus
+struct SprDmaStateEnum : util::Reflection<SprDmaStateEnum, SprDMAState> {
     
-    SET_BLTSIZE,
-    SET_BLTSIZV,
-    SET_BLTCON0,
-    SET_BLTCON0L,
-    SET_BLTCON1,
-    
-    SET_INTREQ,
-    SET_INTENA,
-    
-    SET_BPLCON0_AGNUS,
-    SET_BPLCON0_DENISE,
-    SET_BPLCON1_AGNUS,
-    SET_BPLCON1_DENISE,
-    SET_BPLCON2,
-    SET_BPLCON3,
-    SET_DMACON,
-    
-    SET_DIWSTRT,
-    SET_DIWSTOP,
-    SET_DDFSTRT,
-    SET_DDFSTOP,
-    
-    SET_BPL1MOD,
-    SET_BPL2MOD,
-    SET_BPL1PTH,
-    SET_BPL2PTH,
-    SET_BPL3PTH,
-    SET_BPL4PTH,
-    SET_BPL5PTH,
-    SET_BPL6PTH,
-    SET_BPL1PTL,
-    SET_BPL2PTL,
-    SET_BPL3PTL,
-    SET_BPL4PTL,
-    SET_BPL5PTL,
-    SET_BPL6PTL,
+    static bool isValid(long value)
+    {
+        return (unsigned long)value <= SPR_DMA_ACTIVE;
+    }
 
-    SET_SPR0DATA,
-    SET_SPR1DATA,
-    SET_SPR2DATA,
-    SET_SPR3DATA,
-    SET_SPR4DATA,
-    SET_SPR5DATA,
-    SET_SPR6DATA,
-    SET_SPR7DATA,
-
-    SET_SPR0DATB,
-    SET_SPR1DATB,
-    SET_SPR2DATB,
-    SET_SPR3DATB,
-    SET_SPR4DATB,
-    SET_SPR5DATB,
-    SET_SPR6DATB,
-    SET_SPR7DATB,
-
-    SET_SPR0POS,
-    SET_SPR1POS,
-    SET_SPR2POS,
-    SET_SPR3POS,
-    SET_SPR4POS,
-    SET_SPR5POS,
-    SET_SPR6POS,
-    SET_SPR7POS,
-
-    SET_SPR0CTL,
-    SET_SPR1CTL,
-    SET_SPR2CTL,
-    SET_SPR3CTL,
-    SET_SPR4CTL,
-    SET_SPR5CTL,
-    SET_SPR6CTL,
-    SET_SPR7CTL,
-
-    SET_SPR0PTH,
-    SET_SPR1PTH,
-    SET_SPR2PTH,
-    SET_SPR3PTH,
-    SET_SPR4PTH,
-    SET_SPR5PTH,
-    SET_SPR6PTH,
-    SET_SPR7PTH,
-
-    SET_SPR0PTL,
-    SET_SPR1PTL,
-    SET_SPR2PTL,
-    SET_SPR3PTL,
-    SET_SPR4PTL,
-    SET_SPR5PTL,
-    SET_SPR6PTL,
-    SET_SPR7PTL,
-
-    REG_COUNT
+    static const char *prefix() { return "SPR_DMA"; }
+    static const char *key(SprDMAState value)
+    {
+        switch (value) {
+                
+            case SPR_DMA_IDLE:   return "IDLE";
+            case SPR_DMA_ACTIVE: return "ACTIVE";
+        }
+        return "???";
+    }
 };
+#endif
 
-static inline bool isRegChangeID(long value)
+// Inspection interval in seconds (interval between INS_xxx events)
+static const double inspectionInterval = 0.1;
+
+//
+// Structures
+//
+
+typedef struct
 {
-    return (unsigned long)value < REG_COUNT;
+    AgnusRevision revision;
+    bool slowRamMirror;
 }
+AgnusConfig;
 
+typedef struct
+{
+    i16 vpos;
+    i16 hpos;
+
+    u16 dmacon;
+    u16 bplcon0;
+    u8  bpu;
+    u16 ddfstrt;
+    u16 ddfstop;
+    u16 diwstrt;
+    u16 diwstop;
+
+    u16 bpl1mod;
+    u16 bpl2mod;
+    u16 bltamod;
+    u16 bltbmod;
+    u16 bltcmod;
+    u16 bltdmod;
+    u16 bltcon0;
+    
+    u32 coppc;
+    u32 dskpt;
+    u32 bplpt[6];
+    u32 audpt[4];
+    u32 audlc[4];
+    u32 bltpt[4];
+    u32 sprpt[8];
+
+    bool bls;
 }
+AgnusInfo;
+
+typedef struct
+{
+    long usage[BUS_COUNT];
+    
+    double copperActivity;
+    double blitterActivity;
+    double diskActivity;
+    double audioActivity;
+    double spriteActivity;
+    double bitplaneActivity;
+}
+AgnusStats;
+
+typedef struct
+{
+    EventSlot slot;
+    EventID eventId;
+    const char *eventName;
+
+    // Trigger cycle of the event
+    Cycle trigger;
+    Cycle triggerRel;
+
+    // Trigger relative to the current frame
+    // -1 = earlier frame, 0 = current frame, 1 = later frame
+    long frameRel;
+
+    // The trigger cycle translated to a beam position.
+    long vpos;
+    long hpos;
+}
+EventSlotInfo;
+
+typedef struct
+{
+    Cycle cpuClock;
+    Cycle cpuCycles;
+    Cycle dmaClock;
+    Cycle ciaAClock;
+    Cycle ciaBClock;
+    long frame;
+    long vpos;
+    long hpos;
+
+    EventSlotInfo slotInfo[SLOT_COUNT];
+}
+EventInfo;

@@ -9,11 +9,7 @@
 
 #include "config.h"
 #include "ExtendedRomFile.h"
-#include "Macros.h"
-
 #include "IO.h"
-
-namespace va {
 
 // AROS Extended ROM
 const u8 ExtendedRomFile::magicBytes1[] = { 0x11, 0x14, 0x4E, 0xF9, 0x00, 0xF8, 0x00, 0x02 };
@@ -44,6 +40,4 @@ ExtendedRomFile::isExtendedRomFile(const char *path)
 {
     std::ifstream stream(path);
     return stream.is_open() ? isCompatibleStream(stream) : false;
-}
-
 }

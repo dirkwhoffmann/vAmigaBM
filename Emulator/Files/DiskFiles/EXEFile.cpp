@@ -9,12 +9,9 @@
 
 #include "config.h"
 #include "EXEFile.h"
-
 #include "AmigaFile.h"
 #include "FSDevice.h"
 #include "IO.h"
-
-namespace va {
 
 bool
 EXEFile::isCompatiblePath(const string &path)
@@ -97,6 +94,4 @@ EXEFile::readFromStream(std::istream &stream)
     
     if (!adf) throw VAError(ERROR_UNKNOWN);
     return result;
-}
-
 }

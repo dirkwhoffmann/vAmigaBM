@@ -9,12 +9,10 @@
 
 #include "config.h"
 #include "Copper.h"
-
 #include "Agnus.h"
 #include "Checksum.h"
+#include "IO.h"
 #include "PixelEngine.h"
-
-namespace va {
 
 Copper::Copper(Amiga& ref) : AmigaComponent(ref)
 {
@@ -509,7 +507,7 @@ Copper::vsyncHandler()
                 agnus.frame.nr, checksum, checkcnt, cop1lc, cop2lc);
         }
         checkcnt = 0;
-        checksum = fnv_1a_init32();
+        checksum = util::fnv_1a_init32();
     }
 }
 
@@ -593,6 +591,4 @@ Copper::dumpCopperList(isize list, isize length)
     for (isize i = 0; i < length; i++) {
         msg("%s\n", disassemble(list, 2*i));
     }
-}
-
 }

@@ -11,10 +11,7 @@
 #include "FSFileHeaderBlock.h"
 #include "FSDevice.h"
 #include "FSPartition.h"
-
 #include <set>
-
-namespace va {
 
 FSFileHeaderBlock::FSFileHeaderBlock(FSPartition &p, Block nr) : FSBlock(p, nr)
 {
@@ -268,6 +265,4 @@ FSFileHeaderBlock::addDataBlockRef(Block first, Block ref)
     }
     
     return false;
-}
-
 }

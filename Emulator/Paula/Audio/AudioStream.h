@@ -106,8 +106,6 @@ struct FloatStereo
 };
 
 
-namespace va {
-
 //
 // Volume
 //
@@ -138,10 +136,10 @@ struct Volume {
 // AudioStream
 //
 
-template <class T> class AudioStream : public RingBuffer <T, 16384> {
+template <class T> class AudioStream : public util::RingBuffer <T, 16384> {
 
     // Mutex for synchronizing read / write accesses
-    Mutex mutex;
+    util::Mutex mutex;
 
 public:
     
@@ -185,5 +183,3 @@ public:
     float draw(u32 *buffer, isize width, isize height,
                bool left, float highestAmplitude, u32 color);
 };
-
-}

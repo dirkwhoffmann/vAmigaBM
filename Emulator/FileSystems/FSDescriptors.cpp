@@ -10,8 +10,6 @@
 #include "config.h"
 #include "FSDescriptors.h"
 
-namespace va {
-
 FSDeviceDescriptor::FSDeviceDescriptor(DiskDiameter type, DiskDensity density, FSVolumeType dos)
 {
     if (type == INCH_525 && density == DISK_DD) {
@@ -85,6 +83,4 @@ FSPartitionDescriptor::dump()
     msg("Extension blocks : ");
     for (auto& it : bmExtBlocks) { msg("%d ", it); }
     msg("\n\n");
-}
-
 }

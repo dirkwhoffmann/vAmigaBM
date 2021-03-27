@@ -11,8 +11,6 @@
 #include "Amiga.h"
 #include "Snapshot.h"
 
-namespace va {
-
 // Perform some consistency checks
 static_assert(sizeof(i8) == 1,  "i8 size mismatch");
 static_assert(sizeof(i16) == 2, "i16 size mismatch");
@@ -870,6 +868,4 @@ Amiga::loadFromSnapshotSafe(Snapshot *snapshot)
     suspend();
     loadFromSnapshotUnsafe(snapshot);
     resume();
-}
-
 }

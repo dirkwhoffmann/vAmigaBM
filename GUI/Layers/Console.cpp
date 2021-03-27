@@ -12,11 +12,6 @@
 
 Console::Console(Application &ref) : Layer(ref)
 {
-    // Initialize the text storage
-    storage.push_back("");
-
-    // Initialize the input buffer
-    input.push_back("");
 }
 
 Console::~Console()
@@ -47,17 +42,6 @@ Console::init()
     // Initialize cursor
     cursor.setSize(sf::Vector2f(glyphWidth + 2, fontSize + 3));
     cursor.setFillColor(sf::Color(0xFF,0xFF,0xFF,0x80));
-
-    // Print intro message
-    *this << "Retro shell 0.1, ";
-    *this << "Dirk W. Hoffmann, ";
-    *this << __DATE__ << " " << __TIME__ << "." << '\n';
-    *this << "Linked to vAmiga core ";
-    *this << V_MAJOR << '.' << V_MINOR << '.' << V_SUBMINOR << '.' << '\n' << '\n';
-
-    printHelp();
-    *this << '\n';
-    printPrompt();
 }
 
 void
@@ -75,12 +59,7 @@ Console::respond(const sf::Event &event)
             
             keyPressed(event.key.code);
             break;
-            
-        case sf::Event::KeyReleased:
-            
-            keyReleased(event.key.code);
-            break;
-            
+                        
         case sf::Event::TextEntered:
             
             if (event.text.unicode < 128) {
@@ -162,129 +141,32 @@ Console::clear()
 }
 
 void
-Console::printHelp()
-{
-    *this << "Press 'TAB' twice for help." << '\n';
-}
-
-void
-Console::printPrompt()
-{
-    // Finish the current line (if neccessary)
-    if (!lastLine().empty()) *this << '\n';
-
-    // Print the prompt
-    *this << prompt;
-}
-
-Console&
-Console::operator<<(char value)
-{
-    if (value == '\n') {
-
-        // Newline (appends an empty line)
-        storage.push_back("");
-
-    } else if (value == '\r') {
-
-        // Carriage return (clears the current line)
-        storage.back() = "";
-        
-    } else {
-        
-        // Add a single character
-        if (storage.back().length() >= numCols) storage.push_back("");
-        storage.back() += value;
-    }
-    
-    shorten();
-    return *this;
-}
-
-Console&
-Console::operator<<(const string& text)
-{
-    size_t remaining = numCols - storage.back().length();
-    
-    // Split the string if it is too large
-    if (text.length() > remaining) {
-        *this << text.substr(0, remaining) << '\n' << text.substr(remaining);
-    } else {
-        storage.back() += text;
-    }
-    
-    shorten();
-    return *this;
-}
-
-Console&
-Console::operator<<(int value)
-{
-    *this << std::to_string(value);
-    return *this;
-}
-
-Console&
-Console::operator<<(long value)
-{
-    *this << std::to_string(value);
-    return *this;
-}
-
-void
-Console::shorten()
-{
-    while (storage.size() > 600) {
-        
-        storage.erase(storage.begin());
-        scrollUp(1);
-    }
-}
-
-void
-Console::tab(int hpos)
-{
-    int delta = hpos - (int)storage.back().length();
-    for (int i = 0; i < delta; i++) {
-        *this << ' ';
-    }
-}
-
-
-void
-Console::replace(const string& text, const string& prefix)
-{
-    storage.back() = prefix + text.substr(0, numCols);
-}
-
-void
-Console::list()
-{
-    for (isize i = 0; i < input.size(); i++) {
-        printf("%zd: %s\n", i, input[i].c_str());
-    }
-}
-
-void
 Console::scrollTo(isize line)
 {
-    line = std::clamp(line, (isize)0, (isize)storage.size() - 1);
-        
+    isize max = amiga.retroShell.getStorage().size() - 1;
+    
+    if (line < 0) line = 0;
+    if (line > max) line = max;
+            
     isDirty = line != vpos;
     vpos = line;
 }
 
 void
 Console::makeLastLineVisible()
-{    
+{
+    auto &storage = amiga.retroShell.getStorage();
+    
     if (!lastLineIsVisible()) {
-        scrollTo((int)storage.size() - numRows);
+        scrollTo((isize)storage.size() - numRows);
     }
 }
 
 isize
 Console::rowOfLastLine()
 {
+    auto &storage = amiga.retroShell.getStorage();
+    
     return (isize)storage.size() - vpos - 1;
 }
 
@@ -306,14 +188,9 @@ Console::type(char c)
             
         default:
             
-            if (input[ipos].length() < numCols - (int)prompt.length() - 1) {
-                
-                input[ipos].insert(input[ipos].begin() + cpos++, c);
-            }
-            *this << '\r' << string(prompt) << input[ipos];
+            amiga.retroShell.pressKey(c);
     }
 
-    tabPressed = (c == '\t');
     makeLastLineVisible();
     isDirty = true;
 }
@@ -326,102 +203,42 @@ Console::keyPressed(const sf::Keyboard::Key& key)
     switch (key) {
             
         case sf::Keyboard::Return:
-
-            *this << '\n';
-                        
-            // Print a help message if no input is given
-            if (input[ipos].empty()) {
-                printHelp();
-                printPrompt();
-                break;
-            }
-
-            // Add the current input line to the user input history
-            input[input.size() - 1] = input[ipos];
-
-            // Create a new input line
-            input.push_back("");
-            ipos = (isize)input.size() - 1;
-
-            // Execute the command
-            exec(input[ipos - 1]);
+            amiga.retroShell.pressReturn();
             break;
             
         case sf::Keyboard::Backspace:
-            
-            if (cpos > 0) {
-                input[ipos].erase(input[ipos].begin() + --cpos);
-            }
-            *this << '\r' << string(prompt) << input[ipos];
+            amiga.retroShell.pressBackspace();
             break;
-            
+
         case sf::Keyboard::Tab:
-                      
-            if (tabPressed) {
-
-                // TAB was pressed twice
-                *this << '\n';
-
-                // Print the instructions for this command
-                interpreter.help(input[ipos]);
-                
-                // Repeat the old input string
-                *this << string(prompt) << input[ipos];
-                
-            } else {
-                
-                interpreter.autoComplete(input[ipos]);
-                cpos = (isize)input[ipos].length();
-                replace(input[ipos]);
-            }
+            amiga.retroShell.pressTab();
             break;
-            
+
         case sf::Keyboard::Up:
-
-            if (ipos > 0) {
-                ipos--;
-                cpos = (isize)input[ipos].size();
-
-                replace(input[ipos]);
-            }
+            amiga.retroShell.pressUp();
             break;
 
         case sf::Keyboard::Down:
-
-            if (ipos < input.size() - 1) {
-                ipos++;
-                cpos = (isize)input[ipos].size();
-                
-                replace(input[ipos]);
-            }
+            amiga.retroShell.pressDown();
             break;
-            
+
         case sf::Keyboard::Left:
-
-            if (cpos > 0) {
-                cpos--;
-            }
+            amiga.retroShell.pressLeft();
             break;
-            
+
         case sf::Keyboard::Right:
-            
-            if (cpos < input[ipos].length()) {
-                cpos++;
-            }
+            amiga.retroShell.pressRight();
             break;
             
         case sf::Keyboard::Home:
-            
-            cpos = 0;
+            amiga.retroShell.pressHome();
             break;
 
         case sf::Keyboard::End:
-            
-            cpos = (isize)input[ipos].length();
+            amiga.retroShell.pressEnd();
             break;
 
         case sf::Keyboard::PageUp:
-            
             scrollUp(numRows);
             jumpToLastLine = false;
             break;
@@ -436,28 +253,10 @@ Console::keyPressed(const sf::Keyboard::Key& key)
             return;
     }
     
-    tabPressed = (key == sf::Keyboard::Tab);
     if (jumpToLastLine) makeLastLineVisible();
     isDirty = true;
 }
 
-void
-Console::keyReleased(const sf::Keyboard::Key& key)
-{
-    /*
-    printf("keyReleased\n");
-
-    switch (key) {
-            
-        case sf::Keyboard::LControl:
-            break;
-
-        default:
-            break;
-    }
-    */
-}
-      
 void
 Console::scroll(float delta)
 {    
@@ -472,106 +271,11 @@ Console::scroll(float delta)
     }
 }
 
-bool
-Console::exec(const string &command, bool verbose)
-{
-    bool success = false;
-    
-    // Print the command string if requested
-    if (verbose) *this << command << '\n';
-        
-    printf("Command: %s\n", command.c_str());
-    
-    try {
-        
-        // Hand the command over to the intepreter
-        interpreter.exec(command);
-        success = true;
-               
-    } catch (TooFewArgumentsError &err) {
-        *this << err.what() << ": Too few arguments";
-        *this << '\n';
-        
-    } catch (TooManyArgumentsError &err) {
-        *this << err.what() << ": Too many arguments";
-        *this << '\n';
-            
-    } catch (EnumParseError &err) {
-        *this << err.token << " is not a valid key" << '\n';
-        *this << "Expected: " << err.expected << '\n';
-        
-    } catch (ParseNumError &err) {
-        *this << err.token << " is not a number" << '\n';
-
-    } catch (ParseBoolError &err) {
-        *this << err.token << " must be true or false" << '\n';
-
-    } catch (ParseError &err) {
-        *this << err.what() << ": Syntax error";
-        *this << '\n';
-        
-    } catch (ConfigUnsupportedError) {
-        *this << "This option is not yet supported.";
-        *this << '\n';
-        
-    } catch (ConfigLockedError &err) {
-        *this << "This option is locked because the Amiga is powered on.";
-        *this << '\n';
-        
-    } catch (ConfigArgError &err) {
-        *this << "Error: Invalid argument. Expected: " << err.what();
-        *this << '\n';
-        
-    } catch (ConfigFileNotFoundError &err) {
-        *this << err.what() << " not found";
-        *this << '\n';
-        success = true; // Don't break the execution
-        
-    } catch (ConfigFileReadError &err) {
-        *this << "Error: Unable to read file " << err.what();
-        *this << '\n';
-        
-    } catch (VAError &err) {
-        *this << err.what();
-        *this << '\n';
-    }
-    
-    // Print a new prompt
-    // printf("Command: %s\n", command.c_str());
-    // *this << string(prompt);
-    printPrompt();
-    cpos = 0;
-    
-    return success;
-}
-
-void
-Console::exec(std::istream &stream)
-{
-    isize line = 0;
-    string command;
-        
-    while(std::getline(stream, command)) {
-
-        line++;
-        printf("Line %zd: %s\n", line, command.c_str());
-
-        // Skip empty lines
-        if (command == "") continue;
-
-        // Skip comments
-        if (command.substr(0,1) == "#") continue;
-        
-        // Execute the command
-        if (!exec(command, true)) {
-            throw Exception(command, line);
-        }
-    }
-}
-
 void
 Console::updateTexture()
 {
+    auto &storage = amiga.retroShell.getStorage();
+    
     texture.clear(sf::Color(0x21,0x21,0x21,0xD0));
     
     // Instantiate missing text objects
@@ -595,7 +299,7 @@ Console::updateTexture()
     }
     
     // Draw cursor
-    isize cursorX = hposForCol(cpos + (int)prompt.length());
+    isize cursorX = hposForCol(amiga.retroShell.cposAbs());
     isize cursorY = vposForRow(rowOfLastLine()) + 3;
     cursor.setPosition(cursorX, cursorY);
     texture.draw(cursor);

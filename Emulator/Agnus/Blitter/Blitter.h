@@ -11,10 +11,7 @@
 
 #include "BlitterTypes.h"
 #include "AmigaComponent.h"
-#include "MemoryTypes.h"
-#include "Macros.h"
-
-namespace va {
+#include "Memory.h"
 
 /* The Blitter supports three accuracy levels:
  *
@@ -490,5 +487,3 @@ private:
     void doBarrelShifterA();
     void doBarrelShifterB();
 };
-
-}

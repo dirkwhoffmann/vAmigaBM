@@ -9,15 +9,12 @@
 
 #include "config.h"
 #include "ADFFile.h"
-
 #include "BootBlockImage.h"
 #include "Checksum.h"
 #include "Debug.h"
 #include "Disk.h"
 #include "Drive.h"
 #include "IO.h"
-
-namespace va {
 
 bool
 ADFFile::isCompatiblePath(const string &path)
@@ -388,7 +385,7 @@ ADFFile::encodeTrack(Disk *disk, Track t)
     
     // Compute a debug checksum
     debug(MFM_DEBUG, "Track %d checksum = %x\n",
-          t, fnv_1a_32(disk->data.track[t], disk->length.track[t]));
+          t, util::fnv_1a_32(disk->data.track[t], disk->length.track[t]));
 
     return result;
 }
@@ -558,6 +555,4 @@ ADFFile::decodeSector(u8 *dst, u8 *src)
     // Decode sector data
     Disk::decodeOddEven(dst + sector * 512, src, 512);
     return true;
-}
-
 }
