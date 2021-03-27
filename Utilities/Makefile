@@ -2,7 +2,9 @@ SRC=$(wildcard *.cpp)
 OBJ=$(SRC:.cpp=.o)
 
 MYCC = g++ -std=c++17 -Wfatal-errors
-MYFLAGS = -Wall
+MYFLAGS = \
+-Wall \
+-I $(CURDIR)/..
 
 .PHONY: all clean
 
