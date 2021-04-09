@@ -42,7 +42,7 @@ DiskController::_reset(bool hard)
     }
 }
 
-long
+i64
 DiskController::getConfigItem(Option option) const
 {
     switch (option) {
@@ -57,7 +57,7 @@ DiskController::getConfigItem(Option option) const
     }
 }
 
-long
+i64
 DiskController::getConfigItem(Option option, long id) const
 {
     switch (option) {
@@ -71,7 +71,7 @@ DiskController::getConfigItem(Option option, long id) const
 }
 
 bool
-DiskController::setConfigItem(Option option, long value)
+DiskController::setConfigItem(Option option, i64 value)
 {
     switch (option) {
             
@@ -117,7 +117,7 @@ DiskController::setConfigItem(Option option, long value)
 }
 
 bool
-DiskController::setConfigItem(Option option, long id, long value)
+DiskController::setConfigItem(Option option, long id, i64 value)
 {
     switch (option) {
             
@@ -184,9 +184,9 @@ DiskController::_inspect()
 }
 
 void
-DiskController::_dump(Dump::Category category, std::ostream& os) const
+DiskController::_dump(dump::Category category, std::ostream& os) const
 {
-    if (category & Dump::Config) {
+    if (category & dump::Config) {
         
         os << DUMP("Drive df0");
         os << (config.connected[0] ? "connected" : "disconnected") << std::endl;
@@ -204,7 +204,7 @@ DiskController::_dump(Dump::Category category, std::ostream& os) const
         os << YESNO(config.autoDskSync) << std::endl;
     }
     
-    if (category & Dump::State) {
+    if (category & dump::State) {
         
         os << DUMP("selected");
         os << (int)selected << std::endl;

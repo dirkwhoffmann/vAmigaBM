@@ -88,7 +88,7 @@ public:
     // Shortcuts to all four drives
     Drive *df[4] = { &df0, &df1, &df2, &df3 };
     
-    // Command shell
+    // Command console
     RetroShell retroShell = RetroShell(*this);
     
     
@@ -99,7 +99,7 @@ public:
     /* Communication channel to the GUI. The GUI registers a listener and a
      * callback function to retrieve messages.
      */
-    MsgQueue queue;
+    MsgQueue msgQueue = MsgQueue(*this);
 
     
     //
@@ -107,6 +107,9 @@ public:
     //
     
 private:
+    
+    // The current emulator state
+    EmulatorState state = EMULATOR_STATE_OFF;
     
     /* Run loop control. This variable is checked at the end of each runloop
      * iteration. Most of the time, the variable is 0 which causes the runloop
@@ -121,18 +124,8 @@ private:
     
     // The emulator thread
     pthread_t p = (pthread_t)0;
-    
-    /* Mutex to coordinate the ownership of the emulator thread.
-     *
-     */
-    pthread_mutex_t threadLock;
-    
-    /* Lock to synchronize the access to all state changing methods such as
-     * run(), pause(), etc.
-     */
-    pthread_mutex_t stateChangeLock;
-    
-    
+        
+
     //
     // Snapshot storage
     //
@@ -172,12 +165,12 @@ private:
 public:
         
     // Gets a single configuration item
-    long getConfigItem(Option option) const;
-    long getConfigItem(Option option, long id) const;
+    i64 getConfigItem(Option option) const;
+    i64 getConfigItem(Option option, long id) const;
     
     // Sets a single configuration item
-    bool configure(Option option, long value) throws;
-    bool configure(Option option, long id, long value) throws;
+    bool configure(Option option, i64 value) throws;
+    bool configure(Option option, long id, i64 value) throws;
     
     
     //
@@ -194,7 +187,7 @@ public:
 private:
     
     void _inspect() override;
-    void _dump(Dump::Category category, std::ostream& os) const override;
+    void _dump(dump::Category category, std::ostream& os) const override;
     
     
     //
@@ -229,20 +222,24 @@ private:
     
 public:
     
+    bool isPoweredOff() const override { return state == EMULATOR_STATE_OFF; }
+    bool isPoweredOn() const override { return state != EMULATOR_STATE_OFF; }
+    bool isPaused() const override { return state == EMULATOR_STATE_PAUSED; }
+    bool isRunning() const override { return state == EMULATOR_STATE_RUNNING; }
+
     void powerOn();
     void powerOff();
     void run();
     void pause();
+    void shutdown();
     
-    void setWarp(bool enable);
+    void warpOn();
+    void warpOff();
     bool inWarpMode() { return warpMode; }
-    void enableWarpMode() { setWarp(true); }
-    void disableWarpMode() { setWarp(false); }
 
-    void setDebug(bool enable);
+    void debugOn();
+    void debugOff();
     bool inDebugMode() { return debugMode; }
-    void enableDebugMode() { setDebug(true); }
-    void disableDebugMode() { setDebug(false); }
 
 private:
     
@@ -250,7 +247,8 @@ private:
     void _powerOff() override;
     void _run() override;
     void _pause() override;
-    void _setWarp(bool enable) override;
+    void _warpOn() override;
+    void _warpOff() override;
 
     
     //
@@ -259,13 +257,9 @@ private:
     
 public:
     
-    /* Requests the emulator thread to stop and locks the threadLock. The
-     * function is called in all state changing methods to obtain ownership
-     * of the emulator thread. After returning, the emulator is either powered
-     * off (if it was powered off before) or paused (if it was running before).
-     */
-    void acquireThreadLock();
-    
+    // Returns true if the currently executed thread is the emulator thread
+    bool isEmulatorThread() { return pthread_self() == p; }
+        
     /* Returns true if a call to powerOn() will be successful. It returns false,
      * e.g., if no Kickstart Rom or Boot Rom is installed.
      */
@@ -298,7 +292,6 @@ public:
     void signalWarpOff() { setControlFlags(RL_WARP_OFF); }
     void signalAutoSnapshot() { setControlFlags(RL_AUTO_SNAPSHOT); }
     void signalUserSnapshot() { setControlFlags(RL_USER_SNAPSHOT); }
-
 
     //
     // Running the emulator

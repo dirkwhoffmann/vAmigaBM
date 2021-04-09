@@ -10,10 +10,10 @@
 #pragma once
 
 #include "MsgQueueTypes.h"
-#include "HardwareComponent.h"
+#include "AmigaComponent.h"
 #include "RingBuffer.h"
 
-class MsgQueue : public HardwareComponent {
+class MsgQueue : public AmigaComponent {
         
     // Ring buffer storing all pending messages
     util::RingBuffer<Message, 64> queue;
@@ -27,6 +27,15 @@ class MsgQueue : public HardwareComponent {
     // The registered callback function
     Callback *callback = nullptr;
     
+    
+    //
+    // Constructing
+    //
+    
+public:
+    
+    MsgQueue(Amiga& ref) : AmigaComponent(ref) { }
+
     
     //
     // Methods from HardwareComponent
@@ -53,10 +62,7 @@ public:
     
     // Registers a listener together with it's callback function
     void setListener(const void *listener, Callback *func);
-    
-    // Unregisters the listener
-    void removeListener();
-        
+            
     // Writes a message into the queue and propagates it to all listeners
     void put(MsgType type, long data = 0);
 };

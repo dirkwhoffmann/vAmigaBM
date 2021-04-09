@@ -64,8 +64,8 @@ public:
     
     const KeyboardConfig &getConfig() const { return config; }
 
-    long getConfigItem(Option option) const;
-    bool setConfigItem(Option option, long value) override;
+    i64 getConfigItem(Option option) const;
+    bool setConfigItem(Option option, i64 value) override;
 
         
     //
@@ -74,7 +74,7 @@ public:
     
 private:
     
-    void _dump(Dump::Category category, std::ostream& os) const override;
+    void _dump(dump::Category category, std::ostream& os) const override;
 
     
     //

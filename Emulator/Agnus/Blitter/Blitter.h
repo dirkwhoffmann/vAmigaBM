@@ -278,8 +278,8 @@ public:
     
     const BlitterConfig &getConfig() const { return config; }
     
-    long getConfigItem(Option option) const;
-    bool setConfigItem(Option option, long value) override;
+    i64 getConfigItem(Option option) const;
+    bool setConfigItem(Option option, i64 value) override;
     
     
     //
@@ -294,7 +294,7 @@ private:
     
     // Methods from HardwareComponent
     void _inspect() override;
-    void _dump(Dump::Category category, std::ostream& os) const override;
+    void _dump(dump::Category category, std::ostream& os) const override;
 
 
     //
@@ -304,7 +304,7 @@ private:
 public:
     
     // Returns true if the Blitter is processing a blit
-    bool isRunning() const { return running; }
+    bool isActive() const { return running; }
 
     // Returns the value of the Blitter Busy Flag
     bool isBusy() const { return bbusy; }

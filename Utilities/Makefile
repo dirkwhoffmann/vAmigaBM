@@ -10,7 +10,7 @@ MYFLAGS = \
 
 all: prebuild $(OBJ)
 	@echo > /dev/null
-	
+
 prebuild:
 	@echo "Entering ${CURDIR}"
 	

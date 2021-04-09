@@ -14,7 +14,7 @@
 struct FSUserDirBlock : FSBlock {
                 
     FSUserDirBlock(FSPartition &p, Block nr);
-    FSUserDirBlock(FSPartition &p, Block nr, const char *name);
+    FSUserDirBlock(FSPartition &p, Block nr, const string &name);
     ~FSUserDirBlock();
     
     const char *getDescription() const override { return "FSUserDirBlock"; }
@@ -30,7 +30,7 @@ struct FSUserDirBlock : FSBlock {
     void dump() const override;
     isize checksumLocation() const override { return 5; }
 
-    ErrorCode exportBlock(const char *path) override;
+    ErrorCode exportBlock(const string &path) override;
 
     u32 getProtectionBits() const override     { return get32(-48     );       }
     void setProtectionBits(u32 val) override   {        set32(-48, val);       }

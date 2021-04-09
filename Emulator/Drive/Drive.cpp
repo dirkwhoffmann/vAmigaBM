@@ -47,7 +47,7 @@ Drive::_reset(bool hard)
     RESET_SNAPSHOT_ITEMS(hard)
 }
 
-long
+i64
 Drive::getConfigItem(Option option) const
 {
     switch (option) {
@@ -69,13 +69,13 @@ Drive::getConfigItem(Option option) const
 }
 
 bool
-Drive::setConfigItem(Option option, long value)
+Drive::setConfigItem(Option option, i64 value)
 {
     return setConfigItem(option, nr, value);
 }
 
 bool
-Drive::setConfigItem(Option option, long id, long value)
+Drive::setConfigItem(Option option, long id, i64 value)
 {
     assert(id >= 0 && id <= 3);
 
@@ -184,9 +184,9 @@ Drive::_inspect()
 }
 
 void
-Drive::_dump(Dump::Category category, std::ostream& os) const
+Drive::_dump(dump::Category category, std::ostream& os) const
 {
-    if (category & Dump::Config) {
+    if (category & dump::Config) {
         
         os << DUMP("Type") << DriveTypeEnum::key(config.type) << std::endl;
         os << DUMP("Emulate mechanics") << YESNO(config.mechanicalDelays) << std::endl;
@@ -202,7 +202,7 @@ Drive::_dump(Dump::Category category, std::ostream& os) const
         os << DUMP("Default boot block") << BootBlockIdEnum::key(config.defaultBootBlock) << std::endl;
     }
     
-    if (category & Dump::State) {
+    if (category & dump::State) {
         
         os << DUMP("Nr") << DEC << (isize)nr << std::endl;
         os << DUMP("Id count") << DEC << (isize)idCount << std::endl;

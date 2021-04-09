@@ -66,12 +66,6 @@ private:
      */
     static const int rgbaIndexCnt = 32 + 32 + 1 + 8;
     u32 indexedRgba[rgbaIndexCnt];
-
-    // Color adjustment parameters
-    [[deprecated]] Palette palette = PALETTE_COLOR;
-    [[deprecated]] double brightness = 50.0;
-    [[deprecated]] double contrast = 100.0;
-    [[deprecated]] double saturation = 50.0;
     
     // Indicates whether HAM mode is switched
     bool hamMode;
@@ -107,8 +101,8 @@ public:
     
     const PixelEngineConfig &getConfig() const { return config; }
 
-    long getConfigItem(Option option) const;
-    bool setConfigItem(Option option, long value) override;
+    i64 getConfigItem(Option option) const;
+    bool setConfigItem(Option option, i64 value) override;
 
     
     //

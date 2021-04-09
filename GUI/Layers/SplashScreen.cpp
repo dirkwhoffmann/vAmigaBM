@@ -130,8 +130,8 @@ bool
 SplashScreen::loadAros()
 {
     try {
-        app.amiga.mem.loadRomFromFile("aros-amiga-m68k-rom.bin");
-        app.amiga.mem.loadExtFromFile("aros-amiga-m68k-ext.bin");
+        app.amiga.mem.loadRom("aros-amiga-m68k-rom.bin");
+        app.amiga.mem.loadExt("aros-amiga-m68k-ext.bin");
         app.amiga.configure(OPT_EXT_START, 0xE0);
         return true;
         

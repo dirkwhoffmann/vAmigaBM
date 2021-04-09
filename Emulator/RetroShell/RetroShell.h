@@ -111,7 +111,7 @@ public:
     RetroShell &operator<<(long value);
 
     // Moves the cursor forward to a certain column
-    void tab(int hpos);
+    void tab(isize hpos);
 
     // Prints the input prompt
     void printPrompt();
@@ -164,6 +164,6 @@ public:
 
 private:
     
-    void dump(HardwareComponent &component, Dump::Category category);
+    void dump(HardwareComponent &component, dump::Category category);
 
 };

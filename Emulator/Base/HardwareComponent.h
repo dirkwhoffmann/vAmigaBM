@@ -13,7 +13,7 @@
 #include "AmigaObject.h"
 #include "Serialization.h"
 #include "Concurrency.h"
-#include "Reflection.h"
+
 #include <vector>
 #include <iostream>
 #include <iomanip>
@@ -28,7 +28,7 @@
 #define synchronized \
 for (util::AutoMutex _am(mutex); _am.active; _am.active = false)
 
-namespace Dump {
+namespace dump {
 enum Category : usize {
     
     Config    = 0b0000001,
@@ -43,22 +43,15 @@ enum Category : usize {
 
 class HardwareComponent : public AmigaObject {
     
+    friend class Amiga;
+    
 public:
     
     // Sub components
     std::vector<HardwareComponent *> subComponents;
     
 protected:
-    
-    /* State model. The virtual hardware components can be in three different
-     * states called 'Off', 'Paused', and 'Running':
-     *
-     *        Off: The Amiga is turned off
-     *     Paused: The Amiga is turned on, but there is no emulator thread
-     *    Running: The Amiga is turned on and the emulator thread running
-     */
-    EmulatorState state = EMULATOR_STATE_OFF;
-    
+
     /* Indicates if the emulator should be executed in warp mode. To speed up
      * emulation (e.g., during disk accesses), the virtual hardware may be put
      * into warp mode. In this mode, the emulation thread is no longer paused
@@ -120,16 +113,16 @@ public:
      * setConfigItem(). The function returns true iff the current configuration
      * has changed.
      */
-    bool configure(Option option, long value) throws;
-    bool configure(Option option, long id, long value) throws;
+    bool configure(Option option, i64 value) throws;
+    bool configure(Option option, long id, i64 value) throws;
     
     /* Requests the change of a single configuration item. Each sub-component
      * checks if it is responsible for the requested configuration item. If
      * yes, it changes the internal state. If no, it ignores the request.
      * The function returns true iff the current configuration has changed.
      */
-    virtual bool setConfigItem(Option option, long value) throws { return false; }
-    virtual bool setConfigItem(Option option, long id, long value) throws { return false; }
+    virtual bool setConfigItem(Option option, i64 value) throws { return false; }
+    virtual bool setConfigItem(Option option, long id, i64 value) throws { return false; }
     
         
     //
@@ -162,16 +155,15 @@ public:
         return result;
     }
     
-    /* Prints debug information about the current configuration. The additional
-     * 'flags' parameter is a bit field which can be used to limit the displayed
+    /* Prints debug information about this component. The additional 'flags'
+     * parameter is a bit field which can be used to limit the displayed
      * information to certain categories.
      */
-    void dump(Dump::Category category, std::ostream& ss) const;
-    virtual void _dump(Dump::Category category, std::ostream& ss) const { };
-
-    void dump(Dump::Category category) const;
+    void dump(dump::Category category, std::ostream& ss) const;
+    void dump(dump::Category category) const;
     void dump(std::ostream& ss) const;
     void dump() const;
+    virtual void _dump(dump::Category category, std::ostream& ss) const { };
 
     
     //
@@ -208,6 +200,10 @@ public:
     
     /* State model. At any time, a component is in one of three states:
      *
+     *        Off: The Amiga is turned off
+     *     Paused: The Amiga is turned on, but there is no emulator thread
+     *    Running: The Amiga is turned on and the emulator thread running
+     *
      *          -----------------------------------------------
      *         |                     run()                     |
      *         |                                               V
@@ -216,7 +212,7 @@ public:
      *    |         |<------------|         |<------------|         |
      *     ---------   powerOff()  ---------    pause()    ---------
      *         ^                                               |
-     *         |                   powerOff()                  |
+     *         |                  powerOff()                   |
      *          -----------------------------------------------
      *
      *     isPoweredOff()         isPaused()          isRunning()
@@ -227,14 +223,14 @@ public:
      * Additional component flags: warp (on / off), debug (on / off)
      */
     
-    bool isPoweredOff() const { return state == EMULATOR_STATE_OFF; }
-    bool isPoweredOn() const { return state != EMULATOR_STATE_OFF; }
-    bool isPaused() const { return state == EMULATOR_STATE_PAUSED; }
-    bool isRunning() const { return state == EMULATOR_STATE_RUNNING; }
+    virtual bool isPoweredOff() const = 0;
+    virtual bool isPoweredOn() const = 0;
+    virtual bool isPaused() const = 0;
+    virtual bool isRunning() const = 0;
     
-protected:
+private:
     
-    /* powerOn() powers the component on.
+    /* powerOn() powers the component on
      *
      * current   | next      | action
      * ------------------------------------------------------------------------
@@ -243,9 +239,9 @@ protected:
      * running   | running   | none
      */
     void powerOn();
-    virtual void _powerOn() { }
+    virtual void _powerOn() { };
     
-    /* powerOff() powers the component off.
+    /* powerOff() powers the component off
      *
      * current   | next      | action
      * ------------------------------------------------------------------------
@@ -256,7 +252,7 @@ protected:
     void powerOff();
     virtual void _powerOff() { }
     
-    /* run() puts the component in 'running' state.
+    /* run() puts the component in 'running' state
      *
      * current   | next      | action
      * ------------------------------------------------------------------------
@@ -267,7 +263,7 @@ protected:
     void run();
     virtual void _run() { }
     
-    /* pause() puts the component in 'paused' state.
+    /* pause() puts the component in 'paused' state
      *
      * current   | next      | action
      * ------------------------------------------------------------------------
@@ -279,12 +275,16 @@ protected:
     virtual void _pause() { };
         
     // Switches warp mode on or off
-    void setWarp(bool enable);
-    virtual void _setWarp(bool enable) { };
-    
+    void warpOn();
+    void warpOff();
+    virtual void _warpOn() { };
+    virtual void _warpOff() { };
+
     // Switches debug mode on or off
-    void setDebug(bool enable);
-    virtual void _setDebug(bool enable) { };
+    void debugOn();
+    void debugOff();
+    virtual void _debugOn() { };
+    virtual void _debugOff() { };
 };
 
 //

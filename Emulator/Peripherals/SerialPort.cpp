@@ -17,7 +17,7 @@ SerialPort::SerialPort(Amiga& ref) : AmigaComponent(ref)
     config.device = SPD_LOOPBACK;
 }
 
-long
+i64
 SerialPort::getConfigItem(Option option) const
 {
     switch (option) {
@@ -31,14 +31,14 @@ SerialPort::getConfigItem(Option option) const
 }
 
 bool
-SerialPort::setConfigItem(Option option, long value)
+SerialPort::setConfigItem(Option option, i64 value)
 {
     switch (option) {
             
         case OPT_SERIAL_DEVICE:
             
             if (!SerialPortDeviceEnum::isValid(value)) {
-                warn("Invalid serial port device: %ld\n", value);
+                warn("Invalid serial port device: %lld\n", value);
                 return false;
             }
             if (config.device == value) {
@@ -70,14 +70,14 @@ SerialPort::_inspect()
 }
 
 void
-SerialPort::_dump(Dump::Category category, std::ostream& os) const
+SerialPort::_dump(dump::Category category, std::ostream& os) const
 {
-    if (category & Dump::Config) {
+    if (category & dump::Config) {
         
         os << DUMP("device") << SerialPortDeviceEnum::key(config.device) << std::endl;
     }
     
-    if (category & Dump::State) {
+    if (category & dump::State) {
     
         os << DUMP("port") << HEX32 << port;
     }

@@ -30,7 +30,7 @@ df2(ref.df2),
 df3(ref.df3),
 keyboard(ref.keyboard),
 mem(ref.mem),
-messageQueue(ref.queue),
+messageQueue(ref.msgQueue),
 oscillator(ref.oscillator),
 paula(ref.paula),
 pixelEngine(ref.denise.pixelEngine),
@@ -42,6 +42,30 @@ zorro(ref.zorro)
 {
 
 };
+
+bool
+AmigaComponent::isPoweredOff() const
+{
+    return amiga.isPoweredOff();
+}
+
+bool
+AmigaComponent::isPoweredOn() const
+{
+    return amiga.isPoweredOn();
+}
+
+bool
+AmigaComponent::isPaused() const
+{
+    return amiga.isPaused();
+}
+
+bool
+AmigaComponent::isRunning() const
+{
+    return amiga.isRunning();
+}
 
 void
 AmigaComponent::suspend()

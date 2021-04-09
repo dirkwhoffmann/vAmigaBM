@@ -359,7 +359,7 @@ RomFile::isRomBuffer(const u8 *buf, isize len)
 }
 
 bool
-RomFile::isRomFile(const char *path)
+RomFile::isRomFile(const string &path)
 {
     std::ifstream stream(path);
     return stream.is_open() ? isCompatibleStream(stream) : false;
@@ -387,7 +387,7 @@ RomFile::decrypt()
     romKeyPath = util::extractPath(path) + "rom.key";
     
     // Load the rom.key file
-    if (!util::loadFile(romKeyPath.c_str(), &romKeyData, &romKeySize)) {
+    if (!util::loadFile(romKeyPath, &romKeyData, &romKeySize)) {
         throw VAError(ERROR_MISSING_ROM_KEY);
     }
     

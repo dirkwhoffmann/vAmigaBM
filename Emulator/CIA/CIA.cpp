@@ -57,7 +57,7 @@ CIA::_reset(bool hard)
     mem.updateMemSrcTables();
 }
 
-long
+i64
 CIA::getConfigItem(Option option) const
 {
     switch (option) {
@@ -73,7 +73,7 @@ CIA::getConfigItem(Option option) const
 }
 
 bool
-CIA::setConfigItem(Option option, long value)
+CIA::setConfigItem(Option option, i64 value)
 {
     switch (option) {
             
@@ -157,16 +157,16 @@ CIA::_inspect()
 }
 
 void
-CIA::_dump(Dump::Category category, std::ostream& os) const
+CIA::_dump(dump::Category category, std::ostream& os) const
 {
-    if (category & Dump::Config) {
+    if (category & dump::Config) {
         
         os << DUMP("Revision") << CIARevisionEnum::key(config.revision) << std::endl;
         os << DUMP("Emulate TOD bug") << YESNO(config.todBug) << std::endl;
         os << DUMP("Sync with E-clock") << YESNO(config.eClockSyncing) << std::endl;
     }
     
-    if (category & Dump::State) {
+    if (category & dump::State) {
         
         os << DUMP("Clock") << DEC << clock << std::endl;
         os << DUMP("Sleeping") << YESNO(sleeping) << std::endl;
@@ -178,7 +178,7 @@ CIA::_dump(Dump::Category category, std::ostream& os) const
 
     }
     
-    if (category & Dump::Registers) {
+    if (category & dump::Registers) {
         
         os << std::endl;
         os << DUMP("Counter A") << HEX16 << (isize)counterA << std::endl;
@@ -737,7 +737,6 @@ CIAA::CIAA(Amiga& ref) : CIA(0, ref)
 void
 CIAA::_powerOn()
 {
-    CIA::_powerOn();
     messageQueue.put(MSG_POWER_LED_DIM);
 }
 

@@ -89,10 +89,10 @@ RetroShell::operator<<(long value)
 }
 
 void
-RetroShell::tab(int hpos)
+RetroShell::tab(isize hpos)
 {
-    int delta = hpos - (int)storage.back().length();
-    for (int i = 0; i < delta; i++) {
+    isize delta = hpos - (int)storage.back().length();
+    for (isize i = 0; i < delta; i++) {
         *this << ' ';
     }
 }
@@ -377,30 +377,8 @@ RetroShell::exec(std::istream &stream)
     }
 }
 
-/*
-bool
-RetroShell::parseBool(string& token)
-{
-    if (token == "1" || token == "true" || token == "yes") return true;
-    if (token == "0" || token == "false" || token == "no") return false;
-
-    throw ParseBoolError("");
-}
-
-long
-RetroShell::parseNum(string& token)
-{
-    long result;
-    
-    try { result = stol(token, nullptr, 0); }
-    catch (std::exception& err) { throw ParseNumError(token); }
-
-    return result;
-}
-*/
-
 void
-RetroShell::dump(HardwareComponent &component, Dump::Category category)
+RetroShell::dump(HardwareComponent &component, dump::Category category)
 {
     std::stringstream ss; string line;
     

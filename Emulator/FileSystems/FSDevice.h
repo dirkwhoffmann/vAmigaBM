@@ -91,8 +91,8 @@ public:
     static FSDevice *makeWithHDF(class HDFFile *hdf, ErrorCode *error);
     
     // Creates a file system with the contents of a host file system directory
-    static FSDevice *make(DiskDiameter type, DiskDensity density, const char *path);
-    static FSDevice *make(FSVolumeType type, const char *path);
+    static FSDevice *make(DiskDiameter type, DiskDensity density, const string &path);
+    static FSDevice *make(FSVolumeType type, const string &path);
     
     
     //
@@ -216,7 +216,7 @@ public:
     FSBlock *currentDirBlock();
     
     // Changes the current directory
-    FSBlock *changeDir(const char *name);
+    FSBlock *changeDir(const string &name);
 
     // Prints a directory listing
     void printDirectory(bool recursive);
@@ -228,22 +228,22 @@ public:
 
     // Seeks an item inside the current directory
     Block seekRef(FSName name);
-    Block seekRef(const char *name) { return seekRef(FSName(name)); }
-    FSBlock *seek(const char *name) { return blockPtr(seekRef(name)); }
-    FSBlock *seekDir(const char *name) { return userDirBlockPtr(seekRef(name)); }
-    FSBlock *seekFile(const char *name) { return fileHeaderBlockPtr(seekRef(name)); }
+    Block seekRef(const string &name) { return seekRef(FSName(name)); }
+    FSBlock *seek(const string &name) { return blockPtr(seekRef(name)); }
+    FSBlock *seekDir(const string &name) { return userDirBlockPtr(seekRef(name)); }
+    FSBlock *seekFile(const string &name) { return fileHeaderBlockPtr(seekRef(name)); }
 
     // Adds a reference to the current directory
     void addHashRef(Block nr);
     void addHashRef(FSBlock *block);
     
     // Creates a new directory
-    FSBlock *makeDir(const char *name);
+    FSBlock *makeDir(const string &name);
 
     // Creates a new file
-    FSBlock *makeFile(const char *name);
-    FSBlock *makeFile(const char *name, const u8 *buffer, isize size);
-    FSBlock *makeFile(const char *name, const char *str);
+    FSBlock *makeFile(const string &name);
+    FSBlock *makeFile(const string &name, const u8 *buffer, isize size);
+    FSBlock *makeFile(const string &name, const string &str);
         
     
     //
@@ -332,8 +332,8 @@ public:
     bool importVolume(const u8 *src, isize size, ErrorCode *error);
 
     // Imports a directory from the host file system
-    bool importDirectory(const char *path, bool recursive = true);
-    bool importDirectory(const char *path, DIR *dir, bool recursive = true);
+    bool importDirectory(const string &path, bool recursive = true);
+    bool importDirectory(const string &path, DIR *dir, bool recursive = true);
 
     // Exports the volume to a buffer compatible with the ADF format
     bool exportVolume(u8 *dst, isize size);
@@ -346,5 +346,5 @@ public:
     bool exportBlocks(Block first, Block last, u8 *dst, isize size, ErrorCode *error);
 
     // Exports the volume to a directory of the host file system
-    ErrorCode exportDirectory(const char *path);
+    ErrorCode exportDirectory(const string &path);
 };

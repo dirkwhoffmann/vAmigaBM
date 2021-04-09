@@ -205,8 +205,8 @@ public:
     
     const MemoryConfig &getConfig() const { return config; }
     
-    long getConfigItem(Option option) const;
-    bool setConfigItem(Option option, long value) override;
+    i64 getConfigItem(Option option) const;
+    bool setConfigItem(Option option, i64 value) override;
 
     
     //
@@ -222,7 +222,7 @@ public:
 
 private:
     
-    void _dump(Dump::Category category, std::ostream& os) const override;
+    void _dump(dump::Category category, std::ostream& os) const override;
 
     
     //
@@ -366,32 +366,28 @@ public:
     
     // Installs a Boot Rom or Kickstart Rom
     void loadRom(class RomFile *rom) throws;
-    void loadRomFromFile(const char *path) throws;
-    void loadRomFromFile(const char *path, ErrorCode *ec);
-    void loadRomFromBuffer(const u8 *buf, isize len) throws;
-    void loadRomFromBuffer(const u8 *buf, isize len, ErrorCode *ec);
+    void loadRom(class RomFile *rom, ErrorCode *ec);
+    void loadRom(const string &path) throws;
+    void loadRom(const string &path, ErrorCode *ec);
+    void loadRom(const u8 *buf, isize len) throws;
+    void loadRom(const u8 *buf, isize len, ErrorCode *ec);
     
     void loadExt(class ExtendedRomFile *rom) throws;
-    void loadExtFromFile(const char *path) throws;
-    void loadExtFromFile(const char *path, ErrorCode *ec);
-    void loadExtFromBuffer(const u8 *buf, isize len) throws;
-    void loadExtFromBuffer(const u8 *buf, isize len, ErrorCode *ec);
-    
-private:
-
-     // Loads Rom data from a file
-    // DEPRECATED: USE AnyAmigaFile::flash(...) instead
-    void loadRom(class AmigaFile *rom, u8 *target, isize length);
-    
+    void loadExt(class ExtendedRomFile *rom, ErrorCode *ec);
+    void loadExt(const string &path) throws;
+    void loadExt(const string &path, ErrorCode *ec);
+    void loadExt(const u8 *buf, isize len) throws;
+    void loadExt(const u8 *buf, isize len, ErrorCode *ec);
+        
 public:
     
     // Saves a Rom to disk
-    void saveRom(const char *path) throws;
-    void saveRom(const char *path, ErrorCode *ec);
-    void saveWom(const char *path) throws;
-    void saveWom(const char *path, ErrorCode *ec);
-    void saveExt(const char *path) throws;
-    void saveExt(const char *path, ErrorCode *ec);
+    void saveRom(const string &path) throws;
+    void saveRom(const string &path, ErrorCode *ec);
+    void saveWom(const string &path) throws;
+    void saveWom(const string &path, ErrorCode *ec);
+    void saveExt(const string &path) throws;
+    void saveExt(const string &path, ErrorCode *ec);
 
     
     //
@@ -402,7 +398,6 @@ public:
         
     // Returns the memory source for a given address
     template <Accessor A> MemorySource getMemSrc(u32 addr);
-    // MemorySource getMemSource(Accessor accessor, u32 addr);
     
     // Updates both memory source lookup tables
     void updateMemSrcTables();
@@ -453,9 +448,6 @@ public:
     u8 peekRTC8(u32 addr) const;
     u16 peekRTC16(u32 addr) const;
     
-    // u8 spypeekRTC8(u32 addr) { return peekRTC8(addr); }
-    // u16 spypeekRTC16(u32 addr) { return peekRTC16(addr); }
-
     void pokeRTC8(u32 addr, u8 value);
     void pokeRTC16(u32 addr, u16 value);
 

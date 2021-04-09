@@ -44,7 +44,7 @@ void Mouse::_reset(bool hard)
     targetY = 0;
 }
 
-long
+i64
 Mouse::getConfigItem(Option option) const
 {
     switch (option) {
@@ -60,7 +60,7 @@ Mouse::getConfigItem(Option option) const
 }
 
 bool
-Mouse::setConfigItem(Option option, long id, long value)
+Mouse::setConfigItem(Option option, long id, i64 value)
 {
     if (port.nr != id) return false;
     
@@ -109,16 +109,16 @@ Mouse::updateScalingFactors()
 }
 
 void
-Mouse::_dump(Dump::Category category, std::ostream& os) const
+Mouse::_dump(dump::Category category, std::ostream& os) const
 {
-    if (category & Dump::Config) {
+    if (category & dump::Config) {
 
         os << DUMP("Pull-up resistors") << YESNO(config.pullUpResistors) << std::endl;
         os << DUMP("Shake detection") << YESNO(config.shakeDetection) << std::endl;
         os << DUMP("Velocity") << config.velocity << std::endl;
     }
     
-    if (category & Dump::State) {
+    if (category & dump::State) {
         
         os << DUMP("leftButton") << leftButton << std::endl;
         os << DUMP("rightButton") << rightButton << std::endl;

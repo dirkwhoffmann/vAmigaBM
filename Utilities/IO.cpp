@@ -7,10 +7,9 @@
 // See https://www.gnu.org for license information
 // -----------------------------------------------------------------------------
 
-#include "config.h"
 #include "IO.h"
-#include <algorithm>
-#include <cstring>
+#include <vector>
+#include <fstream>
 
 namespace util {
 
@@ -92,17 +91,9 @@ bool fileExists(const string &path)
 
 bool isDirectory(const string &path)
 {
-    return isDirectory(path.c_str());
-}
-
-bool isDirectory(const char *path)
-{
     struct stat fileProperties;
     
-    if (path == nullptr)
-        return -1;
-        
-    if (stat(path, &fileProperties) != 0)
+    if (stat(path.c_str(), &fileProperties) != 0)
         return -1;
     
     return S_ISDIR(fileProperties.st_mode);
@@ -110,14 +101,9 @@ bool isDirectory(const char *path)
 
 isize numDirectoryItems(const string &path)
 {
-    return numDirectoryItems(path.c_str());
-}
-
-isize numDirectoryItems(const char *path)
-{
     isize count = 0;
     
-    if (DIR *dir = opendir(path)) {
+    if (DIR *dir = opendir(path.c_str())) {
         
         struct dirent *dp;
         while ((dp = readdir(dir))) {
@@ -161,15 +147,9 @@ std::vector<string> files(const string &path, std::vector <string> &suffixes)
 isize
 getSizeOfFile(const string &path)
 {
-    return getSizeOfFile(path.c_str());
-}
-
-isize
-getSizeOfFile(const char *path)
-{
     struct stat fileProperties;
         
-    if (stat(path, &fileProperties) != 0)
+    if (stat(path.c_str(), &fileProperties) != 0)
         return -1;
     
     return (isize)fileProperties.st_size;
@@ -204,53 +184,25 @@ matchingBufferHeader(const u8 *buffer, const u8 *header, isize len)
     return true;
 }
 
-bool
-loadFile(const char *path, u8 **buffer, isize *size)
+bool loadFile(const string &path, u8 **bufptr, isize *size)
 {
-    assert(path != nullptr);
-    assert(buffer != nullptr);
-    assert(size != nullptr);
+    assert(bufptr); assert(size);
 
-    *buffer = nullptr;
-    *size = 0;
+    std::ifstream stream(path);
+    if (!stream.is_open()) return false;
     
-    // Get file size
-    isize bytes = getSizeOfFile(path);
-    if (bytes == -1) return false;
+    usize len = streamLength(stream);
+    u8 *buf = new u8[len];
+    stream.read((char *)buf, len);
     
-    // Open file
-    FILE *file = fopen(path, "r");
-    if (file == nullptr) return false;
-     
-    // Allocate memory
-    u8 *data = new u8[bytes];
-    if (data == nullptr) { fclose(file); return false; }
-    
-    // Read data
-    for (isize i = 0; i < bytes; i++) {
-        int c = fgetc(file);
-        if (c == EOF) break;
-        data[i] = (u8)c;
-    }
-    
-    fclose(file);
-    *buffer = data;
-    *size = bytes;
+    *bufptr = buf;
+    *size = len;
     return true;
 }
 
-bool
-loadFile(const char *path, const char *name, u8 **buffer, isize *size)
+bool loadFile(const string &path, const string &name, u8 **bufptr, isize *size)
 {
-    assert(path != nullptr);
-    assert(name != nullptr);
-
-    char *fullpath = new char[strlen(path) + strlen(name) + 2];
-    strcpy(fullpath, path);
-    strcat(fullpath, "/");
-    strcat(fullpath, name);
-    
-    return loadFile(fullpath, buffer, size);
+    return loadFile(path + "/" + name, bufptr, size);
 }
 
 isize

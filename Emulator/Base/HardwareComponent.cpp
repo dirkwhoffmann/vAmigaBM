@@ -12,7 +12,6 @@
 
 HardwareComponent::~HardwareComponent()
 {
-    debug(RUN_DEBUG, "Terminated\n");
 }
 
 void
@@ -41,7 +40,7 @@ HardwareComponent::reset(bool hard)
 }
 
 bool
-HardwareComponent::configure(Option option, long value)
+HardwareComponent::configure(Option option, i64 value)
 {
     bool result = false;
     
@@ -57,7 +56,7 @@ HardwareComponent::configure(Option option, long value)
 }
 
 bool
-HardwareComponent::configure(Option option, long id, long value)
+HardwareComponent::configure(Option option, long id, i64 value)
 {
     bool result = false;
     
@@ -84,13 +83,13 @@ HardwareComponent::inspect()
     _inspect();
 }
 
-void HardwareComponent::dump(Dump::Category category, std::ostream& ss) const
+void HardwareComponent::dump(dump::Category category, std::ostream& ss) const
 {
     _dump(category, ss);
 }
 
 void
-HardwareComponent::dump(Dump::Category category) const
+HardwareComponent::dump(dump::Category category) const
 {
     dump(category, std::cout);
 }
@@ -98,13 +97,13 @@ HardwareComponent::dump(Dump::Category category) const
 void
 HardwareComponent::dump(std::ostream& ss) const
 {
-    dump((Dump::Category)(-1), ss);
+    dump((dump::Category)(-1), ss);
 }
 
 void
 HardwareComponent::dump() const
 {
-    dump((Dump::Category)(-1));
+    dump((dump::Category)(-1));
 }
 
 isize
@@ -178,110 +177,59 @@ HardwareComponent::save(u8 *buffer)
 void
 HardwareComponent::powerOn()
 {
-    if (isPoweredOff()) {
-
-        assert(!isRunning());
-        
-        // Power all subcomponents on
-        for (HardwareComponent *c : subComponents) {
-            c->powerOn();
-        }
-        
-        // Reset all non-persistant snapshot items
-        _reset(true);
-
-        // Power this component on
-        debug(RUN_DEBUG, "Powering on\n");
-        state = EMULATOR_STATE_PAUSED;
-        _powerOn();
-    }
+    for (auto c : subComponents) { c->powerOn(); }
+    _powerOn();
 }
-
+    
 void
 HardwareComponent::powerOff()
 {
-    if (isPoweredOn()) {
-        
-        // Pause if needed
-        pause();
-        
-        // Power off this component
-        debug(RUN_DEBUG, "Powering off\n");
-        state = EMULATOR_STATE_OFF;
-        _powerOff();
-
-        // Power all subcomponents off
-        for (HardwareComponent *c : subComponents) {
-            c->powerOff();
-        }
-    }
+    _powerOff();
+    for (auto c : subComponents) { c->powerOff(); }
 }
 
 void
 HardwareComponent::run()
 {
-    if (!isRunning()) {
-        
-        // Power on if needed
-        powerOn();
-            
-        // Start all subcomponents
-        for (HardwareComponent *c : subComponents) {
-            c->run();
-        }
-        
-        // Start this component
-        debug(RUN_DEBUG, "Run\n");
-        state = EMULATOR_STATE_RUNNING;
-        _run();
-    }
+    for (auto c : subComponents) { c->run(); }
+    _run();
 }
 
 void
 HardwareComponent::pause()
 {
-    if (isRunning()) {
-        
-        // Pause this component
-        debug(RUN_DEBUG, "Pause\n");
-        state = EMULATOR_STATE_PAUSED;
-        _pause();
-
-        // Pause all subcomponents
-        for (HardwareComponent *c : subComponents) {
-            c->pause();
-        }
-    }
+    _pause();
+    for (auto c : subComponents) { c->pause(); }
 }
 
 void
-HardwareComponent::setWarp(bool enable)
+HardwareComponent::warpOn()
 {
-    if (warpMode == enable) return;
-    
-    warpMode = enable;
-
-     // Enable or disable warp mode for all subcomponents
-     for (HardwareComponent *c : subComponents) {
-         c->setWarp(enable);
-     }
-
-     // Enable warp mode for this component
-     _setWarp(enable);
+    for (auto c : subComponents) { c->warpOn(); }
+    warpMode = true;
+    _warpOn();
 }
 
 void
-HardwareComponent::setDebug(bool enable)
+HardwareComponent::warpOff()
 {
-    if (debugMode == enable) return;
-    
-    debugMode = enable;
+    for (auto c : subComponents) { c->warpOff(); }
+    warpMode = false;
+    _warpOff();
+}
 
-     // Enable or disable debug mode for all subcomponents
-     for (HardwareComponent *c : subComponents) {
-         c->setDebug(enable);
-     }
+void
+HardwareComponent::debugOn()
+{    
+    for (auto c : subComponents) { c->debugOn(); }
+    debugMode = true;
+    _debugOn();
+}
 
-     // Enable debug mode for this component
-     _setDebug(enable);
+void
+HardwareComponent::debugOff()
+{
+    for (auto c : subComponents) { c->debugOff(); }
+    debugMode = false;
+    _debugOff();
 }

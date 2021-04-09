@@ -98,20 +98,13 @@ Amiga::Amiga()
         &ciaB,
         &mem,
         &cpu,
-        &queue
+        &msgQueue
     };
 
     // Set up the initial state
     initialize();
     hardReset();
-
-    // Initialize the mach timer info
-    // mach_timebase_info(&tb);
-    
-    // Initialize mutex
-    pthread_mutex_init(&threadLock, nullptr);
-    pthread_mutex_init(&stateChangeLock, nullptr);
-    
+        
     // Print some debug information
     if (SNP_DEBUG) {
         
@@ -146,10 +139,6 @@ Amiga::Amiga()
 Amiga::~Amiga()
 {
     debug(RUN_DEBUG, "Destroying Amiga[%p]\n", this);
-    powerOff();
-    
-    pthread_mutex_destroy(&threadLock);
-    pthread_mutex_destroy(&stateChangeLock);
 }
 
 void
@@ -192,7 +181,7 @@ Amiga::reset(bool hard)
     if (hard) resume();
 
     // Inform the GUI
-    if (hard) queue.put(MSG_RESET);
+    if (hard) msgQueue.put(MSG_RESET);
 }
 
 void
@@ -204,7 +193,7 @@ Amiga::_reset(bool hard)
     runLoopCtrl = 0;
 }
 
-long
+i64
 Amiga::getConfigItem(Option option) const
 {
     switch (option) {
@@ -271,7 +260,7 @@ Amiga::getConfigItem(Option option) const
     }
 }
 
-long
+i64
 Amiga::getConfigItem(Option option, long id) const
 {
     switch (option) {
@@ -309,31 +298,31 @@ Amiga::getConfigItem(Option option, long id) const
 }
 
 bool
-Amiga::configure(Option option, long value)
+Amiga::configure(Option option, i64 value)
 {
     // Propagate configuration request to all components
     bool changed = HardwareComponent::configure(option, value);
     
     // Inform the GUI if the configuration has changed
-    if (changed) queue.put(MSG_CONFIG);
+    if (changed) msgQueue.put(MSG_CONFIG);
     
     // Dump the current configuration in debug mode
-    if (changed && CNF_DEBUG) dump(Dump::Config);
+    if (changed && CNF_DEBUG) dump(dump::Config);
 
     return changed;
 }
 
 bool
-Amiga::configure(Option option, long id, long value)
+Amiga::configure(Option option, long id, i64 value)
 {
     // Propagate configuration request to all components
     bool changed = HardwareComponent::configure(option, id, value);
     
     // Inform the GUI if the configuration has changed
-    if (changed) queue.put(MSG_CONFIG);
+    if (changed) msgQueue.put(MSG_CONFIG);
 
     // Dump the current configuration in debug mode
-    if (changed && CNF_DEBUG) dump(Dump::Config);
+    if (changed && CNF_DEBUG) dump(dump::Config);
         
     return changed;
 }
@@ -370,21 +359,21 @@ Amiga::_inspect()
 }
 
 void
-Amiga::_dump(Dump::Category category, std::ostream& os) const
+Amiga::_dump(dump::Category category, std::ostream& os) const
 {
-    if (category & Dump::Config) {
+    if (category & dump::Config) {
     
         if (CNF_DEBUG) {
             
-            df0.dump(Dump::Config);
-            paula.dump(Dump::Config);
-            paula.muxer.dump(Dump::Config);
-            ciaA.dump(Dump::Config);
-            denise.dump(Dump::Config);
+            df0.dump(dump::Config);
+            paula.dump(dump::Config);
+            paula.muxer.dump(dump::Config);
+            ciaA.dump(dump::Config);
+            denise.dump(dump::Config);
         }
     }
     
-    if (category & Dump::State) {
+    if (category & dump::State) {
         
         os << DUMP("Power") << ONOFF(isPoweredOn()) << std::endl;
         os << DUMP("Running") << YESNO(isRunning()) << std::endl;
@@ -396,8 +385,32 @@ void
 Amiga::powerOn()
 {
     debug(RUN_DEBUG, "powerOn()\n");
-    
-    #ifdef DF0_DISK
+    assert(!isEmulatorThread());
+            
+    if (isPoweredOff() && isReady()) {
+        
+        assert(p == (pthread_t)0);
+        
+        // Perform a hard reset
+        hardReset();
+                
+        // Power on all subcomponents
+        HardwareComponent::powerOn();
+        
+        // Update the recorded debug information
+        inspect();
+
+        // Inform the GUI
+        msgQueue.put(MSG_POWER_ON);
+    }    
+}
+
+void
+Amiga::_powerOn()
+{
+    state = EMULATOR_STATE_PAUSED;
+
+#ifdef DF0_DISK
     DiskFile *df0file = AmigaFile::make <ADFFile> (DF0_DISK);
     if (df0file) {
         Disk *disk = Disk::makeWithFile(df0file);
@@ -405,101 +418,79 @@ Amiga::powerOn()
         df0.insertDisk(disk);
         df0.setWriteProtection(false);
     }
-    #endif
-
-    #ifdef DF1_DISK
-        DiskFile *df1file = DiskFile::makeWithFile(DF1_DISK);
-        if (df1file) {
-            Disk *disk = Disk::makeWithFile(df1file);
-            df1.ejectDisk();
-            df1.insertDisk(disk);
-            df1.setWriteProtection(false);
-        }
-    #endif
+#endif
     
-    #ifdef INITIAL_BREAKPOINT
-        debugMode = true;
-        cpu.debugger.breakpoints.addAt(INITIAL_BREAKPOINT);
-    #endif
-    
-    pthread_mutex_lock(&stateChangeLock);
-        
-    if (!isPoweredOn() && isReady()) {
-        
-        acquireThreadLock();
-        HardwareComponent::powerOn();
+#ifdef DF1_DISK
+    DiskFile *df1file = DiskFile::makeWithFile(DF1_DISK);
+    if (df1file) {
+        Disk *disk = Disk::makeWithFile(df1file);
+        df1.ejectDisk();
+        df1.insertDisk(disk);
+        df1.setWriteProtection(false);
     }
+#endif
     
-    pthread_mutex_unlock(&stateChangeLock);
-}
-
-void
-Amiga::_powerOn()
-{
-    debug(RUN_DEBUG, "_powerOn()\n");
-
-    // Clear all runloop flags
-    // runLoopCtrl = 0;
-
-    // Update the recorded debug information
-    inspect();
-
-    queue.put(MSG_POWER_ON);
+#ifdef INITIAL_BREAKPOINT
+    debugMode = true;
+    cpu.debugger.breakpoints.addAt(INITIAL_BREAKPOINT);
+#endif
 }
 
 void
 Amiga::powerOff()
 {
     debug(RUN_DEBUG, "powerOff()\n");
+    assert(!isEmulatorThread());
     
-    pthread_mutex_lock(&stateChangeLock);
-    
-    if (!isPoweredOff()) {
-        
-        acquireThreadLock();
+    // Pause if needed
+    pause();
+    assert(!isRunning());
+
+    if (isPoweredOn()) {
+                   
+        // Power off all subcomponents
         HardwareComponent::powerOff();
+        
+        // Update the recorded debug information
+        inspect();
+        
+        // Inform the GUI
+        msgQueue.put(MSG_POWER_OFF);
     }
-    
-    pthread_mutex_unlock(&stateChangeLock);
 }
 
 void
 Amiga::_powerOff()
 {
-    debug(RUN_DEBUG, "_powerOff()\n");
-    
-    // Update the recorded debug information
-    inspect();
-    
-    queue.put(MSG_POWER_OFF);
+    state = EMULATOR_STATE_OFF;
 }
 
 void
 Amiga::run()
 {
     debug(RUN_DEBUG, "run()\n");
-        
-    pthread_mutex_lock(&stateChangeLock);
-    
+    assert(isPoweredOn());
+                
+    // Power on if needed
+    powerOn();
+    assert(isPoweredOn());
+
     if (!isRunning() && isReady()) {
         
-        acquireThreadLock();
+        assert(p == (pthread_t)0);
+
+        // Launch all subcomponents
         HardwareComponent::run();
+
+        // Create the emulator thread
+        pthread_create(&p, nullptr, threadMain, (void *)this);
     }
-    
-    pthread_mutex_unlock(&stateChangeLock);
 }
 
 void
 Amiga::_run()
 {
-    debug(RUN_DEBUG, "_run()\n");
-    
-    // Start the emulator thread
-    pthread_create(&p, nullptr, threadMain, (void *)this);
-    
-    // Inform the GUI
-    queue.put(MSG_RUN);
+    state = EMULATOR_STATE_RUNNING;
 }
 
 void
@@ -507,80 +498,94 @@ Amiga::pause()
 {
     debug(RUN_DEBUG, "pause()\n");
 
-    pthread_mutex_lock(&stateChangeLock);
-    
-    if (!isPaused()) {
+    if (isRunning()) {
+                
+        // Ask the emulator thread to terminate
+        signalStop();
         
-        acquireThreadLock();
-        HardwareComponent::pause();
+        // Wait until the emulator thread has terminated
+        pthread_join(p, nullptr);
+               
+        // Assure the emulator is no longer running
+        assert(state == EMULATOR_STATE_PAUSED);
+        assert(p == (pthread_t)0);
     }
+}
+
+void
+Amiga::shutdown()
+{
+    // Assure the emulator is powered off
+    assert(isPoweredOff());
     
-    pthread_mutex_unlock(&stateChangeLock);
+    /* Send the SHUTDOWN message which is the last message ever send. The
+     * purpose of this message is to signal the GUI that no more messages will
+     * show up in the message queue. When the GUI receives this message, it
+     * knows that the Amiga is powered off and the message queue empty. From
+     * this time on, it is safe to destroy the emulator object.
+     */
+    msgQueue.put(MSG_SHUTDOWN);
 }
 
 void
 Amiga::_pause()
 {
-    debug(RUN_DEBUG, "_pause()\n");
-    
-    // When we reach this line, the emulator thread is already gone
-    assert(p == (pthread_t)0);
-    
-    // Update the recorded debug information
-    inspect();
-
-    // Inform the GUI
-    queue.put(MSG_PAUSE);
+    state = EMULATOR_STATE_PAUSED;
 }
 
 void
-Amiga::setWarp(bool enable)
+Amiga::warpOn()
 {
-    HardwareComponent::setWarp(enable);
-}
+    assert(!isEmulatorThread());
 
-void
-Amiga::_setWarp(bool enable)
-{
-    if (enable) {
-        
-        queue.put(MSG_WARP_ON);
-        
-    } else {
-        
-        oscillator.restart();
-        queue.put(MSG_WARP_OFF);
+    if (!warpMode) {
+        HardwareComponent::warpOn();
     }
 }
 
 void
-Amiga::setDebug(bool enable)
+Amiga::warpOff()
 {
-    HardwareComponent::setDebug(enable);
+    assert(!isEmulatorThread());
+
+    if (warpMode) {
+        HardwareComponent::warpOff();
+    }
 }
 
 void
-Amiga::acquireThreadLock()
+Amiga::_warpOn()
 {
-    if (state == EMULATOR_STATE_RUNNING) {
-        
-        // Assure the emulator thread exists
-        assert(p != (pthread_t)0);
-        
-        // Free the thread lock by terminating the thread
-        signalStop();
-        
-    } else {
-        
-        // There must be no emulator thread
-        assert(p == (pthread_t)0);
-        
-        // It's save to free the lock immediately
-        pthread_mutex_unlock(&threadLock);
+    HardwareComponent::_warpOn();
+    msgQueue.put(MSG_WARP_ON);
+}
+
+void
+Amiga::_warpOff()
+{
+    HardwareComponent::_warpOff();
+    oscillator.restart();
+    msgQueue.put(MSG_WARP_OFF);
+}
+
+void
+Amiga::debugOn()
+{
+    assert(!isEmulatorThread());
+
+    if (!debugMode) {
+        HardwareComponent::debugOn();
     }
+}
+
+void
+Amiga::debugOff()
+{
+    assert(!isEmulatorThread());
     
-    // Acquire the lock
-    pthread_mutex_lock(&threadLock);
+    if (debugMode) {
+        HardwareComponent::debugOff();
+    }
 }
 
 bool
@@ -625,35 +630,22 @@ Amiga::isReady(ErrorCode *error)
 void
 Amiga::suspend()
 {
-    pthread_mutex_lock(&stateChangeLock);
-    
     debug(RUN_DEBUG, "Suspending (%zu)...\n", suspendCounter);
     
     if (suspendCounter || isRunning()) {
-        
-        acquireThreadLock();
-        assert(!isRunning()); // At this point, the emulator is already paused
-                
+        pause();
         suspendCounter++;
     }
-    
-    pthread_mutex_unlock(&stateChangeLock);
 }
 
 void
 Amiga::resume()
 {
-    pthread_mutex_lock(&stateChangeLock);
-    
     debug(RUN_DEBUG, "Resuming (%zu)...\n", suspendCounter);
     
     if (suspendCounter && --suspendCounter == 0) {
-        
-        acquireThreadLock();
-        HardwareComponent::run();
+        run();
     }
-    
-    pthread_mutex_unlock(&stateChangeLock);
 }
 
 void
@@ -704,24 +696,22 @@ Amiga::threadDidTerminate()
     debug(RUN_DEBUG, "Emulator thread terminated\n");
 
     // Trash the thread pointer
-    p = (pthread_t)0;
-    
-    // Pause all components
-    HardwareComponent::pause();
-        
-    // Release the thread lock
-    pthread_mutex_unlock(&threadLock);
+    p = (pthread_t)0;    
 }
 
 void
 Amiga::runLoop()
 {
     debug(RUN_DEBUG, "runLoop()\n");
+    
+    // Inform the GUI
+    msgQueue.put(MSG_RUN);
 
-    // Prepare to run
+    // Restart the synchronization timer
     oscillator.restart();
     
     // Enable or disable debugging features
+    // TODO: MOVE TO CPU::_run()
     if (debugMode) {
         cpu.debugger.enableLogging();
     } else {
@@ -742,14 +732,14 @@ Amiga::runLoop()
             if (runLoopCtrl & RL_AUTO_SNAPSHOT) {
                 debug(RUN_DEBUG, "RL_AUTO_SNAPSHOT\n");
                 autoSnapshot = Snapshot::makeWithAmiga(this);
-                queue.put(MSG_AUTO_SNAPSHOT_TAKEN);
+                msgQueue.put(MSG_AUTO_SNAPSHOT_TAKEN);
                 clearControlFlags(RL_AUTO_SNAPSHOT);
             }
             
             if (runLoopCtrl & RL_USER_SNAPSHOT) {
                 debug(RUN_DEBUG, "RL_USER_SNAPSHOT\n");
                 userSnapshot = Snapshot::makeWithAmiga(this);
-                queue.put(MSG_USER_SNAPSHOT_TAKEN);
+                msgQueue.put(MSG_USER_SNAPSHOT_TAKEN);
                 clearControlFlags(RL_USER_SNAPSHOT);
             }
 
@@ -763,7 +753,7 @@ Amiga::runLoop()
             // Did we reach a breakpoint?
             if (runLoopCtrl & RL_BREAKPOINT_REACHED) {
                 inspect();
-                queue.put(MSG_BREAKPOINT_REACHED);
+                msgQueue.put(MSG_BREAKPOINT_REACHED);
                 debug(RUN_DEBUG, "BREAKPOINT_REACHED pc: %x\n", cpu.getPC());
                 clearControlFlags(RL_BREAKPOINT_REACHED);
                 break;
@@ -772,7 +762,7 @@ Amiga::runLoop()
             // Did we reach a watchpoint?
             if (runLoopCtrl & RL_WATCHPOINT_REACHED) {
                 inspect();
-                queue.put(MSG_WATCHPOINT_REACHED);
+                msgQueue.put(MSG_WATCHPOINT_REACHED);
                 debug(RUN_DEBUG, "WATCHPOINT_REACHED pc: %x\n", cpu.getPC());
                 clearControlFlags(RL_WATCHPOINT_REACHED);
                 break;
@@ -784,21 +774,30 @@ Amiga::runLoop()
                 debug(RUN_DEBUG, "RL_STOP\n");
                 break;
             }
-            
+
             // Are we requested to enter of exit warp mode?
             if (runLoopCtrl & RL_WARP_ON) {
                 clearControlFlags(RL_WARP_ON);
                 debug(RUN_DEBUG, "RL_WARP_ON\n");
-                setWarp(true);
+                warpOn();
             }
 
             if (runLoopCtrl & RL_WARP_OFF) {
                 clearControlFlags(RL_WARP_OFF);
                 debug(RUN_DEBUG, "RL_WARP_OFF\n");
-                setWarp(false);
+                warpOff();
             }
         }
     }
+    
+    // Enter pause mode
+    HardwareComponent::pause();
+    
+    // Update the recorded debug information
+    inspect();
+
+    // Inform the GUI
+    msgQueue.put(MSG_PAUSE);
 }
 
 void
@@ -808,7 +807,7 @@ Amiga::requestAutoSnapshot()
 
         // Take snapshot immediately
         autoSnapshot = Snapshot::makeWithAmiga(this);
-        queue.put(MSG_AUTO_SNAPSHOT_TAKEN);
+        msgQueue.put(MSG_AUTO_SNAPSHOT_TAKEN);
         
     } else {
 
@@ -824,7 +823,7 @@ Amiga::requestUserSnapshot()
         
         // Take snapshot immediately
         userSnapshot = Snapshot::makeWithAmiga(this);
-        queue.put(MSG_USER_SNAPSHOT_TAKEN);
+        msgQueue.put(MSG_USER_SNAPSHOT_TAKEN);
         
     } else {
         
@@ -856,7 +855,7 @@ Amiga::loadFromSnapshotUnsafe(Snapshot *snapshot)
     
     if (snapshot && (ptr = snapshot->getData())) {
         load(ptr);
-        queue.put(MSG_SNAPSHOT_RESTORED);
+        msgQueue.put(MSG_SNAPSHOT_RESTORED);
     }
 }
 

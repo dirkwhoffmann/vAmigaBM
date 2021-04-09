@@ -105,7 +105,7 @@ FSDevice::makeWithHDF(HDFFile *hdf, ErrorCode *error)
 }
 
 FSDevice *
-FSDevice::make(DiskDiameter type, DiskDensity density, const char *path)
+FSDevice::make(DiskDiameter type, DiskDensity density, const string &path)
 {
     FSDevice *device = makeWithFormat(type, density);
     
@@ -125,7 +125,7 @@ FSDevice::make(DiskDiameter type, DiskDensity density, const char *path)
 }
 
 FSDevice *
-FSDevice::make(FSVolumeType type, const char *path)
+FSDevice::make(FSVolumeType type, const string &path)
 {
     // Try to fit the directory into files system with DD disk capacity
     if (FSDevice *device = make(INCH_35, DISK_DD, path)) return device;
@@ -316,20 +316,18 @@ FSDevice::currentDirBlock()
 }
 
 FSBlock *
-FSDevice::changeDir(const char *name)
+FSDevice::changeDir(const string &name)
 {
-    assert(name != nullptr);
-
     FSBlock *cdb = currentDirBlock();
 
-    if (strcmp(name, "/") == 0) {
+    if (name == "/") {
                 
         // Move to top level
         cd = partitions[cp]->rootBlock;
         return currentDirBlock();
     }
 
-    if (strcmp(name, "..") == 0) {
+    if (name == "..") {
                 
         // Move one level up
         cd = cdb->getParentDirRef();
@@ -373,7 +371,7 @@ FSDevice::getPath(FSBlock *block)
 }
 
 FSBlock *
-FSDevice::makeDir(const char *name)
+FSDevice::makeDir(const string &name)
 {
     FSBlock *cdb = currentDirBlock();
     FSUserDirBlock *block = cdb->partition.newUserDirBlock(name);
@@ -386,10 +384,8 @@ FSDevice::makeDir(const char *name)
 }
 
 FSBlock *
-FSDevice::makeFile(const char *name)
+FSDevice::makeFile(const string &name)
 {
-    assert(name != nullptr);
- 
     FSBlock *cdb = currentDirBlock();
     FSFileHeaderBlock *block = cdb->partition.newFileHeaderBlock(name);
     if (block == nullptr) return nullptr;
@@ -401,7 +397,7 @@ FSDevice::makeFile(const char *name)
 }
 
 FSBlock *
-FSDevice::makeFile(const char *name, const u8 *buf, isize size)
+FSDevice::makeFile(const string &name, const u8 *buf, isize size)
 {
     assert(buf);
 
@@ -416,11 +412,9 @@ FSDevice::makeFile(const char *name, const u8 *buf, isize size)
 }
 
 FSBlock *
-FSDevice::makeFile(const char *name, const char *str)
+FSDevice::makeFile(const string &name, const string &str)
 {
-    assert(str != nullptr);
-    
-    return makeFile(name, (const u8 *)str, strlen(str));
+    return makeFile(name, (const u8 *)str.c_str(), str.size());
 }
 
 Block
@@ -887,23 +881,21 @@ FSDevice::exportBlocks(Block first, Block last, u8 *dst, isize size, ErrorCode *
 }
 
 bool
-FSDevice::importDirectory(const char *path, bool recursive)
+FSDevice::importDirectory(const string &path, bool recursive)
 {
-    assert(path);
-    
-    if (DIR *dir = opendir(path)) {
+    if (DIR *dir = opendir(path.c_str())) {
         
         bool result = importDirectory(path, dir, recursive);
         closedir(dir);
         return result;
     }
 
-    warn("Error opening directory %s\n", path);
+    warn("Error opening directory %s\n", path.c_str());
     return false;
 }
 
 bool
-FSDevice::importDirectory(const char *path, DIR *dir, bool recursive)
+FSDevice::importDirectory(const string &path, DIR *dir, bool recursive)
 {
     assert(dir);
     
@@ -916,12 +908,15 @@ FSDevice::importDirectory(const char *path, DIR *dir, bool recursive)
         if (item->d_name[0] == '.') continue;
 
         // Assemble file name
+        /*
         char *name = new char [strlen(path) + strlen(item->d_name) + 2];
         strcpy(name, path);
         strcat(name, "/");
         strcat(name, item->d_name);
-
-        msg("importDirectory: Processing %s\n", name);
+        */
+        string name = path + "/" + string(item->d_name);
+        
+        msg("importDirectory: Processing %s\n", name.c_str());
         
         if (item->d_type == DT_DIR) {
             
@@ -936,25 +931,20 @@ FSDevice::importDirectory(const char *path, DIR *dir, bool recursive)
             
             // Add file
             u8 *buffer; isize size;
-            if (util::loadFile(name, &buffer, &size)) {
+            if (util::loadFile(string(name), &buffer, &size)) {
                 FSBlock *file = makeFile(item->d_name, buffer, size);
-                // result &= file ? (file->append(buffer, size)) : false;
                 result &= file != nullptr;
                 delete(buffer);
             }
-        }
-        
-        delete [] name;
+        }        
     }
 
     return result;
 }
 
 ErrorCode
-FSDevice::exportDirectory(const char *path)
+FSDevice::exportDirectory(const string &path)
 {
-    assert(path != nullptr);
-        
     // Only proceed if path points to an empty directory
     long numItems = util::numDirectoryItems(path);
     if (numItems != 0) return ERROR_FS_DIRECTORY_NOT_EMPTY;
@@ -965,7 +955,7 @@ FSDevice::exportDirectory(const char *path)
     
     // Export all items
     for (auto const& i : items) {
-        if (ErrorCode error = blockPtr(i)->exportBlock(path); error != ERROR_OK) {
+        if (ErrorCode error = blockPtr(i)->exportBlock(path.c_str()); error != ERROR_OK) {
             msg("Export error: %lld\n", error);
             return error; 
         }

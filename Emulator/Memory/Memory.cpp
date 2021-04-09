@@ -61,7 +61,7 @@ Memory::_reset(bool hard)
     if (hard) fillRamWithInitPattern();
 }
 
-long
+i64
 Memory::getConfigItem(Option option) const
 {
     switch (option) {
@@ -82,7 +82,7 @@ Memory::getConfigItem(Option option) const
 }
 
 bool
-Memory::setConfigItem(Option option, long value)
+Memory::setConfigItem(Option option, i64 value)
 {
     switch (option) {
             
@@ -302,9 +302,9 @@ Memory::didSaveToBuffer(u8 *buffer) const
 }
 
 void
-Memory::_dump(Dump::Category category, std::ostream& os) const
+Memory::_dump(dump::Category category, std::ostream& os) const
 {
-    if (category & Dump::Config) {
+    if (category & dump::Config) {
         
         os << DUMP("Chip Ram") << std::dec << config.chipSize / 1024 << " KB" << std::endl;
         os << DUMP("Slow Ram") << std::dec << config.slowSize / 1024 << " KB" << std::endl;
@@ -324,13 +324,13 @@ Memory::_dump(Dump::Category category, std::ostream& os) const
         os << UnmappedMemoryEnum::key(config.unmappingType) << std::endl;
     }
     
-    if (category & Dump::State) {
+    if (category & dump::State) {
 
         os << DUMP("Data bus") << HEX16 << dataBus << std::endl;
         os << DUMP("Wom is locked") << YESNO(womIsLocked) << std::endl;
     }
     
-    if (category & Dump::Checksums) {
+    if (category & dump::Checksums) {
 
         os << DUMP("Rom checksum");
         os << HEX32 << util::fnv_1a_32(rom, config.romSize) << std::endl;
@@ -346,7 +346,7 @@ Memory::_dump(Dump::Category category, std::ostream& os) const
         os << HEX32 << util::fnv_1a_32(fast, config.fastSize) << std::endl;
     }
     
-    if (category & Dump::BankMap) {
+    if (category & dump::BankMap) {
 
         MemorySource oldsrc = cpuMemSrc[0]; isize oldi = 0;
         for (isize i = 0; i <= 0x100; i++) {
@@ -567,7 +567,8 @@ Memory::loadRom(RomFile *file)
     if (!allocRom((i32)file->size)) throw VAError(ERROR_OUT_OF_MEMORY);
     
     // Load Rom
-    loadRom(file, rom, config.romSize);
+    assert(config.romSize == file->size);
+    file->flash(rom);
 
     // Add a Wom if a Boot Rom is installed instead of a Kickstart Rom
     hasBootRom() ? (void)allocWom(KB(256)) : deleteWom();
@@ -577,36 +578,39 @@ Memory::loadRom(RomFile *file)
 }
 
 void
-Memory::loadRomFromFile(const char *path)
+Memory::loadRom(RomFile *file, ErrorCode *ec)
 {
-    assert(path);
-    
-    RomFile *file = AmigaFile::make <RomFile> (path);
-    loadRom(file);
-}
-
-void
-Memory::loadRomFromFile(const char *path, ErrorCode *ec)
-{
-    *ec = ERROR_OK;
-    try { loadRomFromFile(path); }
+    try { loadRom(file); *ec = ERROR_OK; }
     catch (VAError &err) { *ec = err.data; }
 }
 
 void
-Memory::loadRomFromBuffer(const u8 *buf, isize len)
+Memory::loadRom(const string &path)
 {
-    assert(buf);
-    
-    RomFile *file = AmigaFile::make <RomFile> (buf, len);
+    RomFile *file = AmigaFile::make <RomFile> (path);
     loadRom(file);
+    delete(file);
 }
 
 void
-Memory::loadRomFromBuffer(const u8 *buf, isize len, ErrorCode *ec)
+Memory::loadRom(const string &path, ErrorCode *ec)
 {
-    *ec = ERROR_OK;
-    try { loadRomFromBuffer(buf, len); }
+    try { loadRom(path); *ec = ERROR_OK; }
+    catch (VAError &err) { *ec = err.data; }
+}
+
+void
+Memory::loadRom(const u8 *buf, isize len)
+{
+    RomFile *file = AmigaFile::make <RomFile> (buf, len);
+    loadRom(file);
+    delete(file);
+}
+
+void
+Memory::loadRom(const u8 *buf, isize len, ErrorCode *ec)
+{
+    try { *ec = ERROR_OK; loadRom(buf, len); }
     catch (VAError &err) { *ec = err.data; }
 }
 
@@ -619,61 +623,49 @@ Memory::loadExt(ExtendedRomFile *file)
     if (!allocExt((i32)file->size)) throw VAError(ERROR_OUT_OF_MEMORY);
     
     // Load Rom
-    loadRom(file, ext, config.extSize);
+    assert(config.extSize == file->size);
+    file->flash(ext);
 }
 
 void
-Memory::loadExtFromFile(const char *path)
+Memory::loadExt(ExtendedRomFile *file, ErrorCode *ec)
 {
-    assert(path);
-    
+    try { *ec = ERROR_OK; loadExt(file); }
+    catch (VAError &err) { *ec = err.data; }
+}
+
+void
+Memory::loadExt(const string &path)
+{
     ExtendedRomFile *file = AmigaFile::make <ExtendedRomFile> (path);
     loadExt(file);
+    delete file;
 }
 
 void
-Memory::loadExtFromFile(const char *path, ErrorCode *ec)
+Memory::loadExt(const string &path, ErrorCode *ec)
 {
-    *ec = ERROR_OK;
-    try { loadExtFromFile(path); }
+    try { *ec = ERROR_OK; loadExt(path); }
     catch (VAError &exception) { *ec = exception.data; }
 }
 
 void
-Memory::loadExtFromBuffer(const u8 *buf, isize len)
-{
-    assert(buf);
-    
+Memory::loadExt(const u8 *buf, isize len)
+{    
     ExtendedRomFile *file = AmigaFile::make <ExtendedRomFile> (buf, len);
     loadExt(file);
 }
 
 void
-Memory::loadExtFromBuffer(const u8 *buf, isize len, ErrorCode *ec)
+Memory::loadExt(const u8 *buf, isize len, ErrorCode *ec)
 {
     *ec = ERROR_OK;
-    try { loadExtFromBuffer(buf, len); }
+    try { loadExt(buf, len); }
     catch (VAError &exception) { *ec = exception.data; }
 }
  
 void
-Memory::loadRom(AmigaFile *file, u8 *target, isize length)
-{
-    if (file) {
-
-        assert(target != nullptr);
-        memset(target, 0, length);
-
-        if (file->size < length) {
-            warn("ROM is smaller than buffer\n");
-        }
-        
-        memcpy(target, file->data, std::min(file->size, length));
-    }
-}
-
-void
-Memory::saveRom(const char *path)
+Memory::saveRom(const string &path)
 {
     if (rom == nullptr) return;
     
@@ -682,14 +674,14 @@ Memory::saveRom(const char *path)
 }
 
 void
-Memory::saveRom(const char *path, ErrorCode *ec)
+Memory::saveRom(const string &path, ErrorCode *ec)
 {
     *ec = ERROR_OK;
     try { saveRom(path); } catch (VAError &err) { *ec = err.data; }
 }
 
 void
-Memory::saveWom(const char *path)
+Memory::saveWom(const string &path)
 {
     if (wom == nullptr) return;
     
@@ -698,14 +690,14 @@ Memory::saveWom(const char *path)
 }
 
 void
-Memory::saveWom(const char *path, ErrorCode *ec)
+Memory::saveWom(const string &path, ErrorCode *ec)
 {
     *ec = ERROR_OK;
     try { saveWom(path); } catch (VAError &err) { *ec = err.data; }
 }
 
 void
-Memory::saveExt(const char *path)
+Memory::saveExt(const string &path)
 {
     if (ext == nullptr) return;
 
@@ -714,7 +706,7 @@ Memory::saveExt(const char *path)
 }
 
 void
-Memory::saveExt(const char *path, ErrorCode *ec)
+Memory::saveExt(const string &path, ErrorCode *ec)
 {
     *ec = ERROR_OK;
     try { saveExt(path); } catch (VAError &err) { *ec = err.data; }

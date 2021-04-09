@@ -23,7 +23,7 @@ FSUserDirBlock::FSUserDirBlock(FSPartition &p, Block nr) : FSBlock(p, nr)
     set32(-1, 2);                        // Sub type
 }
 
-FSUserDirBlock::FSUserDirBlock(FSPartition &p, Block nr, const char *name) :
+FSUserDirBlock::FSUserDirBlock(FSPartition &p, Block nr, const string &name) :
 FSUserDirBlock(p, nr)
 {
     setName(FSName(name));
@@ -107,10 +107,9 @@ FSUserDirBlock::dump() const
 }
 
 ErrorCode
-FSUserDirBlock::exportBlock(const char *exportDir)
+FSUserDirBlock::exportBlock(const string &dir)
 {
-    string path = exportDir;
-    path += "/" + partition.dev.getPath(this);
+    string path = dir + "/" + partition.dev.getPath(this);
 
     printf("Creating directory %s\n", path.c_str());
     

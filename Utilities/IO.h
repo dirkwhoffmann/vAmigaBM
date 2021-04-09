@@ -47,18 +47,15 @@ string appendPath(const string &path, const string &path2);
 
 // Returns the size of a file in bytes
 isize getSizeOfFile(const string &path);
-isize getSizeOfFile(const char *path);
 
 // Checks if a file exists
 bool fileExists(const string &path);
 
 // Checks if a path points to a directory
 bool isDirectory(const string &path);
-bool isDirectory(const char *path);
 
 // Returns the number of files in a directory
 isize numDirectoryItems(const string &path);
-isize numDirectoryItems(const char *path);
 
 // Returns a list of files in a directory
 std::vector<string> files(const string &path, const string &suffix = "");
@@ -69,8 +66,8 @@ bool matchingStreamHeader(std::istream &stream, const u8 *header, isize len);
 bool matchingBufferHeader(const u8 *buffer, const u8 *header, isize len);
 
 // Loads a file from disk
-bool loadFile(const char *path, u8 **buffer, isize *size);
-bool loadFile(const char *path, const char *name, u8 **buffer, isize *size);
+bool loadFile(const string &path, u8 **bufptr, isize *size);
+bool loadFile(const string &path, const string &name, u8 **bufptr, isize *size);
 
 
 //

@@ -97,9 +97,9 @@ public:
     
     const DriveConfig &getConfig() const { return config; }
     
-    long getConfigItem(Option option) const;
-    bool setConfigItem(Option option, long value) override;
-    bool setConfigItem(Option option, long id, long value) override;
+    i64 getConfigItem(Option option) const;
+    bool setConfigItem(Option option, i64 value) override;
+    bool setConfigItem(Option option, long id, i64 value) override;
     
     
     //
@@ -113,7 +113,7 @@ public:
 private:
     
     void _inspect() override;
-    void _dump(Dump::Category category, std::ostream& os) const override;
+    void _dump(dump::Category category, std::ostream& os) const override;
 
     
     //

@@ -1,8 +1,8 @@
 // -----------------------------------------------------------------------------
-// This file is part of VirtualC64
+// This file is part of vAmiga
 //
 // Copyright (C) Dirk W. Hoffmann. www.dirkwhoffmann.de
-// Licensed under the GNU General Public License v2
+// Licensed under the GNU General Public License v3
 //
 // See https://www.gnu.org for license information
 // -----------------------------------------------------------------------------
@@ -11,7 +11,6 @@
 
 #include "ErrorTypes.h"
 #include "Exception.h"
-#include "Reflection.h"
 
 //
 // VAError
@@ -19,8 +18,6 @@
 
 struct VAError : public util::Exception
 {
-    // ErrorCode errorCode;
-    
     VAError(ErrorCode code) : Exception((i64)code) { }
     
     const char *what() const throw() override;
@@ -37,9 +34,7 @@ struct ConfigError : public std::exception
     
     ConfigError(const string &s) : description(s) { }
     
-    const char *what() const throw() override {
-        return  description.c_str();
-    }
+    const char *what() const throw() override;
 };
 
 struct ConfigArgError : ConfigError {

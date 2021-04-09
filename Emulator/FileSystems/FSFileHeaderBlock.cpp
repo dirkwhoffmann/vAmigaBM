@@ -25,7 +25,7 @@ FSFileHeaderBlock::FSFileHeaderBlock(FSPartition &p, Block nr) : FSBlock(p, nr)
     set32(-1, (u32)-3);              // Sub type
 }
 
-FSFileHeaderBlock::FSFileHeaderBlock(FSPartition &p, Block nr, const char *name) :
+FSFileHeaderBlock::FSFileHeaderBlock(FSPartition &p, Block nr, const string &name) :
 FSFileHeaderBlock(p, nr)
 {
     setName(FSName(name));
@@ -128,10 +128,9 @@ FSFileHeaderBlock::dump() const
 }
 
 ErrorCode
-FSFileHeaderBlock::exportBlock(const char *exportDir)
+FSFileHeaderBlock::exportBlock(const string &dir)
 {
-    string path = exportDir;
-    path += "/" + partition.dev.getPath(this);
+    string path = dir + "/" + partition.dev.getPath(this);
 
     printf("Creating file %s\n", path.c_str());
     

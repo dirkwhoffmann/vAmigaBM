@@ -87,8 +87,8 @@ EXEFile::readFromStream(std::istream &stream)
     }
     
     // REMOVE ASAP
-    const char *path = "/tmp/test";
-    msg("Doing a test export to %s\n", path);
+    const string dir = "/tmp/test";
+    msg("Doing a test export to %s\n", dir.c_str());
     
     volume->exportDirectory(path);
     

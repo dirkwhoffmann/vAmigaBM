@@ -37,14 +37,13 @@ void
 Controller::awake()
 {
     // Register to the message queue
-    amiga.queue.setListener(this, process);
+    amiga.msgQueue.setListener(this, process);
 }
 
 void
 Controller::deinit()
 {
     amiga.powerOff();
-    amiga.queue.removeListener();
 }
 
 void

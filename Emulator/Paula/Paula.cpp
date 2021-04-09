@@ -60,9 +60,9 @@ Paula::_inspect()
 }
 
 void
-Paula::_dump(Dump::Category category, std::ostream& os) const
+Paula::_dump(dump::Category category, std::ostream& os) const
 {
-    if (category & Dump::State) {
+    if (category & dump::State) {
     
         os << DUMP("potCntX0") << (isize)potCntX0 << std::endl;
         os << DUMP("potCntY0") << (isize)potCntY0 << std::endl;
@@ -74,7 +74,7 @@ Paula::_dump(Dump::Category category, std::ostream& os) const
         os << DUMP("chargeY1") << chargeY1 << std::endl;
     }
     
-    if (category & Dump::Registers) {
+    if (category & dump::Registers) {
         
         os << DUMP("INTENA") << HEX16 << (isize)intena << std::endl;
         os << DUMP("INTREQ") << HEX16 << (isize)intreq << std::endl;
@@ -103,20 +103,19 @@ Paula::_pause()
 }
 
 void
-Paula::_setWarp(bool enable)
+Paula::_warpOn()
 {
-    if (enable) {
-        
-        // Warping has the unavoidable drawback that audio playback gets out of
-        // sync. To cope with this issue, we ramp down the volume when warping
-        // is switched on and fade in smoothly when it is switched off.
-        muxer.rampDown();
-        
-    } else {
-        
-        muxer.rampUp();
-        muxer.clear();
-    }
+    // Warping has the unavoidable drawback that audio playback gets out of
+    // sync. To cope with this issue, we ramp down the volume when warping
+    // is switched on and fade in smoothly when it is switched off.
+    muxer.rampDown();
+}
+
+void
+Paula::_warpOff()
+{
+    muxer.rampUp();
+    muxer.clear();
 }
 
 void

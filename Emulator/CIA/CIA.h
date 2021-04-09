@@ -274,8 +274,8 @@ public:
     
     const CIAConfig &getConfig() const { return config; }
     
-    long getConfigItem(Option option) const;
-    bool setConfigItem(Option option, long value) override;
+    i64 getConfigItem(Option option) const;
+    bool setConfigItem(Option option, i64 value) override;
     
     bool getEClockSyncing() const { return config.eClockSyncing; }
 
@@ -358,7 +358,7 @@ public:
 protected:
     
     void _inspect() override;
-    void _dump(Dump::Category category, std::ostream& os) const override;
+    void _dump(dump::Category category, std::ostream& os) const override;
 
     
     //

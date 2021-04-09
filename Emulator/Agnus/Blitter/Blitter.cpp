@@ -56,7 +56,7 @@ Blitter::_reset(bool hard)
     }
 }
 
-long
+i64
 Blitter::getConfigItem(Option option) const
 {
     switch (option) {
@@ -70,7 +70,7 @@ Blitter::getConfigItem(Option option) const
 }
 
 bool
-Blitter::setConfigItem(Option option, long value)
+Blitter::setConfigItem(Option option, i64 value)
 {
     switch (option) {
             
@@ -78,11 +78,11 @@ Blitter::setConfigItem(Option option, long value)
             
             #ifdef FORCE_BLT_LEVEL
             value = FORCE_BLT_LEVEL;
-            warn("Overriding Blitter accuracy level: %ld\n", value);
+            warn("Overriding Blitter accuracy level: %lld\n", value);
             #endif
             
             if (value < 0 || value > 2) {
-                warn("Invalid Blitter accuracy level: %ld\n", value);
+                warn("Invalid Blitter accuracy level: %lld\n", value);
                 return false;
             }
             if (config.accuracy == value) {
@@ -140,14 +140,14 @@ Blitter::_inspect()
 }
 
 void
-Blitter::_dump(Dump::Category category, std::ostream& os) const
+Blitter::_dump(dump::Category category, std::ostream& os) const
 {
-    if (category & Dump::Config) {
+    if (category & dump::Config) {
     
         os << DUMP("Accuracy level") << config.accuracy << std::endl;
     }
     
-    if (category & Dump::State) {
+    if (category & dump::State) {
 
         os << DUMP("Iteration") << DEC << iteration << std::endl;
         os << DUMP("Micro instruction PC") << DEC << bltpc << std::endl;
@@ -173,7 +173,7 @@ Blitter::_dump(Dump::Category category, std::ostream& os) const
 
     }
     
-    if (category & Dump::Registers) {
+    if (category & dump::Registers) {
         
         os << DUMP("BLTCON0") << HEX16 << bltcon0 << std::endl;
         os << DUMP("ASH") << HEX16 << bltconASH() << std::endl;
