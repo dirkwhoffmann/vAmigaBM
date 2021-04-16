@@ -16,10 +16,11 @@
 // Snapshot version number
 #define V_MAJOR 0
 #define V_MINOR 9
-#define V_SUBMINOR 17
+#define V_SUBMINOR 18
 
 // Uncomment these settings in a release build
 // #define RELEASEBUILD
+
 
 //
 // Build settings
@@ -171,7 +172,7 @@ static const int DISABLE_AUDIRQ  = 0; // Disable audio interrupts
 static const int POSREG_DEBUG    = 0; // POSxxx registers
 static const int JOYREG_DEBUG    = 0; // JOYxxx registers
 static const int POTREG_DEBUG    = 0; // POTxxx registers
-static const int PORT_DEBUG      = 0; // Control ports and connected devices
+static const int PRT_DEBUG       = 0; // Control ports and connected devices
 static const int SER_DEBUG       = 0; // Serial interface
 static const int POT_DEBUG       = 0; // Potentiometer inputs
 static const int HOLD_MOUSE_L    = 0; // Hold down the left mouse button

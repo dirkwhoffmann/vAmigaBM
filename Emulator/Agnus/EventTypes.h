@@ -167,8 +167,7 @@ enum_long(EventID)
     SCR_EVENT_COUNT,
     
     // Inspector slot
-    INS_NONE = 1,
-    INS_AMIGA,
+    INS_AMIGA = 1,
     INS_CPU,
     INS_MEM,
     INS_CIA,
@@ -177,6 +176,7 @@ enum_long(EventID)
     INS_DENISE,
     INS_PORTS,
     INS_EVENTS,
+    INS_TEXTURE,
     INS_EVENT_COUNT,
 
     // Rasterline slot

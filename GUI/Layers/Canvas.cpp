@@ -199,7 +199,7 @@ Canvas::resize(float width, float height)
 void
 Canvas::mouseMoved(int dx, int dy)
 {
-    app.amiga.controlPort1.mouse.setDeltaXY(dx, dy);
+    app.amiga.controlPort1.mouse.setDxDy(dx, dy);
 }
 
 void

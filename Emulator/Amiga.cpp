@@ -133,7 +133,7 @@ Amiga::Amiga()
         msg("            Volume : %zu bytes\n", sizeof(Volume));
         msg("             Zorro : %zu bytes\n", sizeof(ZorroManager));
         msg("\n");
-    }
+    }    
 }
 
 Amiga::~Amiga()
@@ -217,6 +217,11 @@ Amiga::getConfigItem(Option option) const
         case OPT_SATURATION:
             return denise.pixelEngine.getConfigItem(option);
             
+        case OPT_DMA_DEBUG_ENABLE:
+        case OPT_DMA_DEBUG_MODE:
+        case OPT_DMA_DEBUG_OPACITY:
+            return agnus.dmaDebugger.getConfigItem(option);
+            
         case OPT_RTC_MODEL:
             return rtc.getConfigItem(option);
 
@@ -265,6 +270,10 @@ Amiga::getConfigItem(Option option, long id) const
 {
     switch (option) {
             
+        case OPT_DMA_DEBUG_ENABLE:
+        case OPT_DMA_DEBUG_COLOR:
+            return agnus.dmaDebugger.getConfigItem(option, id);
+
         case OPT_AUDPAN:
         case OPT_AUDVOL:
             return paula.muxer.getConfigItem(option, id);
@@ -291,6 +300,13 @@ Amiga::getConfigItem(Option option, long id) const
             if (id == PORT_2) return controlPort2.mouse.getConfigItem(option);
             assert(false);
             
+        case OPT_AUTOFIRE:
+        case OPT_AUTOFIRE_BULLETS:
+        case OPT_AUTOFIRE_DELAY:
+            if (id == PORT_1) return controlPort1.joystick.getConfigItem(option);
+            if (id == PORT_2) return controlPort2.joystick.getConfigItem(option);
+            assert(false);
+
         default: assert(false);
     }
     
@@ -336,10 +352,27 @@ Amiga::getInspectionTarget() const
 void
 Amiga::setInspectionTarget(EventID id)
 {
+    printf("setInspectionTarget(%lld)\n", id);
     suspend();
-    inspectionTarget = id;
-    agnus.scheduleRel<SLOT_INS>(0, inspectionTarget);
+    agnus.scheduleRel<SLOT_INS>(0, id);
     agnus.serviceINSEvent();
+    resume();
+}
+
+void
+Amiga::setInspectionTarget(EventID id, Cycle trigger)
+{
+    printf("setInspectionTarget(%lld, %lld)\n", id, trigger);
+    suspend();
+    agnus.scheduleAbs<SLOT_INS>(trigger, id);
+    resume();
+}
+
+void
+Amiga::removeInspectionTarget()
+{
+    suspend();
+    agnus.cancel<SLOT_INS>();
     resume();
 }
 
@@ -361,6 +394,8 @@ Amiga::_inspect()
 void
 Amiga::_dump(dump::Category category, std::ostream& os) const
 {
+    using namespace util;
+    
     if (category & dump::Config) {
     
         if (CNF_DEBUG) {
@@ -375,9 +410,12 @@ Amiga::_dump(dump::Category category, std::ostream& os) const
     
     if (category & dump::State) {
         
-        os << DUMP("Power") << ONOFF(isPoweredOn()) << std::endl;
-        os << DUMP("Running") << YESNO(isRunning()) << std::endl;
-        os << DUMP("Warp") << ONOFF(warpMode) << std::endl;
+        os << tab("Power");
+        os << bol(isPoweredOn()) << std::endl;
+        os << tab("Running");
+        os << bol(isRunning()) << std::endl;
+        os << tab("Warp");
+        os << bol(warpMode) << std::endl;
     }
 }
 
@@ -712,7 +750,6 @@ Amiga::runLoop()
     } else {
         cpu.debugger.disableLogging();
     }
-    agnus.scheduleRel<SLOT_INS>(0, inspectionTarget);
     
     // Enter the loop
     while(1) {

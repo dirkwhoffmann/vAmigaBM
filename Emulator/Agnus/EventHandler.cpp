@@ -347,7 +347,6 @@ Agnus::inspectEventSlot(EventInfo &info, EventSlot nr) const
             switch (slot[nr].id) {
 
                 case 0:             i.eventName = "none"; break;
-                case INS_NONE:      i.eventName = "INS_NONE"; break;
                 case INS_AMIGA:     i.eventName = "INS_AMIGA"; break;
                 case INS_CPU:       i.eventName = "INS_CPU"; break;
                 case INS_MEM:       i.eventName = "INS_MEM"; break;
@@ -357,6 +356,7 @@ Agnus::inspectEventSlot(EventInfo &info, EventSlot nr) const
                 case INS_DENISE:    i.eventName = "INS_DENISE"; break;
                 case INS_PORTS:     i.eventName = "INS_PORTS"; break;
                 case INS_EVENTS:    i.eventName = "INS_EVENTS"; break;
+                case INS_TEXTURE:   i.eventName = "INS_TEXTURE"; break;
                 default:            i.eventName = "*** INVALID ***"; break;
             }
             break;

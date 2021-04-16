@@ -22,23 +22,25 @@ enum class Token
     none,
     
     // Components
-    agnus, amiga, audio, blitter, cia, controlport, copper, cpu, denise, dfn,
-    dc, keyboard, memory, monitor, mouse, paula, serial, rtc,
+    agnus, amiga, audio, blitter, cia, controlport, copper, cpu, dc, denise,
+    dfn, dmadebugger, keyboard, memory, monitor, mouse, paula, serial, rtc,
 
     // Commands
-    about, audiate, autosync, clear, config, connect, disconnect, dsksync,
-    easteregg, eject, close, insert, inspect, list, load, lock, on, off, pause,
-    reset, run, set, source,
+    about, audiate, autosync, clear, config, connect, debug, disable,
+    disconnect, dsksync, easteregg, eject, enable, close, hide, insert, inspect,
+    list, load, lock, off, on, open, pause, power, reset, run, screenshot, set,
+    show, source,
     
     // Categories
     checksums, devices, events, registers, state,
-    
+        
     // Keys
-    accuracy, bankmap, brightness, chip, clxsprspr, clxsprplf, clxplfplf,
-    contrast, defaultbb, defaultfs, device, esync, extrom, extstart, fast,
-    filter, joystick, keyset, mechanics, model, palette, pan, poll, pullup,
-    raminitpattern, revision, rom, sampling, saturation, searchpath,
-    shakedetector, slow, slowramdelay, slowrammirror, speed, step, tod, todbug,
+    accuracy, bankmap, bitplanes, brightness, channel, chip, clxsprspr,
+    clxsprplf, clxplfplf, color, contrast, defaultbb, defaultfs, device, disk,
+    esync, extrom, extstart, fast, filter, joystick, keyset, mechanics, mode,
+    model, opacity, palette, pan, poll, pullup, raminitpattern, refresh,
+    revision, rom, sampling, saturation, searchpath, shakedetector, slow,
+    slowramdelay, slowrammirror, speed, sprites, step, tod, todbug,
     unmappingtype, velocity, volume, wom
 };
 

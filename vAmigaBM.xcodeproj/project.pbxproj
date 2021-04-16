@@ -246,6 +246,8 @@
 		50FA653B25F66C9B003B786F /* led_black.png in CopyFiles */ = {isa = PBXBuildFile; fileRef = 50FA652D25F66C4E003B786F /* led_black.png */; };
 		50FA653C25F66C9E003B786F /* led_red.png in CopyFiles */ = {isa = PBXBuildFile; fileRef = 50FA652F25F66C59003B786F /* led_red.png */; };
 		50FA653D25F66CA1003B786F /* led_grey.png in CopyFiles */ = {isa = PBXBuildFile; fileRef = 50FA653125F66C5F003B786F /* led_grey.png */; };
+		50FCCA782629E39200398342 /* CopperDebugger.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50FCCA772629E39200398342 /* CopperDebugger.cpp */; };
+		50FCCA792629E42D00398342 /* MemUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50FCCA732629E32A00398342 /* MemUtils.cpp */; };
 		50FD19B825C20102004E7388 /* Application.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50FD19B625C20102004E7388 /* Application.cpp */; };
 		50FFC13125F3E5FC00D7595A /* StatusBar.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50FFC12F25F3E5FC00D7595A /* StatusBar.cpp */; };
 /* End PBXBuildFile section */
@@ -742,6 +744,10 @@
 		50FA652D25F66C4E003B786F /* led_black.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = led_black.png; sourceTree = "<group>"; };
 		50FA652F25F66C59003B786F /* led_red.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = led_red.png; sourceTree = "<group>"; };
 		50FA653125F66C5F003B786F /* led_grey.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = led_grey.png; sourceTree = "<group>"; };
+		50FCCA722629E32A00398342 /* MemUtils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MemUtils.h; sourceTree = "<group>"; };
+		50FCCA732629E32A00398342 /* MemUtils.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = MemUtils.cpp; sourceTree = "<group>"; };
+		50FCCA752629E38000398342 /* CopperDebugger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CopperDebugger.h; sourceTree = "<group>"; };
+		50FCCA772629E39200398342 /* CopperDebugger.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CopperDebugger.cpp; sourceTree = "<group>"; };
 		50FD19B625C20102004E7388 /* Application.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Application.cpp; sourceTree = "<group>"; };
 		50FD19B725C20102004E7388 /* Application.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Application.h; sourceTree = "<group>"; };
 		50FFC12F25F3E5FC00D7595A /* StatusBar.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = StatusBar.cpp; sourceTree = "<group>"; };
@@ -896,6 +902,8 @@
 				509F5EBF260F3DA100EA136A /* Makefile */,
 				509F5EB5260F3DA100EA136A /* SSEUtils.cpp */,
 				509F5EB6260F3DA100EA136A /* SSEUtils.h */,
+				50FCCA732629E32A00398342 /* MemUtils.cpp */,
+				50FCCA722629E32A00398342 /* MemUtils.h */,
 				509F5EB7260F3DA100EA136A /* Debug.h */,
 				509F5EB8260F3DA100EA136A /* Checksum.cpp */,
 				509F5EB9260F3DA100EA136A /* Exception.cpp */,
@@ -1065,6 +1073,8 @@
 			children = (
 				509F5F27260F3DD000EA136A /* CopperTypes.h */,
 				509F5F28260F3DD000EA136A /* Makefile */,
+				50FCCA752629E38000398342 /* CopperDebugger.h */,
+				50FCCA772629E39200398342 /* CopperDebugger.cpp */,
 				509F5F29260F3DD000EA136A /* Copper.cpp */,
 				509F5F2B260F3DD000EA136A /* CopperEvents.cpp */,
 				509F5F2C260F3DD000EA136A /* CopperRegisters.cpp */,
@@ -1664,6 +1674,7 @@
 				509F611C260F3DD000EA136A /* AmigaObject.cpp in Sources */,
 				509F5ED1260F3DA100EA136A /* Concurrency.cpp in Sources */,
 				509F6091260F3DD000EA136A /* FastBlitter.cpp in Sources */,
+				50FCCA792629E42D00398342 /* MemUtils.cpp in Sources */,
 				5047761F25E7E6E8003DCED0 /* GUIComponent.cpp in Sources */,
 				509F60E5260F3DD000EA136A /* u_quick.c in Sources */,
 				50A7E05B25D6AFDF00113BF8 /* AmigaMusicStream.cpp in Sources */,
@@ -1687,6 +1698,7 @@
 				509F60A2260F3DD000EA136A /* InterpreterCmds.cpp in Sources */,
 				50FFC13125F3E5FC00D7595A /* StatusBar.cpp in Sources */,
 				509F60B3260F3DD000EA136A /* Folder.cpp in Sources */,
+				50FCCA782629E39200398342 /* CopperDebugger.cpp in Sources */,
 				509F6124260F3DD000EA136A /* Amiga.cpp in Sources */,
 				509F60BC260F3DD000EA136A /* EXTFile.cpp in Sources */,
 				509F60A3260F3DD000EA136A /* RetroShellCmds.cpp in Sources */,

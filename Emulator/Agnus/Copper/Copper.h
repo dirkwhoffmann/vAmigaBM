@@ -10,19 +10,28 @@
 #pragma once
 
 #include "CopperTypes.h"
-#include "Event.h"
-#include "Memory.h"
 #include "AmigaComponent.h"
 #include "Beam.h"
 #include "Checksum.h"
+#include "CopperDebugger.h"
+#include "Event.h"
+#include "Memory.h"
 
 class Copper : public AmigaComponent
 {
     friend class Agnus;
+    friend class CopperDebugger;
+    
+public:
+
+    // The Copper debugger
+    CopperDebugger debugger = CopperDebugger(amiga);
+
+private:
     
     // Result of the latest inspection
     CopperInfo info;
-
+    
     // The currently executed Copper list (1 or 2)
     u8 copList = 1;
 
@@ -60,9 +69,6 @@ class Copper : public AmigaComponent
      */
     bool activeInThisFrame;
    
-    // Storage for disassembled instruction
-    char disassembly[128];
-
 public:
 
     // Indicates if Copper is currently servicing an event (for debugging only)
@@ -174,6 +180,9 @@ public:
     
 private:
  
+    // Sets the program counter to a given address
+    void setPC(u32 addr);
+    
     // Advances the program counter
     void advancePC();
 
@@ -309,24 +318,4 @@ private:
 public:
 
     void blitterDidTerminate();
-
-
-    //
-    // Debugging
-    //
-    
-public:
-
-    // Returns the number of instructions in Copper list 1 or 2
-    isize instrCount(isize nr) const;
-
-    // Manually lengthens or shortens the value returned by instrCount()
-    void adjustInstrCount(isize nr, isize offset);
-
-    // Disassembles a single Copper command
-    char *disassemble(u32 addr);
-    char *disassemble(isize list, isize offset);
-
-    // Dumps a Copper list
-    void dumpCopperList(isize list, isize length);
 };

@@ -20,7 +20,7 @@ MouseDevice::poll(ControlPort &port)
     if (mouseDX != 0 || mouseDY != 0) {
         
         printf("dx: %d dy: %d b: %d %d\n", mouseDX, mouseDY, leftButton, rightButton);
-        port.mouse.setDeltaXY(mouseDX, mouseDY);
+        port.mouse.setDxDy(mouseDX, mouseDY);
     }
     port.mouse.setLeftButton(leftButton);
     port.mouse.setRightButton(rightButton);

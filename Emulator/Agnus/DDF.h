@@ -15,46 +15,36 @@ template <bool hires>
 struct DDF
 {
     // First bitplane DMA cycle of odd and even bitplanes
-    i16 strtOdd;
-    i16 strtEven;
+    i16 strt;
     
     // Last bitplane DMA cycle + 1 of odd and even bitplanes
-    i16 stopOdd;
-    i16 stopEven;
+    i16 stop;
 
-    DDF() : strtOdd(0), strtEven(0), stopOdd(0), stopEven(0) { }
+    DDF() : strt(0), stop(0) { }
     
     template <class W>
     void operator<<(W& worker)
     {
         worker
         
-        << strtOdd
-        << strtEven
-        << stopOdd
-        << stopEven;
+        << strt
+        << stop;
     }
     
-    void clear() { strtOdd = strtEven = stopOdd = stopEven = 0; }
+    void clear() { strt = stop = 0; }
     
     bool operator==(const DDF& ddf) const
     {
         return
-        strtOdd == ddf.strtOdd &&
-        strtEven == ddf.strtEven &&
-        stopOdd == ddf.stopOdd &&
-        stopEven == ddf.stopEven;
+        strt == ddf.strt &&
+        stop == ddf.stop;
     }
 
     bool operator!=(const DDF& ddf) const
     {
         return !(*this == ddf);
     }
-    
-    bool inRangeOdd(i16 pos) const { return pos > strtOdd && pos < stopOdd; }
-    bool inRangeEven(i16 pos) const { return pos > strtEven && pos < stopEven; }
-    bool oddAndEvenDiffer() const { return strtOdd != strtEven || stopOdd != stopEven; }
-    
+        
     /* Computes a DDF window
      *
      *       strt : Cycle number from DDFSTRT
@@ -64,6 +54,5 @@ struct DDF
      * The function assumes that stop is greater than strt. Other combinations
      * are not yet supported by the emulator.
      */
-    void compute(i16 ddfstrt, i16 ddfstop, u16 bplcon1);
-    void compute(i16 &strt, i16 &stop, i16 ddfstrt, i16 ddfstop, int scroll);
+    void compute(i16 ddfstrt, i16 ddfstop);
 };

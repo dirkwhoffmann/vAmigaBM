@@ -31,6 +31,12 @@ enum_long(OPT)
     OPT_CONTRAST,
     OPT_SATURATION,
     
+    // DMA Debugger
+    OPT_DMA_DEBUG_ENABLE,
+    OPT_DMA_DEBUG_MODE,
+    OPT_DMA_DEBUG_COLOR,
+    OPT_DMA_DEBUG_OPACITY,
+    
     // Real-time clock
     OPT_RTC_MODEL,
 
@@ -87,6 +93,11 @@ enum_long(OPT)
     OPT_PULLUP_RESISTORS,
     OPT_SHAKE_DETECTION,
     OPT_MOUSE_VELOCITY,
+    
+    // Joystick
+    OPT_AUTOFIRE,
+    OPT_AUTOFIRE_BULLETS,
+    OPT_AUTOFIRE_DELAY,
     
     // Paula audio
     OPT_SAMPLING_METHOD,
@@ -164,6 +175,10 @@ struct OptionEnum : util::Reflection<OptionEnum, Option> {
 
             case OPT_PULLUP_RESISTORS:    return "PULLUP_RESISTORS";
             case OPT_MOUSE_VELOCITY:      return "MOUSE_VELOCITY";
+
+            case OPT_AUTOFIRE:            return "AUTOFIRE";
+            case OPT_AUTOFIRE_BULLETS:    return "AUTOFIRE_BULLETS";
+            case OPT_AUTOFIRE_DELAY:      return "AUTOFIRE_DELAY";
 
             case OPT_SAMPLING_METHOD:     return "SAMPLING_METHOD";
             case OPT_FILTER_TYPE:         return "FILTER_TYPE";

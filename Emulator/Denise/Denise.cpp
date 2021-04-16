@@ -174,37 +174,45 @@ Denise::_inspect()
 void
 Denise::_dump(dump::Category category, std::ostream& os) const
 {
+    using namespace util;
+    
     if (category & dump::Config) {
         
-        printf("_dump(Config)\n");
-        os << DUMP("Chip revision");
+        os << tab("Chip revision");
         os << DeniseRevisionEnum::key(config.revision) << std::endl;
-        os << DUMP("Hidden sprites");
-        os << HEX8 << (int)config.hiddenSprites << std::endl;
-        os << DUMP("Hidden layers");
-        os << HEX16 << (int)config.hiddenLayers << std::endl;
-        os << DUMP("Hidden layer alpha");
-        os << DEC << (int)config.hiddenLayerAlpha << std::endl;
-        os << DUMP("clxSprSpr") << YESNO(config.clxSprSpr) << std::endl;
-        os << DUMP("clxSprSpr") << YESNO(config.clxSprSpr) << std::endl;
-        os << DUMP("clxSprSpr") << YESNO(config.clxSprSpr) << std::endl;
+        os << tab("Hidden sprites");
+        os << hex(config.hiddenSprites) << std::endl;
+        os << tab("Hidden layers");
+        os << hex(config.hiddenLayers) << std::endl;
+        os << tab("Hidden layer alpha");
+        os << dec(config.hiddenLayerAlpha) << std::endl;
+        os << tab("clxSprSpr");
+        os << bol(config.clxSprSpr) << std::endl;
+        os << tab("clxSprSpr");
+        os << bol(config.clxSprSpr) << std::endl;
+        os << tab("clxSprSpr");
+        os << bol(config.clxSprSpr) << std::endl;
     }
     
     if (category & dump::Registers) {
         
-        os << "  BPLCON0: " << HEX16 << bplcon0;
-        os << "  BPLCON1: " << HEX16 << bplcon1;
-        os << "  BPLCON2: " << HEX16 << bplcon2;
-        os << "  BPLCON3: " << HEX16 << bplcon3 << std::endl;
-        
-        for (isize i = 0; i < 8; i++) {
-            
-            os << " SPR"+std::to_string(i)+"DATA: " << HEX16 << sprdata[i];
-            os << " SPR"+std::to_string(i)+"DATB: " << HEX16 << sprdatb[i];
-            os << "  SPR"+std::to_string(i)+"POS: " << HEX16 << sprpos[i];
-            os << "  SPR"+std::to_string(i)+"CTL: " << HEX16 << sprctl[i];
-            os << std::endl;
-        }
+        os << tab("BPLCON0");
+        os << hex(bplcon0) << std::endl;
+        os << tab("BPLCON1");
+        os << hex(bplcon1) << std::endl;
+        os << tab("BPLCON2");
+        os << hex(bplcon2) << std::endl;
+        os << tab("BPLCON3");
+        os << hex(bplcon3) << std::endl;
+    
+        os << tab("SPRxDATA");
+        for (isize i = 0; i < 8; i++) os << hex(sprdata[i]); os << std::endl;
+        os << tab("SPRxDATB");
+        for (isize i = 0; i < 8; i++) os << hex(sprdatb[i]); os << std::endl;
+        os << tab("SPRxPOS");
+        for (isize i = 0; i < 8; i++) os << hex(sprpos[i]); os << std::endl;
+        os << tab("SPRxCTL");
+        for (isize i = 0; i < 8; i++) os << hex(sprctl[i]); os << std::endl;
     }
 }
 
@@ -254,20 +262,22 @@ Denise::spritePixelIsVisible(Pixel hpos) const
 }
 
 void
-Denise::fillShiftRegisters(bool odd, bool even)
+Denise::updateShiftRegisters()
 {
-    if (odd) armedOdd = true;
-    if (even) armedEven = true;
+    // Only proceed if the load cycle has been reached
+    if (agnus.pos.h < fillPos) return;
+    fillPos = INT16_MAX;
     
-    spriteClipBegin = std::min(spriteClipBegin, (Pixel)(agnus.ppos() + 2));
+    armedOdd = true;
+    armedEven = true;
     
     switch (bpu()) {
-        case 6: shiftReg[5] = bpldat[5];
-        case 5: shiftReg[4] = bpldat[4];
-        case 4: shiftReg[3] = bpldat[3];
-        case 3: shiftReg[2] = bpldat[2];
-        case 2: shiftReg[1] = bpldat[1];
-        case 1: shiftReg[0] = bpldat[0];
+        case 6: shiftReg[5] = bpldatPipe[5];
+        case 5: shiftReg[4] = bpldatPipe[4];
+        case 4: shiftReg[3] = bpldatPipe[3];
+        case 3: shiftReg[2] = bpldatPipe[2];
+        case 2: shiftReg[1] = bpldatPipe[1];
+        case 1: shiftReg[0] = bpldatPipe[0];
     }
     
     // On Intel machines, call the optimized SSE code
@@ -427,8 +437,32 @@ Denise::drawBoth(Pixel offset)
 }
 
 void
+Denise::drawHiresOdd()
+{
+    updateShiftRegisters();
+    
+    if (armedOdd) {
+        
+        drawOdd <true> (pixelOffsetOdd);
+    }
+}
+
+void
+Denise::drawHiresEven()
+{
+    updateShiftRegisters();
+    
+    if (armedEven) {
+        
+        drawEven<true> (pixelOffsetEven);
+    }
+}
+
+void
 Denise::drawHiresBoth()
 {
+    updateShiftRegisters();
+
     if (armedOdd && armedEven && pixelOffsetOdd == pixelOffsetEven) {
 
         assert((agnus.pos.h & 0x3) == agnus.scrollHiresOdd);
@@ -443,8 +477,32 @@ Denise::drawHiresBoth()
 }
 
 void
+Denise::drawLoresOdd()
+{
+    updateShiftRegisters();
+    
+    if (armedOdd) {
+        
+        drawOdd <false> (pixelOffsetOdd);
+    }
+}
+
+void
+Denise::drawLoresEven()
+{
+    updateShiftRegisters();
+    
+    if (armedEven) {
+        
+        drawEven<false> (pixelOffsetEven);
+    }
+}
+
+void
 Denise::drawLoresBoth()
 {
+    updateShiftRegisters();
+
     if (armedOdd && armedEven && pixelOffsetOdd == pixelOffsetEven) {
 
         assert((agnus.pos.h & 0x7) == agnus.scrollLoresOdd);

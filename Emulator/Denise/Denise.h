@@ -78,6 +78,9 @@ public:
     // Bitplane data registers
     u16 bpldat[6];
     
+    // Pipeline registers
+    u16 bpldatPipe[6];
+
     // Sprite collision registers
     u16 clxdat;
     u16 clxcon;
@@ -93,6 +96,9 @@ public:
 
     // Bit slices computed out of the shift registers
     u8 __attribute__ ((aligned (64))) slice[16];
+    
+    // Indicates the DMA cycle where the shift register gets filled
+    i16 fillPos; 
     
     // Flags indicating that the shift registers have been loaded
     bool armedEven;
@@ -342,9 +348,11 @@ private:
         << initialBplcon2
         << borderColor
         << bpldat
+        << bpldatPipe
         << clxdat
         << clxcon
         << shiftReg
+        << fillPos
         << armedEven
         << armedOdd
         << pixelOffsetOdd
@@ -462,49 +470,27 @@ public:
     // COLORxx
     template <Accessor s, isize xx> void pokeCOLORxx(u16 value);
 
-    
-    //
-    // Handling sprites
-    //
-
-public:
-    
-    // Returns the horizontal position of a sprite in sprite coordinates
-    template <isize x> Pixel sprhpos() const {
-        return ((sprpos[x] & 0xFF) << 1) | (sprctl[x] & 0x01); }
-
-    // Returns the horizontal position of a sprite in pixel coordinates
-    template <isize x> Pixel sprhppos() const {
-        return 2 * (sprhpos<x>() + 1); }
-    
-    // Checks the z buffer and returns true if a sprite pixel is visible
-    bool spritePixelIsVisible(Pixel hpos) const;
-
 
     //
-    // Handling bitplanes
+    // Drawing bitplanes
     //
 
 public:
     
-    // Transfers the bitplane registers to the shift registers
-    void fillShiftRegisters(bool odd = true, bool even = true);
-
+    // Transfers the bitplane pipeline registers to the shift registers
+    void updateShiftRegisters();
     
-    //
-    // Synthesizing pixels
-    //
-    
-public:
-
+    // Core drawing routines
     template <bool hiresMode> void drawOdd(Pixel offset);
     template <bool hiresMode> void drawEven(Pixel offset);
     template <bool hiresMode> void drawBoth(Pixel offset);
-    void drawHiresOdd()  { if (armedOdd)  drawOdd <true>  (pixelOffsetOdd);  }
-    void drawHiresEven() { if (armedEven) drawEven<true>  (pixelOffsetEven); }
+
+    // Wrappers around the core drawing routines
+    void drawHiresOdd();
+    void drawHiresEven();
     void drawHiresBoth();
-    void drawLoresOdd()  { if (armedOdd)  drawOdd <false> (pixelOffsetOdd);  }
-    void drawLoresEven() { if (armedEven) drawEven<false> (pixelOffsetEven); }
+    void drawLoresOdd();
+    void drawLoresEven();
     void drawLoresBoth();
 
 private:
@@ -522,7 +508,35 @@ private:
     void translateDPF(Pixel from, Pixel to, PFState &state);
     template <bool pf2pri> void translateDPF(Pixel from, Pixel to, PFState &state);
 
+    
+    //
+    // Drawing the border
+    //
+    
+private:
+    
+    // Determines the color register index for drawing the border
+    void updateBorderColor();
+
+    // Draws the left and the right border
+    void drawBorder();
+
+    
+    //
+    // Drawing sprites
+    //
+
 public:
+    
+    // Returns the horizontal position of a sprite in sprite coordinates
+    template <isize x> Pixel sprhpos() const {
+        return ((sprpos[x] & 0xFF) << 1) | (sprctl[x] & 0x01); }
+
+    // Returns the horizontal position of a sprite in pixel coordinates
+    template <isize x> Pixel sprhppos() const { return 2 * sprhpos<x>(); }
+    
+    // Checks the z buffer and returns true if a sprite pixel is visible
+    bool spritePixelIsVisible(Pixel hpos) const;
 
     // Draws all sprites
     void drawSprites();
@@ -541,16 +555,10 @@ private:
     // Draws a single sprite pixel
     template <isize x> void drawSpritePixel(Pixel hpos);
     template <isize x> void drawAttachedSpritePixelPair(Pixel hpos);
-
-    // Determines the color register index for drawing the border
-    void updateBorderColor();
-
-    // Draws the left and the right border
-    void drawBorder(); 
     
     
     //
-    // Collision checking
+    // Checking collisions
     //
 
 public:

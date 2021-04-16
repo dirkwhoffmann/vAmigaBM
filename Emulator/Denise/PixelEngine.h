@@ -136,6 +136,11 @@ private:
     isize _save(u8 *buffer) override { SAVE_SNAPSHOT_ITEMS }
     isize didLoadFromBuffer(const u8 *buffer) override;
 
+public:
+    
+    void dumpTexture(); 
+    void dumpTexture(std::ostream& ss, isize x1, isize y1, isize x2, isize y2);
+    
     
     //
     // Controlling

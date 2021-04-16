@@ -11,6 +11,7 @@
 #include "Agnus.h"
 #include "Amiga.h"
 #include "IO.h"
+#include <iomanip>
 
 Agnus::Agnus(Amiga& ref) : AmigaComponent(ref)
 {    
@@ -26,12 +27,14 @@ Agnus::Agnus(Amiga& ref) : AmigaComponent(ref)
     
     initLookupTables();
     
-    // Wipe out the event slots
+    // Wipe out event slots
     memset(slot, 0, sizeof(slot));
 }
 
 void Agnus::_reset(bool hard)
 {
+    auto insEvent = slot[SLOT_INS].id;
+    
     RESET_SNAPSHOT_ITEMS(hard)
     
     // Start with a long frame
@@ -46,8 +49,9 @@ void Agnus::_reset(bool hard)
     updateBplJumpTable();
     updateDasJumpTable();
     
-    // Initialize the event slots
+    // Initialize event slots
     for (isize i = 0; i < SLOT_COUNT; i++) {
+        
         slot[i].triggerCycle = NEVER;
         slot[i].id = (EventID)0;
         slot[i].data = 0;
@@ -58,17 +62,15 @@ void Agnus::_reset(bool hard)
     scheduleRel<SLOT_CIAA>(CIA_CYCLES(AS_CIA_CYCLES(clock)), CIA_EXECUTE);
     scheduleRel<SLOT_CIAB>(CIA_CYCLES(AS_CIA_CYCLES(clock)), CIA_EXECUTE);
     scheduleRel<SLOT_SEC>(NEVER, SEC_TRIGGER);
-    // scheduleRel<SLOT_VBL>(DMA_CYCLES(HPOS_CNT * vStrobeLine()), VBL_STROBE0);
     scheduleStrobe0Event();
     scheduleRel<SLOT_IRQ>(NEVER, IRQ_CHECK);
     diskController.scheduleFirstDiskEvent();
     scheduleNextBplEvent();
     scheduleNextDasEvent();
     
-    /*
-    // Start with long frames by setting the LOF bit
-    pokeVPOS(0x8000);
-    */
+    // Reschedule the old inspection event if there was one
+    if (insEvent) scheduleAbs<SLOT_INS>(0, insEvent);
+    
     pokeVPOS(0);
 }
 
@@ -206,69 +208,81 @@ Agnus::_inspect()
 void
 Agnus::_dump(dump::Category category, std::ostream& os) const
 {
+    using namespace util;
+    
     if (category & dump::Config) {
     
-        os << DUMP("Chip Revison");
+        os << tab("Chip Revison");
         os << AgnusRevisionEnum::key(config.revision) << std::endl;
-        os << DUMP("Slow Ram mirror");
-        os << EMULATED(config.slowRamMirror) << std::endl;
+        os << tab("Slow Ram mirror");
+        os << bol(config.slowRamMirror) << std::endl;
     }
 
     if (category & dump::State) {
         
-        os << DUMP("Clock") << DEC << clock << std::endl;
-        os << DUMP("Frame") << DEC << (isize)frame.nr << std::endl;
-        os << DUMP("LOF") << DEC << (isize)frame.lof << std::endl;
-        os << DUMP("LOF in previous frame") << DEC << (isize)frame.prevlof << std::endl;
-        os << DUMP("Beam position");
-        os << DEC << "(" << (isize)pos.v << "," << (isize)pos.h << ")" << std::endl;
-        os << DUMP("Latched position");
-        os << DEC << "(" << (isize)pos.vLatched << "," << (isize)pos.hLatched << ")" << std::endl;
-        os << DUMP("scrollLoresOdd") << DEC << (isize)scrollLoresOdd << std::endl;
-        os << DUMP("scrollLoresEven") << DEC << (isize)scrollLoresEven << std::endl;
-        os << DUMP("scrollHiresOdd") << DEC << (isize)scrollHiresOdd << std::endl;
-        os << DUMP("scrollHiresEven") << DEC << (isize)scrollHiresEven << std::endl;
-        os << DUMP("Bitplane DMA line") << YESNO(bplDmaLine) << std::endl;
-        os << DUMP("BLS signal") << ISENABLED(bls) << std::endl;
+        os << tab("Clock");
+        os << dec(clock) << std::endl;
+        os << tab("Frame");
+        os << dec(frame.nr) << std::endl;
+        os << tab("LOF");
+        os << dec(frame.lof) << std::endl;
+        os << tab("LOF in previous frame");
+        os << dec(frame.prevlof) << std::endl;
+        os << tab("Beam position");
+        os << "(" << dec(pos.v) << "," << dec(pos.h) << ")" << std::endl;
+        os << tab("Latched position");
+        os << "(" << dec(pos.vLatched) << "," << dec(pos.hLatched) << ")" << std::endl;
+        os << tab("scrollLoresOdd");
+        os << dec(scrollLoresOdd) << std::endl;
+        os << tab("scrollLoresEven");
+        os << dec(scrollLoresEven) << std::endl;
+        os << tab("scrollHiresOdd");
+        os << dec(scrollHiresOdd) << std::endl;
+        os << tab("scrollHiresEven");
+        os << dec(scrollHiresEven) << std::endl;
+        os << tab("Bitplane DMA line");
+        os << bol(bplDmaLine) << std::endl;
+        os << tab("BLS signal");
+        os << bol(bls) << std::endl;
     }
 
     if (category & dump::Registers) {
         
-        os << DUMP("DMACON");
-        os << HEX32 << dmacon << std::endl;
+        os << tab("DMACON");
+        os << hex(dmacon) << std::endl;
         
-        os << DUMP("DDFSTRT, DDFSTOP");
-        os << HEX32 << ddfstrt << ' ' << HEX32 << ddfstop << ' ' << std::endl;
+        os << tab("DDFSTRT, DDFSTOP");
+        os << hex(ddfstrt) << ' ' << hex(ddfstop) << ' ' << std::endl;
         
-        os << DUMP("DIWSTRT, DIWSTOP");
-        os << HEX32 << diwstrt << ' ' << HEX32 << diwstop << ' ' << std::endl;
+        os << tab("DIWSTRT, DIWSTOP");
+        os << hex(diwstrt) << ' ' << hex(diwstop) << ' ' << std::endl;
 
-        os << DUMP("BPLCON0, BPLCON1");
-        os << HEX32 << bplcon0 << ' ' << HEX32 << bplcon1 << ' ' << std::endl;
+        os << tab("BPLCON0, BPLCON1");
+        os << hex(bplcon0) << ' ' << hex(bplcon1) << ' ' << std::endl;
 
-        os << DUMP("BPL1MOD, BPL2MOD");
-        os << HEX32 << bpl1mod << ' ' << HEX32 << bpl2mod << ' ' << std::endl;
+        os << tab("BPL1MOD, BPL2MOD");
+        os << dec(bpl1mod) << ' ' << dec(bpl2mod) << ' ' << std::endl;
     
-        os << DUMP("BPL0PT - BPL2PT");
-        os << HEX32 << bplpt[0] << ' ' << HEX32 << bplpt[1] << ' ';
-        os << HEX32 << bplpt[2] << ' ' << ' ' << std::endl;
-        os << DUMP("BPL3PT - BPL5PT");
-        os << HEX32 << bplpt[3] << ' ' << HEX32 << bplpt[4] << ' ';
-        os << HEX32 << bplpt[5] << std::endl;
+        os << tab("BPL0PT - BPL2PT");
+        os << hex(bplpt[0]) << ' ' << hex(bplpt[1]) << ' ';
+        os << hex(bplpt[2]) << ' ' << ' ' << std::endl;
+        os << tab("BPL3PT - BPL5PT");
+        os << hex(bplpt[3]) << ' ' << hex(bplpt[4]) << ' ';
+        os << hex(bplpt[5]) << std::endl;
 
-        os << DUMP("SPR0PT - SPR3PT");
-        os << HEX32 << sprpt[0] << ' ' << HEX32 << sprpt[1] << ' ';
-        os << HEX32 << sprpt[2] << ' ' << HEX32 << sprpt[3] << ' ' << std::endl;
-        os << DUMP("SPR4PT - SPR7PT");
-        os << HEX32 << sprpt[4] << ' ' << HEX32 << sprpt[5] << ' ';
-        os << HEX32 << sprpt[5] << ' ' << HEX32 << sprpt[7] << ' ' << std::endl;
+        os << tab("SPR0PT - SPR3PT");
+        os << hex(sprpt[0]) << ' ' << hex(sprpt[1]) << ' ';
+        os << hex(sprpt[2]) << ' ' << hex(sprpt[3]) << ' ' << std::endl;
+        os << tab("SPR4PT - SPR7PT");
+        os << hex(sprpt[4]) << ' ' << hex(sprpt[5]) << ' ';
+        os << hex(sprpt[5]) << ' ' << hex(sprpt[7]) << ' ' << std::endl;
 
-        os << DUMP("AUD0PT - AUD3PT");
-        os << HEX32 << audpt[0] << ' ' << HEX32 << audpt[1] << ' ';
-        os << HEX32 << audpt[2] << ' ' << HEX32 << audpt[3] << ' ' << std::endl;
+        os << tab("AUD0PT - AUD3PT");
+        os << hex(audpt[0]) << ' ' << hex(audpt[1]) << ' ';
+        os << hex(audpt[2]) << ' ' << hex(audpt[3]) << ' ' << std::endl;
 
-        os << DUMP("DSKPT");
-        os << HEX32 << dskpt << std::endl;
+        os << tab("DSKPT");
+        os << hex(dskpt) << std::endl;
     }
     
     if (category & dump::Events) {
@@ -276,39 +290,37 @@ Agnus::_dump(dump::Category category, std::ostream& os) const
         EventInfo eventInfo;
         inspectEvents(eventInfo);
             
-        os << TAB(10) << "Slot";
-        os << TAB(14) << "Event";
-        os << TAB(18) << "Trigger position";
-        os << TAB(16) << "Trigger cycle" << std::endl;
+        os << std::left << std::setw(10) << "Slot";
+        os << std::left << std::setw(14) << "Event";
+        os << std::left << std::setw(18) << "Trigger position";
+        os << std::left << std::setw(16) << "Trigger cycle" << std::endl;
         
-
-        for (isize i = 0; i < 15; i++) {
-        // for (isize i = 0; i < SLOT_COUNT; i++) {
+        for (isize i = 0; i < 23; i++) {
 
             EventSlotInfo &info = eventInfo.slotInfo[i];
             bool willTrigger = info.trigger != NEVER;
             
-            os << TAB(10) << EventSlotEnum::key(info.slot);
-            os << TAB(14) << info.eventName;
+            os << std::left << std::setw(10) << EventSlotEnum::key(info.slot);
+            os << std::left << std::setw(14) << info.eventName;
             
             if (willTrigger) {
                 
                 if (info.frameRel == -1) {
-                    os << TAB(18) << "previous frame";
+                    os << std::left << std::setw(18) << "previous frame";
                 } else if (info.frameRel > 0) {
-                    os << TAB(18) << "next frame";
+                    os << std::left << std::setw(18) << "next frame";
                 } else {
                     string vpos = std::to_string(info.vpos);
                     string hpos = std::to_string(info.hpos);
                     string pos = "(" + vpos + "," + hpos + ")";
-                    os << TAB(18) << pos;
+                    os << std::left << std::setw(18) << pos;
                 }
 
                 if (info.triggerRel == 0) {
-                    os << TAB(16) << "due immediately";
+                    os << std::left << std::setw(16) << "due immediately";
                 } else {
                     string cycle = std::to_string(info.triggerRel / 8);
-                    os << TAB(16) << "due in " + cycle + " DMA cycles";
+                    os << std::left << std::setw(16) << "due in " + cycle + " DMA cycles";
                 }
             }
             os << std::endl;
@@ -470,8 +482,8 @@ Agnus::predictDDF()
         hsyncActions |= HSYNC_PREDICT_DDF;      // Call this function again
     }
     
-    trace(DDF_DEBUG, "predictDDF LORES: %d %d\n", ddfLores.strtOdd, ddfLores.stopOdd);
-    trace(DDF_DEBUG, "predictDDF HIRES: %d %d\n", ddfHires.strtOdd, ddfHires.stopOdd);
+    trace(DDF_DEBUG, "predictDDF LORES: %d %d\n", ddfLores.strt, ddfLores.stop);
+    trace(DDF_DEBUG, "predictDDF HIRES: %d %d\n", ddfHires.strt, ddfHires.stop);
 }
 
 void
@@ -504,8 +516,8 @@ Agnus::computeDDFWindowOCS()
      */
     if (ddfstrtReached < 0x18) {
         if (ocsEarlyAccessLine == pos.v) {
-            ddfLores.compute(ddfstrtReached, ddfstopReached, bplcon1 & 0xF);
-            ddfHires.compute(ddfstrtReached, ddfstopReached, bplcon1 & 0xF);
+            ddfLores.compute(ddfstrtReached, ddfstopReached);
+            ddfHires.compute(ddfstrtReached, ddfstopReached);
         } else {
             ddfLores.clear();
             ddfHires.clear();
@@ -546,27 +558,25 @@ Agnus::computeDDFWindowOCS()
             ddfHires.clear();
             break;
         case DDF_STRT_STOP:
-            ddfLores.compute(ddfstrtReached, ddfstopReached, bplcon1 & 0xF);
-            ddfHires.compute(ddfstrtReached, ddfstopReached, bplcon1 & 0xF);
+            ddfLores.compute(ddfstrtReached, ddfstopReached);
+            ddfHires.compute(ddfstrtReached, ddfstopReached);
             break;
         case DDF_STRT_D8:
-            ddfLores.compute(ddfstrtReached, 0xD8, bplcon1 & 0xF);
-            ddfHires.compute(ddfstrtReached, 0xD8, bplcon1 & 0xF);
+            ddfLores.compute(ddfstrtReached, 0xD8);
+            ddfHires.compute(ddfstrtReached, 0xD8);
             break;
         case DDF_18_STOP:
-            ddfLores.compute(0x18, ddfstopReached, bplcon1 & 0xF);
-            ddfHires.compute(0x18, ddfstopReached, bplcon1 & 0xF);
+            ddfLores.compute(0x18, ddfstopReached);
+            ddfHires.compute(0x18, ddfstopReached);
             break;
         case DDF_18_D8:
-            ddfLores.compute(0x18, 0xD8, bplcon1 & 0xF);
-            ddfHires.compute(0x18, 0xD8, bplcon1 & 0xF);
+            ddfLores.compute(0x18, 0xD8);
+            ddfHires.compute(0x18, 0xD8);
             break;
     }
 
-    trace(DDF_DEBUG, "DDF Window Odd (OCS):  (%d,%d) (%d,%d)\n",
-          ddfLores.strtOdd, ddfHires.strtOdd, ddfLores.stopOdd, ddfHires.stopOdd);
-    trace(DDF_DEBUG, "DDF Window Even (OCS): (%d,%d) (%d,%d)\n",
-          ddfLores.strtEven, ddfHires.strtEven, ddfLores.stopEven, ddfHires.stopEven);
+    trace(DDF_DEBUG, "DDF Window (OCS):  (%d,%d) (%d,%d)\n",
+          ddfLores.strt, ddfHires.strt, ddfLores.stop, ddfHires.stop);
 
     return;
 }
@@ -634,28 +644,26 @@ Agnus::computeDDFWindowECS()
             ddfHires.clear();
             break;
         case DDF_STRT_STOP:
-            ddfLores.compute(ddfstrtReached, ddfstopReached, bplcon1);
-            ddfHires.compute(ddfstrtReached, ddfstopReached, bplcon1);
+            ddfLores.compute(ddfstrtReached, ddfstopReached);
+            ddfHires.compute(ddfstrtReached, ddfstopReached);
             break;
         case DDF_STRT_D8:
-            ddfLores.compute(ddfstrtReached, 0xD8, bplcon1);
-            ddfHires.compute(ddfstrtReached, 0xD8, bplcon1);
+            ddfLores.compute(ddfstrtReached, 0xD8);
+            ddfHires.compute(ddfstrtReached, 0xD8);
             break;
         case DDF_18_STOP:
-            ddfLores.compute(0x18, ddfstopReached, bplcon1);
-            ddfHires.compute(0x18, ddfstopReached, bplcon1);
+            ddfLores.compute(0x18, ddfstopReached);
+            ddfHires.compute(0x18, ddfstopReached);
             break;
         case DDF_18_D8:
-            ddfLores.compute(0x18, 0xD8, bplcon1);
-            ddfHires.compute(0x18, 0xD8, bplcon1);
+            ddfLores.compute(0x18, 0xD8);
+            ddfHires.compute(0x18, 0xD8);
             break;
     }
     ddfState = table[index].state;
 
-    trace(DDF_DEBUG, "DDF Window Odd (ECS):  (%d,%d) (%d,%d)\n",
-          ddfLores.strtOdd, ddfHires.strtOdd, ddfLores.stopOdd, ddfHires.stopOdd);
-    trace(DDF_DEBUG, "DDF Window Even (ECS): (%d,%d) (%d,%d)\n",
-          ddfLores.strtEven, ddfHires.strtEven, ddfLores.stopEven, ddfHires.stopEven);
+    trace(DDF_DEBUG, "DDF Window (ECS):  (%d,%d) (%d,%d)\n",
+          ddfLores.strt, ddfHires.strt, ddfLores.stop, ddfHires.stop);
 
     return;
 }

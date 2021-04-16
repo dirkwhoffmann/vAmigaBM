@@ -383,21 +383,21 @@ Agnus::serviceBPLEvent()
             break;
 
         case BPL_SR:
-            denise.fillShiftRegisters(false, true);
+            denise.updateShiftRegisters();
             break;
             
         case BPL_SR | DRAW_ODD:
-            denise.fillShiftRegisters(false, true);
+            denise.updateShiftRegisters();
             hires() ? denise.drawHiresOdd() : denise.drawLoresOdd();
             break;
             
         case BPL_SR | DRAW_EVEN:
-            denise.fillShiftRegisters(false, true);
+            denise.updateShiftRegisters();
             hires() ? denise.drawHiresEven() : denise.drawLoresEven();
             break;
             
         case BPL_SR | DRAW_ODD | DRAW_EVEN:
-            denise.fillShiftRegisters(false, true);
+            denise.updateShiftRegisters();
             hires() ? denise.drawHiresBoth() : denise.drawLoresBoth();
             break;
             
@@ -434,18 +434,9 @@ Agnus::serviceBPLEventHires()
 {
     // Perform bitplane DMA
     denise.setBPLxDAT<nr>(doBitplaneDMA<nr>());
-
-    /*
-    // Perform bitplane DMA
-    denise.bpldat[nr] = doBitplaneDMA<nr>();
-
-    // Fill shift registers if bpldat[0] has been written
-    if (nr == 0) denise.fillShiftRegisters(ddfHires.inRangeOdd(pos.h),
-                                           ddfHires.inRangeEven(pos.h));
-    */
     
     // Add modulo if this is the last fetch unit
-    if (pos.h >= ddfHires.stopOdd - 4) addBPLMOD<nr>();
+    if (pos.h >= ddfHires.stop - 4) addBPLMOD<nr>();
 }
 
 template <int nr> void
@@ -453,18 +444,9 @@ Agnus::serviceBPLEventLores()
 {
     // Perform bitplane DMA
     denise.setBPLxDAT<nr>(doBitplaneDMA<nr>());
-    
-    // Perform bitplane DMA
-    /*
-    denise.bpldat[nr] = doBitplaneDMA<nr>();
-    
-    // Fill shift registers if bpldat[0] has been written
-    if (nr == 0) denise.fillShiftRegisters(ddfLores.inRangeOdd(pos.h),
-                                           ddfLores.inRangeEven(pos.h));
-    */
-    
+
     // Add modulo if this is the last fetch unit
-    if (pos.h >= ddfLores.stopOdd - 8) addBPLMOD<nr>();
+    if (pos.h >= ddfLores.stop - 8) addBPLMOD<nr>();
 }
 
 void
@@ -606,7 +588,6 @@ Agnus::serviceINSEvent()
 {
     switch (slot[SLOT_INS].id) {
 
-        case INS_NONE:   break;
         case INS_AMIGA:  amiga.inspect(); break;
         case INS_CPU:    cpu.inspect(); break;
         case INS_MEM:    mem.inspect(); break;
@@ -621,6 +602,11 @@ Agnus::serviceINSEvent()
             controlPort2.inspect();
             break;
         case INS_EVENTS: inspectEvents(); break;
+        case INS_TEXTURE:
+            printf("INS_TEXTURE\n");
+            pixelEngine.dumpTexture();
+            exit(1);
+            break;
         default:         assert(false);
     }
 
