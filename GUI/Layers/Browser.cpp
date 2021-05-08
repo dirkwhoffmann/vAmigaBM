@@ -68,7 +68,7 @@ Browser::open(isize dfn)
  
     // Assign action function
     action = [this, dfn](const string &s) {
-        amiga.paula.diskController.insertDisk(s, dfn);
+        amiga.paula.diskController.insertDisk(amiga.paula.diskController.getSearchPath(dfn) + "/" + s, dfn);
     };
     
     // Get the media directory for this drive
