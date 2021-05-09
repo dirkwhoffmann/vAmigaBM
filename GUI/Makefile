@@ -57,14 +57,14 @@ prebuild:
 subdirs:
 	@for dir in $(SUBDIRS); do \
 		echo "Entering ${CURDIR}/$$dir"; \
-		$(MYMAKE) -C $$dir; \
+		$(MAKE) $(MAKEOPT) -C $$dir; \
 	done
 
 clean:
 	@echo "Cleaning up $(CURDIR)"
 	@rm -f vAmiga *.o
 	@for dir in $(SUBDIRS); do \
-		$(MYMAKE) -C $$dir clean; \
+		$(MAKE) $(MAKEOPT) -C $$dir clean; \
 	done
 
 bin:

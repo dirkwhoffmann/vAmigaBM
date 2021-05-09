@@ -20,9 +20,9 @@ OPT = -ldl \
 	-lsfml-system
 endif
 
-MYMAKE = $(MAKE) --no-print-directory
+MAKEOPT = --no-print-directory
 
-export MYMAKE
+export MAKEOPT
 
 .PHONY: all prebuild install a.out clean
 
@@ -39,16 +39,16 @@ install: a.out
 	@cp Resources/*/* vAmiga
 	
 a.out:
-	@$(MYMAKE) -C Utilities
-	@$(MYMAKE) -C Emulator
-	@$(MYMAKE) -C GUI
+	@$(MAKE) $(MAKEOPT) -C Utilities
+	@$(MAKE) $(MAKEOPT) -C Emulator
+	@$(MAKE) $(MAKEOPT) -C GUI
 	@echo "Linking object files"
 	@g++ -pthread */*.o */*/*.o */*/*/*.o $(OPT)
 
 clean:
-	@$(MYMAKE) -C Utilities clean
-	@$(MYMAKE) -C Emulator clean
-	@$(MYMAKE) -C GUI clean
+	@$(MAKE) $(MAKEOPT) -C Utilities clean
+	@$(MAKE) $(MAKEOPT) -C Emulator clean
+	@$(MAKE) $(MAKEOPT) -C GUI clean
 	@echo "Cleaning up $(CURDIR)"
 	@rm -rf vAmiga a.out *.o
 
