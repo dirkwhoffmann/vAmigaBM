@@ -125,9 +125,7 @@ View::update()
 
 void
 ImageView::init(const sf::Texture &tex)
-{
-    printf("ImageView::init %d %d\n", tex.getSize().x, tex.getSize().y);
-    
+{    
     View::init(tex.getSize().x, tex.getSize().y);
     setTexture(tex);
 }

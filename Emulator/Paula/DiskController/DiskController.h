@@ -101,6 +101,9 @@ public:
 
     const char *getDescription() const override { return "DiskController"; }
     
+private:
+    
+    void _initialize() override;
     void _reset(bool hard) override;
     
     
@@ -119,7 +122,7 @@ public:
     bool setConfigItem(Option option, i64 value) override;
     bool setConfigItem(Option option, long id, i64 value) override;
 
-    const string &getSearchPath(isize dfn);
+    const string &getSearchPath(isize dfn) const;
     void setSearchPath(const string &path, isize dfn);
     void setSearchPath(const string &path);
 

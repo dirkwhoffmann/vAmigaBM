@@ -18,14 +18,9 @@
 
 PixelEngine::PixelEngine(Amiga& ref) : AmigaComponent(ref)
 {
-    config.palette = PALETTE_COLOR;
-    config.brightness = 50;
-    config.contrast = 100;
-    config.saturation = 50;
-
     // Allocate frame buffers
-    emuTexture[0].data = new u32[PIXELS]; emuTexture[0].longFrame = true;
-    emuTexture[1].data = new u32[PIXELS]; emuTexture[1].longFrame = true;
+    emuTexture[0].data = new u32[PIXELS];
+    emuTexture[1].data = new u32[PIXELS];
     
     // Create random background noise pattern
     const isize noiseSize = 2 * VPIXELS * HPIXELS;
@@ -33,7 +28,27 @@ PixelEngine::PixelEngine(Amiga& ref) : AmigaComponent(ref)
     for (isize i = 0; i < noiseSize; i++) {
         noise[i] = rand() % 2 ? 0xFF000000 : 0xFFFFFFFF;
     }
+}
 
+PixelEngine::~PixelEngine()
+{
+    delete[] emuTexture[0].data;
+    delete[] emuTexture[1].data;
+    delete[] noise;
+}
+
+void
+PixelEngine::_initialize()
+{
+    config.palette = PALETTE_COLOR;
+    config.brightness = 50;
+    config.contrast = 100;
+    config.saturation = 50;
+    
+    // Start with a long frame
+    emuTexture[0].longFrame = true;
+    emuTexture[1].longFrame = true;
+    
     // Setup ECS BRDRBLNK color
     indexedRgba[64] = GpuColor(0x00, 0x00, 0x00).rawValue;
     
@@ -48,11 +63,13 @@ PixelEngine::PixelEngine(Amiga& ref) : AmigaComponent(ref)
     indexedRgba[72] = GpuColor(0xFF, 0x00, 0x00).rawValue;
 }
 
-PixelEngine::~PixelEngine()
+void
+PixelEngine::_reset(bool hard)
 {
-    delete[] emuTexture[0].data;
-    delete[] emuTexture[1].data;
-    delete[] noise;
+    RESET_SNAPSHOT_ITEMS(hard)
+    
+    frameBuffer = & emuTexture[0];
+    updateRGBA();
 }
 
 isize
@@ -60,66 +77,6 @@ PixelEngine::didLoadFromBuffer(const u8 *buffer)
 {
     updateRGBA();
     return 0;
-}
-
-void
-PixelEngine::dumpTexture()
-{
-    /* This function is used for automatic regression testing. It generates a
-     * TIFF image of the current emulator texture in the /tmp  directory and
-     * exits the application. The regression testing script will pick up the
-     * texture and compare it against a previously recorded reference image.
-     */
-    std::ofstream file;
-    
-    isize x1 = 4 * (HBLANK_MAX + 1);
-    isize y1 = VBLANK_MAX + 1;
-    isize x2 = HPIXELS;
-    isize y2 = VPIXELS;
-    
-    // Open an output stream
-    file.open("/tmp/texture.raw");
-    
-    // Dump texture
-    dumpTexture(file, x1, y1, x2, y2);
-    file.close();
-    
-    // Convert raw data into a TIFF file
-    string cmd = "/usr/local/bin/raw2tiff";
-    cmd += " -p rgb -b 3";
-    cmd += " -w " + std::to_string(x2 - x1);
-    cmd += " -l " + std::to_string(y2 - y1);
-    cmd += " /tmp/texture.raw /tmp/texture.tiff";
-    
-    msg("Executing %s\n", cmd.c_str());
-    system(cmd.c_str());
-}
-
-void
-PixelEngine::dumpTexture(std::ostream& ss, isize x1, isize y1, isize x2, isize y2)
-{
-    auto buffer = getStableBuffer();
-    
-    for (isize y = y1; y < y2; y++) {
-
-        for (isize x = x1; x < x2; x++) {
-            
-            char *cptr = (char *)(buffer.data + y * HPIXELS + x);
-            ss.write(cptr + 0, 1);
-            ss.write(cptr + 1, 1);
-            ss.write(cptr + 2, 1);
-
-        }
-    }
-    /*
-    for (isize i = 0; i < PIXELS; i++) {
-    
-        char *cptr = (char *)(buffer.data + i);
-        ss.write(cptr + 0, 1);
-        ss.write(cptr + 1, 1);
-        ss.write(cptr + 2, 1);
-    }
-    */
 }
 
 void
@@ -135,15 +92,6 @@ PixelEngine::_powerOn()
             emuTexture[1].data[pos] = col;
         }
     }
-}
-
-void
-PixelEngine::_reset(bool hard)
-{
-    RESET_SNAPSHOT_ITEMS(hard)
-    
-    frameBuffer = & emuTexture[0];
-    updateRGBA();
 }
 
 i64

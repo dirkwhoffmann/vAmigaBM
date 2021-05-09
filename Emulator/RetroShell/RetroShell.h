@@ -12,6 +12,9 @@
 #include "AmigaComponent.h"
 #include "Interpreter.h"
 
+#include <sstream>
+#include <fstream>
+
 class RetroShell : public AmigaComponent {
 
     // Interpreter for commands typed into the console window
@@ -43,8 +46,23 @@ class RetroShell : public AmigaComponent {
     // Indicates if TAB was the most recently pressed key
     bool tabPressed = false;
     
+    // Indicates whether the shell needs to be redrawn (DEPRECATED)
     bool isDirty = false;
     
+    // Wake up cycle for interrupted scripts
+    Cycle wakeUp = INT64_MAX;
+
+    
+    //
+    // Script processing
+    //
+    
+    // The currently processed script
+    std::stringstream script;
+    
+    // The script line counter (first line = 1)
+    isize scriptLine = 0;
+
     
     //
     // Initializing
@@ -56,6 +74,9 @@ public:
         
     const char *getDescription() const override { return "RetroShell"; }
 
+private:
+    
+    void _initialize() override;
     void _reset(bool hard) override { }
     
     
@@ -69,13 +90,13 @@ private:
     isize _load(const u8 *buffer) override {return 0; }
     isize _save(u8 *buffer) override { return 0; }
 
-    
+
     //
     // Managing user input
     //
 
 public:
-    
+
     void pressUp();
     void pressDown();
     void pressLeft();
@@ -144,11 +165,19 @@ private:
 public:
     
     // Executes a user command
-    bool exec(const string &command, bool verbose = false);
+    void exec(const string &command) throws;
     
     // Executes a user script
-    void exec(std::istream &stream) throws;
-    
+    void execScript(std::ifstream &fs) throws;
+    void execScript(const string &contents) throws;
+
+    // Continues a previously interrupted script
+    void continueScript() throws;
+
+    // Prints a textual description of an error in the console
+    void describe(const std::exception &exception);
+    void describe(const struct VAError &error);
+
     
     //
     // Command handlers
@@ -166,4 +195,12 @@ private:
     
     void dump(HardwareComponent &component, dump::Category category);
 
+    
+    //
+    // Performing periodic events
+    //
+    
+public:
+    
+    void vsyncHandler();
 };

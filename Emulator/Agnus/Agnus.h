@@ -400,6 +400,9 @@ private:
     void initBplEventTableHires();
     void initDasEventTable();
 
+private:
+    
+    void _initialize() override;
     void _reset(bool hard) override;
     
     
@@ -620,8 +623,7 @@ public:
         return (pos & 2) && pos >= ddfHires.strt && pos < ddfHires.stop; }
     
     // Returns the pixel position for the current horizontal position
-    // Pixel ppos(i16 posh) const { return (posh * 4) + 2; }
-    Pixel ppos(i16 posh) const { return posh * 4; }
+    Pixel ppos(i16 posh) const { return (posh * 4) + 2; }
     Pixel ppos() const { return ppos(pos.h); }
 
     

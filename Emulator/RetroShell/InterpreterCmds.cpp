@@ -32,16 +32,15 @@ Interpreter::registerInstructions()
              "command", "",
              &RetroShell::exec <Token::easteregg>);
     root.seek("joshua")->hidden = true;
-
-    root.add({"screenshot"},
-             "command", "",
-             &RetroShell::exec <Token::screenshot>, 1);
-    root.seek("screenshot")->hidden = true;
-
+    
     root.add({"source"},
              "command", "Processes a command script",
              &RetroShell::exec <Token::source>, 1);
     
+    root.add({"wait"},
+             "command", "Pauses the execution of a command script",
+             &RetroShell::exec <Token::wait>, 2);
+
     
     //
     // Amiga
@@ -50,6 +49,10 @@ Interpreter::registerInstructions()
     root.add({"amiga"},
              "component", "The virtual Amiga");
         
+    root.add({"amiga", "init"},
+             "command", "Initializes the Amiga with a predefined scheme",
+             &RetroShell::exec <Token::amiga, Token::init>, 1);
+
     root.add({"amiga", "power"},
              "command", "Switches the Amiga on or off");
     
@@ -76,6 +79,13 @@ Interpreter::registerInstructions()
              "command", "Starts the emulator thread",
              &RetroShell::exec <Token::amiga, Token::run>);
 
+    /*
+    root.add({"amiga", "run", "timeout"},
+             "command", "Runs a regression test",
+             &RetroShell::exec <Token::amiga, Token::run, Token::timeout>, 1);
+    root.seek("amiga")->seek("run")->seek("timeout")->hidden = true;
+    */
+    
     root.add({"amiga", "pause"},
              "command", "Halts the emulator thread",
              &RetroShell::exec <Token::amiga, Token::pause>);
@@ -763,25 +773,25 @@ Interpreter::registerInstructions()
     root.add({"dfn"},
              "component", "All connected drives");
 
-    root.add({"df0", "df1", "df2", "df3", "dfn"}, {"", "config"},
+    root.add({"df0", "df1", "df2", "df3"}, {"", "config"},
              "command", "Displays the current configuration",
              &RetroShell::exec <Token::dfn, Token::config>);
 
-    root.add({"df0", "df1", "df2", "df3", "dfn"}, {"", "connect"},
+    root.add({"df0", "df1", "df2", "df3"}, {"", "connect"},
              "command", "Connects the drive",
              &RetroShell::exec <Token::dfn, Token::connect>);
     root.seek("df0")->remove("connect");
 
-    root.add({"df0", "df1", "df2", "df3", "dfn"}, {"", "disconnect"},
+    root.add({"df0", "df1", "df2", "df3"}, {"", "disconnect"},
              "command", "Disconnects the drive",
              &RetroShell::exec <Token::dfn, Token::disconnect>);
     root.seek("df0")->remove("disconnect");
 
-    root.add({"df0", "df1", "df2", "df3", "dfn"}, {"", "eject"},
+    root.add({"df0", "df1", "df2", "df3"}, {"", "eject"},
              "command", "Ejects a floppy disk",
              &RetroShell::exec <Token::dfn, Token::eject>);
 
-    root.add({"df0", "df1", "df2", "df3", "dfn"}, {"", "insert"},
+    root.add({"df0", "df1", "df2", "df3"}, {"", "insert"},
              "command", "Inserts a floppy disk",
              &RetroShell::exec <Token::dfn, Token::insert>, 1);
 
@@ -835,4 +845,27 @@ Interpreter::registerInstructions()
     root.add({"df0", "df1", "df2", "df3", "dfn"}, {"", "inspect"},
              "command", "Displays the internal state",
              &RetroShell::exec <Token::dfn, Token::inspect>);
+    
+    //
+    // Screenshots (regression testing)
+    //
+    
+    root.add({"screenshot"},
+             "component", "Manages regression tests");
+    root.seek("screenshot")->hidden = true;
+    
+    root.add({"screenshot", "set"},
+             "command", "Configures the regression test");
+        
+    root.add({"screenshot", "set", "filename"},
+             "key", "Assigns the screen shot filename",
+             &RetroShell::exec <Token::screenshot, Token::set, Token::filename>, 1);
+
+    root.add({"screenshot", "set", "cutout"},
+             "key", "Adjusts the texture cutout",
+             &RetroShell::exec <Token::screenshot, Token::set, Token::cutout>, 4);
+
+    root.add({"screenshot", "save"},
+             "key", "Saves a screenshot and exits the emulator",
+             &RetroShell::exec <Token::screenshot, Token::save>, 1);
 }

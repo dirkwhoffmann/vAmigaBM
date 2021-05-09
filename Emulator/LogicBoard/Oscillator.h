@@ -67,6 +67,7 @@ public:
 
 private:
     
+    void _initialize() override;
     void _reset(bool hard) override;
     
     
@@ -108,4 +109,8 @@ public:
 
     // Puts the emulator thread to rest
     void synchronize();
+    
+    // Getter for the reference time
+    util::Time getTimeBase() { return timeBase; }
+    
 };

@@ -21,6 +21,7 @@
 #include "MsgQueue.h"
 #include "Oscillator.h"
 #include "Paula.h"
+#include "RegressionTester.h"
 #include "RetroShell.h"
 #include "RTC.h"
 #include "SerialPort.h"
@@ -88,16 +89,12 @@ public:
     // Command console
     RetroShell retroShell = RetroShell(*this);
     
-    
-    //
-    // Message queue
-    //
-    
-    /* Communication channel to the GUI. The GUI registers a listener and a
-     * callback function to retrieve messages.
-     */
+    // Communication channel to the GUI
     MsgQueue msgQueue = MsgQueue(*this);
 
+    // Regression test manager
+    RegressionTester regressionTester;
+    
     
     //
     // Emulator thread
@@ -152,6 +149,7 @@ public:
 
 private:
     
+    void _initialize() override;
     void _reset(bool hard) override;
 
     
@@ -168,6 +166,9 @@ public:
     // Sets a single configuration item
     bool configure(Option option, i64 value) throws;
     bool configure(Option option, long id, i64 value) throws;
+    
+    // Prepares the Amiga for regression testing
+    void configure(ConfigScheme scheme);
     
     
     //
@@ -226,9 +227,9 @@ public:
     bool isPaused() const override { return state == EMULATOR_STATE_PAUSED; }
     bool isRunning() const override { return state == EMULATOR_STATE_RUNNING; }
 
-    void powerOn();
+    void powerOn() throws;
     void powerOff();
-    void run();
+    void run() throws;
     void pause();
     void shutdown();
     
@@ -259,10 +260,9 @@ public:
     // Returns true if the currently executed thread is the emulator thread
     bool isEmulatorThread() { return pthread_self() == p; }
         
-    /* Returns true if a call to powerOn() will be successful. It returns false,
-     * e.g., if no Kickstart Rom or Boot Rom is installed.
-     */
-    bool isReady(ErrorCode *error = nullptr);
+    // Checks whether the Amiga is ready to run (Kickstart installed, etc.)
+    bool isReady();
+    bool isReady(ErrorCode *error);
     
     /* Pauses the emulation thread temporarily. Because the emulator is running
      * in a separate thread, the GUI has to pause the emulator before changing

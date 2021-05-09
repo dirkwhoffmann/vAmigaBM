@@ -42,31 +42,36 @@ RetroShell::exec <Token::easteregg> (Arguments& argv, long param)
 }
 
 template <> void
-RetroShell::exec <Token::screenshot> (Arguments& argv, long param)
+RetroShell::exec <Token::source> (Arguments &argv, long param)
 {
-    auto trigger = util::parseNum(argv.front());
-    amiga.setInspectionTarget(INS_TEXTURE, trigger);
+    auto stream = std::ifstream(argv.front());
+    if (!stream.is_open()) throw VAError(argv.front(), ERROR_FILE_NOT_FOUND);
+    
+    execScript(stream);
 }
 
 template <> void
-RetroShell::exec <Token::source> (Arguments &argv, long param)
+RetroShell::exec <Token::wait> (Arguments &argv, long param)
 {
-    string filename = argv.front();
+    auto seconds = util::parseNum(argv.front());
     
-    std::ifstream stream(filename);
-    if (!stream.is_open()) throw ConfigFileReadError(filename);
+    Cycle limit = agnus.clock + SEC(seconds);
+    amiga.retroShell.wakeUp = limit;
     
-    try {
-        exec(stream);
-    } catch (util::Exception &e) {
-        retroShell << "Error in line " << (isize)e.data << '\n';
-        retroShell << e.what() << '\n';
-    }
+    throw ScriptInterruption("");
 }
+
 
 //
 // Amiga
 //
+
+template <> void
+RetroShell::exec <Token::amiga, Token::init> (Arguments &argv, long param)
+{
+    auto scheme = util::parseEnum <ConfigSchemeEnum> (argv.front());
+    amiga.configure(scheme);
+}
 
 template <> void
 RetroShell::exec <Token::amiga, Token::power, Token::on> (Arguments &argv, long param)
@@ -116,6 +121,7 @@ RetroShell::exec <Token::amiga, Token::inspect> (Arguments &argv, long param)
     dump(amiga, dump::State);
 }
 
+
 //
 // Memory
 //
@@ -130,8 +136,6 @@ template <> void
 RetroShell::exec <Token::memory, Token::load, Token::rom> (Arguments& argv, long param)
 {
     auto path = argv.front();
-    if (!util::fileExists(path)) throw ConfigFileNotFoundError(path);
-
     amiga.mem.loadRom(path.c_str());
 }
 
@@ -139,8 +143,6 @@ template <> void
 RetroShell::exec <Token::memory, Token::load, Token::extrom> (Arguments& argv, long param)
 {
     auto path = argv.front();
-    if (!util::fileExists(path)) throw ConfigFileNotFoundError(path);
-
     amiga.mem.loadExt(path.c_str());
 }
 
@@ -210,6 +212,7 @@ RetroShell::exec <Token::memory, Token::inspect, Token::checksums> (Arguments& a
     dump(amiga.mem, dump::Checksums);
 }
 
+
 //
 // CPU
 //
@@ -225,6 +228,7 @@ RetroShell::exec <Token::cpu, Token::inspect, Token::registers> (Arguments& argv
 {
     dump(amiga.cpu, dump::Registers);
 }
+
 
 //
 // CIA
@@ -300,6 +304,7 @@ RetroShell::exec <Token::cia, Token::inspect, Token::tod> (Arguments& argv, long
     }
 }
 
+
 //
 // Agnus
 //
@@ -340,6 +345,7 @@ RetroShell::exec <Token::agnus, Token::inspect, Token::events> (Arguments &argv,
     dump(amiga.agnus, dump::Events);
 }
 
+
 //
 // Blitter
 //
@@ -368,6 +374,7 @@ RetroShell::exec <Token::blitter, Token::inspect, Token::registers> (Arguments& 
     dump(amiga.agnus.blitter, dump::Registers);
 }
 
+
 //
 // Copper
 //
@@ -395,6 +402,7 @@ RetroShell::exec <Token::copper, Token::list> (Arguments& argv, long param)
         default: throw ConfigArgError("1 or 2");
     }
 }
+
 
 //
 // Denise
@@ -441,6 +449,7 @@ RetroShell::exec <Token::denise, Token::inspect, Token::registers> (Arguments& a
 {
     dump(amiga.denise, dump::Registers);
 }
+
 
 //
 // DMA Debugger
@@ -583,6 +592,7 @@ RetroShell::exec <Token::monitor, Token::set, Token::saturation> (Arguments& arg
     amiga.configure(OPT_SATURATION, util::parseNum(argv.front()));
 }
 
+
 //
 // Audio
 //
@@ -640,6 +650,7 @@ RetroShell::exec <Token::audio, Token::inspect, Token::registers> (Arguments& ar
     dump(amiga.paula.muxer, dump::Registers);
 }
 
+
 //
 // Paula
 //
@@ -655,6 +666,7 @@ RetroShell::exec <Token::paula, Token::inspect, Token::registers> (Arguments& ar
 {
     dump(amiga.paula, dump::Registers);
 }
+
 
 //
 // RTC
@@ -678,6 +690,7 @@ RetroShell::exec <Token::rtc, Token::set, Token::revision> (Arguments &argv, lon
     amiga.configure(OPT_RTC_MODEL, util::parseEnum <RTCRevisionEnum> (argv.front()));
 }
 
+
 //
 // Control port
 //
@@ -688,31 +701,12 @@ RetroShell::exec <Token::controlport, Token::config> (Arguments& argv, long para
     dump(param == 0 ? amiga.controlPort1 : amiga.controlPort2, dump::Config);
 }
 
-/*
-template <> void
-RetroShell::exec <Token::controlport, Token::connect, Token::mouse> (Arguments& argv, long param)
-{
-    //
-}
-
-template <> void
-RetroShell::exec <Token::controlport, Token::connect, Token::joystick> (Arguments& argv, long param)
-{
-    //
-}
-
-template <> void
-RetroShell::exec <Token::controlport, Token::connect, Token::keyset> (Arguments& argv, long param)
-{
-    //
-}
-*/
-
 template <> void
 RetroShell::exec <Token::controlport, Token::inspect> (Arguments& argv, long param)
 {
     dump(param == 0 ? amiga.controlPort1 : amiga.controlPort2, dump::State);
 }
+
 
 //
 // Keyboard
@@ -735,6 +729,7 @@ RetroShell::exec <Token::keyboard, Token::inspect> (Arguments& argv, long param)
 {
     dump(amiga.keyboard, dump::State);
 }
+
 
 //
 // Mouse
@@ -773,6 +768,7 @@ RetroShell::exec <Token::mouse, Token::inspect> (Arguments& argv, long param)
     dump(amiga.keyboard, dump::State);
 }
 
+
 //
 // Serial port
 //
@@ -795,6 +791,7 @@ RetroShell::exec <Token::serial, Token::inspect> (Arguments& argv, long param)
     dump(amiga.serialPort, dump::State);
 }
 
+
 //
 // Disk controller
 //
@@ -808,7 +805,7 @@ RetroShell::exec <Token::dc, Token::config> (Arguments& argv, long param)
 template <> void
 RetroShell::exec <Token::dc, Token::inspect> (Arguments& argv, long param)
 {
-    dump(amiga.paula.diskController, dump::Registers);
+    dump(amiga.paula.diskController, dump::State);
 }
 
 template <> void
@@ -828,6 +825,7 @@ RetroShell::exec <Token::dc, Token::dsksync, Token::lock> (Arguments& argv, long
 {
     amiga.configure(OPT_LOCK_DSKSYNC, util::parseBool(argv.front()));
 }
+
 
 //
 // Df0, Df1, Df2, Df3
@@ -909,8 +907,6 @@ template <> void
 RetroShell::exec <Token::dfn, Token::insert> (Arguments& argv, long param)
 {
     auto path = argv.front();
-    if (!util::fileExists(path)) throw ConfigFileNotFoundError(path);
-    
     amiga.paula.diskController.insertDisk(path, param);
 }
 
@@ -990,4 +986,37 @@ template <> void
 RetroShell::exec <Token::dfn, Token::inspect> (Arguments& argv, long param)
 {
     dump(*amiga.df[param], dump::State);
+}
+
+
+//
+// Screenshots (regression testing)
+//
+
+template <> void
+RetroShell::exec <Token::screenshot, Token::set, Token::filename> (Arguments &argv, long param)
+{
+    amiga.regressionTester.dumpTexturePath = argv.front();
+}
+
+template <> void
+RetroShell::exec <Token::screenshot, Token::set, Token::cutout> (Arguments &argv, long param)
+{
+    std::vector<string> vec(argv.begin(), argv.end());
+    
+    isize x1 = util::parseNum(vec[0]);
+    isize y1 = util::parseNum(vec[1]);
+    isize x2 = util::parseNum(vec[2]);
+    isize y2 = util::parseNum(vec[3]);
+
+    amiga.regressionTester.x1 = x1;
+    amiga.regressionTester.y1 = y1;
+    amiga.regressionTester.x2 = x2;
+    amiga.regressionTester.y2 = y2;
+}
+
+template <> void
+RetroShell::exec <Token::screenshot, Token::save> (Arguments &argv, long param)
+{
+    amiga.regressionTester.dumpTexture(amiga, argv.front());
 }

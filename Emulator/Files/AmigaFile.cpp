@@ -11,6 +11,7 @@
 #include "AmigaFile.h"
 #include "Snapshot.h"
 #include "ADFFile.h"
+#include "ExtendedRomFile.h"
 #include "EXTFile.h"
 #include "IMGFile.h"
 #include "DMSFile.h"
@@ -18,7 +19,7 @@
 #include "Folder.h"
 #include "HDFFile.h"
 #include "RomFile.h"
-#include "ExtendedRomFile.h"
+#include "Script.h"
 
 AmigaFile::AmigaFile(isize capacity)
 {
@@ -43,8 +44,6 @@ AmigaFile::type(const string &path)
 {
     std::ifstream stream(path);
     if (!stream.is_open()) return FILETYPE_UKNOWN; // throw VAError(ERROR_FILE_NOT_FOUND);
-
-    printf("File was found type()\n");
     
     if (Snapshot::isCompatiblePath(path) &&
         Snapshot::isCompatibleStream(stream)) return FILETYPE_SNAPSHOT;

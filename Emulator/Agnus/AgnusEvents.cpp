@@ -585,29 +585,57 @@ Agnus::serviceDASEvent()
 
 void
 Agnus::serviceINSEvent()
-{
+{    
     switch (slot[SLOT_INS].id) {
 
-        case INS_AMIGA:  amiga.inspect(); break;
-        case INS_CPU:    cpu.inspect(); break;
-        case INS_MEM:    mem.inspect(); break;
-        case INS_CIA:    ciaa.inspect(); ciab.inspect(); break;
-        case INS_AGNUS:  inspect(); break;
-        case INS_PAULA:  paula.inspect(); break;
-        case INS_DENISE: denise.inspect(); break;
+        case INS_AMIGA:
+            amiga.inspect();
+            break;
+            
+        case INS_CPU:
+            cpu.inspect();
+            break;
+        case INS_MEM:
+            mem.inspect();
+            break;
+            
+        case INS_CIA:
+            ciaa.inspect();
+            ciab.inspect();
+            break;
+            
+        case INS_AGNUS:
+            inspect();
+            break;
+            
+        case INS_PAULA:
+            paula.inspect();
+            break;
+            
+        case INS_DENISE:
+            denise.inspect();
+            break;
+            
         case INS_PORTS:
             serialPort.inspect();
             paula.uart.inspect();
             controlPort1.inspect();
             controlPort2.inspect();
             break;
-        case INS_EVENTS: inspectEvents(); break;
-        case INS_TEXTURE:
-            printf("INS_TEXTURE\n");
-            pixelEngine.dumpTexture();
-            exit(1);
+            
+        case INS_EVENTS:
+            inspectEvents();
             break;
-        default:         assert(false);
+            
+        /*
+        case INS_TEXTURE:
+            pixelEngine.dumpTexture();
+            exit(0);
+            break;
+        */
+            
+        default:
+            assert(false);
     }
 
     // Reschedule event

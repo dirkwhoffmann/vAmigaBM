@@ -98,6 +98,7 @@ public:
 
     const char *getDescription() const override { return "Copper"; }
     
+    void _initialize() override;
     void _reset(bool hard) override;
 
     

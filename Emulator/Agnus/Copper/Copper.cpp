@@ -24,6 +24,12 @@ Copper::Copper(Amiga& ref) : AmigaComponent(ref)
 }
 
 void
+Copper::_initialize()
+{
+
+}
+
+void
 Copper::_reset(bool hard)
 {
     RESET_SNAPSHOT_ITEMS(hard)
@@ -274,13 +280,12 @@ Copper::move(u32 addr, u16 value)
     assert(addr < 0x1FF);
 
     // Catch registers with special timing needs
-
     if (addr >= 0x180 && addr <= 0x1BE) {
 
         trace(OCSREG_DEBUG, "pokeCustom16(%X [%s], %X)\n", addr, regName(addr), value);
 
         // Color registers
-        pixelEngine.colChanges.insert(4 * agnus.pos.h - 2, RegChange { addr, value} );
+        pixelEngine.colChanges.insert(4 * agnus.pos.h, RegChange { addr, value} );
         return;
     }
 

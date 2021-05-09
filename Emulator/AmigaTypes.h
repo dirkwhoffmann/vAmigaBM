@@ -10,6 +10,7 @@
 #pragma once
 
 #include "Aliases.h"
+#include "Reflection.h"
 
 //
 // Enumerations
@@ -26,6 +27,35 @@ enum_u32(RunLoopControlFlag)
     RL_AUTO_SNAPSHOT      = 0b001000000,
     RL_USER_SNAPSHOT      = 0b010000000
 };
+
+enum_long(CONFIG_SCHEME)
+{
+    CONFIG_A500_OCS_1MB,
+    CONFIG_A500_ECS_1MB
+};
+typedef CONFIG_SCHEME ConfigScheme;
+
+#ifdef __cplusplus
+struct ConfigSchemeEnum : util::Reflection<ConfigSchemeEnum, ConfigScheme> {
+    
+    static bool isValid(long value)
+    {
+        return (unsigned long)value <= CONFIG_A500_ECS_1MB;
+    }
+
+    static const char *prefix() { return "CONFIG"; }
+    static const char *key(ConfigScheme value)
+    {
+        switch (value) {
+                
+            case CONFIG_A500_OCS_1MB:  return "A500_OCS_1MB";
+            case CONFIG_A500_ECS_1MB:  return "A500_ECS_1MB";
+        }
+        return "???";
+    }
+};
+#endif
+
 
 //
 // Structures

@@ -111,7 +111,6 @@ Controller::processMessage(long id, long data)
         case MSG_DRIVE_POLL:
             vol = (i8)((data >> 16) & 0xFF);
             pan = (i8)((data >> 24) & 0xFF);
-            printf("Pan = %zd\n", pan);
             app.playClick(vol, pan);
             app.statusBar.setNeedsUpdate(StatusBarItem::DRIVE_CYL, data);
             return;
@@ -139,9 +138,7 @@ Controller::processMessage(long id, long data)
 
 void
 Controller::updateWarp()
-{
-    printf("updateWarp()\n");
-    
+{    
     bool warp;
     
     // Determin the new warp status based on the selected warp activation mode

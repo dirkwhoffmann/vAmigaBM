@@ -10,6 +10,7 @@
 #include "config.h"
 #include "Amiga.h"
 #include "Snapshot.h"
+#include "ADFFile.h"
 
 // Perform some consistency checks
 static_assert(sizeof(i8) == 1,  "i8 size mismatch");
@@ -185,6 +186,12 @@ Amiga::reset(bool hard)
 }
 
 void
+Amiga::_initialize()
+{
+    
+}
+
+void
 Amiga::_reset(bool hard)
 {
     RESET_SNAPSHOT_ITEMS(hard)
@@ -343,6 +350,40 @@ Amiga::configure(Option option, long id, i64 value)
     return changed;
 }
 
+void
+Amiga::configure(ConfigScheme scheme)
+{
+    assert_enum(ConfigScheme, scheme);
+    debug(CNF_DEBUG, "Using ConfigScheme %s", ConfigSchemeEnum::key(scheme));
+    
+    // Switch the Amiga off
+    powerOff();
+
+    // Revert to the initial state
+    initialize();
+    
+    // Apply the selected scheme
+    switch(scheme) {
+            
+        case CONFIG_A500_OCS_1MB:
+            
+            configure(OPT_CHIP_RAM, 512);
+            configure(OPT_SLOW_RAM, 512);
+            configure(OPT_AGNUS_REVISION, AGNUS_OCS);
+            break;
+            
+        case CONFIG_A500_ECS_1MB:
+            
+            configure(OPT_CHIP_RAM, 512);
+            configure(OPT_SLOW_RAM, 512);
+            configure(OPT_AGNUS_REVISION, AGNUS_ECS_1MB);
+            break;
+            
+        default:
+            assert(false);
+    }    
+}
+
 EventID
 Amiga::getInspectionTarget() const
 {
@@ -352,7 +393,6 @@ Amiga::getInspectionTarget() const
 void
 Amiga::setInspectionTarget(EventID id)
 {
-    printf("setInspectionTarget(%lld)\n", id);
     suspend();
     agnus.scheduleRel<SLOT_INS>(0, id);
     agnus.serviceINSEvent();
@@ -362,9 +402,8 @@ Amiga::setInspectionTarget(EventID id)
 void
 Amiga::setInspectionTarget(EventID id, Cycle trigger)
 {
-    printf("setInspectionTarget(%lld, %lld)\n", id, trigger);
     suspend();
-    agnus.scheduleAbs<SLOT_INS>(trigger, id);
+    agnus.scheduleRel<SLOT_INS>(trigger, id);
     resume();
 }
 
@@ -423,24 +462,29 @@ void
 Amiga::powerOn()
 {
     debug(RUN_DEBUG, "powerOn()\n");
+    
+    // Never call this function inside the emulator thread
     assert(!isEmulatorThread());
-            
-    if (isPoweredOff() && isReady()) {
+    
+    if (!isPoweredOn()) {
         
         assert(p == (pthread_t)0);
         
+        // Check if the emulator is fully configured
+        ErrorCode ec; if (!isReady(&ec)) throw VAError(ec);
+        
         // Perform a hard reset
         hardReset();
-                
+        
         // Power on all subcomponents
         HardwareComponent::powerOn();
         
         // Update the recorded debug information
         inspect();
-
+        
         // Inform the GUI
         msgQueue.put(MSG_POWER_ON);
-    }    
+    }
 }
 
 void
@@ -478,14 +522,15 @@ void
 Amiga::powerOff()
 {
     debug(RUN_DEBUG, "powerOff()\n");
+    
+    // Never call this function inside the emulator thread
     assert(!isEmulatorThread());
     
-    // Pause if needed
-    pause();
-    assert(!isRunning());
-
-    if (isPoweredOn()) {
-                   
+    if (!isPoweredOff()) {
+        
+        // Pause if needed
+        pause(); assert(!isRunning());
+        
         // Power off all subcomponents
         HardwareComponent::powerOff();
         
@@ -507,19 +552,20 @@ void
 Amiga::run()
 {
     debug(RUN_DEBUG, "run()\n");
+    
+    // Never call this function inside the emulator thread
     assert(!isEmulatorThread());
-
-    // Power on if needed
-    powerOn();
-    assert(isPoweredOn());
-
-    if (!isRunning() && isReady()) {
+    
+    if (!isRunning()) {
         
         assert(p == (pthread_t)0);
-
+        
+        // Power on if needed
+        powerOn(); assert(isPoweredOn());
+        
         // Launch all subcomponents
         HardwareComponent::run();
-
+        
         // Create the emulator thread
         pthread_create(&p, nullptr, threadMain, (void *)this);
     }
@@ -535,6 +581,8 @@ void
 Amiga::pause()
 {
     debug(RUN_DEBUG, "pause()\n");
+    
+    // Never call this function inside the emulator thread
     assert(!isEmulatorThread());
 
     if (isRunning()) {
@@ -622,17 +670,26 @@ Amiga::debugOff()
 }
 
 bool
-Amiga::isReady(ErrorCode *error)
+Amiga::isReady()
 {
+    ErrorCode ec;
+    return isReady(&ec);
+}
+
+bool
+Amiga::isReady(ErrorCode *ec)
+{
+    assert(ec);
+    
     if (!mem.hasRom()) {
         msg("isReady: No Boot Rom or Kickstart Rom found\n");
-        if (error) *error = ERROR_ROM_MISSING;
+        *ec = ERROR_ROM_MISSING;
         return false;
     }
 
     if (!mem.hasChipRam()) {
         msg("isReady: No Chip Ram found\n");
-        if (error) *error = ERROR_ROM_MISSING;
+        *ec = ERROR_CHIP_RAM_MISSING;
         return false;
     }
     
@@ -640,20 +697,20 @@ Amiga::isReady(ErrorCode *error)
 
         if (!mem.hasExt()) {
             msg("isReady: Aros requires an extension Rom\n");
-            if (error) *error = ERROR_AROS_NO_EXTROM;
+            *ec = ERROR_AROS_NO_EXTROM;
             return false;
         }
 
         if (mem.ramSize() < MB(1)) {
             msg("isReady: Aros requires at least 1 MB of memory\n");
-            if (error) *error = ERROR_AROS_RAM_LIMIT;
+            *ec = ERROR_AROS_RAM_LIMIT;
             return false;
         }
     }
 
     if (mem.chipRamSize() > KB(agnus.chipRamLimit())) {
         msg("isReady: Chip Ram exceeds Agnus limit\n");
-        if (error) *error = ERROR_CHIP_RAM_LIMIT;
+        *ec = ERROR_CHIP_RAM_LIMIT;
         return false;
     }
 

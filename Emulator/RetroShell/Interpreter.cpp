@@ -17,6 +17,12 @@ Interpreter::Interpreter(Amiga &ref) : AmigaComponent(ref)
     registerInstructions();
 };
 
+void
+Interpreter::_initialize()
+{
+
+}
+
 Arguments
 Interpreter::split(const string& userInput)
 {
@@ -24,20 +30,30 @@ Interpreter::split(const string& userInput)
     Arguments result;
 
     string token;
-    bool str = false;
+    bool str = false; // String mode
+    bool esc = false; // Escape mode
     
     for (usize i = 0; i < userInput.size(); i++) {
 
+        char c = userInput[i];
+        
+        // Check for escape mode
+        if (c == '\\') { esc = true; continue; }
+            
         // Switch between string mode and non-string mode if '"' is detected
-        if (userInput[i] == '"') { str = !str; continue; }
+        if (c == '"' && !esc) { str = !str; continue; }
+        
+        // Check for special characters in escape mode
+        if (esc && c == 'n') c = '\n';
         
         // Process character
-        if (userInput[i] != ' ' || str) {
-            token += userInput[i];
+        if (c != ' ' || str) {
+            token += c;
         } else {
             if (!token.empty()) result.push_back(token);
             token = "";
         }
+        esc = false;
     }
     if (!token.empty()) result.push_back(token);
     
@@ -75,16 +91,10 @@ Interpreter::autoComplete(const string& userInput)
     autoComplete(tokens);
 
     // Recreate the command string
-    for (const auto &it : tokens) {
-        result += (result == "" ? "" : " ") + it;
-    }
+    for (const auto &it : tokens) { result += (result == "" ? "" : " ") + it; }
 
     // Add a space if the command has been fully completed
-    printf("autoComplete: '%s'\n", result.c_str());
-    if (root.seek(tokens) != nullptr) {
-        printf("Adding space\n");
-        result += " ";
-    }
+    if (root.seek(tokens) != nullptr) { result += " "; }
     
     return result;
 }
@@ -95,6 +105,9 @@ Interpreter::exec(const string& userInput, bool verbose)
     // Split the command string
     Arguments tokens = split(userInput);
         
+    // Remove the 'try' keyword
+    if (tokens.front() == "try") tokens.pop_front();
+    
     // Auto complete the token list
     autoComplete(tokens);
             
@@ -134,7 +147,6 @@ Interpreter::exec(Arguments &argv, bool verbose)
         
     // Error out if no command handler is present
     if (current->action == nullptr && !argv.empty()) {
-        printf("NO COMMAND HANDLER FOUND\n");
         throw util::ParseError(token);
     }
     if (current->action == nullptr && argv.empty()) {
@@ -146,7 +158,6 @@ Interpreter::exec(Arguments &argv, bool verbose)
     if ((isize)argv.size() > current->numArgs) throw TooManyArgumentsError(current->tokens());
     
     // Call the command handler
-    printf("TODO:CALL COMMAND HANDLER FOR command object %p\n", current);
     (retroShell.*(current->action))(argv, current->param);
 }
 

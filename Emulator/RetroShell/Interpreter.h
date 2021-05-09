@@ -23,25 +23,26 @@ enum class Token
     
     // Components
     agnus, amiga, audio, blitter, cia, controlport, copper, cpu, dc, denise,
-    dfn, dmadebugger, keyboard, memory, monitor, mouse, paula, serial, rtc,
+    dfn, dmadebugger, keyboard, memory, monitor, mouse, paula, screenshot,
+    serial, rtc,
 
     // Commands
     about, audiate, autosync, clear, config, connect, debug, disable,
-    disconnect, dsksync, easteregg, eject, enable, close, hide, insert, inspect,
-    list, load, lock, off, on, open, pause, power, reset, run, screenshot, set,
-    show, source,
+    disconnect, dsksync, easteregg, eject, enable, close, hide, init, insert,
+    inspect, list, load, lock, off, on, open, pause, power, reset, run, save,
+    set, show, source, wait,
     
     // Categories
     checksums, devices, events, registers, state,
         
     // Keys
     accuracy, bankmap, bitplanes, brightness, channel, chip, clxsprspr,
-    clxsprplf, clxplfplf, color, contrast, defaultbb, defaultfs, device, disk,
-    esync, extrom, extstart, fast, filter, joystick, keyset, mechanics, mode,
-    model, opacity, palette, pan, poll, pullup, raminitpattern, refresh,
-    revision, rom, sampling, saturation, searchpath, shakedetector, slow,
-    slowramdelay, slowrammirror, speed, sprites, step, tod, todbug,
-    unmappingtype, velocity, volume, wom
+    clxsprplf, clxplfplf, color, contrast, cutout, defaultbb, defaultfs, delay,
+    device, disk, esync, extrom, extstart, fast, filename, filter, joystick,
+    keyset, mechanics, mode, model, opacity, palette, pan, path, poll, pullup,
+    raminitpattern, refresh, revision, rom, sampling, saturation, searchpath,
+    shakedetector, slow, slowramdelay, slowrammirror, speed, sprites, step,
+    tod, todbug, unmappingtype, velocity, volume, wom
 };
 
 struct TooFewArgumentsError : public util::ParseError {
@@ -50,6 +51,10 @@ struct TooFewArgumentsError : public util::ParseError {
 
 struct TooManyArgumentsError : public util::ParseError {
     using ParseError::ParseError;
+};
+
+struct ScriptInterruption: util::Exception {
+    using Exception::Exception;
 };
 
 class Interpreter: AmigaComponent
@@ -73,6 +78,9 @@ private:
     // Registers the instruction set
     void registerInstructions();
 
+private:
+    
+    void _initialize() override;
     void _reset(bool hard) override { }
     
     
@@ -107,9 +115,6 @@ public:
     
 public:
     
-    // Executes a script file
-    // void exec(std::istream &stream) throws;
-
     // Executes a single command
     void exec(const string& userInput, bool verbose = false) throws;
     void exec(Arguments &argv, bool verbose = false) throws;

@@ -24,13 +24,6 @@
 
 Memory::Memory(Amiga& ref) : AmigaComponent(ref)
 {
-    memset(&config, 0, sizeof(config));
-
-    config.slowRamDelay   = true;
-    config.bankMap        = BANK_MAP_A500;
-    config.ramInitPattern = RAM_INIT_ALL_ZEROES;
-    config.unmappingType  = UNMAPPED_FLOATING;
-    config.extStart       = 0xE0;
 }
 
 Memory::~Memory()
@@ -47,6 +40,35 @@ Memory::dealloc()
     if (chip) { delete[] chip; chip = nullptr; }
     if (slow) { delete[] slow; slow = nullptr; }
     if (fast) { delete[] fast; fast = nullptr; }
+}
+
+void
+Memory::_initialize()
+{
+    dealloc();
+
+    romMask = 0;
+    womMask = 0;
+    extMask = 0;
+    chipMask = 0;
+    slowMask = 0;
+    fastMask = 0;
+
+    womIsLocked = false;
+    
+    config.chipSize = 0;
+    config.slowSize = 0;
+    config.fastSize = 0;
+
+    config.romSize = 0;
+    config.womSize = 0;
+    config.extSize = 0;
+    
+    config.slowRamDelay = true;
+    config.bankMap = BANK_MAP_A500;
+    config.ramInitPattern = RAM_INIT_ALL_ZEROES;
+    config.unmappingType = UNMAPPED_FLOATING;
+    config.extStart = 0xE0;
 }
 
 void
@@ -92,7 +114,7 @@ Memory::setConfigItem(Option option, i64 value)
 
             #ifdef FORCE_CHIP_RAM
             value = FORCE_CHIP_RAM;
-            warn("Overriding Chip Ram size: %ld KB\n", value);
+            warn("Overriding Chip Ram size: %lld KB\n", value);
             #endif
             
             if (value != 256 && value != 512 && value != 1024 && value != 2048) {
@@ -108,7 +130,7 @@ Memory::setConfigItem(Option option, i64 value)
             
             #ifdef FORCE_SLOW_RAM
             value = FORCE_SLOW_RAM;
-            warn("Overriding Slow Ram size: %ld KB\n", value);
+            warn("Overriding Slow Ram size: %lld KB\n", value);
             #endif
             
             if ((value % 256) != 0 || value > 512) {
@@ -124,7 +146,7 @@ Memory::setConfigItem(Option option, i64 value)
             
             #ifdef FORCE_FAST_RAM
             value = FORCE_FAST_RAM;
-            warn("Overriding Fast Ram size: %ld KB\n", value);
+            warn("Overriding Fast Ram size: %lld KB\n", value);
             #endif
             
             if ((value % 64) != 0 || value > 8192) {

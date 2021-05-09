@@ -123,7 +123,6 @@
 		509F5ED0260F3DA100EA136A /* Chrono.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 509F5EC1260F3DA100EA136A /* Chrono.cpp */; };
 		509F5ED1260F3DA100EA136A /* Concurrency.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 509F5EC2260F3DA100EA136A /* Concurrency.cpp */; };
 		509F5ED2260F3DA100EA136A /* IO.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 509F5EC3260F3DA100EA136A /* IO.cpp */; };
-		509F5ED3260F3DA100EA136A /* Debug.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 509F5EC6260F3DA100EA136A /* Debug.cpp */; };
 		509F5ED4260F3DA100EA136A /* Parser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 509F5EC8260F3DA100EA136A /* Parser.cpp */; };
 		509F605E260F3DD000EA136A /* DeniseRegs.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 509F5ED7260F3DCF00EA136A /* DeniseRegs.cpp */; };
 		509F6065260F3DD000EA136A /* Denise.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 509F5EE4260F3DCF00EA136A /* Denise.cpp */; };
@@ -249,6 +248,8 @@
 		50FCCA782629E39200398342 /* CopperDebugger.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50FCCA772629E39200398342 /* CopperDebugger.cpp */; };
 		50FCCA792629E42D00398342 /* MemUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50FCCA732629E32A00398342 /* MemUtils.cpp */; };
 		50FD19B825C20102004E7388 /* Application.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50FD19B625C20102004E7388 /* Application.cpp */; };
+		50FD80BE2647CBB700228E66 /* Script.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50FD80BC2647CBB600228E66 /* Script.cpp */; };
+		50FD80BF2647CCEB00228E66 /* RegressionTester.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50FD80BA2647CB9700228E66 /* RegressionTester.cpp */; };
 		50FFC13125F3E5FC00D7595A /* StatusBar.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50FFC12F25F3E5FC00D7595A /* StatusBar.cpp */; };
 /* End PBXBuildFile section */
 
@@ -421,7 +422,6 @@
 		509F49E925D66302005DA7CB /* ApplicationServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ApplicationServices.framework; path = System/Library/Frameworks/ApplicationServices.framework; sourceTree = SDKROOT; };
 		509F5EB5260F3DA100EA136A /* SSEUtils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SSEUtils.cpp; sourceTree = "<group>"; };
 		509F5EB6260F3DA100EA136A /* SSEUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SSEUtils.h; sourceTree = "<group>"; };
-		509F5EB7260F3DA100EA136A /* Debug.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Debug.h; sourceTree = "<group>"; };
 		509F5EB8260F3DA100EA136A /* Checksum.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Checksum.cpp; sourceTree = "<group>"; };
 		509F5EB9260F3DA100EA136A /* Exception.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Exception.cpp; sourceTree = "<group>"; };
 		509F5EBA260F3DA100EA136A /* Types.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Types.h; sourceTree = "<group>"; };
@@ -436,7 +436,6 @@
 		509F5EC3260F3DA100EA136A /* IO.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = IO.cpp; sourceTree = "<group>"; };
 		509F5EC4260F3DA100EA136A /* Macros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Macros.h; sourceTree = "<group>"; };
 		509F5EC5260F3DA100EA136A /* IO.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IO.h; sourceTree = "<group>"; };
-		509F5EC6260F3DA100EA136A /* Debug.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Debug.cpp; sourceTree = "<group>"; };
 		509F5EC7260F3DA100EA136A /* Exception.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Exception.h; sourceTree = "<group>"; };
 		509F5EC8260F3DA100EA136A /* Parser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Parser.cpp; sourceTree = "<group>"; };
 		509F5EC9260F3DA100EA136A /* Reflection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reflection.h; sourceTree = "<group>"; };
@@ -750,6 +749,10 @@
 		50FCCA772629E39200398342 /* CopperDebugger.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CopperDebugger.cpp; sourceTree = "<group>"; };
 		50FD19B625C20102004E7388 /* Application.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Application.cpp; sourceTree = "<group>"; };
 		50FD19B725C20102004E7388 /* Application.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Application.h; sourceTree = "<group>"; };
+		50FD80BA2647CB9700228E66 /* RegressionTester.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = RegressionTester.cpp; sourceTree = "<group>"; };
+		50FD80BB2647CB9700228E66 /* RegressionTester.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RegressionTester.h; sourceTree = "<group>"; };
+		50FD80BC2647CBB600228E66 /* Script.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Script.cpp; sourceTree = "<group>"; };
+		50FD80BD2647CBB600228E66 /* Script.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Script.h; sourceTree = "<group>"; };
 		50FFC12F25F3E5FC00D7595A /* StatusBar.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = StatusBar.cpp; sourceTree = "<group>"; };
 		50FFC13025F3E5FC00D7595A /* StatusBar.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = StatusBar.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -904,7 +907,6 @@
 				509F5EB6260F3DA100EA136A /* SSEUtils.h */,
 				50FCCA732629E32A00398342 /* MemUtils.cpp */,
 				50FCCA722629E32A00398342 /* MemUtils.h */,
-				509F5EB7260F3DA100EA136A /* Debug.h */,
 				509F5EB8260F3DA100EA136A /* Checksum.cpp */,
 				509F5EB9260F3DA100EA136A /* Exception.cpp */,
 				509F5EBA260F3DA100EA136A /* Types.h */,
@@ -918,7 +920,6 @@
 				509F5EC4260F3DA100EA136A /* Macros.h */,
 				509F5EC5260F3DA100EA136A /* IO.h */,
 				509F5EC3260F3DA100EA136A /* IO.cpp */,
-				509F5EC6260F3DA100EA136A /* Debug.cpp */,
 				509F5EC7260F3DA100EA136A /* Exception.h */,
 				509F5EC8260F3DA100EA136A /* Parser.cpp */,
 				509F5EC9260F3DA100EA136A /* Reflection.h */,
@@ -1127,6 +1128,8 @@
 				509F5F85260F3DD000EA136A /* AmigaFile.h */,
 				509F5F86260F3DD000EA136A /* Snapshot.h */,
 				509F5F88260F3DD000EA136A /* HDFFile.cpp */,
+				50FD80BC2647CBB600228E66 /* Script.cpp */,
+				50FD80BD2647CBB600228E66 /* Script.h */,
 			);
 			path = Files;
 			sourceTree = "<group>";
@@ -1354,6 +1357,8 @@
 				509F602A260F3DD000EA136A /* ErrorTypes.h */,
 				509F602B260F3DD000EA136A /* ChangeRecorder.h */,
 				509F602C260F3DD000EA136A /* MsgQueue.h */,
+				50FD80BA2647CB9700228E66 /* RegressionTester.cpp */,
+				50FD80BB2647CB9700228E66 /* RegressionTester.h */,
 			);
 			path = Base;
 			sourceTree = "<group>";
@@ -1633,6 +1638,7 @@
 				509F6134260F3DD000EA136A /* FSDescriptors.cpp in Sources */,
 				509F613A260F3DD000EA136A /* FSBootBlock.cpp in Sources */,
 				50FD19B825C20102004E7388 /* Application.cpp in Sources */,
+				50FD80BE2647CBB700228E66 /* Script.cpp in Sources */,
 				509F5ED0260F3DA100EA136A /* Chrono.cpp in Sources */,
 				509F6083260F3DD000EA136A /* Copper.cpp in Sources */,
 				509F60C0260F3DD000EA136A /* HDFFile.cpp in Sources */,
@@ -1670,6 +1676,7 @@
 				509F6127260F3DD000EA136A /* FSFileHeaderBlock.cpp in Sources */,
 				509F6138260F3DD000EA136A /* FSBitmapBlock.cpp in Sources */,
 				509F60F5260F3DD000EA136A /* Muxer.cpp in Sources */,
+				50FD80BF2647CCEB00228E66 /* RegressionTester.cpp in Sources */,
 				509F6067260F3DD000EA136A /* Colors.cpp in Sources */,
 				509F611C260F3DD000EA136A /* AmigaObject.cpp in Sources */,
 				509F5ED1260F3DA100EA136A /* Concurrency.cpp in Sources */,
@@ -1715,7 +1722,6 @@
 				509F6099260F3DD000EA136A /* DDF.cpp in Sources */,
 				509F6108260F3DD000EA136A /* UART.cpp in Sources */,
 				509F60C5260F3DD000EA136A /* SerialPort.cpp in Sources */,
-				509F5ED3260F3DA100EA136A /* Debug.cpp in Sources */,
 				50AE11C525C44AAC00AD13B7 /* Controller.cpp in Sources */,
 				509F60A7260F3DD000EA136A /* ExtendedRomFile.cpp in Sources */,
 				509F60E8260F3DD000EA136A /* DiskControllerEvents.cpp in Sources */,

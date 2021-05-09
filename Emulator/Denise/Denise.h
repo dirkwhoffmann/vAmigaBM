@@ -276,6 +276,9 @@ public:
 
     const char *getDescription() const override { return "Denise"; }
 
+private:
+    
+    void _initialize() override;
     void _reset(bool hard) override;
 
     
@@ -533,7 +536,7 @@ public:
         return ((sprpos[x] & 0xFF) << 1) | (sprctl[x] & 0x01); }
 
     // Returns the horizontal position of a sprite in pixel coordinates
-    template <isize x> Pixel sprhppos() const { return 2 * sprhpos<x>(); }
+    template <isize x> Pixel sprhppos() const { return 2 * (sprhpos<x>() + 1); }
     
     // Checks the z buffer and returns true if a sprite pixel is visible
     bool spritePixelIsVisible(Pixel hpos) const;

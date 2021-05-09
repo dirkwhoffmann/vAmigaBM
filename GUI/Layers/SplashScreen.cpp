@@ -75,7 +75,7 @@ SplashScreen::launchPhase(isize phase)
             }
             
             try {
-                amiga.retroShell.exec(stream);
+                amiga.retroShell.execScript(stream);
                 amiga.retroShell.printPrompt();
             }
             catch (Exception &e) {

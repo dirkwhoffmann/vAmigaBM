@@ -21,17 +21,22 @@ Agnus::Agnus(Amiga& ref) : AmigaComponent(ref)
         &blitter,
         &dmaDebugger
     };
-    
+        
+    initLookupTables();
+}
+
+void
+Agnus::_initialize()
+{
     config.revision = AGNUS_ECS_1MB;
     ptrMask = 0x0FFFFF;
-    
-    initLookupTables();
     
     // Wipe out event slots
     memset(slot, 0, sizeof(slot));
 }
 
-void Agnus::_reset(bool hard)
+void
+Agnus::_reset(bool hard)
 {
     auto insEvent = slot[SLOT_INS].id;
     
@@ -97,7 +102,7 @@ Agnus::setConfigItem(Option option, i64 value)
             
             #ifdef FORCE_AGNUS_REVISION
             value = FORCE_AGNUS_REVISION;
-            warn("Overriding Agnus revision: %ld\n", value);
+            warn("Overriding Agnus revision: %lld\n", value);
             #endif
             
             if (!AgnusRevisionEnum::isValid(value)) {
@@ -308,7 +313,7 @@ Agnus::_dump(dump::Category category, std::ostream& os) const
                 if (info.frameRel == -1) {
                     os << std::left << std::setw(18) << "previous frame";
                 } else if (info.frameRel > 0) {
-                    os << std::left << std::setw(18) << "next frame";
+                    os << std::left << std::setw(18) << "other frame";
                 } else {
                     string vpos = std::to_string(info.vpos);
                     string hpos = std::to_string(info.hpos);
@@ -1115,11 +1120,12 @@ Agnus::vsyncHandler()
     diwVFlop = false;
     diwHFlop = true; 
             
-    // Let other subcomponents do their own VSYNC stuff
+    // Let other components do their own VSYNC stuff
     copper.vsyncHandler();
     denise.vsyncHandler();
     controlPort1.joystick.execute();
     controlPort2.joystick.execute();
+    retroShell.vsyncHandler();
 
     // Update statistics
     updateStats();
@@ -1127,11 +1133,6 @@ Agnus::vsyncHandler()
     
     // Count some sheep (zzzzzz) ...
     oscillator.synchronize();
-    /*
-    if (!amiga.inWarpMode()) {
-        amiga.synchronizeTiming();
-    }
-    */
 }
 
 //
