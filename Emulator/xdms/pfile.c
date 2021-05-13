@@ -148,9 +148,6 @@ USHORT extractDMS(FILE *fi, FILE *fo) {
     /*  we suppose that the valid data is over. And say it's ok. */
     if (ret == ERR_NOTTRACK) ret = NO_PROBLEM;
     
-    fclose(fi);
-    fclose(fo);
-    
     free(b1);
     free(b2);
     free(text);
