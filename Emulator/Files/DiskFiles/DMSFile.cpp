@@ -44,20 +44,38 @@ DMSFile::readFromStream(std::istream &stream)
     // to work with the file system. To ease the integration of this tool, we
     // utilize memory streams for getting data in and out.
 
+    msg("Setting up input stream\n");
+    
     // Setup input stream
     fpi = open_memstream(&pi, &si);
     for (isize i = 0; i < size; i++) putc(data[i], fpi);
     fclose(fpi);
     
-    // Setup output file
+    msg("Setting up ouptput stream\n");
+
+    // Setup output stream
     fpi = fmemopen(pi, si, "r");
     fpo = open_memstream(&po, &so);
-    extractDMS(fpi, fpo);
+    
+    // Convert the DMS into an ADF
+    isize error = extractDMS(fpi, fpo);
+    printf("error = %zd\n", error);
     fclose(fpi);
     fclose(fpo);
     
+    msg("Create ADF\n");
+
     // Create ADF
     fpo = fmemopen(po, so, "r");
+    /*
+    FILE *tmp = fopen("/tmp/tmp.adf", "w");
+    int c;
+    while ((c = getc(fpo)) != -1) {
+        putc(c, tmp);
+    }
+    fclose(tmp);
+    */
+    
     adf = AmigaFile::make <ADFFile> (fpo);
     fclose(fpo);
     
