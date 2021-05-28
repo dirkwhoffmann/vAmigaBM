@@ -165,7 +165,7 @@ InputManager::connect(InputDeviceType type, isize nr, PortNr port)
         }
     }
         
-    throw ConfigArgError("No such device");
+    throw VAError(ERROR_OPT_INVALID_ARG, "Valid device number");
 }
 
 void

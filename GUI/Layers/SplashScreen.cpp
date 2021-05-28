@@ -105,7 +105,7 @@ SplashScreen::launchPhase(isize phase)
             
         case 3: // Check if the emulator can run with the current config
             
-            if (!app.amiga.isReady()) {
+            try { amiga.isReady(); } catch (const VAError &e) {
                 errMsg.setString("Failed to launch the emulator");
                 runMsg.setString("Press SPACE to quit");
                 spcAction = Quit;

@@ -128,7 +128,7 @@
 		509F6065260F3DD000EA136A /* Denise.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 509F5EE4260F3DCF00EA136A /* Denise.cpp */; };
 		509F6066260F3DD000EA136A /* PixelEngine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 509F5EE5260F3DCF00EA136A /* PixelEngine.cpp */; };
 		509F6067260F3DD000EA136A /* Colors.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 509F5EE6260F3DCF00EA136A /* Colors.cpp */; };
-		509F6068260F3DD000EA136A /* ScreenRecorder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 509F5EE7260F3DCF00EA136A /* ScreenRecorder.cpp */; };
+		509F6068260F3DD000EA136A /* Recorder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 509F5EE7260F3DCF00EA136A /* Recorder.cpp */; };
 		509F6069260F3DD000EA136A /* Memory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 509F5EE9260F3DCF00EA136A /* Memory.cpp */; };
 		509F606E260F3DD000EA136A /* Moira.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 509F5EF5260F3DCF00EA136A /* Moira.cpp */; };
 		509F6072260F3DD000EA136A /* MoiraDebugger.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 509F5F01260F3DCF00EA136A /* MoiraDebugger.cpp */; };
@@ -447,12 +447,12 @@
 		509F5EDA260F3DCF00EA136A /* PixelEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PixelEngine.h; sourceTree = "<group>"; };
 		509F5EDD260F3DCF00EA136A /* Makefile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
 		509F5EE0260F3DCF00EA136A /* Colors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Colors.h; sourceTree = "<group>"; };
-		509F5EE1260F3DCF00EA136A /* ScreenRecorder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScreenRecorder.h; sourceTree = "<group>"; };
+		509F5EE1260F3DCF00EA136A /* Recorder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Recorder.h; sourceTree = "<group>"; };
 		509F5EE3260F3DCF00EA136A /* Denise.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Denise.h; sourceTree = "<group>"; };
 		509F5EE4260F3DCF00EA136A /* Denise.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Denise.cpp; sourceTree = "<group>"; };
 		509F5EE5260F3DCF00EA136A /* PixelEngine.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PixelEngine.cpp; sourceTree = "<group>"; };
 		509F5EE6260F3DCF00EA136A /* Colors.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Colors.cpp; sourceTree = "<group>"; };
-		509F5EE7260F3DCF00EA136A /* ScreenRecorder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ScreenRecorder.cpp; sourceTree = "<group>"; };
+		509F5EE7260F3DCF00EA136A /* Recorder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Recorder.cpp; sourceTree = "<group>"; };
 		509F5EE9260F3DCF00EA136A /* Memory.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Memory.cpp; sourceTree = "<group>"; };
 		509F5EEA260F3DCF00EA136A /* Makefile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
 		509F5EEC260F3DCF00EA136A /* Memory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Memory.h; sourceTree = "<group>"; };
@@ -964,12 +964,12 @@
 				509F5ED9260F3DCF00EA136A /* DeniseTypes.h */,
 				509F5EDA260F3DCF00EA136A /* PixelEngine.h */,
 				509F5EE0260F3DCF00EA136A /* Colors.h */,
-				509F5EE1260F3DCF00EA136A /* ScreenRecorder.h */,
+				509F5EE1260F3DCF00EA136A /* Recorder.h */,
 				509F5EE3260F3DCF00EA136A /* Denise.h */,
 				509F5EE4260F3DCF00EA136A /* Denise.cpp */,
 				509F5EE5260F3DCF00EA136A /* PixelEngine.cpp */,
 				509F5EE6260F3DCF00EA136A /* Colors.cpp */,
-				509F5EE7260F3DCF00EA136A /* ScreenRecorder.cpp */,
+				509F5EE7260F3DCF00EA136A /* Recorder.cpp */,
 			);
 			path = Denise;
 			sourceTree = "<group>";
@@ -1685,7 +1685,7 @@
 				5047761F25E7E6E8003DCED0 /* GUIComponent.cpp in Sources */,
 				509F60E5260F3DD000EA136A /* u_quick.c in Sources */,
 				50A7E05B25D6AFDF00113BF8 /* AmigaMusicStream.cpp in Sources */,
-				509F6068260F3DD000EA136A /* ScreenRecorder.cpp in Sources */,
+				509F6068260F3DD000EA136A /* Recorder.cpp in Sources */,
 				509F60D7260F3DD000EA136A /* maketbl.c in Sources */,
 				509F60FE260F3DD000EA136A /* AudioFilter.cpp in Sources */,
 				5002A27E25D00F3000665F89 /* SplashScreen.cpp in Sources */,

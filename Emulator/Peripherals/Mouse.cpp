@@ -97,7 +97,7 @@ Mouse::setConfigItem(Option option, long id, i64 value)
         case OPT_MOUSE_VELOCITY:
             
             if (value < 0 || value > 255) {
-                throw ConfigArgError("0 ... 255");
+                throw VAError(ERROR_OPT_INVALID_ARG, "0 ... 255");
             }
             if (config.velocity == value) {
                 return false;
@@ -331,7 +331,7 @@ ShakeDetector::isShakingRel(double dx) {
                 // Report a shake if the threshold has been reached.
                 if (dxturns > 3) {
                     
-                    // printf("Mouse shake detected\n");
+                    // debug(PRT_DEBUG, "Mouse shake detected\n");
                     lastShake = util::Time::now().asNanoseconds();
                     dxturns = 0;
                     return true;

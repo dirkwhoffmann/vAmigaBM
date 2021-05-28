@@ -56,7 +56,7 @@ private:
     ScreenBuffer *frameBuffer = &emuTexture[0];
 
     // Buffer with background noise (random black and white pixels)
-    u32 *noise;
+    u32 *noise = nullptr;
 
     
     //
@@ -235,10 +235,9 @@ public:
 
 public:
     
-    /* Colorizes a rasterline.
-     * This function implements the last stage in the emulator's graphics
-     * pipelile. It translates a line of color register indices into a line
-     * of RGBA values in GPU format.
+    /* Colorizes a rasterline. This function implements the last stage in the
+     * graphics pipelile. It translates a line of color register indices into a
+     * line of RGBA values in GPU format.
      */
     void colorize(isize line);
     
