@@ -139,7 +139,10 @@ Browser::respond(const sf::Event &event)
 
                 case sf::Keyboard::Return:
                     
-                    action(filtered[highlightedRow()]);
+                    try {
+                        action(filtered[highlightedRow()]);
+                    } catch (const VAError &e) { }
+                    
                     input = filtered[highlightedRow()];
                     cursor = "";
                     refresh();
