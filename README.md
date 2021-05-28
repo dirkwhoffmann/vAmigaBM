@@ -1,6 +1,6 @@
 ## What is vAmiga Bare Metal? 
 
-vAmiga Bare Metal (vAmigaBM) is a fork of vAmiga wich emulates a Commodore Amiga 500, 1000, or 2000 on the Mac. vAmiga is as pretty stable emulator by now and close to a 1.0 release. The goal of vAmigaBM is to bring vAmiga to a variety of other platforms. The emulator is based on SFML (Simple and Fast Multimedia Library) to limit OS specific code to a minimum. As a result, vAmiga BM is portable with little effort to almost any hardware platform supporting this framework.
+vAmiga Bare Metal (vAmigaBM) is a fork of vAmiga which emulates a Commodore Amiga 500, 1000 or 2000. vAmiga is a Mac application composed of an emulator core written in C++ and a native Mac GUI written in Swift. vAmigaBM is intended as a proof of concept showing how the emulator core can be ported to other platforms. By replacing the Swift GUI with a stripped down front end based on SFML (Simple and Fast Multimedia Library), operating system specific code is kept to a minimum. As a result, vAmiga BM can be ported with little effort to almost any hardware platform that supports this framework.
 
 ## Building from source
 
