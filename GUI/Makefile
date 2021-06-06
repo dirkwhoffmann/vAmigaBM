@@ -9,7 +9,6 @@ SFML = $(CURDIR)/../SFML
 # -Wall
 MYFLAGS = \
 -I $(CURDIR)/.. \
--I $(CURDIR)/../Utilities \
 -I $(EMU) \
 -I $(EMU)/Agnus \
 -I $(EMU)/Agnus/Blitter \
@@ -33,6 +32,7 @@ MYFLAGS = \
 -I $(EMU)/Paula/UART \
 -I $(EMU)/Peripherals \
 -I $(EMU)/RetroShell \
+-I $(EMU)/Utilities \
 -I $(EMU)/xdms \
 -I $(GUI) \
 -I $(GUI)/Controller \
@@ -53,7 +53,7 @@ all: prebuild $(OBJ) subdirs
 
 prebuild:
 	@echo "Entering ${CURDIR}"
-	
+
 subdirs:
 	@for dir in $(SUBDIRS); do \
 		echo "Entering ${CURDIR}/$$dir"; \
